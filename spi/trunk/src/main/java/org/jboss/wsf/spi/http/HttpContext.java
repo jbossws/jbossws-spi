@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.spi.http;
 
-import org.jboss.wsf.spi.Extensible;
+import org.jboss.wsf.spi.deployment.Extensible;
 
 // $Id: HttpContext.java 1757 2006-12-22 15:40:24Z thomas.diesler@jboss.com $
 
