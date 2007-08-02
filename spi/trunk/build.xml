@@ -16,6 +16,7 @@
   <import file="${basedir}/ant-import/build-setup.xml"/>
   <import file="${basedir}/ant-import/build-release.xml"/>
   <import file="${basedir}/ant-import/build-thirdparty.xml"/>
+  <import file="${basedir}/ant-import/build-testsuite.xml"/>
   
   <!-- ================================================================== -->
   <!-- Setup                                                              -->
@@ -25,7 +26,14 @@
   <property name="spi.etc.dir" value="${spi.src.dir}/etc"/>
   <property name="spi.java.dir" value="${spi.src.dir}/java"/>
   <property name="spi.resources.dir" value="${spi.src.dir}/resources"/>
+  <property name="spi.java.dir" value="${spi.src.dir}/java"/>
   <property name="spi.output.dir" value="${spi.dir}/output"/>
+
+  <property name="spi.test.dir" value="${spi.dir}/src/test"/>
+  <property name="spi.test.java.dir" value="${spi.test.dir}/java"/>
+  <property name="spi.test.resources.dir" value="${spi.test.dir}/resources"/>
+  <property name="spi.test.output.dir" value="${spi.output.dir}/test"/>  
+
   <property name="spi.output.apidocs.dir" value="${spi.output.dir}/apidocs"/>
   <property name="spi.output.etc.dir" value="${spi.output.dir}/etc"/>
   <property name="spi.output.classes.dir" value="${spi.output.dir}/classes"/>
@@ -111,7 +119,7 @@
     </zip>
 
   </target>
-  
+
   <!-- ================================================================== -->
   <!-- Documentation                                                      -->
   <!-- ================================================================== -->
