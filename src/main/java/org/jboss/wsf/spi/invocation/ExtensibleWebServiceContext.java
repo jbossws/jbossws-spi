@@ -22,14 +22,12 @@
 package org.jboss.wsf.spi.invocation;
 
 import java.security.Principal;
-import java.util.Map;
-import java.util.HashMap;
 
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import org.jboss.util.NotImplementedException;
+import org.jboss.wsf.spi.deployment.AbstractExtensible;
 import org.w3c.dom.Element;
 
 /**
@@ -41,13 +39,11 @@ import org.w3c.dom.Element;
  * @author Thomas.Diesler@jboss.com
  * @since 03-May-2006
  */
-public abstract class ExtendableWebServiceContext implements WebServiceContext
+public abstract class ExtensibleWebServiceContext extends AbstractExtensible implements WebServiceContext
 {
    private MessageContext messageContext;
 
-   private Map<Class, Object> attachments = new HashMap<Class, Object>();
-
-   public ExtendableWebServiceContext(MessageContext messageContext)
+   public ExtensibleWebServiceContext(MessageContext messageContext)
    {
       this.messageContext = messageContext;
    }
@@ -69,20 +65,5 @@ public abstract class ExtendableWebServiceContext implements WebServiceContext
    public <T extends EndpointReference> T getEndpointReference(Class<T> clazz, Element... referenceParameters)
    {
       throw new IllegalArgumentException("Not implemented");
-   }
-
-   public <T> T addAttachment(Class<T> key, Object value)
-   {
-      return (T)attachments.put(key, value);
-   }
-
-   public <T> T getAttachment(Class<T> key)
-   {
-      return (T)attachments.get(key);
-   }
-
-   public <T> T removeAttachment(Class<T> key)
-   {
-      return (T)attachments.get(key);
    }
 }

@@ -23,7 +23,7 @@ package org.jboss.wsf.spi.invocation;
 
 // $Id$
 
-import org.jboss.wsf.spi.invocation.ExtendableWebServiceContext;
+import org.jboss.wsf.spi.invocation.ExtensibleWebServiceContext;
 
 import java.security.Principal;
 
@@ -36,7 +36,7 @@ import javax.xml.ws.handler.MessageContext;
  * @author Thomas.Diesler@jboss.org
  * @since 23-Jan-2007
  */
-public class WebServiceContextJSE extends ExtendableWebServiceContext
+public class WebServiceContextJSE extends ExtensibleWebServiceContext
 {
    private HttpServletRequest httpRequest;
 

@@ -25,7 +25,6 @@ package org.jboss.wsf.spi.deployment;
 
 import javax.management.ObjectName;
 
-import org.jboss.wsf.spi.Extensible;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;

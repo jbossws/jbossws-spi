@@ -19,13 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi;
+package org.jboss.wsf.spi.deployment;
 
-//$Id: Deployment.java 3999 2007-07-26 11:33:20Z thomas.diesler@jboss.com $
+//$Id: BasicDeploymentContext.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+
 
 /**
  * A general extendible artifact 
@@ -33,32 +36,53 @@ import java.util.Set;
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public interface Extensible
+public abstract class AbstractExtensible implements Extensible
 {
-   /** Add arbitrary attachments */
-   <T> T addAttachment(Class<T> key, Object value);
+   private Map<Class, Object> attachments = new HashMap<Class, Object>();
+   private Map<String, Object> properties = new HashMap<String, Object>();
    
-   /** Get arbitrary attachments */
-   <T> Collection<T> getAttachments();
+   public Collection<Object> getAttachments()
+   {
+      return attachments.values();
+   }
    
-   /** Get an arbitrary attachment */
-   <T> T getAttachment(Class<T> key);
+   public <T> T getAttachment(Class<T> clazz)
+   {
+      return (T)attachments.get(clazz);
+   }
    
-   /** Remove arbitrary attachments */
-   <T> T removeAttachment(Class<T> key);
+   public <T> T addAttachment(Class<T> clazz, Object obj)
+   {
+      return (T)attachments.put(clazz, obj);
+   }
 
-   /** Get an property */
-   Object getProperty(String key);
+   public <T> T removeAttachment(Class<T> key)
+   {
+      return (T)attachments.remove(key);
+   }
    
-   /** Set a property */
-   void setProperty(String key, Object value);
-   
-   /** Remove a property */
-   void removeProperty(String key);
-   
-   /** Get the set of property names */
-   Set<String> getProperties();
-   
-   /** Set a map of properties */
-   void setProperties(Map<String, Object> props);
+   public Set<String> getProperties()
+   {
+      return properties.keySet();
+   }
+
+   public Object getProperty(String key)
+   {
+      return properties.get(key);
+   }
+
+   public void removeProperty(String key)
+   {
+      properties.remove(key);
+   }
+
+   public void setProperty(String key, Object value)
+   {
+      properties.put(key, value);
+   }
+
+   public void setProperties(Map<String, Object> props)
+   {
+      properties.putAll(props);
+   }
 }

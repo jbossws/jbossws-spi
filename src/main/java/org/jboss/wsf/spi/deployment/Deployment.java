@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-import org.jboss.wsf.spi.Extensible;
 
 // $Id$
 

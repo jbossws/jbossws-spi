@@ -21,39 +21,44 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-// $Id$
+//$Id: Deployment.java 3999 2007-07-26 11:33:20Z thomas.diesler@jboss.com $
 
-import java.util.List;
-
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * A general service deployment.
- * 
- * Maintains a named set of EndpointDeployments 
+ * A general extendible artifact 
  * 
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public interface Service extends Extensible
+public interface Extensible
 {
-   /** Get the deployment this service belongs to */
-   Deployment getDeployment();
+   /** Add arbitrary attachments */
+   <T> T addAttachment(Class<T> key, Object value);
    
-   /** Set the deployment this service belongs to */
-   void setDeployment(Deployment dep);
+   /** Get arbitrary attachments */
+   <T> Collection<T> getAttachments();
    
-   /** Add an endpoint to the service */
-   void addEndpoint(Endpoint endpoint);
+   /** Get an arbitrary attachment */
+   <T> T getAttachment(Class<T> key);
    
-   /** Get the list of endpoints */
-   List<Endpoint> getEndpoints();
+   /** Remove arbitrary attachments */
+   <T> T removeAttachment(Class<T> key);
+
+   /** Get an property */
+   Object getProperty(String key);
    
-   /** Get an endpoint by name */
-   Endpoint getEndpointByName(String simpleName);
+   /** Set a property */
+   void setProperty(String key, Object value);
    
-   /** Get the context root for this service */
-   String getContextRoot();
+   /** Remove a property */
+   void removeProperty(String key);
    
-   /** Set the context root for this service */
-   void setContextRoot(String contextRoot);
+   /** Get the set of property names */
+   Set<String> getProperties();
+   
+   /** Set a map of properties */
+   void setProperties(Map<String, Object> props);
 }
