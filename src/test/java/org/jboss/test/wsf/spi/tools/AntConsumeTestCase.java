@@ -21,8 +21,6 @@
  */
 package org.jboss.test.wsf.spi.tools;
 
-import org.jboss.wsf.spi.tools.ant.WSConsumeTask;
-
 /**
  * Test the WSConsumeTask.
  * This test needs to be executed in 'SPI_HOME/output/tests',
@@ -32,9 +30,7 @@ import org.jboss.wsf.spi.tools.ant.WSConsumeTask;
  * @version $Revision$
  */
 public class AntConsumeTestCase extends BuildFileTest
-{
-   WSConsumeTask task;
-
+{   
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -47,10 +43,6 @@ public class AntConsumeTestCase extends BuildFileTest
         "org.jboss.wsf.spi.tools.ConsumerFactoryImpl",
         "org.jboss.test.wsf.spi.tools.CmdConsumeTrackerFactory"
         );
-
-      // the build files used by this test case needs to  build a classpath
-      // in this case we assum test execution in 'SPI_HOME/output/tests'
-      System.setProperty("SPI_HOME", "../../");
 
       configureProject("resources/smoke/tools/consume-test.xml");
    }

@@ -21,62 +21,44 @@
  */
 package org.jboss.test.wsf.spi.tools;
 
-import org.jboss.wsf.spi.tools.WSContractProvider;
-
-import java.io.File;
-import java.io.PrintStream;
-
 /**
  * @author Heiko.Braun@jboss.com
  * @version $Revision$
  */
-public class CmdProvideTracker extends WSContractProvider
+public class AntProvideTestCase extends BuildFileTest
 {
-
-   public static String LAST_EVENT = "";
-
-   public void setGenerateWsdl(boolean generateWsdl)
+   protected void setUp() throws Exception
    {
-      LAST_EVENT += "setGenerateWsdl";
+      super.setUp();
+
+      // cleanup events
+      CmdProvideTracker.LAST_EVENT = "";
+
+      // enforce loading of the tracker implemenation
+      System.setProperty(
+        "org.jboss.wsf.spi.tools.ProviderFactoryImpl",
+        "org.jboss.test.wsf.spi.tools.CmdProvideTrackerFactory"
+        );
+
+      configureProject("resources/smoke/tools/provide-test.xml");
    }
 
-   public void setGenerateSource(boolean generateSource)
+   public void testPlainInvocation()
    {
-      LAST_EVENT += "setGenerateSource";
+      executeTarget("plainInvocation");
+      assertTrue("provide() not invoked", CmdProvideTracker.LAST_EVENT.indexOf("provide")!=-1);
    }
 
-   public void setOutputDirectory(File directory)
+   public void testIncludeWSDL()
    {
-      LAST_EVENT += "setOutputDirectory";
+      executeTarget("includeWSDL");
+      assertTrue("setGenerateWsdl() not invoked", CmdProvideTracker.LAST_EVENT.indexOf("setGenerateWsdl")!=-1);
    }
 
-   public void setResourceDirectory(File directory)
+   public void testExtraClasspath()
    {
-      LAST_EVENT += "setResourceDirectory";
+      executeTarget("extraClasspath");
+      
    }
 
-   public void setSourceDirectory(File directory)
-   {
-      LAST_EVENT += "setSourceDirectory";
-   }
-
-   public void setClassLoader(ClassLoader loader)
-   {
-      LAST_EVENT += "setClassLoader";
-   }
-
-   public void provide(String endpointClass)
-   {
-      LAST_EVENT += "provide";   
-   }
-
-   public void provide(Class<?> endpointClass)
-   {
-      LAST_EVENT += "provide";
-   }
-
-   public void setMessageStream(PrintStream messageStream)
-   {
-      LAST_EVENT += "setMessageStream";
-   }
 }

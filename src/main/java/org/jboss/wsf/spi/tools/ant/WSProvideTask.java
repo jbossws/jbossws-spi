@@ -178,7 +178,11 @@ public class WSProvideTask extends Task
 		{
 			try
 			{
-				urls.add(new URL(tok.nextToken()));
+            String path = tok.nextToken();
+            if(!path.startsWith("file://"))
+               path = "file://"+path;
+
+            urls.add(new URL(path));
 			}
 			catch (MalformedURLException e)
 			{
