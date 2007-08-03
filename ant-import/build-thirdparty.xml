@@ -79,6 +79,9 @@
       <pathelement location="${thirdparty.dir}/jaxrpc-api.jar"/>
       <pathelement location="${thirdparty.dir}/servlet-api.jar"/>
       <pathelement location="${thirdparty.dir}/junit.jar"/>
+
+      <pathelement location="${thirdparty.dir}/ant.jar"/>
+      <pathelement location="${thirdparty.dir}/ant-nodeps.jar"/>
     </path>
     
   </target>

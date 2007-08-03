@@ -43,26 +43,27 @@
 
   </target>
 
-  <target name="tests-compile" depends="init, jars, tests-init">
-    <macro-compile-classes srcdir="${spi.test.java.dir}"/>
-  </target>
-
   <!-- ================================================================== -->
   <!-- Compiling                                                          -->
   <!-- ================================================================== -->
+  
+  <target name="tests-compile" depends="init, jars, tests-init">
+    
+    <mkdir dir="${spi.test.output.dir}/classes" />
+    <javac destdir="${spi.test.output.dir}/classes" debug="${javac.debug}" encoding="utf-8" verbose="${javac.verbose}" deprecation="${javac.deprecation}"
+           failonerror="${javac.fail.onerror}">
+      <src path="${spi.test.java.dir}"/>
+      <classpath refid="test.classpath"/>
+    </javac>
 
-  <macrodef name="macro-compile-classes">
-    <attribute name="srcdir"/>
-    <sequential>
-      <mkdir dir="${spi.test.output.dir}/classes" />
-
-      <javac destdir="${spi.test.output.dir}/classes" debug="${javac.debug}" encoding="utf-8" verbose="${javac.verbose}" deprecation="${javac.deprecation}"
-             failonerror="${javac.fail.onerror}">
-        <src path="@{srcdir}"/>
-        <classpath refid="test.classpath"/>
-      </javac>
-    </sequential>
-  </macrodef>
+    <!-- copy non binary files -->
+    <mkdir dir="${spi.test.output.dir}/resources"/>
+    <copy todir="${spi.test.output.dir}/resources">
+      <fileset dir="${spi.test.resources.dir}">
+        <include name="**/*.xml"/>
+      </fileset>
+    </copy>
+  </target>
 
   <!-- ================================================================== -->
   <!-- Testing                                                            -->
@@ -114,8 +115,7 @@
   <target name="one-test" depends="tests-init" if="test">
     <mkdir dir="${spi.test.output.dir}/reports"/>
     <junit printsummary="yes" showoutput="yes" dir="${spi.test.output.dir}">
-      <jvmarg line="${remote.debug.line}"/>
-      <jvmarg value="-Djava.security.manager"/>
+      <jvmarg line="${remote.debug.line}"/>      
       <sysproperty key="build.testlog" value="${spi.test.output.dir}/log"/>
       <classpath>
         <path refid="test.classpath"/>

@@ -88,6 +88,6 @@ public class CmdConsumeTracker extends WSContractConsumer
 
    public void consume(URL wsdl)
    {
-
+      LAST_EVENT += "consume";
    }
 }
