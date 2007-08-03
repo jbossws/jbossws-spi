@@ -21,39 +21,23 @@
  */
 package org.jboss.test.wsf.spi.tools;
 
-import org.jboss.wsf.spi.tools.WSContractConsumer;
+import org.jboss.wsf.spi.tools.WSContractProvider;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.List;
-import java.net.URL;
 
 /**
  * @author Heiko.Braun@jboss.com
  * @version $Revision$
  */
-public class CmdConsumeTracker extends WSContractConsumer
+public class CmdProvideTracker extends WSContractProvider
 {
+
    public static String LAST_EVENT = "";
 
-   public void setBindingFiles(List<File> bindingFiles)
+   public void setGenerateWsdl(boolean generateWsdl)
    {
-      LAST_EVENT += "setBindingFiles";
-   }
-
-   public void setCatalog(File catalog)
-   {
-      LAST_EVENT += "setCatalog";
-   }
-
-   public void setOutputDirectory(File directory)
-   {
-      LAST_EVENT += "setOutputDirectory";
-   }
-
-   public void setSourceDirectory(File directory)
-   {
-      LAST_EVENT += "setSourceDirectory";
+      LAST_EVENT += "setGenerateWsdl";
    }
 
    public void setGenerateSource(boolean generateSource)
@@ -61,33 +45,38 @@ public class CmdConsumeTracker extends WSContractConsumer
       LAST_EVENT += "setGenerateSource";
    }
 
-   public void setTargetPackage(String targetPackage)
+   public void setOutputDirectory(File directory)
    {
-      LAST_EVENT += "setTargetPackage";
+      LAST_EVENT += "setOutputDirectory";
    }
 
-   public void setWsdlLocation(String wsdlLocation)
+   public void setResourceDirectory(File directory)
    {
-      LAST_EVENT += "setWsdlLocation";
+      LAST_EVENT += "setResourceDirectory";
+   }
+
+   public void setSourceDirectory(File directory)
+   {
+      LAST_EVENT += "setSourceDirectory";
+   }
+
+   public void setClassLoader(ClassLoader loader)
+   {
+      LAST_EVENT += "setClassLoader";
+   }
+
+   public void provide(String endpointClass)
+   {
+
+   }
+
+   public void provide(Class<?> endpointClass)
+   {
+
    }
 
    public void setMessageStream(PrintStream messageStream)
    {
       LAST_EVENT += "setMessageStream";
-   }
-
-   public void setAdditionalCompilerClassPath(List<String> classPath)
-   {
-      LAST_EVENT += "setAdditionalCompilerClassPath";
-   }
-
-   public void setTarget(String target)
-   {
-      LAST_EVENT += "setTarget";
-   }
-
-   public void consume(URL wsdl)
-   {
-
    }
 }
