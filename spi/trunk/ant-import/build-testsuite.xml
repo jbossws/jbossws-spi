@@ -62,6 +62,9 @@
       <fileset dir="${spi.test.resources.dir}">
         <include name="**/*.xml"/>
       </fileset>
+      <filterset>
+        <filter token="SPI_DIR" value="${basedir}"/>        
+      </filterset>
     </copy>
   </target>
 

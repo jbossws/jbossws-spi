@@ -195,7 +195,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/thirdparty/ant-nodeps.jar!/" />
+          <root url="jar://$MODULE_DIR$/thirdparty/ant-launcher.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

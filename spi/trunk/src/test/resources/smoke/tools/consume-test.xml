@@ -6,12 +6,12 @@
     
 <project name="consume-test" basedir=".">
 
-  <property environment="env"/>
+  <property name="spi.dir" value="@SPI_DIR@"/>
 
   <!-- Define the JAX-WS wsconsume task -->
   <taskdef name="wsconsume" classname="org.jboss.wsf.spi.tools.ant.WSConsumeTask">
     <classpath>
-      <pathelement location="${env.SPI_HOME}/output/lib/jbossws-spi.jar"/>
+      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
     </classpath>
   </taskdef>
 
