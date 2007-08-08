@@ -23,43 +23,7 @@ package org.jboss.wsf.spi.management;
 
 //$Id: EndpointMetricsDeploymentAspect.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
 
-import java.util.Date;
-
-import org.jboss.wsf.spi.deployment.Endpoint;
-
-public interface EndpointMetrics
+public abstract class EndpointMetricsFactory
 {
-
-   Endpoint getEndpoint();
-
-   void setEndpoint(Endpoint endpoint);
-
-   void start();
-
-   void stop();
-
-   long processRequestMessage();
-
-   void processResponseMessage(long beginTime);
-
-   void processFaultMessage(long beginTime);
-
-   Date getStartTime();
-
-   Date getStopTime();
-
-   long getMinProcessingTime();
-
-   long getMaxProcessingTime();
-
-   long getAverageProcessingTime();
-
-   long getTotalProcessingTime();
-
-   long getRequestCount();
-
-   long getFaultCount();
-
-   long getResponseCount();
-
+   public abstract EndpointMetrics newEndpointMetrics();
 }
