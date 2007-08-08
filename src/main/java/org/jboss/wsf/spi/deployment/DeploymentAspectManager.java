@@ -36,6 +36,12 @@ public interface DeploymentAspectManager
    /** Get the name for this aspect manager */
    String getName();
    
+   /** Get the optional parent for this manager */
+   DeploymentAspectManager getParent();
+   
+   /** Set the optional parent for this manager */
+   void setParent(DeploymentAspectManager dam);
+   
    /** Get the ordered list of registered deployment aspects */
    List<DeploymentAspect> getDeploymentAspects();
    
