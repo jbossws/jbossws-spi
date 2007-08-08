@@ -42,6 +42,10 @@ public interface ServerConfig
    /** The host name that is returned if there is no other defined */
    String UNDEFINED_HOSTNAME = "jbossws.undefined.host";
    
+   String getImplementationTitle();
+
+   String getImplementationVersion();
+   
    File getServerTempDir();
 
    File getServerDataDir();
