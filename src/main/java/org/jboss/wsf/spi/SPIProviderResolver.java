@@ -23,7 +23,6 @@ package org.jboss.wsf.spi;
 
 import org.jboss.wsf.spi.util.ServiceLoader;
 
-
 /**
  * Locates an SPIProvider.
  *
@@ -36,10 +35,8 @@ public abstract class SPIProviderResolver
 
    public static SPIProviderResolver getInstance()
    {
-      return (SPIProviderResolver) ServiceLoader.loadService(
-          SPIProviderResolver.class.getName(),
-          DEFAULT_SPI_PROVIDER_RESOLVER
-      );
+      SPIProviderResolver resolver = (SPIProviderResolver)ServiceLoader.loadService(SPIProviderResolver.class.getName(), DEFAULT_SPI_PROVIDER_RESOLVER);
+      return resolver;
    }
 
    public abstract SPIProvider getProvider();
