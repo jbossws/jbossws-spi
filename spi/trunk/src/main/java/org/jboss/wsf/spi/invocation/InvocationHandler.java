@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.spi.invocation;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 
 import javax.management.MBeanException;
@@ -51,13 +50,6 @@ public abstract class InvocationHandler
       if (th instanceof MBeanException)
       {
          throw ((MBeanException)th).getTargetException();
-      }
-
-      if (th instanceof InvocationTargetException)
-      {
-         // Unwrap the throwable raised by the service endpoint implementation
-         Throwable targetEx = ((InvocationTargetException)th).getTargetException();
-         handleInvocationException(targetEx);
       }
 
       if (th instanceof Exception)
