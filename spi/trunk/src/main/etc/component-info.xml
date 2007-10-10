@@ -6,6 +6,7 @@
     licenseType="lgpl">
     
     <artifact id="jbossws-spi.jar"/>
+    <artifact id="jbossws-spi-src.zip"/>
     
     <export>
       <include input="jbossws-spi.jar"/>
