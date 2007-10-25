@@ -47,8 +47,10 @@ public abstract class ServiceRefMetaData extends ServiceRefElement implements Se
 
    public abstract void setProcessed(boolean flag);
 
+   @Deprecated
    public abstract void importStandardXml(Element element);
 
+   @Deprecated
    public abstract void importJBossXml(Element element);
 
    public abstract void merge(ServiceRefMetaData targetRef);
