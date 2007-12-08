@@ -23,11 +23,15 @@ package org.jboss.wsf.spi.deployment;
 
 // $Id$
 
+import java.util.List;
+
 import javax.management.ObjectName;
 
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
+import org.jboss.wsf.spi.management.recording.Record;
+import org.jboss.wsf.spi.management.recording.RecordProcessor;
 
 /**
  * A general JAXWS endpoint.
@@ -116,4 +120,13 @@ public interface Endpoint extends Extensible
 
    /** Set the endpoint metrics for this endpoint */
    void setEndpointMetrics(EndpointMetrics metrics);
+   
+   List<RecordProcessor> getRecordProcessors();
+   void setRecordProcessors(List<RecordProcessor> recordProcessors);
+   
+   boolean isRecording();
+   
+   void setRecording(boolean value);
+   
+   void processRecord(Record record);
 }
