@@ -29,5 +29,5 @@ import org.jboss.wsf.spi.SPIView;
  */
 public abstract class LifecycleHandlerFactory implements SPIView
 {
-   public abstract LifecycleHandler newLifecylceHandler();
+   public abstract LifecycleHandler newLifecycleHandler();
 }
