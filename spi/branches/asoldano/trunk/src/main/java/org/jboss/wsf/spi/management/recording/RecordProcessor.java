@@ -57,5 +57,6 @@ public interface RecordProcessor
    public void setProcessHeaders(boolean value);
    public boolean isProcessOperation();
    public void setProcessOperation(boolean value);
-   
+   public boolean isProcessDate();
+   public void setProcessDate(boolean value);
 }
