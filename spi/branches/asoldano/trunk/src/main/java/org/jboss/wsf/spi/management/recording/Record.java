@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 /**
  * 
  * @author alessio.soldano@jboss.com
@@ -99,7 +101,7 @@ public interface Record
     * 
     * @return the operation
     */
-   public String getOperation();
+   public QName getOperation();
    
-   public void setOperation(String operation);
+   public void setOperation(QName operation);
 }
