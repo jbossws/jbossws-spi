@@ -24,11 +24,18 @@ package org.jboss.wsf.spi.management.recording;
 //$Id$
 
 /**
+ * A record filter
  * 
  * @author alessio.soldano@jboss.com
  * @since 8-Dec-2007
  */
 public interface RecordFilter
 {
+   /**
+    * Returns true if the filter matches the given record.
+    * 
+    * @param record
+    * @return
+    */
    public boolean match(Record record);
 }

@@ -121,8 +121,12 @@ public interface Endpoint extends Extensible
    /** Set the endpoint metrics for this endpoint */
    void setEndpointMetrics(EndpointMetrics metrics);
    
+   /** Get the record processors configured for this endpoint **/
    List<RecordProcessor> getRecordProcessors();
+   
+   /** Set the record processors for this endpoint **/
    void setRecordProcessors(List<RecordProcessor> recordProcessors);
    
+   /** Ask configured processors for processing of the given record **/
    void processRecord(Record record);
 }

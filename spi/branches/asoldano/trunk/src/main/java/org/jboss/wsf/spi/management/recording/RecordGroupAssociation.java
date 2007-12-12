@@ -28,6 +28,7 @@ import org.jboss.logging.Logger;
 //$Id$
 
 /**
+ * Associates the record group ID with the current thread. 
  * 
  * @author alessio.soldano@jboss.com
  * @since 8-Dec-2007
