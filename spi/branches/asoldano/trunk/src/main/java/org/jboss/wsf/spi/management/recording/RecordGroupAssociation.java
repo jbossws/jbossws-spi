@@ -34,28 +34,28 @@ import org.jboss.logging.Logger;
  */
 public class RecordGroupAssociation
 {
-   private static ThreadLocal<Stack<Long>> groupIDAssoc = new ThreadLocal<Stack<Long>>();
+   private static ThreadLocal<Stack<String>> groupIDAssoc = new ThreadLocal<Stack<String>>();
    
    // provide logging
    private static Logger log = Logger.getLogger(RecordGroupAssociation.class);
   
 
-   public static void pushGroupID(Long groupID)
+   public static void pushGroupID(String groupID)
    {
       if(log.isDebugEnabled()) log.debug("pushGroupID: " + groupID + " (Thread " +Thread.currentThread().getName()+ ")");
-      Stack<Long> stack = groupIDAssoc.get();
+      Stack<String> stack = groupIDAssoc.get();
       if (stack == null)
       {
-         stack = new Stack<Long>();
+         stack = new Stack<String>();
          groupIDAssoc.set(stack);
       }
       stack.push(groupID);
    }
 
-   public static Long peekGroupID()
+   public static String peekGroupID()
    {
-      Long groupID = null;
-      Stack<Long> stack = groupIDAssoc.get();
+      String groupID = null;
+      Stack<String> stack = groupIDAssoc.get();
       if (stack != null && stack.isEmpty() == false)
       {
          groupID = stack.peek();
@@ -64,10 +64,10 @@ public class RecordGroupAssociation
       return groupID;
    }
 
-   public static Long popGroupID()
+   public static String popGroupID()
    {
-      Long groupID = null;
-      Stack<Long> stack = groupIDAssoc.get();
+      String groupID = null;
+      Stack<String> stack = groupIDAssoc.get();
       if (stack != null && stack.isEmpty() == false)
       {
          groupID = stack.pop();

@@ -38,9 +38,9 @@ public interface Record
 {
    public enum MessageType {INBOUND, OUTBOUND};
    
-   public Long getGroupID();
+   public String getGroupID();
    
-   public void setGroupID(Long groupID);
+   public void setGroupID(String groupID);
    
    public Date getDate();
    

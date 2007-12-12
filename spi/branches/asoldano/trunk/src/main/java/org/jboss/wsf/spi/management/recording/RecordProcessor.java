@@ -26,37 +26,56 @@ package org.jboss.wsf.spi.management.recording;
 import java.util.List;
 
 /**
+ * Processes a record. A RecordProcessor may have filters to allow processing
+ * of records matching given criteria. It also gives users fine management of
+ * record's attributes to processed. 
  * 
  * @author alessio.soldano@jboss.com
  * @since 8-Dec-2007
  */
 public interface RecordProcessor
 {
-   /**
-    * To be used to have this processor process the specified record
-    * 
-    * @param record
-    */
+   public String getName();
+
+   public void setName(String epName);
+
+   public boolean isRecording();
+
+   public void setRecording(boolean value);
+
    public void processRecord(Record record);
-   
-   /** Filters: a record is processed only if it matches all the processor's filters **/
+
    public List<RecordFilter> getFilters();
+
    public void addFilter(RecordFilter filter);
+
    public void setFilters(List<RecordFilter> filters);
-   
-   /** Fine grained management of records' field to be processed **/
+
    public boolean isProcessSourceHost();
+
    public void setProcessSourceHost(boolean value);
+
    public boolean isProcessDestinationHost();
+
    public void setProcessDestinationHost(boolean value);
+
    public boolean isProcessMessageType();
+
    public void setProcessMessageType(boolean value);
+
    public boolean isProcessMessage();
+
    public void setProcessMessage(boolean value);
+
    public boolean isProcessHeaders();
+
    public void setProcessHeaders(boolean value);
+
    public boolean isProcessOperation();
+
    public void setProcessOperation(boolean value);
+
    public boolean isProcessDate();
+
    public void setProcessDate(boolean value);
 }

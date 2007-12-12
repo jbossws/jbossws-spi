@@ -124,9 +124,5 @@ public interface Endpoint extends Extensible
    List<RecordProcessor> getRecordProcessors();
    void setRecordProcessors(List<RecordProcessor> recordProcessors);
    
-   boolean isRecording();
-   
-   void setRecording(boolean value);
-   
    void processRecord(Record record);
 }
