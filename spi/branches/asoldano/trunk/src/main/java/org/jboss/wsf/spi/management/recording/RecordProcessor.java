@@ -37,7 +37,7 @@ public interface RecordProcessor
 {
    public String getName();
 
-   public void setName(String epName);
+   public void setName(String name);
 
    public boolean isRecording();
 
@@ -63,9 +63,9 @@ public interface RecordProcessor
 
    public void setProcessMessageType(boolean value);
 
-   public boolean isProcessMessage();
+   public boolean isProcessEnvelope();
 
-   public void setProcessMessage(boolean value);
+   public void setProcessEnvelope(boolean value);
 
    public boolean isProcessHeaders();
 

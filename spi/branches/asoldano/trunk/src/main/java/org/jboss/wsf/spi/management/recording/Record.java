@@ -38,10 +38,20 @@ public interface Record
 {
    public enum MessageType {INBOUND, OUTBOUND};
    
+   /**
+    * Gets the group ID corresponding to the current message exchange flow
+    * 
+    * @return
+    */
    public String getGroupID();
    
    public void setGroupID(String groupID);
    
+   /**
+    * Gets the date of this record
+    * 
+    * @return
+    */
    public Date getDate();
    
    public void setDate(Date date);
@@ -73,17 +83,15 @@ public interface Record
    
    public void setMessageType(MessageType type);
    
-   /**
-    * Gets the message payload contents as a byte[].
-    * 
-    * @return the payload
-    */
-   public byte[] getPayload();
    
-   public void setPayload(byte[] payload);
+   /**
+    * Gets the SOAP message envelope
+    * 
+    * @return
+    */
+   public String getEnvelope();
    
    public void setEnvelope(String envelope);
-   public String getEnvelope();
    
    /**
     * Gets the HTTP headers
