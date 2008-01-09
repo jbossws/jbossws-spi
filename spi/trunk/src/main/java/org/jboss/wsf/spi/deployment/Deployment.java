@@ -36,7 +36,8 @@ public interface Deployment extends Extensible
 {
    public enum DeploymentType
    {
-      JAXRPC_CLIENT, JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3
+      JAXRPC_CLIENT, JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3,
+      @Deprecated JAXRPC_EJB3
    };
    
    public enum DeploymentState
