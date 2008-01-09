@@ -29,5 +29,6 @@ package org.jboss.wsf.spi.invocation;
  */
 public enum InvocationType
 {
-   JAXRPC_JSE, JAXRPC_EJB21, JAXRPC_MDB21, JAXWS_JSE, JAXWS_EJB3, JAXWS_MDB3;  
+   JAXRPC_JSE, JAXRPC_EJB21, JAXRPC_MDB21, JAXWS_JSE, JAXWS_EJB3, JAXWS_MDB3, 
+   @Deprecated JAXWS_EJB21;  
 }
