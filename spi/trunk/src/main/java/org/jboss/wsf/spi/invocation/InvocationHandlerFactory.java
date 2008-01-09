@@ -23,8 +23,6 @@ package org.jboss.wsf.spi.invocation;
 
 import org.jboss.wsf.spi.SPIView;
 
-import javax.xml.ws.handler.MessageContext;
-
 /**
  * Creates invocation related artefacts.
  *
