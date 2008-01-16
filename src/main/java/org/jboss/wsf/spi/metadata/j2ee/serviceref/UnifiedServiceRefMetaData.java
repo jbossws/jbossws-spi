@@ -23,21 +23,21 @@ package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 // $Id$
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.WebServiceException;
-
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.serviceref.ServiceRefMetaData;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.WebServiceException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The metdata data from service-ref element in web.xml, ejb-jar.xml, and
@@ -93,6 +93,9 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    // A flag that should be set when this service-ref has been bound.
    private transient boolean processed;
 
+   // Maps 'injection-target-class' to 'injection-target-name'
+   private List<String[]> injectionTargets = new LinkedList<String[]>();
+
    public UnifiedServiceRefMetaData(UnifiedVirtualFile vfRoot)
    {
       this.vfsRoot = vfRoot;
@@ -110,8 +113,8 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
       configFile = sourceRef.configFile;
       wsdlOverride = sourceRef.wsdlOverride;
       handlerChain = sourceRef.handlerChain;
-      callProperties = sourceRef.callProperties;
-
+      callProperties = sourceRef.callProperties;      
+      
       if (serviceQName == null && sourceRef.serviceQName != null)
          serviceQName = sourceRef.serviceQName;
 
@@ -390,6 +393,22 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    public void setAnnotatedElement(Object anElement)
    {
       this.anElement = anElement;
+   }
+
+   public void registerInjectionTarget(String classname)
+   {      
+      this.injectionTargets.add( new String[]{classname, null} );
+   }
+
+   public void finalizeInjectionTarget(String propName)
+   {
+      int index = this.injectionTargets.isEmpty() ? 0 : this.injectionTargets.size() - 1;
+      this.injectionTargets.get(index)[1] =  propName;
+   }
+
+   public List<String[]> getInjectionTargets()
+   {
+      return this.injectionTargets;
    }
 
    @Override

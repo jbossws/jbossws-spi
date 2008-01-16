@@ -23,9 +23,10 @@ package org.jboss.wsf.spi.serviceref;
 
 // $Id$
 
-import java.io.Serializable;
-
 import org.w3c.dom.Element;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * An abstract service-ref meta data object.
@@ -46,6 +47,8 @@ public abstract class ServiceRefMetaData extends ServiceRefElement implements Se
    public abstract boolean isProcessed();
 
    public abstract void setProcessed(boolean flag);
+   
+   public abstract List<String[]> getInjectionTargets();
 
    @Deprecated
    public abstract void importStandardXml(Element element);
