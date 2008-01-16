@@ -5,14 +5,14 @@
  * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
+ * under the terms of the GNU Lesser General License as
  * published by the Free Software Foundation; either version 2.1 of
  * the License, or (at your option) any later version.
  *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ * Lesser General License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this software; if not, write to the Free
@@ -33,49 +33,54 @@ import java.util.List;
  * @author alessio.soldano@jboss.com
  * @since 8-Dec-2007
  */
-public interface RecordProcessor
+public interface RecordProcessor extends Cloneable
 {
-   public String getName();
+   String getName();
 
-   public void setName(String name);
+   void setName(String name);
 
-   public boolean isRecording();
+   boolean isRecording();
 
-   public void setRecording(boolean value);
+   void setRecording(boolean value);
 
-   public void processRecord(Record record);
+   void processRecord(Record record);
 
-   public List<RecordFilter> getFilters();
+   List<RecordFilter> getFilters();
 
-   public void addFilter(RecordFilter filter);
+   void addFilter(RecordFilter filter);
 
-   public void setFilters(List<RecordFilter> filters);
+   void setFilters(List<RecordFilter> filters);
 
-   public boolean isProcessSourceHost();
+   boolean isProcessSourceHost();
 
-   public void setProcessSourceHost(boolean value);
+   void setProcessSourceHost(boolean value);
 
-   public boolean isProcessDestinationHost();
+   boolean isProcessDestinationHost();
 
-   public void setProcessDestinationHost(boolean value);
+   void setProcessDestinationHost(boolean value);
 
-   public boolean isProcessMessageType();
+   boolean isProcessMessageType();
 
-   public void setProcessMessageType(boolean value);
+   void setProcessMessageType(boolean value);
 
-   public boolean isProcessEnvelope();
+   boolean isProcessEnvelope();
 
-   public void setProcessEnvelope(boolean value);
+   void setProcessEnvelope(boolean value);
 
-   public boolean isProcessHeaders();
+   boolean isProcessHeaders();
 
-   public void setProcessHeaders(boolean value);
+   void setProcessHeaders(boolean value);
 
-   public boolean isProcessOperation();
+   boolean isProcessOperation();
 
-   public void setProcessOperation(boolean value);
+   void setProcessOperation(boolean value);
 
-   public boolean isProcessDate();
+   boolean isProcessDate();
 
-   public void setProcessDate(boolean value);
+   void setProcessDate(boolean value);
+
+   /**
+    * RecordFilters must override Object.clone()
+    */
+   Object clone() throws CloneNotSupportedException;
 }
