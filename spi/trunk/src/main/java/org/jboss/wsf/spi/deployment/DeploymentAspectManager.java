@@ -42,10 +42,10 @@ public interface DeploymentAspectManager
    /** Set the optional parent for this manager */
    void setParent(DeploymentAspectManager dam);
    
-   /** Get the ordered list of registered deployment aspects */
+   /** Get the list of registered deployment aspects */
    List<DeploymentAspect> getDeploymentAspects();
    
-   /** Set the ordered list of registered deployment aspects */
+   /** Set the list of registered deployment aspects */
    void setDeploymentAspects(List<DeploymentAspect> aspects);
    
    /** Deploy a web service */
