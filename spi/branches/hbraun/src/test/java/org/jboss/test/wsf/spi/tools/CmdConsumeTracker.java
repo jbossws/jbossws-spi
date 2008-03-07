@@ -90,4 +90,10 @@ public class CmdConsumeTracker extends WSContractConsumer
    {
       LAST_EVENT += "consume";
    }
+
+
+   public void setExtension(boolean extension)
+   {
+      //To change body of implemented methods use File | Settings | File Templates.
+   }
 }
