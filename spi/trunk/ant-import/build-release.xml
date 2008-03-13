@@ -31,7 +31,8 @@
         <filtersfile file="${spi.dir}/version.properties"/>
       </filterset>
     </copy>
-    
+
+     <antcall target="mvn.publish.remote"/>
   </target>
 
 </project>
