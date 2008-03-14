@@ -19,15 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi;
+package org.jboss.wsf.spi.deployment.integration;
 
-import org.jboss.wsf.spi.deployment.Deployment;
+import java.util.List;
 
 /**
+ * A web service deployment contains {@link WebServiceDeclaration} declarations.
+ * 
  * @author Heiko.Braun <heiko.braun@jboss.com>
  */
-public interface Container
+public interface WebServiceDeployment
 {
-   void publish(Deployment endpoint);
-   void remove(Deployment endpoint); 
+   List<WebServiceDeclaration> getServiceEndpoints();
 }

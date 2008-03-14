@@ -23,6 +23,8 @@ package org.jboss.wsf.spi.deployment;
 
 // $Id$
 
+import org.jboss.wsf.spi.WSFRuntime;
+
 import java.util.List;
 
 /**
@@ -47,10 +49,19 @@ public interface DeploymentAspectManager
    
    /** Set the list of registered deployment aspects */
    void setDeploymentAspects(List<DeploymentAspect> aspects);
-   
-   /** Deploy a web service */
-   void deploy(Deployment dep);
-   
-   /** Undeploy a web service */
-   void undeploy(Deployment dep);
+      
+   /**
+    * Deploy to a particular runtime
+    * @param dep
+    * @param runtime
+    */
+   void deploy(Deployment dep, WSFRuntime runtime);
+
+   /**
+    * Undeploy from a particular runtime
+    * @param dep
+    * @param runtime
+    */
+   void undeploy(Deployment dep, WSFRuntime runtime);
 }
+

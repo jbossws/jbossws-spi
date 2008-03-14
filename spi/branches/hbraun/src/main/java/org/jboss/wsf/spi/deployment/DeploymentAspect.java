@@ -28,17 +28,19 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.WSFRuntime;
+import org.jboss.wsf.spi.RuntimeAware;
 
 /**
  * A deployment aspect that does nothing.
  * 
  * A deployment aspects can require/provide a set of string conditions.
- * This determins the order of deployment aspects in the deployment aspect manager. 
+ * This determines the order of deployment aspects in the deployment aspect manager. 
  * 
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public abstract class DeploymentAspect
+public abstract class DeploymentAspect implements RuntimeAware
 {
    // provide logging
    protected final Logger log = Logger.getLogger(getClass());
@@ -48,6 +50,16 @@ public abstract class DeploymentAspect
    private String provides;
    private String requires;
 
+   private WSFRuntime runtime;
+
+   public void setRuntimeAssociation(WSFRuntime runtime)
+   {      
+      if(this.runtime!=null)
+         throw new IllegalArgumentException("Already associated with a WSFRuntime:" + runtime);
+      
+      this.runtime = runtime;
+   }
+   
    public String getProvides()
    {
       return provides;
@@ -70,6 +82,7 @@ public abstract class DeploymentAspect
 
    public void create(Deployment dep)
    {
+      assert runtime!=null;
    }
 
    public void destroy(Deployment dep)
@@ -81,7 +94,7 @@ public abstract class DeploymentAspect
    }
 
    public void stop(Deployment dep)
-   {
+   {      
    }
 
    public Set<String> getProvidesAsSet()
