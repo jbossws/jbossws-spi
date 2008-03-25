@@ -49,19 +49,13 @@ public interface DeploymentAspectManager
    
    /** Set the list of registered deployment aspects */
    void setDeploymentAspects(List<DeploymentAspect> aspects);
-      
-   /**
-    * Deploy to a particular runtime
-    * @param dep
-    * @param runtime
-    */
-   void deploy(Deployment dep, WSFRuntime runtime);
 
-   /**
-    * Undeploy from a particular runtime
-    * @param dep
-    * @param runtime
-    */
-   void undeploy(Deployment dep, WSFRuntime runtime);
+   void create(Deployment dep, WSFRuntime runtime);
+
+   void start(Deployment dep, WSFRuntime runtime);
+
+   void stop(Deployment dep, WSFRuntime runtime);
+   
+   void destroy(Deployment dep, WSFRuntime runtime);
 }
 

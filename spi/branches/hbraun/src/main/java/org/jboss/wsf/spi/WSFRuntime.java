@@ -28,6 +28,8 @@ import org.jboss.wsf.spi.deployment.Deployment;
  */
 public interface WSFRuntime
 {
-   void publish(Deployment endpoint);
-   void remove(Deployment endpoint);
+   void create(Deployment deployment);
+   void start(Deployment deployment);
+   void stop(Deployment deployment);
+   void destroy(Deployment deployment);
 }
