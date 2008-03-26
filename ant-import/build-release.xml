@@ -32,7 +32,7 @@
       </filterset>
     </copy>
 
-     <antcall target="mvn.publish.remote"/>
+     <antcall target="mvn.install.remote"/>
   </target>
 
 </project>
