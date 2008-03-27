@@ -1,0 +1,16 @@
+#
+# This file records SVN merges to trunk that have already been done
+# using this branch. Please use the following format
+#
+#
+#  username dd-mmm-yyyy
+#  svn merge -r start:end svn url
+# 
+#  ropalka@redhat.com 10-Aug-2007
+#  svn merge -r4279:4280 https://svn.jboss.org/repos/jbossws/stack/native/branches/native-2.0
+#
+#  $Id$
+
+richard.opalka@jboss.com 27-Mar-2008
+svn merge -r 6067:6072 https://svn.jboss.org/repos/jbossws/spi/branches/jbossws-spi-1.0.2.GA
+
