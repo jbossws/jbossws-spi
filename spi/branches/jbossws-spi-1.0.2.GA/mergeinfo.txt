@@ -11,3 +11,6 @@
 #
 #  $Id$
 
+richard.opalka@jboss.com 27-Mar-2008
+svn merge -r 6067:6072 https://svn.jboss.org/repos/jbossws/spi/branches/jbossws-spi-1.0.2.GA
+
