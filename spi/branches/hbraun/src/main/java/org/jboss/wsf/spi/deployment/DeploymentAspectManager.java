@@ -28,12 +28,15 @@ import org.jboss.wsf.spi.WSFRuntime;
 import java.util.List;
 
 /**
- * A general service deployment manger.
+ * Process an ordered chain of {@link org.jboss.wsf.spi.deployment.DeploymentAspect}'s
+ * on a {@link org.jboss.wsf.spi.deployment.DeploymentLifecycle}
  * 
  * @author Thomas.Diesler@jboss.com
+ * @author Heiko.Braun@jboss.com
+ *
  * @since 20-Apr-2007 
  */
-public interface DeploymentAspectManager
+public interface DeploymentAspectManager extends DeploymentLifecycle
 {
    /** Get the name for this aspect manager */
    String getName();
@@ -50,12 +53,5 @@ public interface DeploymentAspectManager
    /** Set the list of registered deployment aspects */
    void setDeploymentAspects(List<DeploymentAspect> aspects);
 
-   void create(Deployment dep, WSFRuntime runtime);
-
-   void start(Deployment dep, WSFRuntime runtime);
-
-   void stop(Deployment dep, WSFRuntime runtime);
-   
-   void destroy(Deployment dep, WSFRuntime runtime);
 }
 

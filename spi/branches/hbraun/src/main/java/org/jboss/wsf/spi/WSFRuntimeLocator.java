@@ -21,15 +21,15 @@
  */
 package org.jboss.wsf.spi;
 
-import org.jboss.wsf.spi.deployment.Deployment;
-
 /**
  * @author Heiko.Braun <heiko.braun@jboss.com>
  */
-public interface WSFRuntime 
+public interface WSFRuntimeLocator
 {
-   void create(Deployment deployment);
-   void start(Deployment deployment);
-   void stop(Deployment deployment);
-   void destroy(Deployment deployment);
+   /**
+    * Locate a web service runtime by logical name
+    * @param runtimeName
+    * @return
+    */
+   WSFRuntime locateRuntime(String runtimeName);
 }

@@ -40,7 +40,7 @@ import org.jboss.wsf.spi.RuntimeAware;
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public abstract class DeploymentAspect implements RuntimeAware
+public abstract class DeploymentAspect implements DeploymentLifecycle
 {
    // provide logging
    protected final Logger log = Logger.getLogger(getClass());
@@ -49,16 +49,6 @@ public abstract class DeploymentAspect implements RuntimeAware
 
    private String provides;
    private String requires;
-
-   private WSFRuntime runtime;
-
-   public void setRuntimeAssociation(WSFRuntime runtime)
-   {      
-      if(this.runtime!=null)
-         throw new IllegalArgumentException("Already associated with a WSFRuntime:" + runtime);
-      
-      this.runtime = runtime;
-   }
    
    public String getProvides()
    {
@@ -80,20 +70,20 @@ public abstract class DeploymentAspect implements RuntimeAware
       this.requires = requires;
    }
 
-   public void create(Deployment dep)
+   public void create(Deployment dep, WSFRuntime runtime)
    {
-      assert runtime!=null;
+
    }
 
-   public void destroy(Deployment dep)
-   {
-   }
-
-   public void start(Deployment dep)
+   public void destroy(Deployment dep, WSFRuntime runtime)
    {
    }
 
-   public void stop(Deployment dep)
+   public void start(Deployment dep, WSFRuntime runtime)
+   {
+   }
+
+   public void stop(Deployment dep, WSFRuntime runtime)
    {      
    }
 

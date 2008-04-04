@@ -19,17 +19,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi;
+package org.jboss.wsf.spi.deployment;
 
-import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.WSFRuntime;
 
 /**
  * @author Heiko.Braun <heiko.braun@jboss.com>
  */
-public interface WSFRuntime 
+public interface DeploymentLifecycle
 {
-   void create(Deployment deployment);
-   void start(Deployment deployment);
-   void stop(Deployment deployment);
-   void destroy(Deployment deployment);
+   void create(Deployment dep, WSFRuntime runtime);
+
+   void start(Deployment dep, WSFRuntime runtime);
+
+   void stop(Deployment dep, WSFRuntime runtime);
+
+   void destroy(Deployment dep, WSFRuntime runtime);
 }
