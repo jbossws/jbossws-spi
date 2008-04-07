@@ -21,13 +21,25 @@
  */
 package org.jboss.wsf.spi.transport;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Heiko.Braun <heiko.braun@jboss.com>
  */
 public class HttpSpec implements TransportSpec
 {
+   public static final String PROPERTY_GENERATED_WEBAPP = "org.jboss.ws.generated.webapp";
+   public static final String PROPERTY_WEBAPP_CONTEXT_PARAMETERS = "org.jboss.ws.webapp.ContextParameterMap";
+   public static final String PROPERTY_WEBAPP_SERVLET_CLASS = "org.jboss.ws.webapp.ServletClass";
+   public static final String PROPERTY_WEBAPP_SERVLET_CONTEXT_LISTENER = "org.jboss.ws.webapp.ServletContextListener";
+   public static final String PROPERTY_WEBAPP_URL = "org.jboss.ws.webapp.url";
+
    private String webContext;
    private String urlPattern;
+
+   private String servletClass;
+   private Map<String,String> contextParameter = new HashMap<String,String>();
 
    public HttpSpec(String webContext, String urlPattern)
    {
@@ -51,5 +63,20 @@ public class HttpSpec implements TransportSpec
    public String getUrlPattern()
    {
       return urlPattern;
+   }
+
+   public void setServletClass(String servletClass)
+   {
+      this.servletClass = servletClass;
+   }
+
+   public String getServletClass()
+   {
+      return servletClass;
+   }
+
+   public Map<String, String> getContextParameter()
+   {
+      return contextParameter;
    }
 }
