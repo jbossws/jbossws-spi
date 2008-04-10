@@ -26,7 +26,7 @@ import org.jboss.wsf.spi.deployment.Deployment;
 /**
  * @author Heiko.Braun <heiko.braun@jboss.com>
  */
-public interface WSFRuntime 
+public interface WSFRuntime extends ComposableRuntime
 {
    void create(Deployment deployment);
    void start(Deployment deployment);
