@@ -40,17 +40,22 @@
    <!-- Installation                                                       -->
    <!-- ================================================================== -->
   
-  <!-- Release to jboss.local.repository -->
+  <!-- Install to jboss.local.repository -->
   <target name="install" depends="init" description="Install to jboss.local.repository">
 
-    <!-- Check if ant.properties is available -->
+    <!-- Check if the target jar is available -->
     <available property="jbossws.spi.jar.available" file="${spi.target.dir}/jbossws-spi-${version.id}.jar"/>
     <fail message="Cannot find jbossws-spi-${version.id}.jar. Did you run 'mvn package'?" unless="jbossws.spi.jar.available"/>
+    
+    <!-- Check if the source jar is available -->
+    <available property="jbossws.spi.sources.jar.available" file="${spi.target.dir}/jbossws-spi-${version.id}-sources.jar"/>
+    <fail message="Cannot find jbossws-spi-${version.id}-sources.jar. Did you run 'mvn source:jar'?" unless="jbossws.spi.sources.jar.available"/>
     
     <!-- jboss/jbossws-spi -->
     <property name="jboss.repository.dir" value="${jboss.local.repository}/jboss"/>
     <mkdir dir="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib"/>
     <copy file="${spi.target.dir}/jbossws-spi-${version.id}.jar" tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib/jbossws-spi.jar" overwrite="true"/>
+    <copy file="${spi.target.dir}/jbossws-spi-${version.id}-sources.jar" tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib/jbossws-spi-src.jar" overwrite="true"/>
     <copy tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/component-info.xml" file="${spi.etc.dir}/component-info.xml" filtering="true" overwrite="true">
       <filterset>
         <filtersfile file="${spi.dir}/version.properties"/>
