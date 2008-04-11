@@ -36,58 +36,75 @@ public class CmdConsumeTracker extends WSContractConsumer
 {
    public static String LAST_EVENT = "";
 
+   @Override
    public void setBindingFiles(List<File> bindingFiles)
    {
       LAST_EVENT += "setBindingFiles";
    }
 
+   @Override
    public void setCatalog(File catalog)
    {
       LAST_EVENT += "setCatalog";
    }
 
+   @Override
    public void setOutputDirectory(File directory)
    {
       LAST_EVENT += "setOutputDirectory";
    }
 
+   @Override
    public void setSourceDirectory(File directory)
    {
       LAST_EVENT += "setSourceDirectory";
    }
 
+   @Override
    public void setGenerateSource(boolean generateSource)
    {
       LAST_EVENT += "setGenerateSource";
    }
 
+   @Override
    public void setTargetPackage(String targetPackage)
    {
       LAST_EVENT += "setTargetPackage";
    }
 
+   @Override
    public void setWsdlLocation(String wsdlLocation)
    {
       LAST_EVENT += "setWsdlLocation";
    }
 
+   @Override
    public void setMessageStream(PrintStream messageStream)
    {
       LAST_EVENT += "setMessageStream";
    }
 
+   @Override
    public void setAdditionalCompilerClassPath(List<String> classPath)
    {
       LAST_EVENT += "setAdditionalCompilerClassPath";
    }
 
+   @Override
    public void setTarget(String target)
    {
       LAST_EVENT += "setTarget";
    }
 
+   @Override
    public void consume(URL wsdl)
    {
       LAST_EVENT += "consume";
+   }
+
+   @Override
+   public void setExtension(boolean extension)
+   {
+      LAST_EVENT += "setExtension";
    }
 }
