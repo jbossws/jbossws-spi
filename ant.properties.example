@@ -3,21 +3,5 @@
 #
 # $Id: ant.properties.example 3995 2007-07-26 08:52:45Z thomas.diesler@jboss.com $
 
-# JBoss Repository
-#jboss.repository=file:/home/tdiesler/svn/jboss.local.repository
-jboss.repository=http://repository.jboss.org
-
-# JBossWS Release
+# JBossWS local repository
 jboss.local.repository=/home/tdiesler/svn/jboss.local.repository
-
-# See http://wiki.jboss.org/wiki/Wiki.jsp?page=MavenReleaseRepository
-jboss.local.maven.repository=/home/hbraun/dev/prj/repository.jboss.org/maven2
-
-# Force thirdparty HTTP get
-#force.thirdparty.get=true
-
-# Java Compiler options
-javac.debug=yes
-javac.deprecation=no
-javac.fail.onerror=yes
-javac.verbose=no

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
 	<classpathentry kind="lib" path="thirdparty/activation.jar"/>
@@ -19,5 +20,5 @@
 	<classpathentry kind="lib" path="thirdparty/jboss-dependency.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jboss-javaee.jar"/>
 	<classpathentry kind="lib" path="thirdparty/ant.jar"/>
-	<classpathentry kind="output" path="output/eclipse"/>
+	<classpathentry kind="output" path="target/eclipse"/>
 </classpath>

@@ -21,6 +21,8 @@
  */
 package org.jboss.test.wsf.spi.tools;
 
+import java.io.File;
+
 /**
  * @author Heiko.Braun@jboss.com
  * @version $Revision$
@@ -40,7 +42,13 @@ public class AntProvideTestCase extends BuildFileTest
         "org.jboss.test.wsf.spi.tools.CmdProvideTrackerFactory"
         );
 
-      configureProject("resources/smoke/tools/provide-test.xml");
+      // maven style
+      if (new File("src/test/resources/smoke/tools/provide-test.xml").exists())
+         configureProject("src/test/resources/smoke/tools/provide-test.xml");
+      
+      // ant style
+      else if (new File("resources/smoke/tools/provide-test.xml").exists())
+         configureProject("resources/smoke/tools/provide-test.xml");
    }
 
    public void testPlainInvocation()

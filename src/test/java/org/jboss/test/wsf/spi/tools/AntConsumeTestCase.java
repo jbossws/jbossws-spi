@@ -21,6 +21,8 @@
  */
 package org.jboss.test.wsf.spi.tools;
 
+import java.io.File;
+
 /**
  * Test the WSConsumeTask.
  * This test needs to be executed in 'SPI_HOME/output/tests',
@@ -44,7 +46,13 @@ public class AntConsumeTestCase extends BuildFileTest
         "org.jboss.test.wsf.spi.tools.CmdConsumeTrackerFactory"
         );
 
-      configureProject("resources/smoke/tools/consume-test.xml");
+      // maven style
+      if (new File("src/test/resources/smoke/tools/consume-test.xml").exists())
+         configureProject("src/test/resources/smoke/tools/consume-test.xml");
+      
+      // ant style
+      else if (new File("resources/smoke/tools/consume-test.xml").exists())
+         configureProject("resources/smoke/tools/consume-test.xml");
    }
       
    public void testPlainInvocation()
