@@ -63,6 +63,13 @@
     </dependency>
   </dependencies>
   
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss</groupId>
+    <artifactId>jboss-parent</artifactId>
+    <version>3</version>
+  </parent>
+  
   <!-- Plugins -->
   <build>
     <plugins>
