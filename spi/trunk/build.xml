@@ -45,12 +45,12 @@
 
     <!-- Check if ant.properties is available -->
     <available property="jbossws.spi.jar.available" file="${spi.target.dir}/jbossws-spi-${version.id}.jar"/>
-    <fail message="Cannot find jbossws-spi-${version.id}.jar. Did you run 'mvn package'?" unless="ant.properties.available"/>
+    <fail message="Cannot find jbossws-spi-${version.id}.jar. Did you run 'mvn package'?" unless="jbossws.spi.jar.available"/>
     
     <!-- jboss/jbossws-spi -->
     <property name="jboss.repository.dir" value="${jboss.local.repository}/jboss"/>
     <mkdir dir="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib"/>
-    <copy file="${spi.target.dir}/jbossws-spi-${version.id}.jar" todir="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib" overwrite="true"/>
+    <copy file="${spi.target.dir}/jbossws-spi-${version.id}.jar" tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib/jbossws-spi.jar" overwrite="true"/>
     <copy tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/component-info.xml" file="${spi.etc.dir}/component-info.xml" filtering="true" overwrite="true">
       <filterset>
         <filtersfile file="${spi.dir}/version.properties"/>
@@ -58,6 +58,14 @@
     </copy>
    </target>
   
-   <target name="main" description="Executes the default target (most)." depends="install"/>
+  <!-- ================================================================== -->
+  <!-- Miscellaneous                                                      -->
+  <!-- ================================================================== -->
+
+  <target name="clean" depends="init" description="Cleans up most generated files.">
+    <delete dir="${spi.target.dir}"/>
+  </target>
+
+   <target name="main" description="Executes the default target (install)." depends="install"/>
 
 </project>
