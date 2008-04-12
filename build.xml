@@ -21,8 +21,6 @@
    <property name="spi.etc.dir" value="${spi.dir}/src/main/etc"/>
    <property name="spi.target.dir" value="${spi.dir}/target"/>
 
-   <property name="repository.id" value="3.0-snapshot"/>      
-  
    <!-- ================================================================== -->
    <!-- Initialization                                                     -->
    <!-- ================================================================== -->
@@ -37,6 +35,7 @@
       
       <xmlproperty file="${spi.dir}/pom.xml"/>
       <property name="version.id" value="${project.version}"/>      
+      <property name="repository.id" value="${project.version}"/>      
       
       <echo message="version.id=${version.id}"/>
       <echo message="repository.id=${repository.id}"/>
