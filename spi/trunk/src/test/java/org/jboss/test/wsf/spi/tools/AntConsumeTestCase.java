@@ -21,8 +21,6 @@
  */
 package org.jboss.test.wsf.spi.tools;
 
-import java.io.File;
-
 /**
  * Test the WSConsumeTask.
  * This test needs to be executed in 'SPI_HOME/output/tests',
@@ -32,7 +30,7 @@ import java.io.File;
  * @version $Revision$
  */
 public class AntConsumeTestCase extends BuildFileTest
-{   
+{
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -41,24 +39,15 @@ public class AntConsumeTestCase extends BuildFileTest
       CmdConsumeTracker.LAST_EVENT = "";
 
       // enforce loading of the tracker implemenation
-      System.setProperty(
-        "org.jboss.wsf.spi.tools.ConsumerFactoryImpl",
-        "org.jboss.test.wsf.spi.tools.CmdConsumeTrackerFactory"
-        );
+      System.setProperty("org.jboss.wsf.spi.tools.ConsumerFactoryImpl", "org.jboss.test.wsf.spi.tools.CmdConsumeTrackerFactory");
 
-      // maven style
-      if (new File("src/test/resources/smoke/tools/consume-test.xml").exists())
-         configureProject("src/test/resources/smoke/tools/consume-test.xml");
-      
-      // ant style
-      else if (new File("resources/smoke/tools/consume-test.xml").exists())
-         configureProject("resources/smoke/tools/consume-test.xml");
+      configureProject("src/test/resources/smoke/tools/consume-test.xml");
    }
-      
+
    public void testPlainInvocation()
    {
       executeTarget("plainInvocation");
-      assertTrue("consume() not invoked", CmdConsumeTracker.LAST_EVENT.indexOf("consume")!=-1);
+      assertTrue("consume() not invoked", CmdConsumeTracker.LAST_EVENT.indexOf("consume") != -1);
    }
 
 }
