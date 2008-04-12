@@ -21,8 +21,6 @@
  */
 package org.jboss.test.wsf.spi.tools;
 
-import java.io.File;
-
 /**
  * @author Heiko.Braun@jboss.com
  * @version $Revision$
@@ -37,36 +35,27 @@ public class AntProvideTestCase extends BuildFileTest
       CmdProvideTracker.LAST_EVENT = "";
 
       // enforce loading of the tracker implemenation
-      System.setProperty(
-        "org.jboss.wsf.spi.tools.ProviderFactoryImpl",
-        "org.jboss.test.wsf.spi.tools.CmdProvideTrackerFactory"
-        );
+      System.setProperty("org.jboss.wsf.spi.tools.ProviderFactoryImpl", "org.jboss.test.wsf.spi.tools.CmdProvideTrackerFactory");
 
-      // maven style
-      if (new File("src/test/resources/smoke/tools/provide-test.xml").exists())
-         configureProject("src/test/resources/smoke/tools/provide-test.xml");
-      
-      // ant style
-      else if (new File("resources/smoke/tools/provide-test.xml").exists())
-         configureProject("resources/smoke/tools/provide-test.xml");
+      configureProject("src/test/resources/smoke/tools/provide-test.xml");
    }
 
    public void testPlainInvocation()
    {
       executeTarget("plainInvocation");
-      assertTrue("provide() not invoked", CmdProvideTracker.LAST_EVENT.indexOf("provide")!=-1);
+      assertTrue("provide() not invoked", CmdProvideTracker.LAST_EVENT.indexOf("provide") != -1);
    }
 
    public void testIncludeWSDL()
    {
       executeTarget("includeWSDL");
-      assertTrue("setGenerateWsdl() not invoked", CmdProvideTracker.LAST_EVENT.indexOf("setGenerateWsdl")!=-1);
+      assertTrue("setGenerateWsdl() not invoked", CmdProvideTracker.LAST_EVENT.indexOf("setGenerateWsdl") != -1);
    }
 
    public void testExtraClasspath()
    {
       executeTarget("extraClasspath");
-      
+
    }
 
 }
