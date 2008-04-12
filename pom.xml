@@ -91,14 +91,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
-          <!--archive>
+          <archive>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
-          </archive-->
-          <excludes>
-            <exclude>**/component-info.xml</exclude>
-          </excludes>
+          </archive>
         </configuration>
       </plugin>
     </plugins>
