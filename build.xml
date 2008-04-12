@@ -61,11 +61,7 @@
     <mkdir dir="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib"/>
     <copy file="${spi.target.dir}/jbossws-spi-${version.id}.jar" tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib/jbossws-spi.jar" overwrite="true"/>
     <copy file="${spi.target.dir}/jbossws-spi-${version.id}-sources.jar" tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/lib/jbossws-spi-src.jar" overwrite="true"/>
-    <copy tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/component-info.xml" file="${spi.etc.dir}/component-info.xml" filtering="true" overwrite="true">
-      <filterset>
-        <filtersfile file="${spi.dir}/version.properties"/>
-      </filterset>
-    </copy>
+    <copy file="${spi.target.dir}/etc/component-info.xml" tofile="${jboss.repository.dir}/jbossws-spi/${repository.id}/component-info.xml" overwrite="true"/>
    </target>
   
   <!-- ================================================================== -->
