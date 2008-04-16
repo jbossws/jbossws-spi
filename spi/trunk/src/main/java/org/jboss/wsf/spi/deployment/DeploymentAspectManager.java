@@ -23,15 +23,20 @@ package org.jboss.wsf.spi.deployment;
 
 // $Id$
 
+import org.jboss.wsf.spi.WSFRuntime;
+
 import java.util.List;
 
 /**
- * A general service deployment manger.
+ * Process an ordered chain of {@link org.jboss.wsf.spi.deployment.DeploymentAspect}'s
+ * on a {@link org.jboss.wsf.spi.deployment.DeploymentLifecycle}
  * 
  * @author Thomas.Diesler@jboss.com
+ * @author Heiko.Braun@jboss.com
+ *
  * @since 20-Apr-2007 
  */
-public interface DeploymentAspectManager
+public interface DeploymentAspectManager extends DeploymentLifecycle
 {
    /** Get the name for this aspect manager */
    String getName();
@@ -47,10 +52,6 @@ public interface DeploymentAspectManager
    
    /** Set the list of registered deployment aspects */
    void setDeploymentAspects(List<DeploymentAspect> aspects);
-   
-   /** Deploy a web service */
-   void deploy(Deployment dep);
-   
-   /** Undeploy a web service */
-   void undeploy(Deployment dep);
+
 }
+
