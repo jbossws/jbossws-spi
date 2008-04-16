@@ -28,17 +28,19 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.WSFRuntime;
+import org.jboss.wsf.spi.RuntimeAware;
 
 /**
  * A deployment aspect that does nothing.
  * 
  * A deployment aspects can require/provide a set of string conditions.
- * This determins the order of deployment aspects in the deployment aspect manager. 
+ * This determines the order of deployment aspects in the deployment aspect manager. 
  * 
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public abstract class DeploymentAspect
+public abstract class DeploymentAspect implements DeploymentLifecycle
 {
    // provide logging
    protected final Logger log = Logger.getLogger(getClass());
@@ -47,7 +49,7 @@ public abstract class DeploymentAspect
 
    private String provides;
    private String requires;
-
+   
    public String getProvides()
    {
       return provides;
@@ -68,20 +70,21 @@ public abstract class DeploymentAspect
       this.requires = requires;
    }
 
-   public void create(Deployment dep)
+   public void create(Deployment dep, WSFRuntime runtime)
+   {
+
+   }
+
+   public void destroy(Deployment dep, WSFRuntime runtime)
    {
    }
 
-   public void destroy(Deployment dep)
+   public void start(Deployment dep, WSFRuntime runtime)
    {
    }
 
-   public void start(Deployment dep)
-   {
-   }
-
-   public void stop(Deployment dep)
-   {
+   public void stop(Deployment dep, WSFRuntime runtime)
+   {      
    }
 
    public Set<String> getProvidesAsSet()
