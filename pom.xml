@@ -111,6 +111,24 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="version.id" value="${project.version}"/>
+                <property name="jboss.local.repository" value="${jboss.local.repository}"/>
+                <ant antfile="src/main/ant/build-install.xml" target="install"/>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   
