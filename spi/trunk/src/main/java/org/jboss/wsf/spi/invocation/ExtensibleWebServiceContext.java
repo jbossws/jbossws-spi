@@ -22,6 +22,7 @@
 package org.jboss.wsf.spi.invocation;
 
 import java.security.Principal;
+import java.util.Collection;
 
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.WebServiceContext;
@@ -29,6 +30,7 @@ import javax.xml.ws.WebServiceException;
 import javax.xml.ws.handler.MessageContext;
 
 import org.jboss.wsf.spi.deployment.AbstractExtensible;
+import org.w3c.dom.Element;
 
 /**
  * A WebServiceContext makes it possible for a web service endpoint implementation 
@@ -63,6 +65,16 @@ public abstract class ExtensibleWebServiceContext extends AbstractExtensible imp
    }
 
    public <T extends EndpointReference> T getEndpointReference(Class<T> arg0)
+   {
+      throw new WebServiceException("Not implemented");
+   }
+
+   public EndpointReference getEndpointReference(Element... arg0)
+   {
+      throw new WebServiceException("Not implemented");
+   }
+
+   public <T extends EndpointReference> T getEndpointReference(Class<T> arg0, Element... arg1)
    {
       throw new WebServiceException("Not implemented");
    }
