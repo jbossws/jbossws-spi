@@ -120,6 +120,7 @@
       <resource>
         <targetPath>../etc</targetPath>
         <directory>src/main/etc</directory>
+        <filtering>true</filtering>
       </resource>
     </resources>
     <plugins>
