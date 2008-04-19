@@ -2,7 +2,7 @@
 	
   <component id="jboss/jbossws-spi" 
     description="JBossWS SPI" 
-    version="@repository.id@" 
+    version="${version}" 
     licenseType="lgpl">
     
     <artifact id="jbossws-spi.jar"/>
