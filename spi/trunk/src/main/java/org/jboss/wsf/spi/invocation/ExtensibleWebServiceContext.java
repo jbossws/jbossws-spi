@@ -22,7 +22,6 @@
 package org.jboss.wsf.spi.invocation;
 
 import java.security.Principal;
-import java.util.Collection;
 
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.WebServiceContext;
