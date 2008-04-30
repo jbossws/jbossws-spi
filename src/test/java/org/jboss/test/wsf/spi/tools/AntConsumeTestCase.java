@@ -30,7 +30,7 @@ package org.jboss.test.wsf.spi.tools;
  * @version $Revision$
  */
 public class AntConsumeTestCase extends BuildFileTest
-{
+{   
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -39,15 +39,18 @@ public class AntConsumeTestCase extends BuildFileTest
       CmdConsumeTracker.LAST_EVENT = "";
 
       // enforce loading of the tracker implemenation
-      System.setProperty("org.jboss.wsf.spi.tools.ConsumerFactoryImpl", "org.jboss.test.wsf.spi.tools.CmdConsumeTrackerFactory");
+      System.setProperty(
+        "org.jboss.wsf.spi.tools.ConsumerFactoryImpl",
+        "org.jboss.test.wsf.spi.tools.CmdConsumeTrackerFactory"
+        );
 
-      configureProject("src/test/resources/smoke/tools/consume-test.xml");
+      configureProject("resources/smoke/tools/consume-test.xml");
    }
-
+      
    public void testPlainInvocation()
    {
       executeTarget("plainInvocation");
-      assertTrue("consume() not invoked", CmdConsumeTracker.LAST_EVENT.indexOf("consume") != -1);
+      assertTrue("consume() not invoked", CmdConsumeTracker.LAST_EVENT.indexOf("consume")!=-1);
    }
 
 }
