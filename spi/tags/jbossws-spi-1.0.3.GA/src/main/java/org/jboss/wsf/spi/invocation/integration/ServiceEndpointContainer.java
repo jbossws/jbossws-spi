@@ -31,7 +31,13 @@ import java.lang.reflect.Method;
 public interface ServiceEndpointContainer
 {
    /**
-    * The actualk web service implementation hosted by this container.
+    * Identifies a service endpoint container
+    * @return
+    */
+   String getContainerName();
+
+   /**
+    * The actual web service implementation hosted by this container.
     * @return
     */
    Class getServiceImplementationClass();
