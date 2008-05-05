@@ -29,13 +29,21 @@ package org.jboss.wsf.spi.deployment.integration;
 public interface WebServiceDeclaration
 {
    /**
-    * Web service endpoint impl. name
+    * A distinct identifier across deployments.<br>
+    * In case of EJB3 this would be the <code>ObjectName</code> under which get's registered with the MC.
+    * @return
+    */
+   String getContainerName();
+
+   /**
+    * An identifier within a deployment.
+    * In case of EJB3 this would be the <code>ejb-name</code>.
     * @return a name, that can be used to susequently address the service impl.
     */
    String getComponentName();
 
    /**
-    * Web sevice endpoint impl. class
+    * Web service endpoint implementation class
     * @return
     */
    String getComponentClassName();
@@ -44,7 +52,7 @@ public interface WebServiceDeclaration
     * Get a unified meta data view represented by an annotation.
     *
     * @param t
-    * @return
+    * @return 
     */
    <T extends java.lang.annotation.Annotation> T getAnnotation(Class<T> t);   
 }
