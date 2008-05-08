@@ -93,6 +93,7 @@ public class WSConsumeTask extends Task
    private boolean verbose;
    private boolean fork;
    private boolean debug;
+   private boolean nocompile;
    private String target;
 
    // Not actually used right now
@@ -156,6 +157,11 @@ public class WSConsumeTask extends Task
       this.verbose = verbose;
    }
 
+   public void setNoCompile(boolean nocompile)
+   {
+      this.nocompile = nocompile;
+   }
+
    public void setWsdl(String wsdl)
    {
       this.wsdl = wsdl;
@@ -183,35 +189,36 @@ public class WSConsumeTask extends Task
       Thread.currentThread().setContextClassLoader(antLoader);
       try
       {
-         WSContractConsumer importer = WSContractConsumer.newInstance();
-         importer.setGenerateSource(keep);
-         importer.setExtension(extension);
+         WSContractConsumer consumer = WSContractConsumer.newInstance();
+         consumer.setGenerateSource(keep);
+         consumer.setExtension(extension);
+         consumer.setNoCompile(nocompile);
          if (destdir != null)
-            importer.setOutputDirectory(destdir);
+            consumer.setOutputDirectory(destdir);
          if (sourcedestdir != null)
-            importer.setSourceDirectory(sourcedestdir);
+            consumer.setSourceDirectory(sourcedestdir);
          if (targetPackage != null)
-            importer.setTargetPackage(targetPackage);
+            consumer.setTargetPackage(targetPackage);
          if (wsdlLocation != null)
-            importer.setWsdlLocation(wsdlLocation);
+            consumer.setWsdlLocation(wsdlLocation);
          if (catalog != null)
-            importer.setCatalog(catalog);
+            consumer.setCatalog(catalog);
          if (bindingFiles != null && bindingFiles.size() > 0)
-            importer.setBindingFiles(bindingFiles);
+            consumer.setBindingFiles(bindingFiles);
          if (target != null)
-            importer.setTarget(target);
+            consumer.setTarget(target);
 
          log("Consuming wsdl: " + wsdl, Project.MSG_INFO);
 
          if (verbose)
          {
-            importer.setMessageStream(new PrintStream(new LogOutputStream(this, Project.MSG_INFO)));
+            consumer.setMessageStream(new PrintStream(new LogOutputStream(this, Project.MSG_INFO)));
          }
 
          try
          {
-            importer.setAdditionalCompilerClassPath(getTaskClassPathStrings());
-            importer.consume(wsdl);
+            consumer.setAdditionalCompilerClassPath(getTaskClassPathStrings());
+            consumer.consume(wsdl);
          }
          catch (MalformedURLException e)
          {
