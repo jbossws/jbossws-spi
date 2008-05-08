@@ -107,4 +107,10 @@ public class CmdConsumeTracker extends WSContractConsumer
    {
       LAST_EVENT += "setExtension";
    }
+
+   @Override
+   public void setNoCompile(boolean nocompile)
+   {
+      LAST_EVENT += "setNoCompile";
+   }
 }

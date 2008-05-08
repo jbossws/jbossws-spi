@@ -24,10 +24,13 @@ package org.jboss.wsf.spi.invocation;
 // $Id$
 
 import org.jboss.wsf.spi.invocation.ExtensibleWebServiceContext;
+import org.w3c.dom.Element;
 
 import java.security.Principal;
+import java.util.Collection;
 
 import javax.ejb.EJBContext;
+import javax.xml.ws.EndpointReference;
 import javax.xml.ws.handler.MessageContext;
 
 /**

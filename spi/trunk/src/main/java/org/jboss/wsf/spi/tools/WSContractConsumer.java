@@ -123,6 +123,13 @@ public abstract class WSContractConsumer
    public abstract void setGenerateSource(boolean generateSource);
 
    /**
+    * Enables/Disables Java source compilation.
+    *
+    * @param nocompile whether or not to compile Java source.
+    */
+   public abstract void setNoCompile(boolean nocompile);
+   
+   /**
     * Sets the target package for generated source. If not specified the default
     * is based off of the XML namespace.
     *

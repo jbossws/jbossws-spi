@@ -192,35 +192,35 @@ public class WSConsume
 
    private int importServices(URL wsdl)
    {
-      WSContractConsumer importer = WSContractConsumer.newInstance();
+      WSContractConsumer consumer = WSContractConsumer.newInstance();
 
-      importer.setGenerateSource(generateSource);
-      importer.setOutputDirectory(outputDir);
-      importer.setExtension(extension);
+      consumer.setGenerateSource(generateSource);
+      consumer.setOutputDirectory(outputDir);
+      consumer.setExtension(extension);
       if (sourceDir != null)
-         importer.setSourceDirectory(sourceDir);
+         consumer.setSourceDirectory(sourceDir);
 
       if (! quiet)
-         importer.setMessageStream(System.out);
+         consumer.setMessageStream(System.out);
 
       if (catalog != null)
-         importer.setCatalog(catalog);
+         consumer.setCatalog(catalog);
 
       if (targetPackage != null)
-         importer.setTargetPackage(targetPackage);
+         consumer.setTargetPackage(targetPackage);
 
       if (wsdlLocation != null)
-         importer.setWsdlLocation(wsdlLocation);
+         consumer.setWsdlLocation(wsdlLocation);
 
       if (bindingFiles != null && bindingFiles.size() > 0)
-         importer.setBindingFiles(bindingFiles);
+         consumer.setBindingFiles(bindingFiles);
 
       if(target!=null)
-         importer.setTarget(target);
+         consumer.setTarget(target);
 
       try
       {
-         importer.consume(wsdl);
+         consumer.consume(wsdl);
          return 0;
       }
       catch (Throwable t)
