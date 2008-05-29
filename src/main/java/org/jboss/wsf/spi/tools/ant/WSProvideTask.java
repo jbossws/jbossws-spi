@@ -220,6 +220,10 @@ public class WSProvideTask extends Task
          
          gen.provide(sei);
       }
+      catch(Throwable t)
+      {
+         throw new BuildException(t, getLocation());  
+      }
       finally
       {
          Thread.currentThread().setContextClassLoader(prevCL);
@@ -292,6 +296,7 @@ public class WSProvideTask extends Task
       ExecuteJava execute = new ExecuteJava();
       execute.setClasspath(path);
       execute.setJavaCommand(command.getJavaCommand());
+      
       if (execute.fork(this) != 0)
          throw new BuildException("Could not invoke WSProvideTask", getLocation());
    }
