@@ -220,7 +220,7 @@ public class WSConsumeTask extends Task
             consumer.setAdditionalCompilerClassPath(getTaskClassPathStrings());
             consumer.consume(wsdl);
          }
-         catch (MalformedURLException e)
+         catch (Throwable e)
          {
             throw new BuildException(e, getLocation());
          }
