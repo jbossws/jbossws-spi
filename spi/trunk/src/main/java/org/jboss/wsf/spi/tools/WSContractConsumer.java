@@ -45,11 +45,11 @@ public abstract class WSContractConsumer
    public static final String PROVIDER_PROPERTY = "org.jboss.wsf.spi.tools.ConsumerFactoryImpl";
 
    /**
-    * Obtain a new instance of a WSContractProvider. This will use the current
-    * thread's context class loader to locate the WSContractProviderFactory
+    * Obtain a new instance of a WSContractConsumer. This will use the current
+    * thread's context class loader to locate the WSContractConsumerFactory
     * implementation.
     *
-    * @return a new WSContractProvider
+    * @return a new WSContractConsumer
     */
    public static WSContractConsumer newInstance()
    {
