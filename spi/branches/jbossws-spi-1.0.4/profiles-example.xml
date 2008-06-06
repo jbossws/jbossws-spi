@@ -12,7 +12,7 @@
       </activation>
       <properties>
         <!-- The location of the legacy jboss repository -->
-        <jboss.local.repository>/home/tdiesler/svn/jboss.local.repository</jboss.local.repository>
+        <jboss.local.repository>/home/tdiesler/svn/repository.jboss.org</jboss.local.repository>
       </properties>
     </profile>
   </profiles>
