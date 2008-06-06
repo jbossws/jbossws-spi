@@ -7,13 +7,13 @@
   <artifactId>jbossws-spi</artifactId>
   <packaging>jar</packaging>
   
-  <version>1.0.4-SNAPSHOT</version>
+  <version>1.0.5-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.0.GA</version>
+    <version>1.0.1.GA</version>
   </parent>
   
   <!-- Source Control Management -->
