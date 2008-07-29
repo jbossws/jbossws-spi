@@ -23,6 +23,8 @@ package org.jboss.wsf.spi.invocation;
 
 // $Id$
 
+import org.jboss.wsf.spi.invocation.ExtensibleWebServiceContext;
+
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
