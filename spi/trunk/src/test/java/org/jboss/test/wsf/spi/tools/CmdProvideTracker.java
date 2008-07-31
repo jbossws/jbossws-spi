@@ -28,7 +28,6 @@ import java.io.PrintStream;
 
 /**
  * @author Heiko.Braun@jboss.com
- * @version $Revision$
  */
 public class CmdProvideTracker extends WSContractProvider
 {

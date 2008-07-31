@@ -25,7 +25,6 @@ import org.jboss.wsf.spi.tools.cmd.WSProvide;
 
 /**
  * @author Heiko.Braun@jboss.com
- * @version $Revision$
  */
 public class CmdProvideTestCase extends CommandlineTestBase
 {

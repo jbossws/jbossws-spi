@@ -27,7 +27,6 @@ package org.jboss.test.wsf.spi.tools;
  * because it works with relative paths.
  * 
  * @author Heiko.Braun@jboss.com
- * @version $Revision$
  */
 public class AntConsumeTestCase extends BuildFileTest
 {

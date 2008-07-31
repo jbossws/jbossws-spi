@@ -23,7 +23,6 @@ package org.jboss.test.wsf.spi.tools;
 
 /**
  * @author Heiko.Braun@jboss.com
- * @version $Revision$
  */
 public class AntProvideTestCase extends BuildFileTest
 {

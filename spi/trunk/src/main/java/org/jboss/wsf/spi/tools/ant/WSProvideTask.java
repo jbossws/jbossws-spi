@@ -83,7 +83,6 @@ import java.util.ArrayList;
  * </pre>
  * 
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
- * @version $Revision$
  */
 public class WSProvideTask extends Task
 {

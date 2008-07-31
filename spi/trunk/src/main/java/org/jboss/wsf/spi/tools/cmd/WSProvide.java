@@ -54,7 +54,6 @@ import org.jboss.wsf.spi.tools.WSContractProvider;
  * </pre>
  * 
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
- * @version $Revision$
  */
 public class WSProvide
 {
