@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.http;
 
-// $Id: HttpServer.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
-
 import javax.xml.ws.Endpoint;
 
 import org.jboss.wsf.spi.deployment.Extensible;

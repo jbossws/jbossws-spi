@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-// $Id: ServiceRefMetaDataParser.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
-
 /**
  * @author Thomas.Diesler@jboss.org
  * @since 02-Aug-2007

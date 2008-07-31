@@ -23,9 +23,6 @@ package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 
-// $Id$
-
-
 /**
  * @author Thomas.Diesler@jboss.org
  * @since 06-May-2004

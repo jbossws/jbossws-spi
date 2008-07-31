@@ -21,11 +21,8 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-//$Id: Deployment.java 3992 2007-07-25 12:48:59Z thomas.diesler@jboss.com $
-
 import java.io.IOException;
 import java.net.URL;
-
 
 /**
  * A general web service deployment dep. 

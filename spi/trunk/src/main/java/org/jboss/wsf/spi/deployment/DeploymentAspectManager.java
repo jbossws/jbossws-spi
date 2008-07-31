@@ -21,10 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-// $Id$
-
-import org.jboss.wsf.spi.WSFRuntime;
-
 import java.util.List;
 
 /**
@@ -52,6 +48,5 @@ public interface DeploymentAspectManager extends DeploymentLifecycle
    
    /** Set the list of registered deployment aspects */
    void setDeploymentAspects(List<DeploymentAspect> aspects);
-
 }
 

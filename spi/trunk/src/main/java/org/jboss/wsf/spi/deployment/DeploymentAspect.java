@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-//$Id: AbstractDeployer.java 3146 2007-05-18 22:55:26Z thomas.diesler@jboss.com $
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;

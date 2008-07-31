@@ -23,9 +23,6 @@ package org.jboss.wsf.spi.serviceref;
 
 import org.jboss.wsf.spi.SPIView;
 
-//$Id$
-
-
 public interface ServiceRefHandlerFactory extends SPIView
 {
    ServiceRefHandler getServiceRefHandler();

@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee;
 
-//$Id: UnifiedBeanMetaData.java 3772 2007-07-01 19:29:13Z thomas.diesler@jboss.com $
-
 /**
  * The container independent common meta data class for the entity, message-driven and session beans. 
  *

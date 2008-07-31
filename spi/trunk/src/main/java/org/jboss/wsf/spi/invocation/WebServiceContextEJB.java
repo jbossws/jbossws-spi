@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.invocation;
 
-// $Id$
-
 import org.jboss.wsf.spi.invocation.ExtensibleWebServiceContext;
 import org.w3c.dom.Element;
 

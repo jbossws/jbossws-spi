@@ -21,10 +21,7 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-// $Id$
-
 import java.util.List;
-
 
 /**
  * A general service deployment.

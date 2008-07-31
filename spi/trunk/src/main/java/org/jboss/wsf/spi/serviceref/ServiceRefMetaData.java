@@ -21,10 +21,7 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-// $Id$
-
 import org.w3c.dom.Element;
-
 import java.io.Serializable;
 import java.util.List;
 

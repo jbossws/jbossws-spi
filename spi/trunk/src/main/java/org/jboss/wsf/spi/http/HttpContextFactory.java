@@ -23,8 +23,6 @@ package org.jboss.wsf.spi.http;
 
 import org.jboss.wsf.spi.SPIView;
 
-// $Id: HttpContext.java 1757 2006-12-22 15:40:24Z thomas.diesler@jboss.com $
-
 /**
  * A factory for an abstract HTTP Context
  *

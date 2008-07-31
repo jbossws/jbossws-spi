@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-// $Id$
-
 import java.io.Serializable;
 
 /**

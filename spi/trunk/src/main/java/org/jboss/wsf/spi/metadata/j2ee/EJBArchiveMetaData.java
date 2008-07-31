@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee;
 
-//$Id$
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

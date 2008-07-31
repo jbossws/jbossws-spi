@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.management;
 
-//$Id: EndpointMetricsDeploymentAspect.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
-
 import java.util.Date;
 
 import org.jboss.wsf.spi.deployment.Endpoint;

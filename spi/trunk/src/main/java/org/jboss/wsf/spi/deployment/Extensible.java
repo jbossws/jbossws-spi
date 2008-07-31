@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-//$Id: Deployment.java 3999 2007-07-26 11:33:20Z thomas.diesler@jboss.com $
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;

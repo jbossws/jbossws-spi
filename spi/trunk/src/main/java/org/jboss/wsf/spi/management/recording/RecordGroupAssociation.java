@@ -25,8 +25,6 @@ import java.util.Stack;
 
 import org.jboss.logging.Logger;
 
-//$Id$
-
 /**
  * Associates the record group ID with the current thread. 
  * 

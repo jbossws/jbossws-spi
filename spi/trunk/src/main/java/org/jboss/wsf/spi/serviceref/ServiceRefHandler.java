@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-// $Id$
-
 import javax.naming.Context;
 import javax.naming.NamingException;
 

@@ -21,10 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee;
 
-
-// $Id: UnifiedSessionMetaData.java 3146 2007-05-18 22:55:26Z thomas.diesler@jboss.com $
-
-
 /**
  * The container independent metadata of a stateless session bean. 
  *

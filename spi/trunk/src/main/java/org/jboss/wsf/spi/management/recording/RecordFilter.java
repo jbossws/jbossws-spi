@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.management.recording;
 
-//$Id$
-
 /**
  * A record filter
  * 
