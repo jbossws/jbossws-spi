@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.util;
 
-//$Id: KernelLocator.java 3137 2007-05-18 13:41:57Z thomas.diesler@jboss.com $
-
 import org.jboss.kernel.Kernel;
 
 /**

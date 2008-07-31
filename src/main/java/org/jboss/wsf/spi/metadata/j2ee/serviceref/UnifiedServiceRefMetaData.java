@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-// $Id$
-
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;

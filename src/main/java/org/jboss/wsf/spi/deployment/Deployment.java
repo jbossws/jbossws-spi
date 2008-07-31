@@ -21,9 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-
-// $Id$
-
 /**
  * A general web service deployment dep.
  *

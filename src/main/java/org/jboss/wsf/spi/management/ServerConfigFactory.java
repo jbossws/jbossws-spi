@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.management;
 
-//$Id: $
-
 import org.jboss.wsf.spi.SPIView;
 
 /**

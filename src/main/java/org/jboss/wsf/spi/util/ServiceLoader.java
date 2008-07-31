@@ -31,8 +31,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Properties;
 
-// $Id: ServiceLoader.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
-
 /**
  * Load a service class using this ordered lookup procedure
  *

@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-// $Id$
-
 /**
  * A general deployment exception
  * 

@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-// $Id$
-
 import java.util.List;
 
 import javax.management.ObjectName;

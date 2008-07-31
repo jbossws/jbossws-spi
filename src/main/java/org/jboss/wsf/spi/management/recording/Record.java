@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.management.recording;
 
-//$Id$
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

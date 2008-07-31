@@ -19,13 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-// $Id$
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.net.URL;
 import java.util.ArrayList;
-
-// $Id$
 
 /**
  * XML Binding root element for <code>webservices.xml</code>

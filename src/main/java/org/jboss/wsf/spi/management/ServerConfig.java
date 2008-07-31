@@ -21,12 +21,8 @@
  */
 package org.jboss.wsf.spi.management;
 
-// $Id$
-
 import java.io.File;
 import java.net.UnknownHostException;
-
-
 
 /**
  * Interface to container independent config 

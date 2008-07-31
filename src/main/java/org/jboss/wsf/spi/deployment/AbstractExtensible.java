@@ -21,14 +21,10 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-//$Id: BasicDeploymentContext.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-
 
 /**
  * A general extendible artifact 

@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-// $Id$
-
 import org.w3c.dom.Element;
 
 /**

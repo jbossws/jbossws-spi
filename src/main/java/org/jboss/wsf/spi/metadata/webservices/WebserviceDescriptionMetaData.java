@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.webservices;
 
-// $Id$
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
