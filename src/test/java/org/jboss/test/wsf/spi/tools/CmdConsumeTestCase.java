@@ -31,7 +31,6 @@ import junit.framework.TestCase;
  * Test the command line interface to WSConsume.
  *
  * @author Heiko.Braun@jboss.com
- * @version $Revision$
  */
 public class CmdConsumeTestCase extends CommandlineTestBase
 {

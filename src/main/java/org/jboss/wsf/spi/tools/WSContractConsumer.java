@@ -37,7 +37,6 @@ import org.jboss.wsf.spi.util.ServiceLoader;
  * interface.
  * 
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
- * @version $Revision$
  */
 public abstract class WSContractConsumer
 {

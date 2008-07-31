@@ -76,7 +76,6 @@ import org.jboss.wsf.spi.tools.WSContractConsumer;
  * </pre>
  *
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
- * @version $Revision$
  */
 public class WSConsumeTask extends Task
 {

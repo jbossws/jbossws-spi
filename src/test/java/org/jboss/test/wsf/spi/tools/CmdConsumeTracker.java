@@ -30,7 +30,6 @@ import java.net.URL;
 
 /**
  * @author Heiko.Braun@jboss.com
- * @version $Revision$
  */
 public class CmdConsumeTracker extends WSContractConsumer
 {

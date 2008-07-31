@@ -34,7 +34,6 @@ import org.jboss.logging.Logger;
  * XML Binding element for <code>webservices/webservice-description</code>
  *
  * @author Thomas.Diesler@jboss.org
- * @version $Revision$
  * @since 15-April-2004
  */
 public class WebserviceDescriptionMetaData
