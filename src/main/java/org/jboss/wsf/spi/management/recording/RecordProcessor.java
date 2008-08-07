@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.management.recording;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ import java.util.List;
  * @author alessio.soldano@jboss.com
  * @since 8-Dec-2007
  */
-public interface RecordProcessor extends Cloneable
+public interface RecordProcessor extends Cloneable, Serializable
 {
    String getName();
 

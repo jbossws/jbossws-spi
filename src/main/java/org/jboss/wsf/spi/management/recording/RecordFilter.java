@@ -21,13 +21,15 @@
  */
 package org.jboss.wsf.spi.management.recording;
 
+import java.io.Serializable;
+
 /**
  * A record filter
  * 
  * @author alessio.soldano@jboss.com
  * @since 8-Dec-2007
  */
-public interface RecordFilter extends Cloneable
+public interface RecordFilter extends Cloneable, Serializable
 {
    /**
     * Returns true if the filter matches the given record.
