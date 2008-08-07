@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.management.recording;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ import javax.xml.namespace.QName;
  * @author alessio.soldano@jboss.com
  * @since 8-Dec-2007
  */
-public interface Record
+public interface Record extends Serializable
 {
    public enum MessageType {INBOUND, OUTBOUND};
    
