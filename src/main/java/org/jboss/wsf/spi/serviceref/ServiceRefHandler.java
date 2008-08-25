@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
+// $Id$
+
 import javax.naming.Context;
 import javax.naming.NamingException;
 
@@ -40,13 +42,10 @@ public interface ServiceRefHandler
    
    enum Type {JAXRPC, JAXWS};
 
-   @Deprecated
    ServiceRefMetaData newServiceRefMetaData();
 
-   @Deprecated
    Object newChild(ServiceRefElement ref, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs);
 
-   @Deprecated
    void setValue(ServiceRefElement ref, UnmarshallingContext navigator, String namespaceURI, String localName, String value);
    
    void bindServiceRef(Context encCtx, String encName, UnifiedVirtualFile vfsRoot, ClassLoader loader, ServiceRefMetaData sref) throws NamingException;

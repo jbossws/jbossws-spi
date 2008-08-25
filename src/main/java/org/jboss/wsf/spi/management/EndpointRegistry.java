@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.management;
 
+// $Id$
+
 import java.util.Set;
 
 import javax.management.ObjectName;

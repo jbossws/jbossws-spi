@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee;
 
+// $Id$
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;

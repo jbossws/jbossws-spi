@@ -21,18 +21,17 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+// $Id$
+
 import java.util.List;
 
 /**
- * Process an ordered chain of {@link org.jboss.wsf.spi.deployment.DeploymentAspect}'s
- * on a {@link org.jboss.wsf.spi.deployment.DeploymentLifecycle}
+ * A general service deployment manger.
  * 
  * @author Thomas.Diesler@jboss.com
- * @author Heiko.Braun@jboss.com
- *
  * @since 20-Apr-2007 
  */
-public interface DeploymentAspectManager extends DeploymentLifecycle
+public interface DeploymentAspectManager
 {
    /** Get the name for this aspect manager */
    String getName();
@@ -43,10 +42,15 @@ public interface DeploymentAspectManager extends DeploymentLifecycle
    /** Set the optional parent for this manager */
    void setParent(DeploymentAspectManager dam);
    
-   /** Get the list of registered deployment aspects */
+   /** Get the ordered list of registered deployment aspects */
    List<DeploymentAspect> getDeploymentAspects();
    
-   /** Set the list of registered deployment aspects */
+   /** Set the ordered list of registered deployment aspects */
    void setDeploymentAspects(List<DeploymentAspect> aspects);
+   
+   /** Deploy a web service */
+   void deploy(Deployment dep);
+   
+   /** Undeploy a web service */
+   void undeploy(Deployment dep);
 }
-

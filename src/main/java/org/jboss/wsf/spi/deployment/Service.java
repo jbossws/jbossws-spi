@@ -21,7 +21,10 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+// $Id$
+
 import java.util.List;
+
 
 /**
  * A general service deployment.
@@ -53,11 +56,4 @@ public interface Service extends Extensible
    
    /** Set the context root for this service */
    void setContextRoot(String contextRoot);
-   
-   /** Get the virtual hosts for this service */
-   String[] getVirtualHosts();
-   
-   /** Set the virtual hosts for this service */
-   void setVirtualHosts(String[] virtualHosts);
-   
 }

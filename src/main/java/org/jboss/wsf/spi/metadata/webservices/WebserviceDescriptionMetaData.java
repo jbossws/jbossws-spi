@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.webservices;
 
+// $Id$
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ import org.jboss.logging.Logger;
  * XML Binding element for <code>webservices/webservice-description</code>
  *
  * @author Thomas.Diesler@jboss.org
+ * @version $Revision$
  * @since 15-April-2004
  */
 public class WebserviceDescriptionMetaData

@@ -27,6 +27,7 @@ import java.security.Permission;
 
 /**
  * @author Heiko.Braun@jboss.com
+ * @version $Revision$
  */
 public abstract class CommandlineTestBase extends TestCase
 {

@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+// $Id$
+
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.HandlerType;
 import org.jboss.xb.binding.ObjectModelFactory;

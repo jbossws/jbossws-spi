@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.webservices;
 
+// $Id$
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;

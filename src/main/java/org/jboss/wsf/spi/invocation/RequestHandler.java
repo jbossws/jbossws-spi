@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.invocation;
 
+// $Id$
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+// $Id$
+
 import org.dom4j.Element;
 
 public interface SecurityHandler

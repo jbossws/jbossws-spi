@@ -23,6 +23,9 @@ package org.jboss.wsf.spi.invocation;
 
 import org.jboss.wsf.spi.deployment.Endpoint;
 
+// $Id$
+
+
 /**
  * Associates the endpoint meta data with the current thead. 
  * 

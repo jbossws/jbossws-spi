@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+// $Id$
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

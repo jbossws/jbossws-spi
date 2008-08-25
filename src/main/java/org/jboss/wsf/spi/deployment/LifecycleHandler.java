@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+
 /**
  * Handles endpoint Lifecycle events
  * 
