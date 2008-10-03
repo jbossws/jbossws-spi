@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,9 +21,11 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import org.w3c.dom.Element;
+// $Id$
+
 import java.io.Serializable;
-import java.util.List;
+
+import org.w3c.dom.Element;
 
 /**
  * An abstract service-ref meta data object.
@@ -44,13 +46,9 @@ public abstract class ServiceRefMetaData extends ServiceRefElement implements Se
    public abstract boolean isProcessed();
 
    public abstract void setProcessed(boolean flag);
-   
-   public abstract List<String[]> getInjectionTargets();
 
-   @Deprecated
    public abstract void importStandardXml(Element element);
 
-   @Deprecated
    public abstract void importJBossXml(Element element);
 
    public abstract void merge(ServiceRefMetaData targetRef);

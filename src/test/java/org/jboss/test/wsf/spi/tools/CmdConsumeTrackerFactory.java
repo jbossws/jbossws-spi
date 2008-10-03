@@ -26,6 +26,7 @@ import org.jboss.wsf.spi.tools.WSContractConsumer;
 
 /**
  * @author Heiko.Braun@jboss.com
+ * @version $Revision$
  */
 public class CmdConsumeTrackerFactory implements WSContractConsumerFactory
 {
