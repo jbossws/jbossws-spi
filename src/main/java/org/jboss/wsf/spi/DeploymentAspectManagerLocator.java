@@ -30,9 +30,9 @@ import org.jboss.wsf.spi.deployment.DeploymentAspectManager;
 public interface DeploymentAspectManagerLocator
 {
    /**
-    * Locate a web service runtime by logical name
-    * @param runtimeName
-    * @return
+    * Locate a deployment aspect manager by logical name
+    * @param managerName deployment aspect manager name as specified in config file
+    * @return deployment aspect manager instance
     */
    DeploymentAspectManager locateDeploymentAspectManager(String managerName);
 }
