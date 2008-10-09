@@ -42,6 +42,8 @@ public interface ServerConfig
 
    String getImplementationVersion();
    
+   File getHomeDir();
+   
    File getServerTempDir();
 
    File getServerDataDir();
