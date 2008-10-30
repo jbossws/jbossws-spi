@@ -24,6 +24,7 @@ package org.jboss.wsf.spi.deployment;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.List;
 
 /**
  * An adaptor to a VirtualFile from jboss-vfs.jar
@@ -35,6 +36,10 @@ import java.net.URL;
 public interface UnifiedVirtualFile extends Serializable
 {
    UnifiedVirtualFile findChild(String child) throws IOException;
+   
+   List<UnifiedVirtualFile> getChildren() throws IOException;
+   
+   String getName();
 
    URL toURL();
 }
