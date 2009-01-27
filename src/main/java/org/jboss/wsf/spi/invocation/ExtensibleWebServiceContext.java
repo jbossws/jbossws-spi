@@ -25,7 +25,6 @@ import java.security.Principal;
 
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.WebServiceException;
 import javax.xml.ws.handler.MessageContext;
 
 import org.jboss.wsf.spi.deployment.AbstractExtensible;
@@ -38,6 +37,7 @@ import org.w3c.dom.Element;
  * class using the Resource annotation.
  * 
  * @author Thomas.Diesler@jboss.com
+ * @author alessio.soldano@jboss.com
  * @since 03-May-2006
  */
 public abstract class ExtensibleWebServiceContext extends AbstractExtensible implements WebServiceContext
@@ -58,23 +58,7 @@ public abstract class ExtensibleWebServiceContext extends AbstractExtensible imp
 
    public abstract boolean isUserInRole(String role);
 
-   public EndpointReference getEndpointReference()
-   {
-      throw new WebServiceException("Not implemented");
-   }
+   public abstract EndpointReference getEndpointReference(Element... arg0);
 
-   public <T extends EndpointReference> T getEndpointReference(Class<T> arg0)
-   {
-      throw new WebServiceException("Not implemented");
-   }
-
-   public EndpointReference getEndpointReference(Element... arg0)
-   {
-      throw new WebServiceException("Not implemented");
-   }
-
-   public <T extends EndpointReference> T getEndpointReference(Class<T> arg0, Element... arg1)
-   {
-      throw new WebServiceException("Not implemented");
-   }
+   public abstract <T extends EndpointReference> T getEndpointReference(Class<T> arg0, Element... arg1);
 }
