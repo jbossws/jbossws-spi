@@ -67,7 +67,7 @@ public class WSProvide
    private File resourceDir = null;
    private File sourceDir = null;
    
-   public static String PROGRAM_NAME = System.getProperty("program.name", WSProvide.class.getSimpleName());
+   public static final String PROGRAM_NAME = System.getProperty("program.name", WSProvide.class.getSimpleName());
 
    public static void main(String[] args)
    {

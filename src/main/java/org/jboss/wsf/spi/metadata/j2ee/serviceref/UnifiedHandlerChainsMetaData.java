@@ -36,7 +36,7 @@ public class UnifiedHandlerChainsMetaData extends ServiceRefElement
    private HandlerType handlerType;
    private List<UnifiedHandlerChainMetaData> handlerChains = new ArrayList<UnifiedHandlerChainMetaData>();
 
-   public UnifiedHandlerChainsMetaData(HandlerType endpoint)
+   public UnifiedHandlerChainsMetaData(HandlerType handlerType)
    {
       this.handlerType = handlerType;
    }
