@@ -233,9 +233,10 @@ public abstract class ServiceLoader
 
       public Object run()
       {
+         InputStream inStream = null;
          try
          {
-            InputStream inStream = new FileInputStream(filename);
+            inStream = new FileInputStream(filename);
             Properties props = new Properties();
             props.load(inStream);
             return props;
@@ -243,6 +244,14 @@ public abstract class ServiceLoader
          catch (IOException ex)
          {
             throw new SecurityException("Cannot load properties: " + filename, ex);
+         }
+         finally
+         {
+            try
+            {
+               inStream.close();
+            }
+            catch (Exception e) {} //ignore
          }
       }
    }

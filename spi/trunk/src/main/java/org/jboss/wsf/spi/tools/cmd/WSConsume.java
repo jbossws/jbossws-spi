@@ -71,7 +71,7 @@ public class WSConsume
    private File sourceDir = null;
    private String target = null;
 
-   public static String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
+   public static final String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
 
    public static void main(String[] args)
    {
