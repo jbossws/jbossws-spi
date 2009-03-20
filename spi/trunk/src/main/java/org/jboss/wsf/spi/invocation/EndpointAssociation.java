@@ -31,7 +31,7 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  */
 public final class EndpointAssociation
 {
-   private static final ThreadLocal<Endpoint> endpoint = new ThreadLocal<Endpoint>();
+   private static final ThreadLocal<Endpoint> endpoint = new InheritableThreadLocal<Endpoint>();
 
    public static void setEndpoint(Endpoint ep)
    {
