@@ -60,7 +60,7 @@ public abstract class CommandlineTestBase extends TestCase
       }
    }
 
-   protected class InterceptedExit extends SecurityException
+   static protected class InterceptedExit extends SecurityException
    {
       private int exitCode;
 
