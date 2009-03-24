@@ -45,6 +45,8 @@ import java.util.List;
  */
 public class UnifiedServiceRefMetaData extends ServiceRefMetaData
 {
+   private static final long serialVersionUID = -926464174132493951L;
+
    // provide logging
    private static Logger log = Logger.getLogger(UnifiedServiceRefMetaData.class);
 
