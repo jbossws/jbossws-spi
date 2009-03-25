@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE })
 public @interface WebContext {
-
+   
    /** 
     * The contextRoot element specifies the context root that the web service endpoint is deployed to.
     * If it is not specified it will be derived from the deployment short name.
@@ -65,6 +65,8 @@ public @interface WebContext {
     * constraint, a user must have authenticated using the configured mechanism.
     *
     * Legal values for this element are "BASIC", or "CLIENT-CERT".
+    * 
+    * @see AuthMethod
     */
    String authMethod() default "";
 
@@ -79,6 +81,8 @@ public @interface WebContext {
     * fashion that prevents other entities from observing the contents of
     * the transmission. In most cases, the presence of the INTEGRAL or
     * CONFIDENTIAL flag will indicate that the use of SSL is required.
+    * 
+    * @see TransportGuarantee
     */
    String transportGuarantee() default "";
 
