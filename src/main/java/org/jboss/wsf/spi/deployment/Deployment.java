@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,20 +21,22 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+
+// $Id$
+
 /**
- * A general web service deployment dep.
- *
- * It has no notion of J2EE deployment packages.
- *
+ * A general web service deployment dep. 
+ * 
+ * It has no notion of J2EE deployment packages. 
+ * 
  * @author Thomas.Diesler@jboss.com
- * @since 20-Apr-2007
+ * @since 20-Apr-2007 
  */
 public interface Deployment extends Extensible
 {
    public enum DeploymentType
    {
-      JAXRPC_CLIENT, JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3,
-      @Deprecated JAXRPC_EJB3
+      JAXRPC_CLIENT, JAXRPC_JSE, JAXRPC_EJB21, JAXRPC_EJB3, JAXWS_JSE, JAXWS_EJB3
    };
    
    public enum DeploymentState

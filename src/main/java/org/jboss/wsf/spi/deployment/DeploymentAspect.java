@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+//$Id: AbstractDeployer.java 3146 2007-05-18 22:55:26Z thomas.diesler@jboss.com $
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -31,7 +33,7 @@ import org.jboss.logging.Logger;
  * A deployment aspect that does nothing.
  * 
  * A deployment aspects can require/provide a set of string conditions.
- * This determines the order of deployment aspects in the deployment aspect manager. 
+ * This determins the order of deployment aspects in the deployment aspect manager. 
  * 
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
@@ -45,7 +47,7 @@ public abstract class DeploymentAspect
 
    private String provides;
    private String requires;
-   
+
    public String getProvides()
    {
       return provides;

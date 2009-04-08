@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -51,10 +51,10 @@ import java.util.List;
  *  -q, --quiet                    Be somewhat more quiet
  *  -v, --verbose                  Show full exception stack traces
  *  -l, --load-consumer            Load the consumer and exit (debug utility)
- *  -e, --extension                Enable SOAP 1.2 binding extension
  * </pre>
  *
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
+ * @version $Revision$
  */
 public class WSConsume
 {
@@ -66,12 +66,11 @@ public class WSConsume
    private boolean quiet = false;
    private boolean verbose = false;
    private boolean loadConsumer = false;
-   private boolean extension = false;
    private File outputDir = new File("output");
    private File sourceDir = null;
    private String target = null;
 
-   public static final String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
+   public static String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
 
    public static void main(String[] args)
    {
@@ -82,7 +81,7 @@ public class WSConsume
 
    private URL parseArguments(String[] args)
    {
-      String shortOpts = "b:c:p:w:o:s:t:khqvle";
+      String shortOpts = "b:c:p:w:o:s:t:khqvl";
       LongOpt[] longOpts =
       {
          new LongOpt("binding", LongOpt.REQUIRED_ARGUMENT, null, 'b'),
@@ -96,7 +95,6 @@ public class WSConsume
          new LongOpt("help", LongOpt.NO_ARGUMENT, null, 'h'),
          new LongOpt("quiet", LongOpt.NO_ARGUMENT, null, 'q'),
          new LongOpt("verbose", LongOpt.NO_ARGUMENT, null, 'v'),
-         new LongOpt("extension", LongOpt.NO_ARGUMENT, null, 'e'),
          new LongOpt("load-consumer", LongOpt.NO_ARGUMENT, null, 'l'),
       };
 
@@ -138,9 +136,6 @@ public class WSConsume
                break;
             case 'l':
                loadConsumer = true;
-               break;
-            case 'e':
-               extension = true;
                break;
             case 'h':
                printHelp();
@@ -191,35 +186,34 @@ public class WSConsume
 
    private int importServices(URL wsdl)
    {
-      WSContractConsumer consumer = WSContractConsumer.newInstance();
+      WSContractConsumer importer = WSContractConsumer.newInstance();
 
-      consumer.setGenerateSource(generateSource);
-      consumer.setOutputDirectory(outputDir);
-      consumer.setExtension(extension);
+      importer.setGenerateSource(generateSource);
+      importer.setOutputDirectory(outputDir);
       if (sourceDir != null)
-         consumer.setSourceDirectory(sourceDir);
+         importer.setSourceDirectory(sourceDir);
 
       if (! quiet)
-         consumer.setMessageStream(System.out);
+         importer.setMessageStream(System.out);
 
       if (catalog != null)
-         consumer.setCatalog(catalog);
+         importer.setCatalog(catalog);
 
       if (targetPackage != null)
-         consumer.setTargetPackage(targetPackage);
+         importer.setTargetPackage(targetPackage);
 
       if (wsdlLocation != null)
-         consumer.setWsdlLocation(wsdlLocation);
+         importer.setWsdlLocation(wsdlLocation);
 
       if (bindingFiles != null && bindingFiles.size() > 0)
-         consumer.setBindingFiles(bindingFiles);
+         importer.setBindingFiles(bindingFiles);
 
       if(target!=null)
-         consumer.setTarget(target);
+         importer.setTarget(target);
 
       try
       {
-         consumer.consume(wsdl);
+         importer.consume(wsdl);
          return 0;
       }
       catch (Throwable t)
@@ -260,7 +254,6 @@ public class WSConsume
       out.println("    -q, --quiet                 Be somewhat more quiet");
       out.println("    -v, --verbose               Show full exception stack traces");
       out.println("    -l, --load-consumer         Load the consumer and exit (debug utility)");
-      out.println("    -e, --extension             Enable SOAP 1.2 binding extension");
       out.flush();
    }
 }
