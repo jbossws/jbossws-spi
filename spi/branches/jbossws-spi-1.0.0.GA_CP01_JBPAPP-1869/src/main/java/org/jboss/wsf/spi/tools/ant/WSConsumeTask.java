@@ -53,6 +53,7 @@ import org.jboss.wsf.spi.tools.WSContractConsumer;
  *   <tr><td>wsdlLocation</td><td>Value to use for @@WebService.wsdlLocation</td><td>generated</td></tr>
  *   <tr><td>destdir</td><td>The output directory for generated artifacts.</td><td>"output"</td></tr>
  *   <tr><td>sourcedestdir</td><td>The output directory for Java source.</td><td>value of destdir</td></tr>
+ *   <tr><td>extension</td><td>Enable SOAP 1.2 binding extension.</td><td>false</td></tr>
  *   <tr><td>target</td><td>The JAX-WS specification target</td><td>2.0 | 2.1</td></tr>
  *   <tr><td>verbose</td><td>Enables more informational output about cmd progress.</td><td>false</td><tr>
  *   <tr><td>wsdl*</td><td>The WSDL file or URL</td><td>n/a</td><tr>
@@ -88,6 +89,7 @@ public class WSConsumeTask extends Task
    private String wsdlLocation;
    private String targetPackage;
    private boolean keep;
+   private boolean extension;
    private boolean verbose;
    private boolean fork;
    private boolean debug;
@@ -127,6 +129,11 @@ public class WSConsumeTask extends Task
    public void setKeep(boolean keep)
    {
       this.keep = keep;
+   }
+
+   public void setExtension(boolean extension)
+   {
+      this.extension = extension;
    }
 
    public void setSourcedestdir(File sourcedestdir)
@@ -178,6 +185,7 @@ public class WSConsumeTask extends Task
       {
          WSContractConsumer importer = WSContractConsumer.newInstance();
          importer.setGenerateSource(keep);
+         importer.setExtension(extension);
          if (destdir != null)
             importer.setOutputDirectory(destdir);
          if (sourcedestdir != null)
@@ -261,6 +269,9 @@ public class WSConsumeTask extends Task
 
       if (keep)
          command.createArgument().setValue("-k");
+      
+      if (extension)
+         command.createArgument().setValue("-e");
 
       for (File file : bindingFiles)
       {

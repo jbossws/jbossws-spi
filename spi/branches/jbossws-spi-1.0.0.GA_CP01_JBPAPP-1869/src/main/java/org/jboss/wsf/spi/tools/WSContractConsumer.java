@@ -109,6 +109,13 @@ public abstract class WSContractConsumer
    public abstract void setSourceDirectory(File directory);
 
    /**
+    * Enables/Disables SOAP 1.2 binding extension
+    * 
+    * @param extension whether or not to enable SOAP 1.2 binding extension
+    */
+   public abstract void setExtension(boolean extension);
+
+   /**
     * Enables/Disables Java source generation.
     *
     * @param generateSource whether or not to generate Java source.
