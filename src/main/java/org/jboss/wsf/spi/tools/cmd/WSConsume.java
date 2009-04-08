@@ -51,6 +51,7 @@ import java.util.List;
  *  -q, --quiet                    Be somewhat more quiet
  *  -v, --verbose                  Show full exception stack traces
  *  -l, --load-consumer            Load the consumer and exit (debug utility)
+ *  -e, --extension                Enable SOAP 1.2 binding extension
  * </pre>
  *
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
@@ -66,6 +67,7 @@ public class WSConsume
    private boolean quiet = false;
    private boolean verbose = false;
    private boolean loadConsumer = false;
+   private boolean extension = false;
    private File outputDir = new File("output");
    private File sourceDir = null;
    private String target = null;
@@ -81,7 +83,7 @@ public class WSConsume
 
    private URL parseArguments(String[] args)
    {
-      String shortOpts = "b:c:p:w:o:s:t:khqvl";
+      String shortOpts = "b:c:p:w:o:s:t:khqvle";
       LongOpt[] longOpts =
       {
          new LongOpt("binding", LongOpt.REQUIRED_ARGUMENT, null, 'b'),
@@ -95,6 +97,7 @@ public class WSConsume
          new LongOpt("help", LongOpt.NO_ARGUMENT, null, 'h'),
          new LongOpt("quiet", LongOpt.NO_ARGUMENT, null, 'q'),
          new LongOpt("verbose", LongOpt.NO_ARGUMENT, null, 'v'),
+         new LongOpt("extension", LongOpt.NO_ARGUMENT, null, 'e'),
          new LongOpt("load-consumer", LongOpt.NO_ARGUMENT, null, 'l'),
       };
 
@@ -136,6 +139,9 @@ public class WSConsume
                break;
             case 'l':
                loadConsumer = true;
+               break;
+            case 'e':
+               extension = true;
                break;
             case 'h':
                printHelp();
@@ -190,6 +196,7 @@ public class WSConsume
 
       importer.setGenerateSource(generateSource);
       importer.setOutputDirectory(outputDir);
+      importer.setExtension(extension);
       if (sourceDir != null)
          importer.setSourceDirectory(sourceDir);
 
@@ -254,6 +261,7 @@ public class WSConsume
       out.println("    -q, --quiet                 Be somewhat more quiet");
       out.println("    -v, --verbose               Show full exception stack traces");
       out.println("    -l, --load-consumer         Load the consumer and exit (debug utility)");
+      out.println("    -e, --extension             Enable SOAP 1.2 binding extension");
       out.flush();
    }
 }
