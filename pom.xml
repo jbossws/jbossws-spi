@@ -6,7 +6,7 @@
   <artifactId>jbossws-spi</artifactId>
   <packaging>jar</packaging>
   
-  <version>1.1.1.GA</version>
+  <version>1.1.2-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
@@ -17,9 +17,9 @@
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-1.1.1.GA</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-1.1.1.GA</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/spi/tags/jbossws-spi-1.1.1.GA</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/spi/trunk</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/spi/trunk</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/spi/trunk</url>
   </scm>
   
   <!-- Properties -->
