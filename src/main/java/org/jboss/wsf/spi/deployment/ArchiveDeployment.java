@@ -23,6 +23,7 @@ package org.jboss.wsf.spi.deployment;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * A general web service deployment dep. 
@@ -51,4 +52,10 @@ public interface ArchiveDeployment extends Deployment
    
    /** Get the URL for a given resource path */
    URL getMetaDataFileURL(String resourcePath) throws IOException;
+   
+   /** Get additional metadata files attached to the deployment **/
+   List<UnifiedVirtualFile> getMetadataFiles();
+   
+   /** Set additional metadata files for this deployment **/
+   void setMetadataFiles(List<UnifiedVirtualFile> metadataFiles);
 }
