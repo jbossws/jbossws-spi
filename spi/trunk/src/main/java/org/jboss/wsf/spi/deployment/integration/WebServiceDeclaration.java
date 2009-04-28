@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.deployment.integration;
 
+import javax.naming.Context;
+
 /**
  * A minimum web service meta data representation that offers a generic
  * way to access more fine grained meta data through {@link #getAnnotation(Class)}
@@ -47,6 +49,12 @@ public interface WebServiceDeclaration
     * @return
     */
    String getComponentClassName();
+   
+   /**
+    * Returns JNDI context associated with EJB container.
+    * @return
+    */
+   Context getContext();
 
    /**
     * Get a unified meta data view represented by an annotation.

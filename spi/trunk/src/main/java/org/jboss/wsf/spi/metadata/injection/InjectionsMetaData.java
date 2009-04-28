@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import javax.naming.Context;
+
 /**
  * Injections metadata container.
  *
@@ -42,20 +44,55 @@ public final class InjectionsMetaData
     * Injections metadata.
     */
    private final Collection<InjectionMetaData> injections;
+   
+   /**
+    * JNDI context.
+    */
+   private final Context ctx;
+   
+   /**
+    * Environment context root.
+    */
+   private final String envCtx;
 
    /**
     * Constructor.
     * 
     * @param injections injection definitions list
+    * @param ctx JNDI context
     */
-   public InjectionsMetaData(Collection<InjectionMetaData> injections)
+   public InjectionsMetaData(Collection<InjectionMetaData> injections, Context ctx, String envCtx)
    {
       super();
       
       if (injections == null)
          throw new IllegalArgumentException("injections metadata list cannot be null");
+      if (ctx == null)
+         throw new IllegalArgumentException("JNDI context cannot be null");
+      if (envCtx == null)
+         throw new IllegalArgumentException("Environment JNDI context name cannot be null");
       
       this.injections = injections;
+      this.ctx = ctx;
+      this.envCtx = envCtx;
+   }
+   
+   /**
+    * Returns associated JNDI context.
+    * @return associated JNDI context
+    */
+   public Context getContext()
+   {
+      return this.ctx;
+   }
+   
+   /**
+    * Returns JNDI context root.
+    * @return JNDI context root
+    */
+   public String getContextRoot()
+   {
+      return this.envCtx;
    }
    
    /**
