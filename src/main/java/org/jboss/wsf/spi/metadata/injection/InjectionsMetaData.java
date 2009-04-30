@@ -51,30 +51,20 @@ public final class InjectionsMetaData
    private final Context ctx;
    
    /**
-    * Environment context root.
-    */
-   private final String envCtx;
-
-   /**
     * Constructor.
     * 
     * @param injections injection definitions list
     * @param ctx JNDI context
     */
-   public InjectionsMetaData(Collection<InjectionMetaData> injections, Context ctx, String envCtx)
+   public InjectionsMetaData(Collection<InjectionMetaData> injections, Context ctx)
    {
       super();
       
       if (injections == null)
          throw new IllegalArgumentException("injections metadata list cannot be null");
-      if (ctx == null)
-         throw new IllegalArgumentException("JNDI context cannot be null");
-      if (envCtx == null)
-         throw new IllegalArgumentException("Environment JNDI context name cannot be null");
       
       this.injections = injections;
       this.ctx = ctx;
-      this.envCtx = envCtx;
    }
    
    /**
@@ -84,15 +74,6 @@ public final class InjectionsMetaData
    public Context getContext()
    {
       return this.ctx;
-   }
-   
-   /**
-    * Returns JNDI context root.
-    * @return JNDI context root
-    */
-   public String getContextRoot()
-   {
-      return this.envCtx;
    }
    
    /**
