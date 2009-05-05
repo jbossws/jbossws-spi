@@ -132,7 +132,7 @@ public final class InjectionsMetaData
       final ReferenceResolver resolver = this.referenceResolvers.get(annotation);
       if (resolver == null)
       {
-         throw new IllegalArgumentException("No registered reference resolver for: " + annotation.getClass());
+         throw new IllegalArgumentException("No registered reference resolver for: " + annotation);
       }
       
       return resolver;
