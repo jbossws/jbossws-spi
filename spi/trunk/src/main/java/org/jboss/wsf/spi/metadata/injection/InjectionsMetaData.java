@@ -21,16 +21,18 @@
  */
 package org.jboss.wsf.spi.metadata.injection;
 
+import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Map;
 
 import javax.naming.Context;
 
 /**
  * Injections metadata container.
  *
- * @author ropalka@redhat.com
+ * @author <a href="mailto:richard.opalka@jboss.org">Richard Opalka</a>
  */
 public final class InjectionsMetaData
 {
@@ -46,6 +48,11 @@ public final class InjectionsMetaData
    private final Collection<InjectionMetaData> injections;
    
    /**
+    * Reference resolvers.
+    */
+   private final Map<Class<? extends Annotation>, ReferenceResolver> referenceResolvers;
+   
+   /**
     * JNDI context.
     */
    private final Context ctx;
@@ -56,14 +63,17 @@ public final class InjectionsMetaData
     * @param injections injection definitions list
     * @param ctx JNDI context
     */
-   public InjectionsMetaData(Collection<InjectionMetaData> injections, Context ctx)
+   public InjectionsMetaData(Collection<InjectionMetaData> injections, Map<Class<? extends Annotation>, ReferenceResolver> referenceResolvers, Context ctx)
    {
       super();
       
       if (injections == null)
          throw new IllegalArgumentException("injections metadata list cannot be null");
+      if ((referenceResolvers == null) || (referenceResolvers.size() == 0))
+         throw new IllegalArgumentException("reference resolvers list cannot be null or empty collection");
       
       this.injections = injections;
+      this.referenceResolvers = referenceResolvers;
       this.ctx = ctx;
    }
    
@@ -109,6 +119,23 @@ public final class InjectionsMetaData
       }
       
       return (retVal == null) ? EMPTY_LIST : retVal;
+   }
+   
+   /**
+    * Returns reference resolver for annotation.
+    * 
+    * @param annotation to find resolver for
+    * @return reference resolver
+    */
+   public ReferenceResolver getResolver(final Class<? extends Annotation> annotation)
+   {
+      final ReferenceResolver resolver = this.referenceResolvers.get(annotation);
+      if (resolver == null)
+      {
+         throw new IllegalArgumentException("No registered reference resolver for: " + annotation.getClass());
+      }
+      
+      return resolver;
    }
    
 }

@@ -25,7 +25,7 @@ package org.jboss.wsf.spi.metadata.injection;
  * An injection target specifies a class and a name within
  * that class into which a resource should be injected.
  * 
- * @author ropalka@redhat.com
+ * @author <a href="mailto:richard.opalka@jboss.org">Richard Opalka</a>
  */
 public final class InjectionMetaData
 {
