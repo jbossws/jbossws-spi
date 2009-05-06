@@ -33,6 +33,8 @@ import javax.naming.Context;
  * Injections metadata container.
  *
  * @author <a href="mailto:richard.opalka@jboss.org">Richard Opalka</a>
+ * @see org.jboss.wsf.spi.metadata.injection.InjectionMetaData
+ * @see org.jboss.wsf.spi.metadata.injection.ReferenceResolver
  */
 public final class InjectionsMetaData
 {

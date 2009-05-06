@@ -26,6 +26,7 @@ package org.jboss.wsf.spi.metadata.injection;
  * that class into which a resource should be injected.
  * 
  * @author <a href="mailto:richard.opalka@jboss.org">Richard Opalka</a>
+ * @see org.jboss.wsf.spi.metadata.injection.InjectionsMetaData
  */
 public final class InjectionMetaData
 {
