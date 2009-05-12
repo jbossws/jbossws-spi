@@ -27,6 +27,7 @@ import java.security.Permission;
 
 /**
  * @author Heiko.Braun@jboss.com
+ * @version $Revision$
  */
 public abstract class CommandlineTestBase extends TestCase
 {
@@ -60,7 +61,7 @@ public abstract class CommandlineTestBase extends TestCase
       }
    }
 
-   static protected class InterceptedExit extends SecurityException
+   protected class InterceptedExit extends SecurityException
    {
       private int exitCode;
 

@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -76,6 +76,7 @@ import org.jboss.wsf.spi.tools.WSContractConsumer;
  * </pre>
  *
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
+ * @version $Revision$
  */
 public class WSConsumeTask extends Task
 {
@@ -92,7 +93,6 @@ public class WSConsumeTask extends Task
    private boolean verbose;
    private boolean fork;
    private boolean debug;
-   private boolean nocompile;
    private String target;
 
    // Not actually used right now
@@ -156,11 +156,6 @@ public class WSConsumeTask extends Task
       this.verbose = verbose;
    }
 
-   public void setNoCompile(boolean nocompile)
-   {
-      this.nocompile = nocompile;
-   }
-
    public void setWsdl(String wsdl)
    {
       this.wsdl = wsdl;
@@ -188,38 +183,37 @@ public class WSConsumeTask extends Task
       Thread.currentThread().setContextClassLoader(antLoader);
       try
       {
-         WSContractConsumer consumer = WSContractConsumer.newInstance();
-         consumer.setGenerateSource(keep);
-         consumer.setExtension(extension);
-         consumer.setNoCompile(nocompile);
+         WSContractConsumer importer = WSContractConsumer.newInstance();
+         importer.setGenerateSource(keep);
+         importer.setExtension(extension);
          if (destdir != null)
-            consumer.setOutputDirectory(destdir);
+            importer.setOutputDirectory(destdir);
          if (sourcedestdir != null)
-            consumer.setSourceDirectory(sourcedestdir);
+            importer.setSourceDirectory(sourcedestdir);
          if (targetPackage != null)
-            consumer.setTargetPackage(targetPackage);
+            importer.setTargetPackage(targetPackage);
          if (wsdlLocation != null)
-            consumer.setWsdlLocation(wsdlLocation);
+            importer.setWsdlLocation(wsdlLocation);
          if (catalog != null)
-            consumer.setCatalog(catalog);
+            importer.setCatalog(catalog);
          if (bindingFiles != null && bindingFiles.size() > 0)
-            consumer.setBindingFiles(bindingFiles);
+            importer.setBindingFiles(bindingFiles);
          if (target != null)
-            consumer.setTarget(target);
+            importer.setTarget(target);
 
          log("Consuming wsdl: " + wsdl, Project.MSG_INFO);
 
          if (verbose)
          {
-            consumer.setMessageStream(new PrintStream(new LogOutputStream(this, Project.MSG_INFO)));
+            importer.setMessageStream(new PrintStream(new LogOutputStream(this, Project.MSG_INFO)));
          }
 
          try
          {
-            consumer.setAdditionalCompilerClassPath(getTaskClassPathStrings());
-            consumer.consume(wsdl);
+            importer.setAdditionalCompilerClassPath(getTaskClassPathStrings());
+            importer.consume(wsdl);
          }
-         catch (Throwable e)
+         catch (MalformedURLException e)
          {
             throw new BuildException(e, getLocation());
          }

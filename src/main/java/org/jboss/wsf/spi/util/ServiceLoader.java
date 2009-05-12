@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -30,6 +30,8 @@ import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Properties;
+
+// $Id: ServiceLoader.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
 
 /**
  * Load a service class using this ordered lookup procedure
@@ -233,10 +235,9 @@ public abstract class ServiceLoader
 
       public Object run()
       {
-         InputStream inStream = null;
          try
          {
-            inStream = new FileInputStream(filename);
+            InputStream inStream = new FileInputStream(filename);
             Properties props = new Properties();
             props.load(inStream);
             return props;
@@ -244,14 +245,6 @@ public abstract class ServiceLoader
          catch (IOException ex)
          {
             throw new SecurityException("Cannot load properties: " + filename, ex);
-         }
-         finally
-         {
-            try
-            {
-               inStream.close();
-            }
-            catch (Exception e) {} //ignore
          }
       }
    }

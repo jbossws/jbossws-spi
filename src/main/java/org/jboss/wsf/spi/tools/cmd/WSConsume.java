@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -55,6 +55,7 @@ import java.util.List;
  * </pre>
  *
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
+ * @version $Revision$
  */
 public class WSConsume
 {
@@ -71,7 +72,7 @@ public class WSConsume
    private File sourceDir = null;
    private String target = null;
 
-   public static final String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
+   public static String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
 
    public static void main(String[] args)
    {
@@ -191,35 +192,35 @@ public class WSConsume
 
    private int importServices(URL wsdl)
    {
-      WSContractConsumer consumer = WSContractConsumer.newInstance();
+      WSContractConsumer importer = WSContractConsumer.newInstance();
 
-      consumer.setGenerateSource(generateSource);
-      consumer.setOutputDirectory(outputDir);
-      consumer.setExtension(extension);
+      importer.setGenerateSource(generateSource);
+      importer.setOutputDirectory(outputDir);
+      importer.setExtension(extension);
       if (sourceDir != null)
-         consumer.setSourceDirectory(sourceDir);
+         importer.setSourceDirectory(sourceDir);
 
       if (! quiet)
-         consumer.setMessageStream(System.out);
+         importer.setMessageStream(System.out);
 
       if (catalog != null)
-         consumer.setCatalog(catalog);
+         importer.setCatalog(catalog);
 
       if (targetPackage != null)
-         consumer.setTargetPackage(targetPackage);
+         importer.setTargetPackage(targetPackage);
 
       if (wsdlLocation != null)
-         consumer.setWsdlLocation(wsdlLocation);
+         importer.setWsdlLocation(wsdlLocation);
 
       if (bindingFiles != null && bindingFiles.size() > 0)
-         consumer.setBindingFiles(bindingFiles);
+         importer.setBindingFiles(bindingFiles);
 
       if(target!=null)
-         consumer.setTarget(target);
+         importer.setTarget(target);
 
       try
       {
-         consumer.consume(wsdl);
+         importer.consume(wsdl);
          return 0;
       }
       catch (Throwable t)

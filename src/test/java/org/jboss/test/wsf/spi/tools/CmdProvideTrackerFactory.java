@@ -26,6 +26,7 @@ import org.jboss.wsf.spi.tools.WSContractProvider;
 
 /**
  * @author Heiko.Braun@jboss.com
+ * @version $Revision$
  */
 public class CmdProvideTrackerFactory implements WSContractProviderFactory
 {

@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,10 +21,11 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+// $Id: UnifiedVirtualFile.java 3137 2007-05-18 13:41:57Z thomas.diesler@jboss.com $
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.List;
 
 /**
  * An adaptor to a VirtualFile from jboss-vfs.jar
@@ -36,10 +37,6 @@ import java.util.List;
 public interface UnifiedVirtualFile extends Serializable
 {
    UnifiedVirtualFile findChild(String child) throws IOException;
-   
-   List<UnifiedVirtualFile> getChildren() throws IOException;
-   
-   String getName();
 
    URL toURL();
 }

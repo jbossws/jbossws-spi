@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,21 +21,23 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+// $Id$
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.WebServiceException;
+
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.serviceref.ServiceRefMetaData;
 import org.w3c.dom.Element;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.WebServiceException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * The metdata data from service-ref element in web.xml, ejb-jar.xml, and
@@ -45,8 +47,6 @@ import java.util.List;
  */
 public class UnifiedServiceRefMetaData extends ServiceRefMetaData
 {
-   private static final long serialVersionUID = -926464174132493951L;
-
    // provide logging
    private static Logger log = Logger.getLogger(UnifiedServiceRefMetaData.class);
 
@@ -93,9 +93,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    // A flag that should be set when this service-ref has been bound.
    private transient boolean processed;
 
-   // Maps 'injection-target-class' to 'injection-target-name'
-   private List<String[]> injectionTargets = new LinkedList<String[]>();
-
    public UnifiedServiceRefMetaData(UnifiedVirtualFile vfRoot)
    {
       this.vfsRoot = vfRoot;
@@ -113,8 +110,8 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
       configFile = sourceRef.configFile;
       wsdlOverride = sourceRef.wsdlOverride;
       handlerChain = sourceRef.handlerChain;
-      callProperties = sourceRef.callProperties;      
-      
+      callProperties = sourceRef.callProperties;
+
       if (serviceQName == null && sourceRef.serviceQName != null)
          serviceQName = sourceRef.serviceQName;
 
@@ -393,22 +390,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    public void setAnnotatedElement(Object anElement)
    {
       this.anElement = anElement;
-   }
-
-   public void registerInjectionTarget(String classname)
-   {      
-      this.injectionTargets.add( new String[]{classname, null} );
-   }
-
-   public void finalizeInjectionTarget(String propName)
-   {
-      int index = this.injectionTargets.isEmpty() ? 0 : this.injectionTargets.size() - 1;
-      this.injectionTargets.get(index)[1] =  propName;
-   }
-
-   public List<String[]> getInjectionTargets()
-   {
-      return this.injectionTargets;
    }
 
    @Override
