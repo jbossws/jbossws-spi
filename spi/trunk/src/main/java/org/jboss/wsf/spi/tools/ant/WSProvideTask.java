@@ -196,9 +196,9 @@ public class WSProvideTask extends Task
    
    public void executeNonForked()
    {
-      ClassLoader prevCL = Thread.currentThread().getContextClassLoader();
-      ClassLoader antLoader = this.getClass().getClassLoader();
-      Thread.currentThread().setContextClassLoader(antLoader);
+      ClassLoader prevCL = SecurityActions.getContextClassLoader();
+      ClassLoader antLoader = SecurityActions.getClassLoader(this.getClass());
+      SecurityActions.setContextClassLoader(antLoader);
       try
       {
          WSContractProvider gen = WSContractProvider.newInstance(
@@ -225,7 +225,7 @@ public class WSProvideTask extends Task
       }
       finally
       {
-         Thread.currentThread().setContextClassLoader(prevCL);
+         SecurityActions.setContextClassLoader(prevCL);
       }
    }
    
