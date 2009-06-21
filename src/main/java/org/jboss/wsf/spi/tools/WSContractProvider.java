@@ -67,7 +67,7 @@ public abstract class WSContractProvider
     */
    public static WSContractProvider newInstance()
    {
-      return newInstance(Thread.currentThread().getContextClassLoader());
+      return newInstance(SecurityActions.getContextClassLoader());
    }
 
    /**
@@ -79,16 +79,16 @@ public abstract class WSContractProvider
     */
    public static WSContractProvider newInstance(ClassLoader loader)
    {
-      ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+      ClassLoader oldLoader = SecurityActions.getContextClassLoader();
       try
       {
-         Thread.currentThread().setContextClassLoader(loader);
+         SecurityActions.setContextClassLoader(loader);
          WSContractProviderFactory factory = (WSContractProviderFactory) ServiceLoader.loadService(PROVIDER_PROPERTY, DEFAULT_PROVIDER);
          return factory.createProvider(loader);
       }
       finally
       {
-         Thread.currentThread().setContextClassLoader(oldLoader);
+         SecurityActions.setContextClassLoader(oldLoader);
       }
    }
 
