@@ -23,6 +23,7 @@ package org.jboss.wsf.spi.tools.ant;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -182,9 +183,9 @@ public class WSConsumeTask extends Task
 
    public void executeNonForked()
    {
-      ClassLoader prevCL = SecurityActions.getContextClassLoader();
-      ClassLoader antLoader = SecurityActions.getClassLoader(this.getClass());
-      SecurityActions.setContextClassLoader(antLoader);
+      ClassLoader prevCL = Thread.currentThread().getContextClassLoader();
+      ClassLoader antLoader = this.getClass().getClassLoader();
+      Thread.currentThread().setContextClassLoader(antLoader);
       try
       {
          WSContractConsumer consumer = WSContractConsumer.newInstance();
@@ -225,7 +226,7 @@ public class WSConsumeTask extends Task
       }
       finally
       {
-         SecurityActions.setContextClassLoader(prevCL);
+         Thread.currentThread().setContextClassLoader(prevCL);
       }
    }
 
@@ -242,7 +243,7 @@ public class WSConsumeTask extends Task
    private Path getTaskClassPath()
    {
       // Why is everything in the Ant API a big hack???
-      ClassLoader cl = SecurityActions.getClassLoader(this.getClass());
+      ClassLoader cl = this.getClass().getClassLoader();
       if (cl instanceof AntClassLoader)
       {
          return new Path(getProject(), ((AntClassLoader)cl).getClasspath());
@@ -255,7 +256,7 @@ public class WSConsumeTask extends Task
    {
       // Why is everything in the Ant API a big hack???
       List<String> strings = new ArrayList<String>();
-      ClassLoader cl = SecurityActions.getClassLoader(this.getClass());
+      ClassLoader cl = this.getClass().getClassLoader();
       if (cl instanceof AntClassLoader)
       {
          for (String string : ((AntClassLoader)cl).getClasspath().split(File.pathSeparator))

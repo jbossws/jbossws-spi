@@ -62,12 +62,12 @@ public class WSProvide
    private boolean quiet = false;
    private boolean showTraces = false;
    private boolean loadProvider = false;
-   private ClassLoader loader = SecurityActions.getContextClassLoader();
+   private ClassLoader loader = Thread.currentThread().getContextClassLoader();
    private File outputDir = new File("output");
    private File resourceDir = null;
    private File sourceDir = null;
    
-   public static final String PROGRAM_NAME = SecurityActions.getSystemProperty("program.name", WSProvide.class.getSimpleName());
+   public static final String PROGRAM_NAME = System.getProperty("program.name", WSProvide.class.getSimpleName());
 
    public static void main(String[] args)
    {
@@ -158,9 +158,9 @@ public class WSProvide
    {
       try
       {
-         SecurityActions.loadClass(loader, endpoint);
+         loader.loadClass(endpoint);
       }
-      catch (Exception e)
+      catch (ClassNotFoundException e)
       {
          System.err.println("Error: Could not load class [" + endpoint + "]. Did you specify a valid --classpath?");
          return 1;
