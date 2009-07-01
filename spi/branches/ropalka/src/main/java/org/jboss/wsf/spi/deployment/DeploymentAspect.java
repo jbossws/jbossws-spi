@@ -87,7 +87,7 @@ public abstract class DeploymentAspect
       Set<String> condset = new HashSet<String>();
       if (provides != null)
       {
-         StringTokenizer st = new StringTokenizer(provides, ", ");
+         StringTokenizer st = new StringTokenizer(provides, ", \r\n\t");
          while (st.hasMoreTokens())
             condset.add(st.nextToken());
       }
@@ -99,7 +99,7 @@ public abstract class DeploymentAspect
       Set<String> condset = new HashSet<String>();
       if (requires != null)
       {
-         StringTokenizer st = new StringTokenizer(requires, ", ");
+         StringTokenizer st = new StringTokenizer(requires, ", \r\n\t");
          while (st.hasMoreTokens())
             condset.add(st.nextToken());
       }
