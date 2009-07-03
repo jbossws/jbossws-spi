@@ -45,6 +45,18 @@ public abstract class DeploymentAspect
 
    private String provides;
    private String requires;
+   private int relativeOrder;
+   private boolean isLast;
+   
+   public void setLast(boolean isLast)
+   {
+      this.isLast = isLast;
+   }
+   
+   public boolean isLast()
+   {
+      return this.isLast;
+   }
    
    public String getProvides()
    {
@@ -65,13 +77,15 @@ public abstract class DeploymentAspect
    {
       this.requires = requires;
    }
-
-   public void create(Deployment dep)
+   
+   public void setRelativeOrder(int relativeOrder)
    {
+      this.relativeOrder = relativeOrder;
    }
-
-   public void destroy(Deployment dep)
+   
+   public int getRelativeOrder()
    {
+      return this.relativeOrder;
    }
 
    public void start(Deployment dep)

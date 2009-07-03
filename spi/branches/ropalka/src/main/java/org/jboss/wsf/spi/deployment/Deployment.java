@@ -37,7 +37,7 @@ public interface Deployment extends Extensible
    
    public enum DeploymentState
    {
-      UNDEFINED, CREATED, STARTED, STOPPED, DESTROYED
+      UNDEFINED, STARTED, STOPPED
    };
    
    /** Get the identifier for this deployment */
