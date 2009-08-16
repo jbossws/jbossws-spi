@@ -55,9 +55,9 @@ public interface Service extends Extensible
    void setContextRoot(String contextRoot);
    
    /** Get the virtual hosts for this service */
-   String[] getVirtualHosts();
+   List<String> getVirtualHosts();
    
    /** Set the virtual hosts for this service */
-   void setVirtualHosts(String[] virtualHosts);
+   void setVirtualHosts(List<String> virtualHosts);
    
 }
