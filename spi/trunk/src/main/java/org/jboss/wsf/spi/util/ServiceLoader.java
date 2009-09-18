@@ -29,7 +29,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Properties;
+import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Load a service class using this ordered lookup procedure
@@ -40,6 +44,12 @@ import java.util.Properties;
  */
 public abstract class ServiceLoader
 {
+   /**
+    * A synchronized weak hash map that keeps factory names retrieved using Service API (META-INF/services/*) for each classloader.
+    * Weak keys are used to remove entries when classloaders are garbage collected; values are service-property-name -> factory name maps.
+    */
+   private static Map<ClassLoader, Map<String, String>> serviceMap = Collections.synchronizedMap(new WeakHashMap<ClassLoader, Map<String, String>>());
+   
    /**
     * This method uses the algorithm below using the JAXWS Provider as an example.
     * 
@@ -75,61 +85,25 @@ public abstract class ServiceLoader
    {
       Object factory = null;
       String factoryName = null;
-      ClassLoader cl = SecurityActions.getContextClassLoader();
-      ResourceCachingClassLoader loader;
+      ClassLoader loader = SecurityActions.getContextClassLoader();
       
-      if (cl instanceof ResourceCachingClassLoader)
-      {
-         loader = (ResourceCachingClassLoader)cl;
-      }
-      else
-      {
-         loader = new ResourceCachingClassLoader(cl);
-         SecurityActions.setContextClassLoader(loader);
-      }
-
       // Use the Services API (as detailed in the JAR specification), if available, to determine the classname.
       String filename = "META-INF/services/" + propertyName;
-      if (loader.hasResourceNameFromServices(filename))
+      
+      try
       {
-         factoryName = loader.getResourceNameFromServices(filename);
-         try
+         factoryName = getServiceNameUsingCache(loader, filename);
+         if (factoryName != null)
          {
-            if (factoryName != null)
-            {
-               Class factoryClass = SecurityActions.loadClass(loader, factoryName);
-               factory = factoryClass.newInstance();
-            }
-         }
-         catch (Throwable t)
-         {
-            throw new IllegalStateException("Failed to load " + propertyName + ": " + factoryName, t);
+            Class factoryClass = SecurityActions.loadClass(loader, factoryName);
+            factory = factoryClass.newInstance();
          }
       }
-      else
+      catch (Throwable t)
       {
-         InputStream inStream = SecurityActions.getResourceAsStream(loader, filename);
-         if (inStream != null)
-         {
-            try
-            {
-               BufferedReader br = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
-               factoryName = br.readLine();
-               br.close();
-               loader.setResourceNameFromServices(filename, factoryName);
-               if (factoryName != null)
-               {
-                  Class factoryClass = SecurityActions.loadClass(loader, factoryName);
-                  factory = factoryClass.newInstance();
-               }
-            }
-            catch (Throwable t)
-            {
-               throw new IllegalStateException("Failed to load " + propertyName + ": " + factoryName, t);
-            }
-         }
+         throw new IllegalStateException("Failed to load " + propertyName + ": " + factoryName, t);
       }
-
+      
       // Use the default factory implementation class.
       if (factory == null && defaultFactory != null)
       {
@@ -139,6 +113,33 @@ public abstract class ServiceLoader
       return factory;
    }
 
+   private static String getServiceNameUsingCache(ClassLoader loader, String filename) throws IOException
+   {
+      Map<String, String> map = serviceMap.get(loader);
+      if (map != null && map.containsKey(filename))
+      {
+         return map.get(filename);
+      }
+      else
+      {
+         if (map == null)
+         {
+            map = new ConcurrentHashMap<String, String>();
+            serviceMap.put(loader, map);
+         }
+         InputStream inStream = SecurityActions.getResourceAsStream(loader, filename);
+         String factoryName = null;
+         if (inStream != null)
+         {
+            BufferedReader br = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
+            factoryName = br.readLine();
+            br.close();
+            map.put(filename, factoryName);
+         }
+         return factoryName;
+      }
+   }
+   
    /** Use the system property
     */
    public static Object loadFromSystemProperty(String propertyName, String defaultFactory)
