@@ -75,18 +75,26 @@ public abstract class ServiceLoader
    {
       Object factory = null;
       String factoryName = null;
-      ClassLoader loader = SecurityActions.getContextClassLoader();
+      ClassLoader cl = SecurityActions.getContextClassLoader();
+      ResourceCachingClassLoader loader;
+      
+      if (cl instanceof ResourceCachingClassLoader)
+      {
+         loader = (ResourceCachingClassLoader)cl;
+      }
+      else
+      {
+         loader = new ResourceCachingClassLoader(cl);
+         SecurityActions.setContextClassLoader(loader);
+      }
 
       // Use the Services API (as detailed in the JAR specification), if available, to determine the classname.
       String filename = "META-INF/services/" + propertyName;
-      InputStream inStream = SecurityActions.getResourceAsStream(loader, filename);
-      if (inStream != null)
+      if (loader.hasResourceNameFromServices(filename))
       {
+         factoryName = loader.getResourceNameFromServices(filename);
          try
          {
-            BufferedReader br = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
-            factoryName = br.readLine();
-            br.close();
             if (factoryName != null)
             {
                Class factoryClass = SecurityActions.loadClass(loader, factoryName);
@@ -96,6 +104,29 @@ public abstract class ServiceLoader
          catch (Throwable t)
          {
             throw new IllegalStateException("Failed to load " + propertyName + ": " + factoryName, t);
+         }
+      }
+      else
+      {
+         InputStream inStream = SecurityActions.getResourceAsStream(loader, filename);
+         if (inStream != null)
+         {
+            try
+            {
+               BufferedReader br = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
+               factoryName = br.readLine();
+               br.close();
+               loader.setResourceNameFromServices(filename, factoryName);
+               if (factoryName != null)
+               {
+                  Class factoryClass = SecurityActions.loadClass(loader, factoryName);
+                  factory = factoryClass.newInstance();
+               }
+            }
+            catch (Throwable t)
+            {
+               throw new IllegalStateException("Failed to load " + propertyName + ": " + factoryName, t);
+            }
          }
       }
 
