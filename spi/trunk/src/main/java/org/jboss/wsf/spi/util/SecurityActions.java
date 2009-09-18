@@ -60,6 +60,29 @@ class SecurityActions
    }
    
    /**
+    * Set context classloader.
+    * 
+    */
+   static void setContextClassLoader(final ClassLoader cl)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         Thread.currentThread().setContextClassLoader(cl);
+      }
+      else
+      {
+         AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            public Object run()
+            {
+               Thread.currentThread().setContextClassLoader(cl);
+               return null;
+            }
+         });
+      }
+   }
+   
+   /**
     * Get resource as stream
     * 
     * @param cl
