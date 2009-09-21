@@ -6,7 +6,7 @@
   <artifactId>jbossws-spi</artifactId>
   <packaging>jar</packaging>
   
-  <version>1.1.2.SP1</version>
+  <version>1.1.2.SP1_JBPAPP-2817</version>
   
   <!-- Parent -->
   <parent>
