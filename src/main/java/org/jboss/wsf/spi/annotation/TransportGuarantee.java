@@ -63,7 +63,7 @@ public final class TransportGuarantee
    
    /**
     * Returns string representing correct transport guarantee value.
-    * @param s string to convert.
+    * @param s string to convert, both lowercased and uppercased values are accepted
     * @return correct transport guarantee value
     * @throws IllegalArgumentException if <b>s</b> is <b>null</b> or it contains unknown value.
     */

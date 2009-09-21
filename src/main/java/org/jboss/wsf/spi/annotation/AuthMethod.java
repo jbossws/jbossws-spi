@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.annotation;
 
-import org.jboss.logging.Logger;
-
 /**
  * The authMethod is used to configure the authentication mechanism for the web service. 
  * As a prerequisite to gaining access to any web service which are protected by an 
@@ -32,7 +30,6 @@ import org.jboss.logging.Logger;
  */
 public final class AuthMethod
 {
-   private static final Logger log = Logger.getLogger(AuthMethod.class);
    
    /**
     * Basic authentication.
@@ -53,7 +50,7 @@ public final class AuthMethod
 
    /**
     * Returns string representing correct auth method value.
-    * @param s string to convert.
+    * @param s string to convert, both lowercased and uppercased values are accepted
     * @return correct auth method value
     * @throws IllegalArgumentException if <b>s</b> is <b>null</b> or it contains unknown value.
     */
@@ -73,8 +70,6 @@ public final class AuthMethod
          {
             return AuthMethod.CLIENT_CERT;
          }
-         log.warn("Non-standard auth method value: " + s);
-         return s;         
       }
       
       throw new IllegalArgumentException("Illegal auth method value: " + s);

@@ -64,8 +64,7 @@ public @interface WebContext {
     * As a prerequisite to gaining access to any web service which are protected by an authorization
     * constraint, a user must have authenticated using the configured mechanism.
     *
-    * Standard values for this element are "BASIC", or "CLIENT-CERT", custom authMethods may also
-    * be specified.
+    * Legal values for this element are "BASIC", or "CLIENT-CERT".
     * 
     * @see AuthMethod
     */
