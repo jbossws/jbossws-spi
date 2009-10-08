@@ -29,7 +29,7 @@ import org.jboss.wsf.spi.binding.BindingCustomization;
  * @author alessio.soldano@jboss.com
  * @since 05-Oct-2009
  */
-public abstract class JAXBBindingCustomization extends BindingCustomization
+public class JAXBBindingCustomization extends BindingCustomization
 {
    private static final long serialVersionUID = 5547146387872057974L;
    
