@@ -23,22 +23,14 @@ package org.jboss.wsf.spi.http;
 
 import javax.xml.ws.Endpoint;
 
-import org.jboss.wsf.spi.deployment.Extensible;
-
 /**
- * An abstract HTTP Server
+ * An abstract HTTP Server.
  *
- * @author Thomas.Diesler@jboss.org
- * @since 07-Jul-2006
+ * @author <a href="mailto:tdiesler@redhat.com">Thomas Diesler</a>
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public interface HttpServer extends Extensible
+public interface HttpServer
 {
-   /** The default bean name */
-   String BEAN_NAME = "WSHTTPServer";
-
-   /** Start an instance of this HTTP server */
-   void start();
-
    /** Create an HTTP context */
    HttpContext createContext(String string);
 

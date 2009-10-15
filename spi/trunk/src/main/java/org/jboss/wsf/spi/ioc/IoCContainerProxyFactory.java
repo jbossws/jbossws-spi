@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,45 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.management;
+package org.jboss.wsf.spi.ioc;
 
-import java.io.File;
-import java.net.UnknownHostException;
+import org.jboss.wsf.spi.SPIView;
 
 /**
- * Interface to container independent config 
+ * IoC container proxy factory.
  *
- * @author Thomas.Diesler@jboss.org
- * @since 08-May-2006
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public interface ServerConfig
+public interface IoCContainerProxyFactory extends SPIView
 {
-   /** The host name that is returned if there is no other defined */
-   String UNDEFINED_HOSTNAME = "jbossws.undefined.host";
-   
-   String getImplementationTitle();
 
-   String getImplementationVersion();
-   
-   File getHomeDir();
-   
-   File getServerTempDir();
+   /**
+    * Returns IoC container proxy.
+    * 
+    * @return IoC container proxy
+    */
+   IoCContainerProxy getContainer();
 
-   File getServerDataDir();
-
-   String getWebServiceHost();
-   
-   void setWebServiceHost(String host) throws UnknownHostException;
-   
-   int getWebServicePort();
-   
-   void setWebServicePort(int port);
-   
-   int getWebServiceSecurePort();
-
-   void setWebServiceSecurePort(int port);
-   
-   boolean isModifySOAPAddress();
-   
-   void setModifySOAPAddress(boolean flag);
 }
