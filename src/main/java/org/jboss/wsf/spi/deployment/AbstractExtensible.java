@@ -34,7 +34,8 @@ import java.util.Set;
  */
 public abstract class AbstractExtensible implements Extensible
 {
-   private Map<Class, Object> attachments = new HashMap<Class, Object>();
+
+   private Map<Class<?>, Object> attachments = new HashMap<Class<?>, Object>();
    private Map<String, Object> properties = new HashMap<String, Object>();
    
    public Collection<Object> getAttachments()
@@ -81,4 +82,5 @@ public abstract class AbstractExtensible implements Extensible
    {
       properties.putAll(props);
    }
+
 }

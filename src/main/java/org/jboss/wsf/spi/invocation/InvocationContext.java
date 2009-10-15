@@ -21,8 +21,7 @@
  */
 package org.jboss.wsf.spi.invocation;
 
-import java.util.Map;
-import java.util.HashMap;
+import org.jboss.wsf.spi.deployment.AbstractExtensible;
 
 /**
  * A basic invocation context.
@@ -30,10 +29,10 @@ import java.util.HashMap;
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007
  */
-public class InvocationContext 
+public class InvocationContext extends AbstractExtensible
 {
+   
    private Object targetBean;
-   private Map<Class, Object> attachments = new HashMap<Class, Object>();
 
    public Object getTargetBean()
    {
@@ -45,19 +44,4 @@ public class InvocationContext
       this.targetBean = targetBean;
    }
 
-
-   public <T> T addAttachment(Class<T> key, Object value)
-   {
-      return (T)attachments.put(key, value);
-   }
-
-   public <T> T getAttachment(Class<T> key)
-   {
-      return (T)attachments.get(key);
-   }
-
-   public <T> T removeAttachment(Class<T> key)
-   {
-      return (T)attachments.get(key);
-   }
 }
