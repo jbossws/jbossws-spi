@@ -91,13 +91,6 @@
 
   <!-- Plugins -->
   <build>
-    <resources>
-      <resource>
-        <targetPath>../etc</targetPath>
-        <directory>src/main/etc</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
