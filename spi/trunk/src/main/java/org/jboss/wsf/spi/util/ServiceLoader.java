@@ -33,21 +33,22 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Load a service class using this ordered lookup procedure
  *
  * @author Thomas.Diesler@jboss.com
  * @author alessio.soldano@jboss.com
- * @author ropalka@redhat.com
  * @since 14-Dec-2006
  */
 public abstract class ServiceLoader
 {
    /**
-    * A synchronized weak hash map that keeps factory objects.
+    * A synchronized weak hash map that keeps factory names retrieved using Service API (META-INF/services/*) for each classloader.
+    * Weak keys are used to remove entries when classloaders are garbage collected; values are service-property-name -> factory name maps.
     */
-   private static Map<String, Object> serviceMap = Collections.synchronizedMap(new WeakHashMap<String, Object>());
+   private static Map<ClassLoader, Map<String, String>> serviceMap = Collections.synchronizedMap(new WeakHashMap<ClassLoader, Map<String, String>>());
    
    /**
     * This method uses the algorithm below using the JAXWS Provider as an example.
@@ -66,20 +67,14 @@ public abstract class ServiceLoader
     */
    public static Object loadService(String propertyName, String defaultFactory)
    {
-      Object factory = serviceMap.get(propertyName);
+      Object factory = loadFromServices(propertyName, null);
       if (factory == null)
       {
-         factory = loadFromServices(propertyName, null);
-         if (factory == null)
-         {
-            factory = loadFromPropertiesFile(propertyName, null);
-         }
-         if (factory == null)
-         {
-            factory = loadFromSystemProperty(propertyName, defaultFactory);
-         }
-         if (factory != null)
-            serviceMap.put(propertyName, factory);
+         factory = loadFromPropertiesFile(propertyName, null);
+      }
+      if (factory == null)
+      {
+         factory = loadFromSystemProperty(propertyName, defaultFactory);
       }
       return factory;
    }
@@ -120,15 +115,29 @@ public abstract class ServiceLoader
 
    private static String getServiceNameUsingCache(ClassLoader loader, String filename) throws IOException
    {
-      InputStream inStream = SecurityActions.getResourceAsStream(loader, filename);
-      String factoryName = null;
-      if (inStream != null)
+      Map<String, String> map = serviceMap.get(loader);
+      if (map != null && map.containsKey(filename))
       {
-         BufferedReader br = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
-         factoryName = br.readLine();
-         br.close();
+         return map.get(filename);
       }
-      return factoryName;
+      else
+      {
+         if (map == null)
+         {
+            map = new ConcurrentHashMap<String, String>();
+            serviceMap.put(loader, map);
+         }
+         InputStream inStream = SecurityActions.getResourceAsStream(loader, filename);
+         String factoryName = null;
+         if (inStream != null)
+         {
+            BufferedReader br = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
+            factoryName = br.readLine();
+            br.close();
+            map.put(filename, factoryName);
+         }
+         return factoryName;
+      }
    }
    
    /** Use the system property
