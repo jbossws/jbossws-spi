@@ -127,12 +127,15 @@ public class JSEArchiveMetaData
 
    public String getWsdlPublishLocationByName(String name)
    {
-      if (this.publishLocationAdapter != null)
-      {
-         return this.publishLocationAdapter.getWsdlPublishLocationByName(name);
-      }
-      
-      return null;
+      String publishLocation = null;
+      if (publishLocationAdapter != null)
+         publishLocation = publishLocationAdapter.getWsdlPublishLocationByName(name);
+      return publishLocation;
+
    }
 
+   public interface PublishLocationAdapter
+   {
+      String getWsdlPublishLocationByName(String name);
+   }
 }

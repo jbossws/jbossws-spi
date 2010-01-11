@@ -47,7 +47,7 @@ public interface Endpoint extends Extensible
 
    public enum EndpointState
    {
-      UNDEFINED, STARTED, STOPPED
+      UNDEFINED, CREATED, STARTED, STOPPED, DESTROYED
    };
 
    /** Get the service this endpoint belongs to */

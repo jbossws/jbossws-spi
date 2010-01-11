@@ -67,7 +67,7 @@ public abstract class WSContractProvider
     */
    public static WSContractProvider newInstance()
    {
-      return newInstance(SecurityActions.getContextClassLoader());
+      return newInstance(Thread.currentThread().getContextClassLoader());
    }
 
    /**
@@ -79,16 +79,16 @@ public abstract class WSContractProvider
     */
    public static WSContractProvider newInstance(ClassLoader loader)
    {
-      ClassLoader oldLoader = SecurityActions.getContextClassLoader();
+      ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
       try
       {
-         SecurityActions.setContextClassLoader(loader);
+         Thread.currentThread().setContextClassLoader(loader);
          WSContractProviderFactory factory = (WSContractProviderFactory) ServiceLoader.loadService(PROVIDER_PROPERTY, DEFAULT_PROVIDER);
          return factory.createProvider(loader);
       }
       finally
       {
-         SecurityActions.setContextClassLoader(oldLoader);
+         Thread.currentThread().setContextClassLoader(oldLoader);
       }
    }
 
@@ -98,13 +98,6 @@ public abstract class WSContractProvider
     * @param generateWsdl whether or not to generate WSDL
     */
    public abstract void setGenerateWsdl(boolean generateWsdl);
-   
-   /**
-    * Enables/Disables SOAP 1.2 binding extension
-    * 
-    * @param extension whether or not to enable SOAP 1.2 binding extension
-    */
-   public abstract void setExtension(boolean extension);
 
    /**
     * Enables/Disables Java source generation.
