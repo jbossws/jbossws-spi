@@ -51,25 +51,23 @@ import org.jboss.wsf.spi.tools.WSContractProvider;
  *  -q, --quiet                 Be somewhat more quiet
  *  -t, --show-traces           Show full exception stack traces
  *  -l, --load-provider           Load the provider and exit (debug utility)
- *  -e, --extension                Enable SOAP 1.2 binding extension
  * </pre>
  * 
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
  */
 public class WSProvide
 {
-   private ClassLoader loader = SecurityActions.getContextClassLoader();
+   private boolean generateSource = false;
+   private boolean generateWsdl = false;
+   private boolean quiet = false;
+   private boolean showTraces = false;
+   private boolean loadProvider = false;
+   private ClassLoader loader = Thread.currentThread().getContextClassLoader();
    private File outputDir = new File("output");
-   private boolean generateSource;
-   private boolean generateWsdl;
-   private boolean extension;
-   private boolean quiet;
-   private boolean showTraces;
-   private boolean loadProvider;
-   private File resourceDir;
-   private File sourceDir;
+   private File resourceDir = null;
+   private File sourceDir = null;
    
-   public static final String PROGRAM_NAME = SecurityActions.getSystemProperty("program.name", WSProvide.class.getSimpleName());
+   public static final String PROGRAM_NAME = System.getProperty("program.name", WSProvide.class.getSimpleName());
 
    public static void main(String[] args)
    {
@@ -80,7 +78,7 @@ public class WSProvide
    
    private String parseArguments(String[] args)
    {
-      String shortOpts = "hwko:r:s:c:qtle";
+      String shortOpts = "hwko:r:s:c:qtl";
       LongOpt[] longOpts = 
       {
          new LongOpt("help", LongOpt.NO_ARGUMENT, null, 'h'),
@@ -93,7 +91,6 @@ public class WSProvide
          new LongOpt("quiet", LongOpt.NO_ARGUMENT, null, 'q'),
          new LongOpt("show-traces", LongOpt.NO_ARGUMENT, null, 't'),
          new LongOpt("load-provider", LongOpt.NO_ARGUMENT, null, 'l'),
-         new LongOpt("extension", LongOpt.NO_ARGUMENT, null, 'e'),
       };
       
       Getopt getopt = new Getopt(PROGRAM_NAME, args, shortOpts, longOpts);
@@ -129,9 +126,6 @@ public class WSProvide
             case 'l':
                loadProvider = true;
                break;
-            case 'e':
-               extension = true;
-               break;
             case 'h':
                printHelp();
                System.exit(0);
@@ -164,9 +158,9 @@ public class WSProvide
    {
       try
       {
-         SecurityActions.loadClass(loader, endpoint);
+         loader.loadClass(endpoint);
       }
-      catch (Exception e)
+      catch (ClassNotFoundException e)
       {
          System.err.println("Error: Could not load class [" + endpoint + "]. Did you specify a valid --classpath?");
          return 1;
@@ -176,7 +170,6 @@ public class WSProvide
       gen.setGenerateWsdl(generateWsdl);
       gen.setGenerateSource(generateSource);
       gen.setOutputDirectory(outputDir);
-      gen.setExtension(extension);
       if (resourceDir != null)
          gen.setResourceDirectory(resourceDir);
       if (sourceDir != null)
@@ -241,10 +234,9 @@ public class WSProvide
       out.println("    -o, --output=<directory>    The directory to put generated artifacts");
       out.println("    -r, --resource=<directory>  The directory to put resource artifacts");
       out.println("    -s, --source=<directory>    The directory to put Java source");
-      out.println("    -e, --extension             Enable SOAP 1.2 binding extension");
       out.println("    -q, --quiet                 Be somewhat more quiet");
       out.println("    -t, --show-traces           Show full exception stack traces");
-      out.println("    -l, --load-provider         Load the provider and exit (debug utility)");
-      out.flush();
+		out.println("    -l, --load-provider         Load the provider and exit (debug utility)");
+		out.flush();
    }
 }

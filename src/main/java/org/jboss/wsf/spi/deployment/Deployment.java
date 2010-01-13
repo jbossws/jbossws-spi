@@ -27,17 +27,19 @@ package org.jboss.wsf.spi.deployment;
  * It has no notion of J2EE deployment packages.
  *
  * @author Thomas.Diesler@jboss.com
+ * @since 20-Apr-2007
  */
 public interface Deployment extends Extensible
 {
    public enum DeploymentType
    {
-      JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3,
+      JAXRPC_CLIENT, JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3,
+      @Deprecated JAXRPC_EJB3
    };
    
    public enum DeploymentState
    {
-      UNDEFINED, STARTED, STOPPED
+      UNDEFINED, CREATED, STARTED, STOPPED, DESTROYED
    };
    
    /** Get the identifier for this deployment */
@@ -70,9 +72,9 @@ public interface Deployment extends Extensible
    /** Set the current deployment state */
    void setState(DeploymentState type);
 
-   /** Get the service associated with this deployment */
+   /** Get the service assiated with this deployment */
    Service getService();
 
-   /** Set the service associated with this deployment */
+   /** Set the service assiated with this deployment */
    void setService(Service service);
 }

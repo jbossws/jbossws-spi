@@ -59,20 +59,20 @@ import java.util.List;
 public class WSConsume
 {
    private List<File> bindingFiles = new ArrayList<File>();
+   private boolean generateSource = false;
+   private File catalog = null;
+   private String targetPackage = null;
+   private String wsdlLocation = null;
+   private boolean quiet = false;
+   private boolean verbose = false;
+   private boolean noCompile = false;
+   private boolean loadConsumer = false;
+   private boolean extension = false;
    private File outputDir = new File("output");
-   private boolean generateSource;
-   private File catalog;
-   private String targetPackage;
-   private String wsdlLocation;
-   private boolean quiet;
-   private boolean verbose;
-   private boolean loadConsumer;
-   private boolean extension;
-   private boolean noCompile;
-   private File sourceDir;
-   private String target;
+   private File sourceDir = null;
+   private String target = null;
 
-   public static final String PROGRAM_NAME = SecurityActions.getSystemProperty("program.name", WSConsume.class.getName());
+   public static final String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
 
    public static void main(String[] args)
    {
@@ -83,7 +83,7 @@ public class WSConsume
 
    private URL parseArguments(String[] args)
    {
-      String shortOpts = "b:c:p:w:o:s:t:khqvlne";
+	  String shortOpts = "b:c:p:w:o:s:t:khqvlne";
       LongOpt[] longOpts =
       {
          new LongOpt("binding", LongOpt.REQUIRED_ARGUMENT, null, 'b'),
@@ -146,7 +146,7 @@ public class WSConsume
                break;
             case 'n':
                noCompile = true;
-               break;
+               break;               
             case 'h':
                printHelp();
                System.exit(0);
@@ -221,9 +221,9 @@ public class WSConsume
 
       if(target!=null)
          consumer.setTarget(target);
-      
+            
       if (noCompile)
-         consumer.setNoCompile(noCompile);
+         consumer.setNoCompile(noCompile);     
 
       try
       {

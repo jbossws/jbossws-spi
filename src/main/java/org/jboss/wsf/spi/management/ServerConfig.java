@@ -32,6 +32,9 @@ import java.net.UnknownHostException;
  */
 public interface ServerConfig
 {
+   /** The default bean name */
+   String BEAN_NAME = "WSServerConfig";
+
    /** The host name that is returned if there is no other defined */
    String UNDEFINED_HOSTNAME = "jbossws.undefined.host";
    

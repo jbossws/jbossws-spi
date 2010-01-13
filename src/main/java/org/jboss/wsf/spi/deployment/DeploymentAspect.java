@@ -45,18 +45,6 @@ public abstract class DeploymentAspect
 
    private String provides;
    private String requires;
-   private int relativeOrder;
-   private boolean isLast;
-   
-   public void setLast(boolean isLast)
-   {
-      this.isLast = isLast;
-   }
-   
-   public boolean isLast()
-   {
-      return this.isLast;
-   }
    
    public String getProvides()
    {
@@ -77,15 +65,13 @@ public abstract class DeploymentAspect
    {
       this.requires = requires;
    }
-   
-   public void setRelativeOrder(int relativeOrder)
+
+   public void create(Deployment dep)
    {
-      this.relativeOrder = relativeOrder;
    }
-   
-   public int getRelativeOrder()
+
+   public void destroy(Deployment dep)
    {
-      return this.relativeOrder;
    }
 
    public void start(Deployment dep)
@@ -101,7 +87,7 @@ public abstract class DeploymentAspect
       Set<String> condset = new HashSet<String>();
       if (provides != null)
       {
-         StringTokenizer st = new StringTokenizer(provides, ", \r\n\t");
+         StringTokenizer st = new StringTokenizer(provides, ", ");
          while (st.hasMoreTokens())
             condset.add(st.nextToken());
       }
@@ -113,7 +99,7 @@ public abstract class DeploymentAspect
       Set<String> condset = new HashSet<String>();
       if (requires != null)
       {
-         StringTokenizer st = new StringTokenizer(requires, ", \r\n\t");
+         StringTokenizer st = new StringTokenizer(requires, ", ");
          while (st.hasMoreTokens())
             condset.add(st.nextToken());
       }

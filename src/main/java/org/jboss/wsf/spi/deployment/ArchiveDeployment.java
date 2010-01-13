@@ -50,10 +50,7 @@ public interface ArchiveDeployment extends Deployment
    /** The concatenated names including all parents. */
    String getCanonicalName();
    
-   /** Get the URL for a given resource path
-    *  Deprecated, use getResourceResolver().resolve(String resourcePath).
-    */
-   @Deprecated
+   /** Get the URL for a given resource path */
    URL getMetaDataFileURL(String resourcePath) throws IOException;
    
    /** Get additional metadata files attached to the deployment **/
@@ -61,8 +58,4 @@ public interface ArchiveDeployment extends Deployment
    
    /** Set additional metadata files for this deployment **/
    void setMetadataFiles(List<UnifiedVirtualFile> metadataFiles);
-   
-   /** Get the resource resolver to be used to access resources from this archive */
-   ResourceResolver getResourceResolver();
-   
 }
