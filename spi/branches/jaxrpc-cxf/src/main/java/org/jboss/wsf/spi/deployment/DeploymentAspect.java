@@ -21,11 +21,7 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-import java.util.HashSet;
 import java.util.Set;
-import java.util.StringTokenizer;
-
-import org.jboss.logging.Logger;
 
 /**
  * A deployment aspect that does nothing.
@@ -36,87 +32,43 @@ import org.jboss.logging.Logger;
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public abstract class DeploymentAspect
+public interface DeploymentAspect
 {
-   // provide logging
-   protected final Logger log = Logger.getLogger(getClass());
-
    public static final String LAST_DEPLOYMENT_ASPECT = "LAST_DEPLOYMENT_ASPECT";
 
-   private String provides;
-   private String requires;
-   private int relativeOrder;
-   private boolean isLast;
+   public void setLast(boolean isLast);
    
-   public void setLast(boolean isLast)
-   {
-      this.isLast = isLast;
-   }
+   public boolean isLast();
    
-   public boolean isLast()
-   {
-      return this.isLast;
-   }
+   public String getProvides();
+
+   public void setProvides(String provides);
+
+   public String getRequires();
+
+   public void setRequires(String requires);
    
-   public String getProvides()
-   {
-      return provides;
-   }
-
-   public void setProvides(String provides)
-   {
-      this.provides = provides;
-   }
-
-   public String getRequires()
-   {
-      return requires;
-   }
-
-   public void setRequires(String requires)
-   {
-      this.requires = requires;
-   }
+   public void setRelativeOrder(int relativeOrder);
    
-   public void setRelativeOrder(int relativeOrder)
-   {
-      this.relativeOrder = relativeOrder;
-   }
+   public int getRelativeOrder();
+
+   public void start(Deployment dep);
+
+   public void stop(Deployment dep);
+
+   public Set<String> getProvidesAsSet();
+
+   public Set<String> getRequiresAsSet();
    
-   public int getRelativeOrder()
-   {
-      return this.relativeOrder;
-   }
+   public boolean canHandle(Deployment dep);
+   
+   public boolean isForJaxWs();
 
-   public void start(Deployment dep)
-   {
-   }
+   public void setForJaxWs(boolean isForJaxWs);
 
-   public void stop(Deployment dep)
-   {
-   }
+   public boolean isForJaxRpc();
 
-   public Set<String> getProvidesAsSet()
-   {
-      Set<String> condset = new HashSet<String>();
-      if (provides != null)
-      {
-         StringTokenizer st = new StringTokenizer(provides, ", \r\n\t");
-         while (st.hasMoreTokens())
-            condset.add(st.nextToken());
-      }
-      return condset;
-   }
-
-   public Set<String> getRequiresAsSet()
-   {
-      Set<String> condset = new HashSet<String>();
-      if (requires != null)
-      {
-         StringTokenizer st = new StringTokenizer(requires, ", \r\n\t");
-         while (st.hasMoreTokens())
-            condset.add(st.nextToken());
-      }
-      return condset;
-   }
+   public void setForJaxRpc(boolean isForJaxRpc);
+   
+   public ClassLoader getLoader();
 }
