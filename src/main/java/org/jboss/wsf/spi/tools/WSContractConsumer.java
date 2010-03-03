@@ -165,8 +165,8 @@ public abstract class WSContractConsumer
    public abstract void setAdditionalCompilerClassPath(List<String> classPath);
 
    /**
-    * Set the target JAX-WS specification target. Defaults to <code>2.0</code>
-    * @param target  the JAX-WS specification version. Allowed values are 2.0, 2.1
+    * Set the target JAX-WS specification target. Allowed values are 2.0, 2.1 and 2.2
+    * @param target  the JAX-WS specification version.
     */
    public abstract void setTarget(String target);
 
