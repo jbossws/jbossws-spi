@@ -74,7 +74,10 @@ public class HandlerChainsObjectFactory implements ObjectModelFactory
    public void addChild(UnifiedHandlerChainsMetaData handlerConfig, UnifiedHandlerChainMetaData handlerChain, UnmarshallingContext navigator, String namespaceURI,
          String localName)
    {
-      handlerConfig.addHandlerChain(handlerChain);
+      if (!handlerChain.isExcluded())
+      {
+         handlerConfig.addHandlerChain(handlerChain);
+      }
    }
 
    /**
@@ -121,12 +124,21 @@ public class HandlerChainsObjectFactory implements ObjectModelFactory
       if (log.isTraceEnabled())
          log.trace("UnifiedHandlerChainMetaData setValue: nuri=" + namespaceURI + " localName=" + localName + " value=" + value);
 
-      if (localName.equals("protocol-bindings"))
-         handlerChain.setProtocolBindings(value);
-      else if (localName.equals("service-name-pattern"))
-         handlerChain.setServiceNamePattern(navigator.resolveQName(value));
-      else if (localName.equals("port-name-pattern"))
-         handlerChain.setPortNamePattern(navigator.resolveQName(value));
+      try
+      {
+         if (localName.equals("protocol-bindings"))
+            handlerChain.setProtocolBindings(value);
+         else if (localName.equals("service-name-pattern"))
+            handlerChain.setServiceNamePattern(navigator.resolveQName(value));
+         else if (localName.equals("port-name-pattern"))
+            handlerChain.setPortNamePattern(navigator.resolveQName(value));
+      }
+      catch (java.lang.IllegalStateException ex)
+      {
+         log.warn("Could not get " + localName + " value : " 
+               + ex.getMessage() + ", this handler chain will be ingored");
+         handlerChain.setExcluded(true);
+      }
    }
 
    /**
