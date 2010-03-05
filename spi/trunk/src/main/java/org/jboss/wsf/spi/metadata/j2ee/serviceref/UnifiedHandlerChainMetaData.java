@@ -42,6 +42,7 @@ public class UnifiedHandlerChainMetaData extends ServiceRefElement
    private String protocolBindings;
    private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>();
    private PortInfo portInfo;
+   private boolean excluded;
 
    public UnifiedHandlerChainMetaData(UnifiedHandlerChainsMetaData handlerChains)
    {
@@ -90,5 +91,13 @@ public class UnifiedHandlerChainMetaData extends ServiceRefElement
    public void addHandler(UnifiedHandlerMetaData handler)
    {
       handlers.add(handler);
+   }
+   
+   public boolean isExcluded() {
+      return this.excluded;
+   }
+   
+   public void setExcluded(boolean excluded) {
+      this.excluded = excluded;
    }
 }
