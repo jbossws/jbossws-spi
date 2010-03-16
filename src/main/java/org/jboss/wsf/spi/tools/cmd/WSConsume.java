@@ -49,6 +49,7 @@ import java.util.List;
  *  <tr><td>-o, --output=&lt;directory&gt;  </td><td>The directory to put generated artifacts</td></tr>
  *  <tr><td>-s, --source=&lt;directory&gt;  </td><td>The directory to put Java source</td></tr>
  *  <tr><td>-t, --target=&lt;2.0|2.1|2.2&gt;</td><td>The target specification target</td></tr>
+ *  <tr><td>-n, --nocompile                 </td><td>Do not compile generated sources</td></tr> 
  *  <tr><td>-q, --quiet                     </td><td>Be somewhat more quiet</td></tr>
  *  <tr><td>-v, --verbose                   </td><td>Show full exception stack traces</td></tr>
  *  <tr><td>-l, --load-consumer             </td><td>Load the consumer and exit (debug utility)</td></tr>
