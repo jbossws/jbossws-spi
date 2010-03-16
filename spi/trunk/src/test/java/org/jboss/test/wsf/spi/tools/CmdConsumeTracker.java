@@ -88,6 +88,12 @@ public class CmdConsumeTracker extends WSContractConsumer
    {
       LAST_EVENT += "setAdditionalCompilerClassPath";
    }
+   
+   @Override
+   public void setAdditionalHeaders(boolean additionalHeaders)
+   {
+      LAST_EVENT += "setAdditionalHeaders";
+   }
 
    @Override
    public void setTarget(String target)
