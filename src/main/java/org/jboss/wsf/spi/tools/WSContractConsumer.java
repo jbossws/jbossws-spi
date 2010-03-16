@@ -165,6 +165,14 @@ public abstract class WSContractConsumer
    public abstract void setAdditionalCompilerClassPath(List<String> classPath);
 
    /**
+    * Enables or disables processing of implicit SOAP headers (i.e. SOAP headers
+    * defined in the wsdl:binding but not wsdl:portType section.) Default is false. 
+    * 
+    * @param additionalHeaders a boolean enabling processing of implicit SOAP headers
+    */
+   public abstract void setAdditionalHeaders(boolean additionalHeaders);
+   
+   /**
     * Set the target JAX-WS specification target. Allowed values are 2.0, 2.1 and 2.2
     * @param target  the JAX-WS specification version.
     */

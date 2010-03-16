@@ -92,6 +92,7 @@ public class WSConsumeTask extends Task
    private boolean fork;
    private boolean debug;
    private boolean nocompile;
+   private boolean additionalHeaders;
    private String target;
 
    // Not actually used right now
@@ -133,6 +134,11 @@ public class WSConsumeTask extends Task
    public void setExtension(boolean extension)
    {
       this.extension = extension;
+   }
+   
+   public void setAdditionalHeaders(boolean additionalHeaders)
+   {
+      this.additionalHeaders = additionalHeaders;
    }
 
    public void setSourcedestdir(File sourcedestdir)
@@ -190,6 +196,7 @@ public class WSConsumeTask extends Task
          WSContractConsumer consumer = WSContractConsumer.newInstance();
          consumer.setGenerateSource(keep);
          consumer.setExtension(extension);
+         consumer.setAdditionalHeaders(additionalHeaders);
          consumer.setNoCompile(nocompile);
          if (destdir != null)
             consumer.setOutputDirectory(destdir);
@@ -277,6 +284,9 @@ public class WSConsumeTask extends Task
       
       if (extension)
          command.createArgument().setValue("-e");
+      
+      if (additionalHeaders)
+         command.createArgument().setValue("-a");
 
       for (File file : bindingFiles)
       {

@@ -54,6 +54,7 @@ import java.util.List;
  *  <tr><td>-v, --verbose                   </td><td>Show full exception stack traces</td></tr>
  *  <tr><td>-l, --load-consumer             </td><td>Load the consumer and exit (debug utility)</td></tr>
  *  <tr><td>-e, --extension                 </td><td>Enable SOAP 1.2 binding extension</td></tr>
+ *  <tr><td>-a, --additionalHeaders         </td><td>Enable SOAP 1.2 binding extension</td></tr>
  *  </table>
  * </pre>
  *
@@ -71,6 +72,7 @@ public class WSConsume
    private boolean verbose;
    private boolean loadConsumer;
    private boolean extension;
+   private boolean additionalHeaders;
    private boolean noCompile;
    private File sourceDir;
    private String target;
@@ -86,7 +88,7 @@ public class WSConsume
 
    private URL parseArguments(String[] args)
    {
-      String shortOpts = "b:c:p:w:o:s:t:khqvlne";
+      String shortOpts = "b:c:p:w:o:s:t:khqvlnea";
       LongOpt[] longOpts =
       {
          new LongOpt("binding", LongOpt.REQUIRED_ARGUMENT, null, 'b'),
@@ -102,6 +104,7 @@ public class WSConsume
          new LongOpt("verbose", LongOpt.NO_ARGUMENT, null, 'v'),
          new LongOpt("nocompile", LongOpt.NO_ARGUMENT, null, 'n'),
          new LongOpt("extension", LongOpt.NO_ARGUMENT, null, 'e'),
+         new LongOpt("additionalHeaders", LongOpt.NO_ARGUMENT, null, 'a'),
          new LongOpt("load-consumer", LongOpt.NO_ARGUMENT, null, 'l'),
       };
 
@@ -146,6 +149,9 @@ public class WSConsume
                break;
             case 'e':
                extension = true;
+               break;
+            case 'a':
+               additionalHeaders = true;
                break;
             case 'n':
                noCompile = true;
@@ -204,6 +210,7 @@ public class WSConsume
       consumer.setGenerateSource(generateSource);
       consumer.setOutputDirectory(outputDir);
       consumer.setExtension(extension);
+      consumer.setAdditionalHeaders(additionalHeaders);
       if (sourceDir != null)
          consumer.setSourceDirectory(sourceDir);
 
@@ -272,6 +279,7 @@ public class WSConsume
       out.println("    -v, --verbose               Show full exception stack traces");
       out.println("    -l, --load-consumer         Load the consumer and exit (debug utility)");
       out.println("    -e, --extension             Enable SOAP 1.2 binding extension");
+      out.println("    -a, --additionalHeaders     Enable processing of implicit SOAP headers");
       out.println("    -n, --nocompile             Do not compile generated sources");
       out.flush();
    }
