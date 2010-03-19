@@ -219,7 +219,7 @@ public class WSProvide
       {
          try 
          {
-            urls.add(new File(entry).toURL());
+            urls.add(new File(entry).toURI().toURL());
          }
          catch (MalformedURLException e)
          {

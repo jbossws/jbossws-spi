@@ -41,7 +41,7 @@ public class RecordGroupAssociation
 
    public static void pushGroupID(String groupID)
    {
-      if(log.isDebugEnabled()) log.debug("pushGroupID: " + groupID + " (Thread " +Thread.currentThread().getName()+ ")");
+      if(log.isTraceEnabled()) log.trace("pushGroupID: " + groupID + " (Thread " +Thread.currentThread().getName()+ ")");
       Stack<String> stack = groupIDAssoc.get();
       if (stack == null)
       {
@@ -59,7 +59,7 @@ public class RecordGroupAssociation
       {
          groupID = stack.peek();
       }
-      if(log.isDebugEnabled()) log.debug("peekGroupID: " + groupID + " (Thread " +Thread.currentThread().getName()+ ")");
+      if(log.isTraceEnabled()) log.trace("peekGroupID: " + groupID + " (Thread " +Thread.currentThread().getName()+ ")");
       return groupID;
    }
 
@@ -71,7 +71,7 @@ public class RecordGroupAssociation
       {
          groupID = stack.pop();
       }
-      if(log.isDebugEnabled()) log.debug("popGroupID: " + groupID +" (Thread " +Thread.currentThread().getName()+ ")");
+      if(log.isTraceEnabled()) log.trace("popGroupID: " + groupID +" (Thread " +Thread.currentThread().getName()+ ")");
       return groupID;
    }
    
