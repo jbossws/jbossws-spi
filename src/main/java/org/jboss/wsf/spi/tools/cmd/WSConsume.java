@@ -190,7 +190,7 @@ public class WSConsume
          catch (MalformedURLException e)
          {
             File file = new File(args[wsdlPos]);
-            url = file.toURL();
+            url = file.toURI().toURL();
          }
       }
       catch (MalformedURLException e)

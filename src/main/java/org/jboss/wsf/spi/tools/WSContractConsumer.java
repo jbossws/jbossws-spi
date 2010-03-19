@@ -204,7 +204,7 @@ public abstract class WSContractConsumer
       catch (MalformedURLException e)
       {
          File file = new File(wsdl);
-         url = file.toURL();
+         url = file.toURI().toURL();
       }
 
       consume(url);
