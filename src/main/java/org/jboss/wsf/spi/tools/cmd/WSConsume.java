@@ -59,18 +59,18 @@ import java.util.List;
 public class WSConsume
 {
    private List<File> bindingFiles = new ArrayList<File>();
-   private boolean generateSource = false;
-   private File catalog = null;
-   private String targetPackage = null;
-   private String wsdlLocation = null;
-   private boolean quiet = false;
-   private boolean verbose = false;
-   private boolean noCompile = false;
-   private boolean loadConsumer = false;
-   private boolean extension = false;
    private File outputDir = new File("output");
-   private File sourceDir = null;
-   private String target = null;
+   private boolean generateSource;
+   private File catalog;
+   private String targetPackage;
+   private String wsdlLocation;
+   private boolean quiet;
+   private boolean verbose;
+   private boolean loadConsumer;
+   private boolean extension;
+   private boolean noCompile;
+   private File sourceDir;
+   private String target;
 
    public static final String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
 
