@@ -179,7 +179,9 @@ public class EndpointsFactory implements ObjectModelFactory
       if (JMSAddressMetaData.NAMESPACE_URI.equals(namespaceURI)
             && JMSAddressMetaData.ADDRESS_LOCAL_NAME.equals(localName))
       {
-         return new JMSAddressMetaData(endpoint);
+         JMSAddressMetaData jmsMetaData =  new JMSAddressMetaData(endpoint);
+         jmsMetaData.setPortName(attrs.getValue("portName"));
+         return jmsMetaData;
       }
 
       else
@@ -204,14 +206,12 @@ public class EndpointsFactory implements ObjectModelFactory
       if ("requestDestination".equals(localName))
       {
          JMSDestinationMetaData requestDest = new JMSDestinationMetaData();
-         requestDest.setName(attrs.getValue("name"));
          jmsAddress.setRequestDestination(requestDest);
          return requestDest;
       }
       else if ("replyDestination".equals(localName))
       {
          JMSDestinationMetaData replyDest = new JMSDestinationMetaData();
-         replyDest.setName(attrs.getValue("name"));
          jmsAddress.setReplyDestination(replyDest);
          return replyDest;
       }

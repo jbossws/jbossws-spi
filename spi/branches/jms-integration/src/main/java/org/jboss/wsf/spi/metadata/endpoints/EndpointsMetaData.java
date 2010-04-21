@@ -23,6 +23,7 @@ package org.jboss.wsf.spi.metadata.endpoints;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>Stack independent top level meta data class from jbossws-endpoints.xml. </p>
@@ -55,7 +56,7 @@ import java.util.ArrayList;
 public class EndpointsMetaData
 {
    //The endpoints list
-   private ArrayList<EndpointMetaData> endpointsMetaData = new ArrayList<EndpointMetaData>();
+   private List<EndpointMetaData> endpointsMetaData = new ArrayList<EndpointMetaData>();
 
    //The jbossws-endpoint.xml location
    private URL descriptorURL;
@@ -77,5 +78,9 @@ public class EndpointsMetaData
    public void addEndpointMetaData(EndpointMetaData endpointMetaData)
    {
       endpointsMetaData.add(endpointMetaData);
+   }
+   
+   public List<EndpointMetaData> getEndpointsMetaData() {
+      return this.endpointsMetaData;
    }
 }

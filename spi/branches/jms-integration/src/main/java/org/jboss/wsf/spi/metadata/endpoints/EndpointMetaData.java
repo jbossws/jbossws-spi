@@ -63,7 +63,7 @@ public class EndpointMetaData
       return addressMetaData;
    }
 
-   public EndpointsMetaData getEndpointsMetaData()
+   public EndpointsMetaData getParentMetaData()
    {
       return endpointsMetaData;
    }

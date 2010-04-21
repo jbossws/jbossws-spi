@@ -40,6 +40,8 @@ public class JMSAddressMetaData extends AddressMetaData
    private JMSDestinationMetaData requestDestination;
 
    private JMSDestinationMetaData replyDestination;
+   
+   private String portName= "";
 
    public JMSAddressMetaData(EndpointMetaData endpoint)
    {
@@ -69,5 +71,15 @@ public class JMSAddressMetaData extends AddressMetaData
    public void setRequestDestination(JMSDestinationMetaData requestDestination)
    {
       this.requestDestination = requestDestination;
+   }
+   
+   public String getPortName()
+   {
+      return portName;
+   }
+
+   public void setPortName(String portName)
+   {
+      this.portName = portName;
    }
 }

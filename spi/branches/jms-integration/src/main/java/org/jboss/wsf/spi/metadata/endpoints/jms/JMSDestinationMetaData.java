@@ -30,23 +30,11 @@ import java.util.Properties;
  */
 public class JMSDestinationMetaData
 {
-   private String name;
-
    private Properties properties = new Properties();;
 
    public JMSDestinationMetaData()
    {
 
-   }
-
-   public String getName()
-   {
-      return name;
-   }
-
-   public void setName(String name)
-   {
-      this.name = name;
    }
 
    public void setProperty(String name, String value)
