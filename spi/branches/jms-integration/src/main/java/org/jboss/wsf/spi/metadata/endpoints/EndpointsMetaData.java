@@ -31,7 +31,7 @@ import java.util.List;
  * <pre>
  * &lt;jaxws:endpoints xmlns:jaxws="http://jbossws.jboss.org/jaxws"
  *   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- *   xmlns:jms="http://jbossws.jboss.org/jaxws/transport/jms"
+ *   xmlns:jms="http://jbossws.jboss.org/jbossws/transport/jms"
  *   xsi:schemaLocation="http://jbossws.jboss.org/jaxws jaxws.xsd http://jbossws.jboss.org/jaxws/transport/jms jms.xsd">
  *   &lt;jaxws:endpoint implementor="" name="" portName=""
  *       serviceName="" wsdlLocation="">

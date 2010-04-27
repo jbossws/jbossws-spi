@@ -31,7 +31,7 @@ import org.jboss.wsf.spi.metadata.endpoints.EndpointMetaData;
  */
 public class JMSAddressMetaData extends AddressMetaData
 {
-   public static final String NAMESPACE_URI = "http://jbossws.jboss.org/jaxws/transport/jms";
+   public static final String NAMESPACE_URI = "http://jbossws.jboss.org/jbossws/transport/jms";
 
    public static final String ADDRESS_LOCAL_NAME = "Address";
 
