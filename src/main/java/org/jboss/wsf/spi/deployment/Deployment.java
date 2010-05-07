@@ -72,9 +72,9 @@ public interface Deployment extends Extensible
    /** Set the current deployment state */
    void setState(DeploymentState type);
 
-   /** Get the service assiated with this deployment */
+   /** Get the service associated with this deployment */
    Service getService();
 
-   /** Set the service assiated with this deployment */
+   /** Set the service associated with this deployment */
    void setService(Service service);
 }
