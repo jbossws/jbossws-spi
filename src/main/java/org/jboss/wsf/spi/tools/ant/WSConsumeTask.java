@@ -37,6 +37,7 @@ import org.apache.tools.ant.types.Commandline;
 import org.apache.tools.ant.types.CommandlineJava;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.CommandlineJava.SysProperties;
 import org.jboss.wsf.spi.tools.WSContractConsumer;
 
 /**
@@ -75,6 +76,7 @@ import org.jboss.wsf.spi.tools.WSContractConsumer;
  * </pre>
  *
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 public class WSConsumeTask extends Task
 {
@@ -343,6 +345,12 @@ public class WSConsumeTask extends Task
       ExecuteJava execute = new ExecuteJava();
       execute.setClasspath(path);
       execute.setJavaCommand(command.getJavaCommand());
+
+      // propagate system properties (useful e.g. for endorsing)
+      String[] arguments = command.getVmCommand().getArguments();
+      SysProperties properties = AntTaskHelper.toSystemProperties(arguments);
+      execute.setSystemProperties(properties);
+
       if (execute.fork(this) != 0)
          throw new BuildException("Could not invoke WSConsumeTask", getLocation());
    }
