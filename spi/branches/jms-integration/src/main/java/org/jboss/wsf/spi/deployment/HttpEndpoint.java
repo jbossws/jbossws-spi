@@ -19,14 +19,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.endpoints;
+package org.jboss.wsf.spi.deployment;
 
 /**
- * AddressMetaData.
+ * To represents a http transport endpoint
  * 
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public abstract class AddressMetaData
+public interface HttpEndpoint extends Endpoint
 {
+   /** Get the URL pattern for this endpoint */
+   String getURLPattern();
+   
+   /** Set the URL pattern for this endpoint */
+   void setURLPattern(String urlPattern);
 
 }

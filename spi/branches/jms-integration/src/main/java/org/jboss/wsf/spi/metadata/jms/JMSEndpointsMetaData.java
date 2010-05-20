@@ -19,34 +19,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.endpoints.jms;
+package org.jboss.wsf.spi.metadata.jms;
 
-import java.util.Properties;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * JMSDestinationMetaData.
- * 
+ * <p>Meta data class from jbossws-cxf.xml</p>
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public class JMSDestinationMetaData
+
+public class JMSEndpointsMetaData
 {
-   private Properties properties = new Properties();;
+   //The endpoints list
+   private List<JMSEndpointMetaData> endpointsMetaData = new ArrayList<JMSEndpointMetaData>();
 
-   public JMSDestinationMetaData()
+   private URL descriptorURL;
+
+   public JMSEndpointsMetaData()
    {
-
    }
 
-   public void setProperty(String name, String value)
+   public JMSEndpointsMetaData(URL descriptorURL)
    {
-      properties.put(name, value);
+      this.descriptorURL = descriptorURL;
+   }
+
+   public URL getDescriptorURL()
+   {
+      return descriptorURL;
+   }
+
+   public void addEndpointMetaData(JMSEndpointMetaData endpointMetaData)
+   {
+      endpointsMetaData.add(endpointMetaData);
    }
    
-   public String getProperty(String name) {
-      return (String)properties.get(name);
-   }
-   
-   public Properties getProperties() {
-      return properties;
+   public List<JMSEndpointMetaData> getEndpointsMetaData() {
+      return this.endpointsMetaData;
    }
 }

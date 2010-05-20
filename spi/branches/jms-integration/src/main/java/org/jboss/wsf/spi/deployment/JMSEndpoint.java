@@ -19,59 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.endpoints;
+package org.jboss.wsf.spi.deployment;
 
-import java.net.URL;
-
-import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.deployment.Deployment;
+import java.net.URI;
 
 /**
- * The pojo bean to deploy the stack specific endpoints descriptor url
+ * To represent the jms transport endpoint
  * 
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public abstract class AbstractEndpointsDeployment
+public interface JMSEndpoint extends Endpoint
 {
-   protected final Logger log = Logger.getLogger(getClass());
-
-   protected URL url;
-
-   protected EndpointsMetaData endpointsMetaData;
+   //Set jms target destination
+   void setTargetDestination(String dest);
    
-   protected Deployment deployment;
-
-   public Deployment getDeployment()
-   {
-      return deployment;
-   }
-
-   public void setDeployment(Deployment deployment)
-   {
-      this.deployment = deployment;
-   }
-
-   public EndpointsMetaData getEndpointsMetaData()
-   {
-      return endpointsMetaData;
-   }
-
-   public void setEndpointsMetaData(EndpointsMetaData endpointsMetaData)
-   {
-      this.endpointsMetaData = endpointsMetaData;
-   }
-
-   public void setURL(URL url)
-   {
-      this.url = url;
-   }
-
-   public URL getURL()
-   {
-      return this.url;
-   }
-
-   public abstract void start() throws Exception;
-
-   public abstract void stop() throws Exception;
+   //Get jms target destination
+   String getTargetDestination();
+   
+   //Set jms reply destination
+   void setReplyDestination(String replyTo);
+   
+   //Get jms reply destination
+   String getReplyDestination();
+   
+   //Set soap over jms requestURI  
+   void setRequestURI(URI uri);
+   
+   //Get soap over jms requestURI  
+   URI getRequestURI();
 }

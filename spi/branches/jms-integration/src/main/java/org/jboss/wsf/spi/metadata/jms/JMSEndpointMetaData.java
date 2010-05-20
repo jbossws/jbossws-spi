@@ -19,51 +19,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.endpoints;
+package org.jboss.wsf.spi.metadata.jms;
 
 /**
- * Meta data class contains the implementor and address information
+ * JMS Meta data class contains the implementor and address information
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public class EndpointMetaData
+public class JMSEndpointMetaData
 {
    //Endpoint name
    private String name;
-
-   //Service name
-   private String serviceName = "";
-
+   
    //port name
-   private String portName = "";
+   private String endpointName = "";
 
    //implementor class
    private String implementor = "";
 
    //wsdl location
    private String wsdlLocation = "";
-
-   //endpoint address information
-   private AddressMetaData addressMetaData = null;
+   
 
    //parent component 
-   private EndpointsMetaData endpointsMetaData = null;
+   private JMSEndpointsMetaData endpointsMetaData = null;
 
-   public EndpointMetaData(EndpointsMetaData endpoints)
+   public JMSEndpointMetaData(JMSEndpointsMetaData endpoints)
    {
       endpointsMetaData = endpoints;
    }
 
-   public void addAddressMetaData(AddressMetaData address)
-   {
-      this.addressMetaData = address;
-   }
-
-   public AddressMetaData getAddressMetaData()
-   {
-      return addressMetaData;
-   }
-
-   public EndpointsMetaData getParentMetaData()
+   public JMSEndpointsMetaData getParentMetaData()
    {
       return endpointsMetaData;
    }
@@ -78,14 +63,9 @@ public class EndpointMetaData
       return name;
    }
 
-   public String getPortName()
+   public String getEndpointName()
    {
-      return portName;
-   }
-
-   public String getServiceName()
-   {
-      return serviceName;
+      return endpointName;
    }
 
    public String getWsdlLocation()
@@ -103,14 +83,9 @@ public class EndpointMetaData
       this.name = name;
    }
 
-   public void setPortName(String portName)
+   public void setEndpointName(String endpointName)
    {
-      this.portName = portName;
-   }
-
-   public void setServiceName(String serviceName)
-   {
-      this.serviceName = serviceName;
+      this.endpointName = endpointName;
    }
 
    public void setWsdlLocation(String wsdlLocation)
