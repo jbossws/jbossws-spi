@@ -39,23 +39,19 @@ import java.util.List;
  * <pre>
  *  usage: WSConsumeTask [options] &lt;wsdl-url&gt;
  *  options:
- *  <table>
- *  <tr><td>-h, --help                      </td><td>Show this help message</td></tr>
- *  <tr><td>-b, --binding=&lt;file&gt;      </td><td>One or more JAX-WS or JAXB binding files</td></tr>
- *  <tr><td>-k, --keep                      </td><td>Keep/Generate Java source</td></tr>
- *  <tr><td>-c, --catalog=&lt;file&gt;      </td><td>Oasis XML Catalog file for entity resolution</td></tr>
- *  <tr><td>-p, --package=&lt;name&gt;      </td><td>The target package for generated source</td></tr>
- *  <tr><td>-w, --wsdlLocation=&lt;loc&gt;  </td><td>Value to use for @@WebService.wsdlLocation</td></tr>
- *  <tr><td>-o, --output=&lt;directory&gt;  </td><td>The directory to put generated artifacts</td></tr>
- *  <tr><td>-s, --source=&lt;directory&gt;  </td><td>The directory to put Java source</td></tr>
- *  <tr><td>-t, --target=&lt;2.0|2.1|2.2&gt;</td><td>The target specification target</td></tr>
- *  <tr><td>-n, --nocompile                 </td><td>Do not compile generated sources</td></tr> 
- *  <tr><td>-q, --quiet                     </td><td>Be somewhat more quiet</td></tr>
- *  <tr><td>-v, --verbose                   </td><td>Show full exception stack traces</td></tr>
- *  <tr><td>-l, --load-consumer             </td><td>Load the consumer and exit (debug utility)</td></tr>
- *  <tr><td>-e, --extension                 </td><td>Enable SOAP 1.2 binding extension</td></tr>
- *  <tr><td>-a, --additionalHeaders         </td><td>Enable SOAP 1.2 binding extension</td></tr>
- *  </table>
+ *  -h, --help                     Show this help message
+ *  -b, --binding=&lt;file&gt;     One or more JAX-WS or JAXB binding files
+ *  -k, --keep                     Keep/Generate Java source
+ *  -c  --catalog=&lt;file&gt;     Oasis XML Catalog file for entity resolution
+ *  -p  --package=&lt;name&gt;     The target package for generated source
+ *  -w  --wsdlLocation=&lt;loc&gt; Value to use for @@WebService.wsdlLocation
+ *  -o, --output=&lt;directory&gt; The directory to put generated artifacts
+ *  -s, --source=&lt;directory&gt; The directory to put Java source
+ *  -t, --target=&lt;2.0|2.1&gt;   The target specification target
+ *  -q, --quiet                    Be somewhat more quiet
+ *  -v, --verbose                  Show full exception stack traces
+ *  -l, --load-consumer            Load the consumer and exit (debug utility)
+ *  -e, --extension                Enable SOAP 1.2 binding extension
  * </pre>
  *
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
@@ -72,12 +68,11 @@ public class WSConsume
    private boolean verbose;
    private boolean loadConsumer;
    private boolean extension;
-   private boolean additionalHeaders;
    private boolean noCompile;
    private File sourceDir;
    private String target;
 
-   public static final String PROGRAM_NAME = SecurityActions.getSystemProperty("program.name", WSConsume.class.getName());
+   public static final String PROGRAM_NAME = System.getProperty("program.name", WSConsume.class.getName());
 
    public static void main(String[] args)
    {
@@ -88,7 +83,7 @@ public class WSConsume
 
    private URL parseArguments(String[] args)
    {
-      String shortOpts = "b:c:p:w:o:s:t:khqvlnea";
+	  String shortOpts = "b:c:p:w:o:s:t:khqvlne";
       LongOpt[] longOpts =
       {
          new LongOpt("binding", LongOpt.REQUIRED_ARGUMENT, null, 'b'),
@@ -104,7 +99,6 @@ public class WSConsume
          new LongOpt("verbose", LongOpt.NO_ARGUMENT, null, 'v'),
          new LongOpt("nocompile", LongOpt.NO_ARGUMENT, null, 'n'),
          new LongOpt("extension", LongOpt.NO_ARGUMENT, null, 'e'),
-         new LongOpt("additionalHeaders", LongOpt.NO_ARGUMENT, null, 'a'),
          new LongOpt("load-consumer", LongOpt.NO_ARGUMENT, null, 'l'),
       };
 
@@ -150,12 +144,9 @@ public class WSConsume
             case 'e':
                extension = true;
                break;
-            case 'a':
-               additionalHeaders = true;
-               break;
             case 'n':
                noCompile = true;
-               break;
+               break;               
             case 'h':
                printHelp();
                System.exit(0);
@@ -190,7 +181,7 @@ public class WSConsume
          catch (MalformedURLException e)
          {
             File file = new File(args[wsdlPos]);
-            url = file.toURI().toURL();
+            url = file.toURL();
          }
       }
       catch (MalformedURLException e)
@@ -210,7 +201,6 @@ public class WSConsume
       consumer.setGenerateSource(generateSource);
       consumer.setOutputDirectory(outputDir);
       consumer.setExtension(extension);
-      consumer.setAdditionalHeaders(additionalHeaders);
       if (sourceDir != null)
          consumer.setSourceDirectory(sourceDir);
 
@@ -231,9 +221,9 @@ public class WSConsume
 
       if(target!=null)
          consumer.setTarget(target);
-      
+            
       if (noCompile)
-         consumer.setNoCompile(noCompile);
+         consumer.setNoCompile(noCompile);     
 
       try
       {
@@ -274,12 +264,11 @@ public class WSConsume
       out.println("    -w  --wsdlLocation=<loc>    Value to use for @WebService.wsdlLocation");
       out.println("    -o, --output=<directory>    The directory to put generated artifacts");
       out.println("    -s, --source=<directory>    The directory to put Java source");
-      out.println("    -t, --target=<2.0|2.1|2.2>  The JAX-WS specification target");
+      out.println("    -t, --target=<2.0|2.1>      The JAX-WS specification target");
       out.println("    -q, --quiet                 Be somewhat more quiet");
       out.println("    -v, --verbose               Show full exception stack traces");
       out.println("    -l, --load-consumer         Load the consumer and exit (debug utility)");
       out.println("    -e, --extension             Enable SOAP 1.2 binding extension");
-      out.println("    -a, --additionalHeaders     Enable processing of implicit SOAP headers");
       out.println("    -n, --nocompile             Do not compile generated sources");
       out.flush();
    }

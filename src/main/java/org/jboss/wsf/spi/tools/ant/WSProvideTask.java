@@ -31,8 +31,6 @@ import org.apache.tools.ant.types.Commandline;
 import org.apache.tools.ant.types.CommandlineJava;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Reference;
-import org.apache.tools.ant.types.CommandlineJava.SysProperties;
-import org.apache.tools.ant.types.Environment.Variable;
 import org.jboss.wsf.spi.tools.WSContractProvider;
 
 import java.io.File;
@@ -215,9 +213,9 @@ public class WSProvideTask extends Task
    
    public void executeNonForked()
    {
-      ClassLoader prevCL = SecurityActions.getContextClassLoader();
-      ClassLoader antLoader = SecurityActions.getClassLoader(this.getClass());
-      SecurityActions.setContextClassLoader(antLoader);
+      ClassLoader prevCL = Thread.currentThread().getContextClassLoader();
+      ClassLoader antLoader = this.getClass().getClassLoader();
+      Thread.currentThread().setContextClassLoader(antLoader);
       try
       {
          WSContractProvider gen = WSContractProvider.newInstance(
@@ -246,7 +244,7 @@ public class WSProvideTask extends Task
       }
       finally
       {
-         SecurityActions.setContextClassLoader(prevCL);
+         Thread.currentThread().setContextClassLoader(prevCL);
       }
    }
    
@@ -319,12 +317,7 @@ public class WSProvideTask extends Task
       ExecuteJava execute = new ExecuteJava();
       execute.setClasspath(path);
       execute.setJavaCommand(command.getJavaCommand());
-
-      // propagate system properties (useful e.g. for endorsing)
-      String[] arguments = command.getVmCommand().getArguments();
-      SysProperties properties = AntTaskHelper.toSystemProperties(arguments);
-      execute.setSystemProperties(properties);
-
+      
       if (execute.fork(this) != 0)
          throw new BuildException("Could not invoke WSProvideTask", getLocation());
    }

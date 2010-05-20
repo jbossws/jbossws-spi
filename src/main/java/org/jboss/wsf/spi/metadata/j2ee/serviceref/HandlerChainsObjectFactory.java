@@ -74,7 +74,10 @@ public class HandlerChainsObjectFactory implements ObjectModelFactory
    public void addChild(UnifiedHandlerChainsMetaData handlerConfig, UnifiedHandlerChainMetaData handlerChain, UnmarshallingContext navigator, String namespaceURI,
          String localName)
    {
-      if (!handlerChain.isExcluded()) handlerConfig.addHandlerChain(handlerChain);
+      if (!handlerChain.isExcluded())
+      {
+         handlerConfig.addHandlerChain(handlerChain);
+      }
    }
 
    /**
@@ -120,6 +123,7 @@ public class HandlerChainsObjectFactory implements ObjectModelFactory
    {
       if (log.isTraceEnabled())
          log.trace("UnifiedHandlerChainMetaData setValue: nuri=" + namespaceURI + " localName=" + localName + " value=" + value);
+
       try
       {
          if (localName.equals("protocol-bindings"))

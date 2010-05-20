@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 
+import javax.naming.Context;
+
 /**
  * Injections metadata container.
  *
@@ -53,22 +55,37 @@ public final class InjectionsMetaData
    private final Map<Class<? extends Annotation>, ReferenceResolver> referenceResolvers;
    
    /**
+    * JNDI context.
+    */
+   private final Context ctx;
+   
+   /**
     * Constructor.
     * 
     * @param injections injection definitions list
-    * @param resolvers reference resolvers
+    * @param ctx JNDI context
     */
-   public InjectionsMetaData(Collection<InjectionMetaData> injections, Map<Class<? extends Annotation>, ReferenceResolver> resolvers)
+   public InjectionsMetaData(Collection<InjectionMetaData> injections, Map<Class<? extends Annotation>, ReferenceResolver> referenceResolvers, Context ctx)
    {
       super();
       
       if (injections == null)
          throw new IllegalArgumentException("injections metadata list cannot be null");
-      if ((resolvers == null) || (resolvers.size() == 0))
+      if ((referenceResolvers == null) || (referenceResolvers.size() == 0))
          throw new IllegalArgumentException("reference resolvers list cannot be null or empty collection");
       
       this.injections = injections;
-      this.referenceResolvers = resolvers;
+      this.referenceResolvers = referenceResolvers;
+      this.ctx = ctx;
+   }
+   
+   /**
+    * Returns associated JNDI context.
+    * @return associated JNDI context
+    */
+   public Context getContext()
+   {
+      return this.ctx;
    }
    
    /**

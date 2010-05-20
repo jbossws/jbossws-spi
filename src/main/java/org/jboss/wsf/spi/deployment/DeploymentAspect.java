@@ -21,7 +21,11 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
+
+import org.jboss.logging.Logger;
 
 /**
  * A deployment aspect that does nothing.
@@ -32,43 +36,73 @@ import java.util.Set;
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public interface DeploymentAspect
+public abstract class DeploymentAspect
 {
+   // provide logging
+   protected final Logger log = Logger.getLogger(getClass());
+
    public static final String LAST_DEPLOYMENT_ASPECT = "LAST_DEPLOYMENT_ASPECT";
 
-   public void setLast(boolean isLast);
+   private String provides;
+   private String requires;
    
-   public boolean isLast();
-   
-   public String getProvides();
+   public String getProvides()
+   {
+      return provides;
+   }
 
-   public void setProvides(String provides);
+   public void setProvides(String provides)
+   {
+      this.provides = provides;
+   }
 
-   public String getRequires();
+   public String getRequires()
+   {
+      return requires;
+   }
 
-   public void setRequires(String requires);
-   
-   public void setRelativeOrder(int relativeOrder);
-   
-   public int getRelativeOrder();
+   public void setRequires(String requires)
+   {
+      this.requires = requires;
+   }
 
-   public void start(Deployment dep);
+   public void create(Deployment dep)
+   {
+   }
 
-   public void stop(Deployment dep);
+   public void destroy(Deployment dep)
+   {
+   }
 
-   public Set<String> getProvidesAsSet();
+   public void start(Deployment dep)
+   {
+   }
 
-   public Set<String> getRequiresAsSet();
-   
-   public boolean canHandle(Deployment dep);
-   
-   public boolean isForJaxWs();
+   public void stop(Deployment dep)
+   {
+   }
 
-   public void setForJaxWs(boolean isForJaxWs);
+   public Set<String> getProvidesAsSet()
+   {
+      Set<String> condset = new HashSet<String>();
+      if (provides != null)
+      {
+         StringTokenizer st = new StringTokenizer(provides, ", ");
+         while (st.hasMoreTokens())
+            condset.add(st.nextToken());
+      }
+      return condset;
+   }
 
-   public boolean isForJaxRpc();
-
-   public void setForJaxRpc(boolean isForJaxRpc);
-   
-   public ClassLoader getLoader();
+   public Set<String> getRequiresAsSet()
+   {
+      Set<String> condset = new HashSet<String>();
+      if (requires != null)
+      {
+         StringTokenizer st = new StringTokenizer(requires, ", ");
+         while (st.hasMoreTokens())
+            condset.add(st.nextToken());
+      }
+      return condset;
+   }
 }

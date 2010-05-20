@@ -6,6 +6,7 @@
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="src/main/etc" path="src/main/etc"/>
 	<classpathentry excluding="**" kind="src" output="src/test/resources" path="src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>

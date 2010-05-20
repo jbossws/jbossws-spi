@@ -25,8 +25,10 @@ package org.jboss.wsf.spi.invocation;
  * Known invocation types.
  *
  * @author Heiko.Braun@jboss.com
+ *         Created: Jul 19, 2007
  */
 public enum InvocationType
 {
-   JAXRPC_JSE, JAXRPC_EJB21, JAXRPC_MDB21, JAXWS_JSE, JAXWS_EJB3, JAXWS_MDB3
+   JAXRPC_JSE, JAXRPC_EJB21, JAXRPC_MDB21, JAXWS_JSE, JAXWS_EJB3, JAXWS_MDB3, 
+   @Deprecated JAXWS_EJB21;  
 }

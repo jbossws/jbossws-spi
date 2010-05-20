@@ -23,6 +23,7 @@ package org.jboss.wsf.spi.tools.ant;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,6 @@ import org.apache.tools.ant.types.Commandline;
 import org.apache.tools.ant.types.CommandlineJava;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.CommandlineJava.SysProperties;
 import org.jboss.wsf.spi.tools.WSContractConsumer;
 
 /**
@@ -54,7 +54,7 @@ import org.jboss.wsf.spi.tools.WSContractConsumer;
  *   <tr><td>destdir</td><td>The output directory for generated artifacts.</td><td>"output"</td></tr>
  *   <tr><td>sourcedestdir</td><td>The output directory for Java source.</td><td>value of destdir</td></tr>
  *   <tr><td>extension</td><td>Enable SOAP 1.2 binding extension.</td><td>false</td></tr>
- *   <tr><td>target</td><td>The JAX-WS specification target. Allowed values are 2.0, 2.1 and 2.2</td><td></td></tr>
+ *   <tr><td>target</td><td>The JAX-WS specification target</td><td>2.0 | 2.1</td></tr>
  *   <tr><td>verbose</td><td>Enables more informational output about cmd progress.</td><td>false</td><tr>
  *   <tr><td>wsdl*</td><td>The WSDL file or URL</td><td>n/a</td><tr>
  * </table>
@@ -76,7 +76,6 @@ import org.jboss.wsf.spi.tools.WSContractConsumer;
  * </pre>
  *
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 public class WSConsumeTask extends Task
 {
@@ -94,7 +93,6 @@ public class WSConsumeTask extends Task
    private boolean fork;
    private boolean debug;
    private boolean nocompile;
-   private boolean additionalHeaders;
    private String target;
 
    // Not actually used right now
@@ -136,11 +134,6 @@ public class WSConsumeTask extends Task
    public void setExtension(boolean extension)
    {
       this.extension = extension;
-   }
-   
-   public void setAdditionalHeaders(boolean additionalHeaders)
-   {
-      this.additionalHeaders = additionalHeaders;
    }
 
    public void setSourcedestdir(File sourcedestdir)
@@ -190,15 +183,14 @@ public class WSConsumeTask extends Task
 
    public void executeNonForked()
    {
-      ClassLoader prevCL = SecurityActions.getContextClassLoader();
-      ClassLoader antLoader = SecurityActions.getClassLoader(this.getClass());
-      SecurityActions.setContextClassLoader(antLoader);
+      ClassLoader prevCL = Thread.currentThread().getContextClassLoader();
+      ClassLoader antLoader = this.getClass().getClassLoader();
+      Thread.currentThread().setContextClassLoader(antLoader);
       try
       {
          WSContractConsumer consumer = WSContractConsumer.newInstance();
          consumer.setGenerateSource(keep);
          consumer.setExtension(extension);
-         consumer.setAdditionalHeaders(additionalHeaders);
          consumer.setNoCompile(nocompile);
          if (destdir != null)
             consumer.setOutputDirectory(destdir);
@@ -234,7 +226,7 @@ public class WSConsumeTask extends Task
       }
       finally
       {
-         SecurityActions.setContextClassLoader(prevCL);
+         Thread.currentThread().setContextClassLoader(prevCL);
       }
    }
 
@@ -251,7 +243,7 @@ public class WSConsumeTask extends Task
    private Path getTaskClassPath()
    {
       // Why is everything in the Ant API a big hack???
-      ClassLoader cl = SecurityActions.getClassLoader(this.getClass());
+      ClassLoader cl = this.getClass().getClassLoader();
       if (cl instanceof AntClassLoader)
       {
          return new Path(getProject(), ((AntClassLoader)cl).getClasspath());
@@ -264,7 +256,7 @@ public class WSConsumeTask extends Task
    {
       // Why is everything in the Ant API a big hack???
       List<String> strings = new ArrayList<String>();
-      ClassLoader cl = SecurityActions.getClassLoader(this.getClass());
+      ClassLoader cl = this.getClass().getClassLoader();
       if (cl instanceof AntClassLoader)
       {
          for (String string : ((AntClassLoader)cl).getClasspath().split(File.pathSeparator))
@@ -286,9 +278,6 @@ public class WSConsumeTask extends Task
       
       if (extension)
          command.createArgument().setValue("-e");
-      
-      if (additionalHeaders)
-         command.createArgument().setValue("-a");
 
       for (File file : bindingFiles)
       {
@@ -345,12 +334,6 @@ public class WSConsumeTask extends Task
       ExecuteJava execute = new ExecuteJava();
       execute.setClasspath(path);
       execute.setJavaCommand(command.getJavaCommand());
-
-      // propagate system properties (useful e.g. for endorsing)
-      String[] arguments = command.getVmCommand().getArguments();
-      SysProperties properties = AntTaskHelper.toSystemProperties(arguments);
-      execute.setSystemProperties(properties);
-
       if (execute.fork(this) != 0)
          throw new BuildException("Could not invoke WSConsumeTask", getLocation());
    }

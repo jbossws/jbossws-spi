@@ -24,8 +24,6 @@ package org.jboss.wsf.spi.deployment;
 import java.util.List;
 
 import javax.management.ObjectName;
-import javax.naming.Context;
-import javax.naming.NamingException;
 
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.RequestHandler;
@@ -49,7 +47,7 @@ public interface Endpoint extends Extensible
 
    public enum EndpointState
    {
-      UNDEFINED, STARTED, STOPPED
+      UNDEFINED, CREATED, STARTED, STOPPED, DESTROYED
    };
 
    /** Get the service this endpoint belongs to */
@@ -129,7 +127,4 @@ public interface Endpoint extends Extensible
    
    /** Ask configured processors for processing of the given record **/
    void processRecord(Record record);
-   
-   /** Returns associated JNDI context with this endpoint. */
-   Context getJNDIContext();
 }
