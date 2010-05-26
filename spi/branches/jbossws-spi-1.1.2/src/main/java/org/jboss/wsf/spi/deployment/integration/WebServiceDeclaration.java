@@ -51,12 +51,6 @@ public interface WebServiceDeclaration
    String getComponentClassName();
    
    /**
-    * Returns JNDI context associated with EJB container.
-    * @return
-    */
-   Context getContext();
-
-   /**
     * Get a unified meta data view represented by an annotation.
     *
     * @param t

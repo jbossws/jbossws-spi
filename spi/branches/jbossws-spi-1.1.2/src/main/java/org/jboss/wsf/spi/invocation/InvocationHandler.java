@@ -24,6 +24,8 @@ package org.jboss.wsf.spi.invocation;
 import java.lang.reflect.UndeclaredThrowableException;
 
 import javax.management.MBeanException;
+import javax.naming.Context;
+import javax.naming.NamingException;
 
 import org.jboss.wsf.spi.deployment.Endpoint;
 
@@ -36,14 +38,17 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  */
 public abstract class InvocationHandler
 {
-   /** Create a container specific invocation **/
+   /** Create a container specific invocation */
    public abstract Invocation createInvocation();
 
    /** Invoke the the service endpoint */
    public abstract void invoke(Endpoint ep, Invocation inv) throws Exception;
 
-   /** Initilize the invocation handler **/
+   /** Initilize the invocation handler */
    public abstract void init(Endpoint ep);
+   
+   /** Returns JNDI context associated with endpoint */
+   public abstract Context getJNDIContext(Endpoint ep) throws NamingException;
 
    protected void handleInvocationException(Throwable th) throws Exception
    {
