@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,15 +21,15 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.serviceref.ServiceRefMetaData;
+import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.WebServiceException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,33 +37,20 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.WebServiceException;
-
-import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.wsf.spi.deployment.WritableUnifiedVirtualFile;
-import org.jboss.wsf.spi.serviceref.ServiceRefMetaData;
-import org.jboss.wsf.spi.util.URLLoaderAdapter;
-import org.w3c.dom.Element;
-
 /**
  * The metdata data from service-ref element in web.xml, ejb-jar.xml, and
  * application-client.xml.
  * 
  * @author Thomas.Diesler@jboss.org
- * @author alessio.soldano@jboss.com
  */
 public class UnifiedServiceRefMetaData extends ServiceRefMetaData
 {
-   private static final long serialVersionUID = -926464174132493952L;
+   private static final long serialVersionUID = -926464174132493951L;
 
    // provide logging
    private static Logger log = Logger.getLogger(UnifiedServiceRefMetaData.class);
 
-   private transient UnifiedVirtualFile vfsRoot;
+   private UnifiedVirtualFile vfsRoot;
 
    // Standard properties 
 
@@ -438,76 +425,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
       SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
       ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
       factory.getServiceRefMetaDataParser().importJBossXml(root, this);
-   }
-   
-   private void writeObject(ObjectOutputStream out) throws IOException
-   {
-      out.defaultWriteObject();
-      out.writeObject(vfsRoot);
-      if (vfsRoot instanceof WritableUnifiedVirtualFile)
-      {
-         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-         ((WritableUnifiedVirtualFile)vfsRoot).writeContent(bos, new WritableUnifiedVirtualFile.NameFilter() {
-            public boolean accept(String fileName)
-            {
-               boolean result = fileName.contains("META-INF");
-               result = result || fileName.endsWith(".wsdl");
-               result = result ||  fileName.endsWith(".xsd");
-               result = result || fileName.endsWith(".xml");
-               return result;
-            }
-         });
-         out.writeObject(bos.toByteArray());
-         out.writeObject(vfsRoot.getName());
-      }
-   }
-   
-   private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-   {
-      in.defaultReadObject();
-      UnifiedVirtualFile obj = (UnifiedVirtualFile)in.readObject();
-      if (obj.toURL() == null && (obj instanceof WritableUnifiedVirtualFile))
-      {
-         //the virtual file has been created in a different VM (or is even pointing to a different filesystem), try getting the serialized contents
-         byte[] bytes = (byte[])in.readObject();
-         String vfName = (String)in.readObject();
-         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-         File tempFile = File.createTempFile("jbossws-vf-", "-" + vfName);
-         tempFile.deleteOnExit();
-         FileOutputStream fos = new FileOutputStream(tempFile);
-         copyStreamAndClose(fos, bis);
-         this.vfsRoot = new URLLoaderAdapter(tempFile.toURI().toURL());
-      }
-      else
-      {
-         this.vfsRoot = (UnifiedVirtualFile)obj;
-      }
-   }
-
-   private static void copyStreamAndClose(OutputStream outs, InputStream ins) throws IOException
-   {
-      try
-      {
-         byte[] bytes = new byte[1024];
-         int r = ins.read(bytes);
-         while (r > 0)
-         {
-            outs.write(bytes, 0, r);
-            r = ins.read(bytes);
-         }
-      }
-      catch (IOException e)
-      {
-         throw e;
-      }
-      finally{
-         try {
-            ins.close();
-         } catch (Exception e) {}
-         try {
-            outs.close();
-         } catch (Exception e) {}
-      }
    }
 
    public String toString()

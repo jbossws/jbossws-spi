@@ -29,9 +29,15 @@ package org.jboss.wsf.spi.deployment;
  */
 public interface LifecycleHandler
 {
+   /** Handle the create step of an endpoint */ 
+   void create(Endpoint endpoint);
+   
    /** Handle the start step of an endpoint */ 
    void start(Endpoint endpoint);
 
    /** Handle the stop step of an endpoint */ 
    void stop(Endpoint endpoint);
+
+   /** Handle the destroy step of an endpoint */ 
+   void destroy(Endpoint endpoint);
 }

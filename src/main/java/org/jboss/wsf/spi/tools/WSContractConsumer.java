@@ -52,7 +52,7 @@ public abstract class WSContractConsumer
     */
    public static WSContractConsumer newInstance()
    {
-      return newInstance(SecurityActions.getContextClassLoader());
+      return newInstance(Thread.currentThread().getContextClassLoader());
    }
 
    /**
@@ -64,16 +64,16 @@ public abstract class WSContractConsumer
     */
    public static WSContractConsumer newInstance(ClassLoader loader)
    {
-      ClassLoader oldLoader = SecurityActions.getContextClassLoader();
+      ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
       try
       {
-         SecurityActions.setContextClassLoader(loader);
+         Thread.currentThread().setContextClassLoader(loader);
          WSContractConsumerFactory factory = (WSContractConsumerFactory) ServiceLoader.loadService(PROVIDER_PROPERTY, DEFAULT_PROVIDER);
          return factory.createConsumer();
       }
       finally
       {
-         SecurityActions.setContextClassLoader(oldLoader);
+         Thread.currentThread().setContextClassLoader(oldLoader);
       }
    }
 
@@ -165,16 +165,8 @@ public abstract class WSContractConsumer
    public abstract void setAdditionalCompilerClassPath(List<String> classPath);
 
    /**
-    * Enables or disables processing of implicit SOAP headers (i.e. SOAP headers
-    * defined in the wsdl:binding but not wsdl:portType section.) Default is false. 
-    * 
-    * @param additionalHeaders a boolean enabling processing of implicit SOAP headers
-    */
-   public abstract void setAdditionalHeaders(boolean additionalHeaders);
-   
-   /**
-    * Set the target JAX-WS specification target. Allowed values are 2.0, 2.1 and 2.2
-    * @param target  the JAX-WS specification version.
+    * Set the target JAX-WS specification target. Defaults to <code>2.0</code>
+    * @param target  the JAX-WS specification version. Allowed values are 2.0, 2.1
     */
    public abstract void setTarget(String target);
 
@@ -204,7 +196,7 @@ public abstract class WSContractConsumer
       catch (MalformedURLException e)
       {
          File file = new File(wsdl);
-         url = file.toURI().toURL();
+         url = file.toURL();
       }
 
       consume(url);

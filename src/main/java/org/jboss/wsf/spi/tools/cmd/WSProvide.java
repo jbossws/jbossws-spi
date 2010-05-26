@@ -41,25 +41,24 @@ import org.jboss.wsf.spi.tools.WSContractProvider;
  * <pre>
  *  usage: WSProvideTask [options] &lt;endpoint class name&gt;
  *  options: 
- *  <table>
- *  <tr><td>-h, --help                      </td><td>Show this help message</td></tr>
- *  <tr><td>-k, --keep                      </td><td>Keep/Generate Java source</td></tr>
- *  <tr><td>-w, --wsdl                      </td><td>Enable WSDL file generation</td></tr>
- *  <tr><td>-c, --classpath=&lt;path&lt;    </td><td>The classpath that contains the endpoint</td></tr>
- *  <tr><td>-o, --output=&lt;directory&gt;  </td><td>The directory to put generated artifacts</td></tr>
- *  <tr><td>-r, --resource=&lt;directory&gt;</td><td>The directory to put resource artifacts</td></tr>
- *  <tr><td>-s, --source=&lt;directory&gt;  </td><td>The directory to put Java source</td></tr>
- *  <tr><td>-q, --quiet                     </td><td>Be somewhat more quiet</td></tr>
- *  <tr><td>-t, --show-traces               </td><td>Show full exception stack traces</td></tr>
- *  <tr><td>-l, --load-provider             </td><td>Load the provider and exit (debug utility)</td></tr>
- *  <tr><td>-e, --extension                 </td><td>Enable SOAP 1.2 binding extension</td></tr>
+ *  -h, --help                  Show this help message
+ *  -k, --keep                  Keep/Generate Java source
+ *  -w, --wsdl                  Enable WSDL file generation
+ *  -c, --classpath=&lt;path&lt;      The classpath that contains the endpoint
+ *  -o, --output=&lt;directory&gt;    The directory to put generated artifacts
+ *  -r, --resource=&lt;directory&gt;  The directory to put resource artifacts
+ *  -s, --source=&lt;directory&gt;    The directory to put Java source
+ *  -q, --quiet                 Be somewhat more quiet
+ *  -t, --show-traces           Show full exception stack traces
+ *  -l, --load-provider           Load the provider and exit (debug utility)
+ *  -e, --extension                Enable SOAP 1.2 binding extension
  * </pre>
  * 
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
  */
 public class WSProvide
 {
-   private ClassLoader loader = SecurityActions.getContextClassLoader();
+   private ClassLoader loader = Thread.currentThread().getContextClassLoader();
    private File outputDir = new File("output");
    private boolean generateSource;
    private boolean generateWsdl;
@@ -70,7 +69,7 @@ public class WSProvide
    private File resourceDir;
    private File sourceDir;
    
-   public static final String PROGRAM_NAME = SecurityActions.getSystemProperty("program.name", WSProvide.class.getSimpleName());
+   public static final String PROGRAM_NAME = System.getProperty("program.name", WSProvide.class.getSimpleName());
 
    public static void main(String[] args)
    {
@@ -165,9 +164,9 @@ public class WSProvide
    {
       try
       {
-         SecurityActions.loadClass(loader, endpoint);
+         loader.loadClass(endpoint);
       }
-      catch (Exception e)
+      catch (ClassNotFoundException e)
       {
          System.err.println("Error: Could not load class [" + endpoint + "]. Did you specify a valid --classpath?");
          return 1;
@@ -219,7 +218,7 @@ public class WSProvide
       {
          try 
          {
-            urls.add(new File(entry).toURI().toURL());
+            urls.add(new File(entry).toURL());
          }
          catch (MalformedURLException e)
          {

@@ -39,7 +39,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * Load a service class using this ordered lookup procedure
  *
  * @author Thomas.Diesler@jboss.com
- * @author alessio.soldano@jboss.com
  * @since 14-Dec-2006
  */
 public abstract class ServiceLoader
@@ -85,17 +84,16 @@ public abstract class ServiceLoader
    {
       Object factory = null;
       String factoryName = null;
-      ClassLoader loader = SecurityActions.getContextClassLoader();
-      
+      ClassLoader loader = Thread.currentThread().getContextClassLoader();
+
       // Use the Services API (as detailed in the JAR specification), if available, to determine the classname.
       String filename = "META-INF/services/" + propertyName;
-      
       try
       {
          factoryName = getServiceNameUsingCache(loader, filename);
          if (factoryName != null)
          {
-            Class factoryClass = SecurityActions.loadClass(loader, factoryName);
+            Class<?> factoryClass = SecurityActions.loadClass(loader, factoryName);
             factory = factoryClass.newInstance();
          }
       }
@@ -103,7 +101,7 @@ public abstract class ServiceLoader
       {
          throw new IllegalStateException("Failed to load " + propertyName + ": " + factoryName, t);
       }
-      
+
       // Use the default factory implementation class.
       if (factory == null && defaultFactory != null)
       {
@@ -112,7 +110,7 @@ public abstract class ServiceLoader
 
       return factory;
    }
-
+   
    private static String getServiceNameUsingCache(ClassLoader loader, String filename) throws IOException
    {
       Map<String, String> map = serviceMap.get(loader);
@@ -139,13 +137,13 @@ public abstract class ServiceLoader
          return factoryName;
       }
    }
-   
+
    /** Use the system property
     */
    public static Object loadFromSystemProperty(String propertyName, String defaultFactory)
    {
       Object factory = null;
-      ClassLoader loader = SecurityActions.getContextClassLoader();
+      ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
       PrivilegedAction action = new PropertyAccessAction(propertyName);
       String factoryName = (String)AccessController.doPrivileged(action);
@@ -154,7 +152,7 @@ public abstract class ServiceLoader
          try
          {
             //if(log.isDebugEnabled()) log.debug("Load from system property: " + factoryName);
-            Class factoryClass = SecurityActions.loadClass(loader, factoryName);
+            Class factoryClass = loader.loadClass(factoryName);
             factory = factoryClass.newInstance();
          }
          catch (Throwable t)
@@ -181,14 +179,14 @@ public abstract class ServiceLoader
    {
       Object factory = null;
       String factoryName = null;
-      ClassLoader loader = SecurityActions.getContextClassLoader();
+      ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
       // Use the properties file "lib/jaxm.properties" in the JRE directory.
       // This configuration file is in standard java.util.Properties format and contains the fully qualified name of the implementation class with the key being the system property defined above.
       PrivilegedAction action = new PropertyAccessAction("java.home");
       String javaHome = (String)AccessController.doPrivileged(action);
       File jaxmFile = new File(javaHome + "/lib/jaxws.properties");
-      if ((Boolean)AccessController.doPrivileged(new PropertyFileExistAction(jaxmFile)))
+      if (jaxmFile.exists())
       {
          try
          {
@@ -198,7 +196,7 @@ public abstract class ServiceLoader
             if (factoryName != null)
             {
                //if(log.isDebugEnabled()) log.debug("Load from " + jaxmFile + ": " + factoryName);
-               Class<?> factoryClass = SecurityActions.loadClass(loader, factoryName);
+               Class factoryClass = loader.loadClass(factoryName);
                factory = factoryClass.newInstance();
             }
          }
@@ -220,7 +218,7 @@ public abstract class ServiceLoader
    private static Object loadDefault(String defaultFactory)
    {
       Object factory = null;
-      ClassLoader loader = SecurityActions.getContextClassLoader();
+      ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
       // Use the default factory implementation class.
       if (defaultFactory != null)
@@ -228,7 +226,7 @@ public abstract class ServiceLoader
          try
          {
             //if(log.isDebugEnabled()) log.debug("Load from default: " + factoryName);
-            Class factoryClass = SecurityActions.loadClass(loader, defaultFactory);
+            Class factoryClass = loader.loadClass(defaultFactory);
             factory = factoryClass.newInstance();
          }
          catch (Throwable t)
@@ -286,21 +284,6 @@ public abstract class ServiceLoader
             }
             catch (Exception e) {} //ignore
          }
-      }
-   }
-   
-   private static class PropertyFileExistAction implements PrivilegedAction
-   {
-      private File file;
-
-      PropertyFileExistAction(File file)
-      {
-         this.file = file;
-      }
-
-      public Object run()
-      {
-         return file.exists();
       }
    }
 }

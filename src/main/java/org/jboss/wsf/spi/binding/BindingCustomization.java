@@ -30,6 +30,7 @@ import java.util.HashMap;
  * <p>
  * Supported properties need to be documented in subclasses.
  *
+ *
  * @author Heiko.Braun@jboss.com
  *         Created: Jun 28, 2007
  */
