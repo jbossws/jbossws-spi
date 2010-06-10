@@ -23,7 +23,13 @@ package org.jboss.wsf.spi.tools.cmd;
 
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
+
 import org.jboss.wsf.spi.tools.WSContractConsumer;
+import org.jboss.wsf.spi.util.Log4JUtil;
+import org.jboss.wsf.spi.util.Log4jOutputStream;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -215,7 +221,19 @@ public class WSConsume
          consumer.setSourceDirectory(sourceDir);
 
       if (! quiet)
-         consumer.setMessageStream(System.out);
+      {
+         PrintStream ps;
+         if (Log4JUtil.isLog4jConfigurationAvailable())
+         {
+            ps = new PrintStream(new Log4jOutputStream(Logger.getLogger("WSConsume"), Level.INFO));
+         }
+         else
+         {
+            ps = System.out;
+            ps.println("Could not find log4j.xml configuration, logging to console.\n");
+         }
+         consumer.setMessageStream(ps);
+      }
 
       if (catalog != null)
          consumer.setCatalog(catalog);
