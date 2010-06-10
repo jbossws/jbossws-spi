@@ -32,7 +32,12 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
+
 import org.jboss.wsf.spi.tools.WSContractProvider;
+import org.jboss.wsf.spi.util.Log4JUtil;
+import org.jboss.wsf.spi.util.Log4jOutputStream;
 
 /**
  * WSProvideTask is a cmd line tool that generates portable JAX-WS artifacts
@@ -184,7 +189,19 @@ public class WSProvide
          gen.setSourceDirectory(sourceDir);
 
       if (! quiet)
-         gen.setMessageStream(System.out);
+      {
+         PrintStream ps;
+         if (Log4JUtil.isLog4jConfigurationAvailable())
+         {
+            ps = new PrintStream(new Log4jOutputStream(Logger.getLogger("WSProvide"), Level.INFO));
+         }
+         else
+         {
+            ps = System.out;
+            ps.println("Could not find log4j.xml configuration, logging to console.\n");
+         }
+         gen.setMessageStream(ps);
+      }
       
       try
       {
