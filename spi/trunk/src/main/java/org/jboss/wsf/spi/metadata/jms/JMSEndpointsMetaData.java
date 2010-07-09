@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,28 +19,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.deployment;
+package org.jboss.wsf.spi.metadata.jms;
 
-import org.jboss.wsf.spi.SPIView;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @author Heiko.Braun@jboss.com
- *         Created: Jul 18, 2007
+ * <p>Meta data class from jbossws-cxf.xml</p>
+ * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public abstract class DeploymentModelFactory implements SPIView
+
+public class JMSEndpointsMetaData
 {
-   public abstract Deployment newDeployment(String simpleName, ClassLoader initialLoader);
+   //The endpoints list
+   private List<JMSEndpointMetaData> endpointsMetaData = new ArrayList<JMSEndpointMetaData>();
 
-   public abstract Service newService();
+   private URL descriptorURL;
 
-   @Deprecated
-   /**
-    * Use #newHttpEndpoint(String) instead
-    */
-   public abstract Endpoint newEndpoint(String targetBean);
+   public JMSEndpointsMetaData()
+   {
+   }
 
-   public abstract Endpoint newHttpEndpoint(String targetBean);
+   public JMSEndpointsMetaData(URL descriptorURL)
+   {
+      this.descriptorURL = descriptorURL;
+   }
+
+   public URL getDescriptorURL()
+   {
+      return descriptorURL;
+   }
+
+   public void addEndpointMetaData(JMSEndpointMetaData endpointMetaData)
+   {
+      endpointsMetaData.add(endpointMetaData);
+   }
    
-   public abstract Endpoint newJMSEndpoint(String targetBean);
-  
+   public List<JMSEndpointMetaData> getEndpointsMetaData() {
+      return this.endpointsMetaData;
+   }
 }

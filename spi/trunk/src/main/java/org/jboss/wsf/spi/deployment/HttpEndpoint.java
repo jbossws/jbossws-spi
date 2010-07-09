@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,26 +21,16 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-import org.jboss.wsf.spi.SPIView;
-
 /**
- * @author Heiko.Braun@jboss.com
- *         Created: Jul 18, 2007
+ * To represents a http transport endpoint
+ * 
+ * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public abstract class DeploymentModelFactory implements SPIView
+public interface HttpEndpoint extends Endpoint
 {
-   public abstract Deployment newDeployment(String simpleName, ClassLoader initialLoader);
-
-   public abstract Service newService();
-
-   @Deprecated
-   /**
-    * Use #newHttpEndpoint(String) instead
-    */
-   public abstract Endpoint newEndpoint(String targetBean);
-
-   public abstract Endpoint newHttpEndpoint(String targetBean);
+   /** Get the URL pattern for this endpoint */
+   String getURLPattern();
    
-   public abstract Endpoint newJMSEndpoint(String targetBean);
-  
+   /** Set the URL pattern for this endpoint */
+   void setURLPattern(String urlPattern);
 }
