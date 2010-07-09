@@ -45,6 +45,7 @@ import org.xml.sax.Attributes;
  * @author Thomas.Diesler@jboss.org
  * @since 16-Apr-2004
  */
+// TODO: move to jbossws-framework or jbossws-common
 public class WebservicesFactory implements ObjectModelFactory
 {
    // provide logging
