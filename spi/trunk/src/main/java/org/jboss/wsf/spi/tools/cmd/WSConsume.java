@@ -236,7 +236,16 @@ public class WSConsume
       }
 
       if (catalog != null)
-         consumer.setCatalog(catalog);
+      {
+         if (catalog.exists() && catalog.isFile())
+         {
+            consumer.setCatalog(catalog);
+         }
+         else
+         {
+            System.err.println("Warning: catalog file not found: " + catalog);
+         }
+      }
 
       if (targetPackage != null)
          consumer.setTargetPackage(targetPackage);

@@ -209,7 +209,16 @@ public class WSConsumeTask extends Task
          if (wsdlLocation != null)
             consumer.setWsdlLocation(wsdlLocation);
          if (catalog != null)
-            consumer.setCatalog(catalog);
+         {
+            if (catalog.exists() && catalog.isFile())
+            {
+               consumer.setCatalog(catalog);
+            }
+            else
+            {
+               log("Catalog file not found: " + catalog, Project.MSG_WARN);
+            }
+         }
          if (bindingFiles != null && bindingFiles.size() > 0)
             consumer.setBindingFiles(bindingFiles);
          if (target != null)
