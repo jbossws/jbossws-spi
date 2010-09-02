@@ -425,6 +425,7 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    }
 
    @Override
+   @Deprecated
    public void importStandardXml(Element root)
    {
       SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
@@ -433,6 +434,7 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    }
 
    @Override
+   @Deprecated
    public void importJBossXml(Element root)
    {
       SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
