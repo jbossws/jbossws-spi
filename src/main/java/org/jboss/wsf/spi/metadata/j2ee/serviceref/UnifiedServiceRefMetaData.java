@@ -58,7 +58,7 @@ import org.w3c.dom.Element;
  */
 public class UnifiedServiceRefMetaData extends ServiceRefMetaData
 {
-   private static final long serialVersionUID = -926464174132493952L;
+   private static final long serialVersionUID = -926464174132493954L;
 
    // provide logging
    private static Logger log = Logger.getLogger(UnifiedServiceRefMetaData.class);
@@ -100,6 +100,10 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    private String handlerChain;
    // Arbitrary proxy properties given by <call-property> 
    private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>();
+   // @Addressing annotation metadata
+   private boolean addressingEnabled;
+   private boolean addressingRequired;
+   private String addressingResponses = "ALL";
 
    // The JAXWS annotated element. JDK1.4 does not have java.lang.reflect.AnnotatedElement so we use an untyped Object
    private transient Object anElement;
@@ -116,6 +120,34 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
 
    public UnifiedServiceRefMetaData()
    {
+   }
+   
+   public void setAddressingEnabled() {
+      this.addressingEnabled = true;
+   }
+   
+   public boolean isAddressingEnabled() {
+      return this.addressingEnabled;
+   }
+
+   public void setAddressingRequired() {
+      this.addressingRequired = true;
+   }
+   
+   public boolean isAddressingRequired() {
+      return this.addressingRequired;
+   }
+   
+   public void setAddressingResponses(final String responsesTypes)
+   {
+      if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
+         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings allowed");
+
+      this.addressingResponses = responsesTypes;
+   }
+   
+   public String getAddressingResponses() {
+      return this.addressingResponses;
    }
 
    public void merge(ServiceRefMetaData sref)
