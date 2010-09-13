@@ -104,6 +104,11 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    private boolean addressingEnabled;
    private boolean addressingRequired;
    private String addressingResponses = "ALL";
+   // @MTOM annotation metadata
+   private boolean mtomEnabled;
+   private int mtomThreshold;
+   // @RespectBinding annotation metadata
+   private boolean respectBindingEnabled;
 
    // The JAXWS annotated element. JDK1.4 does not have java.lang.reflect.AnnotatedElement so we use an untyped Object
    private transient Object anElement;
@@ -148,6 +153,31 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    
    public String getAddressingResponses() {
       return this.addressingResponses;
+   }
+
+   public void setMtomEnabled() {
+      this.mtomEnabled = true;
+   }
+   
+   public boolean isMtomEnabled() {
+      return this.mtomEnabled;
+   }
+
+   public void setMtomThreshold(final int threshold)
+   {
+      this.mtomThreshold = threshold;
+   }
+   
+   public int getMtomThreshold() {
+      return this.mtomThreshold;
+   }
+
+   public void setRespectBindingEnabled() {
+      this.respectBindingEnabled = true;
+   }
+   
+   public boolean isRespectBindingEnabled() {
+      return this.respectBindingEnabled;
    }
 
    public void merge(ServiceRefMetaData sref)
