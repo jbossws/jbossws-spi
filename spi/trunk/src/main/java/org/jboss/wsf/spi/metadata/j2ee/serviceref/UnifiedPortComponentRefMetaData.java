@@ -37,13 +37,13 @@ import org.w3c.dom.Element;
  */
 public class UnifiedPortComponentRefMetaData extends ServiceRefElement
 {
+   private static final long serialVersionUID = 8622309745808960649L;
+
    // The parent service-ref
    private UnifiedServiceRefMetaData serviceRefMetaData;
 
    // The required <service-endpoint-interface> element
    private String serviceEndpointInterface;
-   // The optional <enable-mtom> element
-   private Boolean enableMTOM = Boolean.FALSE;
    // The optional <port-component-link> element
    private String portComponentLink;
    // The optional <port-qname> element
@@ -56,6 +56,16 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    private String configName;
    // The optional JBossWS config-file
    private String configFile;
+   // The optional <adressing> element
+   private boolean addressingEnabled;
+   private boolean addressingRequired;
+   private String addressingResponses = "ALL";
+   // The optional <enable-mtom> element
+   private boolean mtomEnabled;
+   // The optional <mtom-threshold> element
+   private int mtomThreshold;
+   // @RespectBinding annotation metadata
+   private boolean respectBindingEnabled;
 
    public UnifiedPortComponentRefMetaData(UnifiedServiceRefMetaData serviceRefMetaData)
    {
@@ -69,6 +79,12 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       configFile = pcref.configFile;
       callProperties = pcref.callProperties;
       stubProperties = pcref.stubProperties;
+      addressingEnabled = pcref.addressingEnabled;
+      addressingRequired = pcref.addressingRequired;
+      addressingResponses = pcref.addressingResponses;
+      mtomEnabled = pcref.mtomEnabled;
+      mtomThreshold = pcref.mtomThreshold;
+      respectBindingEnabled = pcref.respectBindingEnabled;
    }
 
    public UnifiedServiceRefMetaData getServiceRefMetaData()
@@ -76,14 +92,75 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       return serviceRefMetaData;
    }
 
+   /**
+    * @deprecated Use {@link #isMtomEnabled()} instead.
+    */
+   @Deprecated
    public Boolean getEnableMTOM()
    {
-      return enableMTOM;
+      return mtomEnabled;
    }
 
+   /**
+    * @deprecated Use {@link #setMtomEnabled(boolean)} instead.
+    */
+   @Deprecated
    public void setEnableMTOM(Boolean enableMTOM)
    {
-      this.enableMTOM = enableMTOM;
+      this.mtomEnabled = enableMTOM;
+   }
+
+   public void setAddressingEnabled(final boolean addressingEnabled) {
+      this.addressingEnabled = addressingEnabled;
+   }
+   
+   public boolean isAddressingEnabled() {
+      return this.addressingEnabled;
+   }
+
+   public void setAddressingRequired(final boolean addressingRequired) {
+      this.addressingRequired = addressingRequired;
+   }
+   
+   public boolean isAddressingRequired() {
+      return this.addressingRequired;
+   }
+   
+   public void setAddressingResponses(final String responsesTypes)
+   {
+      if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
+         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings are allowed");
+
+      this.addressingResponses = responsesTypes;
+   }
+   
+   public String getAddressingResponses() {
+      return this.addressingResponses;
+   }
+
+   public void setMtomEnabled(final boolean mtomEnabled) {
+      this.mtomEnabled = mtomEnabled;
+   }
+   
+   public boolean isMtomEnabled() {
+      return this.mtomEnabled;
+   }
+
+   public void setMtomThreshold(final int mtomThreshold)
+   {
+      this.mtomThreshold = mtomThreshold;
+   }
+   
+   public int getMtomThreshold() {
+      return this.mtomThreshold;
+   }
+
+   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
+      this.respectBindingEnabled = respectBindingEnabled;
+   }
+   
+   public boolean isRespectBindingEnabled() {
+      return this.respectBindingEnabled;
    }
 
    /** 
@@ -215,7 +292,12 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       str.append("\nUnifiedPortComponentRef");
       str.append("\n serviceEndpointInterface=" + serviceEndpointInterface);
       str.append("\n portQName=" + portQName);
-      str.append("\n enableMTOM=" + enableMTOM);
+      str.append("\n addressingEnabled=" + addressingEnabled);
+      str.append("\n addressingRequired=" + addressingRequired);
+      str.append("\n addressingResponses=" + addressingResponses);
+      str.append("\n mtomEnabled=" + mtomEnabled);
+      str.append("\n mtomThreshold=" + mtomThreshold);
+      str.append("\n respectBindingEnabled=" + respectBindingEnabled);
       str.append("\n portComponentLink=" + portComponentLink);
       str.append("\n callProperties=" + callProperties);
       str.append("\n stubProperties=" + stubProperties);

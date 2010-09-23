@@ -127,16 +127,16 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    {
    }
    
-   public void setAddressingEnabled() {
-      this.addressingEnabled = true;
+   public void setAddressingEnabled(final boolean addressingEnabled) {
+      this.addressingEnabled = addressingEnabled;
    }
    
    public boolean isAddressingEnabled() {
       return this.addressingEnabled;
    }
 
-   public void setAddressingRequired() {
-      this.addressingRequired = true;
+   public void setAddressingRequired(final boolean addressingRequired) {
+      this.addressingRequired = addressingRequired;
    }
    
    public boolean isAddressingRequired() {
@@ -146,7 +146,7 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    public void setAddressingResponses(final String responsesTypes)
    {
       if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings allowed");
+         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings are allowed");
 
       this.addressingResponses = responsesTypes;
    }
@@ -155,25 +155,25 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
       return this.addressingResponses;
    }
 
-   public void setMtomEnabled() {
-      this.mtomEnabled = true;
+   public void setMtomEnabled(final boolean mtomEnabled) {
+      this.mtomEnabled = mtomEnabled;
    }
    
    public boolean isMtomEnabled() {
       return this.mtomEnabled;
    }
 
-   public void setMtomThreshold(final int threshold)
+   public void setMtomThreshold(final int mtomThreshold)
    {
-      this.mtomThreshold = threshold;
+      this.mtomThreshold = mtomThreshold;
    }
    
    public int getMtomThreshold() {
       return this.mtomThreshold;
    }
 
-   public void setRespectBindingEnabled() {
-      this.respectBindingEnabled = true;
+   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
+      this.respectBindingEnabled = respectBindingEnabled;
    }
    
    public boolean isRespectBindingEnabled() {
@@ -188,7 +188,13 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
       configFile = sourceRef.configFile;
       wsdlOverride = sourceRef.wsdlOverride;
       handlerChain = sourceRef.handlerChain;
-      callProperties = sourceRef.callProperties;      
+      callProperties = sourceRef.callProperties;
+      addressingEnabled = sourceRef.addressingEnabled;
+      addressingRequired = sourceRef.addressingRequired;
+      addressingResponses = sourceRef.addressingResponses;
+      mtomEnabled = sourceRef.mtomEnabled;
+      mtomThreshold = sourceRef.mtomThreshold;
+      respectBindingEnabled = sourceRef.respectBindingEnabled;
       
       if (serviceQName == null && sourceRef.serviceQName != null)
          serviceQName = sourceRef.serviceQName;
@@ -590,6 +596,12 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
       str.append("\n configName=" + configName);
       str.append("\n configFile=" + configFile);
       str.append("\n callProperties=" + callProperties);
+      str.append("\n addressingEnabled=" + addressingEnabled);
+      str.append("\n addressingRequired=" + addressingRequired);
+      str.append("\n addressingResponses=" + addressingResponses);
+      str.append("\n mtomEnabled=" + mtomEnabled);
+      str.append("\n mtomThreshold=" + mtomThreshold);
+      str.append("\n respectBindingEnabled=" + respectBindingEnabled);
       str.append("\n processed=" + processed);
       str.append("\n handlerChains=" + handlerChains);
       str.append("\n handlerChain=" + handlerChain);
