@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import org.w3c.dom.Element;
 import java.io.Serializable;
 import java.util.List;
 
@@ -46,12 +45,6 @@ public abstract class ServiceRefMetaData extends ServiceRefElement implements Se
    public abstract void setProcessed(boolean flag);
    
    public abstract List<String[]> getInjectionTargets();
-
-   @Deprecated
-   public abstract void importStandardXml(Element element);
-
-   @Deprecated
-   public abstract void importJBossXml(Element element);
 
    public abstract void merge(ServiceRefMetaData targetRef);
 }

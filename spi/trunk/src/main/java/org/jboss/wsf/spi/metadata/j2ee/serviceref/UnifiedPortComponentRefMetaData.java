@@ -26,10 +26,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
-import org.w3c.dom.Element;
 
 /** The metdata data from service-ref/port-component-ref element in web.xml, ejb-jar.xml, and application-client.xml.
  *
@@ -252,20 +249,6 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    public void setConfigName(String configName)
    {
       this.configName = configName;
-   }
-
-   public void importStandardXml(Element root)
-   {
-      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
-      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
-      factory.getServiceRefMetaDataParser().importStandardXml(root, this);
-   }
-
-   public void importJBossXml(Element root)
-   {
-      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
-      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
-      factory.getServiceRefMetaDataParser().importJBossXml(root, this);
    }
 
    public boolean matches(String seiName, QName portName)
