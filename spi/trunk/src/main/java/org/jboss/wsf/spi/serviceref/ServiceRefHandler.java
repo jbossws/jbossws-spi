@@ -25,8 +25,6 @@ import javax.naming.Context;
 import javax.naming.NamingException;
 
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.xb.binding.UnmarshallingContext;
-import org.xml.sax.Attributes;
 
 /**
  * An implementation of this interface handles all service-ref binding concerns 
@@ -36,18 +34,6 @@ import org.xml.sax.Attributes;
  */
 public interface ServiceRefHandler
 {
-   final String BEAN_NAME = "WSServiceRefHandler";
-   
    enum Type {JAXRPC, JAXWS};
-
-   @Deprecated
-   ServiceRefMetaData newServiceRefMetaData();
-
-   @Deprecated
-   Object newChild(ServiceRefElement ref, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs);
-
-   @Deprecated
-   void setValue(ServiceRefElement ref, UnmarshallingContext navigator, String namespaceURI, String localName, String value);
-   
    void bindServiceRef(Context encCtx, String encName, UnifiedVirtualFile vfsRoot, ClassLoader loader, ServiceRefMetaData sref) throws NamingException;
 }
