@@ -41,13 +41,10 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceException;
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.deployment.WritableUnifiedVirtualFile;
 import org.jboss.wsf.spi.serviceref.ServiceRefMetaData;
 import org.jboss.wsf.spi.util.URLLoaderAdapter;
-import org.w3c.dom.Element;
 
 /**
  * The metdata data from service-ref element in web.xml, ejb-jar.xml, and
@@ -492,24 +489,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
       return this.injectionTargets;
    }
 
-   @Override
-   @Deprecated
-   public void importStandardXml(Element root)
-   {
-      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
-      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
-      factory.getServiceRefMetaDataParser().importStandardXml(root, this);
-   }
-
-   @Override
-   @Deprecated
-   public void importJBossXml(Element root)
-   {
-      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
-      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
-      factory.getServiceRefMetaDataParser().importJBossXml(root, this);
-   }
-   
    private void writeObject(ObjectOutputStream out) throws IOException
    {
       out.defaultWriteObject();
