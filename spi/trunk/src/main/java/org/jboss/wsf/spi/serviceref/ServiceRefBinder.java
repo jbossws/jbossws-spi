@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import java.lang.reflect.AnnotatedElement;
-
 import javax.naming.Context;
 import javax.naming.NamingException;
 
@@ -36,5 +34,5 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
  */
 public interface ServiceRefBinder
 {
-   void setupServiceRef(Context encCtx, String encName, AnnotatedElement anElement, UnifiedServiceRefMetaData serviceRef, ClassLoader loader) throws NamingException;
+   void setupServiceRef(Context encCtx, String encName, UnifiedServiceRefMetaData serviceRef, ClassLoader loader) throws NamingException;
 }
