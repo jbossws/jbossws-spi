@@ -69,21 +69,6 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       this.serviceRefMetaData = serviceRefMetaData;
    }
 
-   public void merge(UnifiedPortComponentRefMetaData pcref)
-   {
-      portQName = pcref.portQName;
-      configName = pcref.configName;
-      configFile = pcref.configFile;
-      callProperties = pcref.callProperties;
-      stubProperties = pcref.stubProperties;
-      addressingEnabled = pcref.addressingEnabled;
-      addressingRequired = pcref.addressingRequired;
-      addressingResponses = pcref.addressingResponses;
-      mtomEnabled = pcref.mtomEnabled;
-      mtomThreshold = pcref.mtomThreshold;
-      respectBindingEnabled = pcref.respectBindingEnabled;
-   }
-
    public UnifiedServiceRefMetaData getServiceRefMetaData()
    {
       return serviceRefMetaData;

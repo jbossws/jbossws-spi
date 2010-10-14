@@ -34,7 +34,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -47,7 +46,7 @@ import org.jboss.wsf.spi.serviceref.ServiceRefMetaData;
 import org.jboss.wsf.spi.util.URLLoaderAdapter;
 
 /**
- * The metdata data from service-ref element in web.xml, ejb-jar.xml, and
+ * The metadata from service-ref element in web.xml, ejb-jar.xml, and
  * application-client.xml.
  * 
  * @author Thomas.Diesler@jboss.org
@@ -55,7 +54,7 @@ import org.jboss.wsf.spi.util.URLLoaderAdapter;
  */
 public class UnifiedServiceRefMetaData extends ServiceRefMetaData
 {
-   private static final long serialVersionUID = -926464174132493954L;
+   private static final long serialVersionUID = -926464174132493955L;
 
    // provide logging
    private static Logger log = Logger.getLogger(UnifiedServiceRefMetaData.class);
@@ -111,9 +110,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    private transient Object anElement;
    // A flag that should be set when this service-ref has been bound.
    private transient boolean processed;
-
-   // Maps 'injection-target-class' to 'injection-target-name'
-   private List<String[]> injectionTargets = new LinkedList<String[]>();
 
    public UnifiedServiceRefMetaData(UnifiedVirtualFile vfRoot)
    {
@@ -175,46 +171,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    
    public boolean isRespectBindingEnabled() {
       return this.respectBindingEnabled;
-   }
-
-   public void merge(ServiceRefMetaData sref)
-   {
-      UnifiedServiceRefMetaData sourceRef = (UnifiedServiceRefMetaData)sref;
-      serviceImplClass = sourceRef.serviceImplClass;
-      configName = sourceRef.configName;
-      configFile = sourceRef.configFile;
-      wsdlOverride = sourceRef.wsdlOverride;
-      handlerChain = sourceRef.handlerChain;
-      callProperties = sourceRef.callProperties;
-      addressingEnabled = sourceRef.addressingEnabled;
-      addressingRequired = sourceRef.addressingRequired;
-      addressingResponses = sourceRef.addressingResponses;
-      mtomEnabled = sourceRef.mtomEnabled;
-      mtomThreshold = sourceRef.mtomThreshold;
-      respectBindingEnabled = sourceRef.respectBindingEnabled;
-      
-      if (serviceQName == null && sourceRef.serviceQName != null)
-         serviceQName = sourceRef.serviceQName;
-
-      for (UnifiedPortComponentRefMetaData pcref : sourceRef.getPortComponentRefs())
-      {
-         String seiName = pcref.getServiceEndpointInterface();
-         QName portQName = pcref.getPortQName();
-         UnifiedPortComponentRefMetaData targetPCRef = getPortComponentRef(seiName, portQName);
-
-         if (targetPCRef == null)
-         {
-            log.warn("Cannot find port component ref: [sei=" + seiName + ",port=" + portQName + "]");
-            if (seiName != null)
-               addPortComponentRef(pcref);
-            else
-               log.warn("Ingore port component ref without SEI declaration: " + pcref);
-
-            targetPCRef = pcref;
-         }
-
-         targetPCRef.merge(pcref);
-      }
    }
 
    public UnifiedVirtualFile getVfsRoot()
@@ -471,22 +427,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefMetaData
    public void setAnnotatedElement(Object anElement)
    {
       this.anElement = anElement;
-   }
-
-   public void registerInjectionTarget(String classname)
-   {      
-      this.injectionTargets.add( new String[]{classname, null} );
-   }
-
-   public void finalizeInjectionTarget(String propName)
-   {
-      int index = this.injectionTargets.isEmpty() ? 0 : this.injectionTargets.size() - 1;
-      this.injectionTargets.get(index)[1] =  propName;
-   }
-
-   public List<String[]> getInjectionTargets()
-   {
-      return this.injectionTargets;
    }
 
    private void writeObject(ObjectOutputStream out) throws IOException
