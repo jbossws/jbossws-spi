@@ -36,9 +36,5 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
  */
 public interface ServiceRefBinder
 {
-   final static String BEAN_NAME_JAXRPC = "WSServiceRefBinderJAXRPC";
-
-   final static String BEAN_NAME_JAXWS = "WSServiceRefBinderJAXWS";
-
    void setupServiceRef(Context encCtx, String encName, AnnotatedElement anElement, UnifiedServiceRefMetaData serviceRef, ClassLoader loader) throws NamingException;
 }

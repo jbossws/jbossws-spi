@@ -21,16 +21,13 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
  * An abstract service-ref meta data object.
  * 
  * @author Thomas.Diesler@jboss.org
  * @since 08-Mar-2007
  */
-public abstract class ServiceRefMetaData extends ServiceRefElement implements Serializable
+public abstract class ServiceRefMetaData extends ServiceRefElement
 {
    public abstract String getServiceRefName();
 
@@ -43,8 +40,4 @@ public abstract class ServiceRefMetaData extends ServiceRefElement implements Se
    public abstract boolean isProcessed();
 
    public abstract void setProcessed(boolean flag);
-   
-   public abstract List<String[]> getInjectionTargets();
-
-   public abstract void merge(ServiceRefMetaData targetRef);
 }
