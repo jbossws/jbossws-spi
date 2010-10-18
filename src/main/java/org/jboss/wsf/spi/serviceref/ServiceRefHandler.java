@@ -23,17 +23,36 @@ package org.jboss.wsf.spi.serviceref;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
+import javax.naming.Referenceable;
 
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
 /**
- * An implementation of this interface handles all service-ref binding concerns 
+ * An implementation of this interface handles all service-ref binding concerns.
  * 
  * @author Thomas.Diesler@jboss.org
- * @since 05-May-2004
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 public interface ServiceRefHandler
 {
-   enum Type {JAXRPC, JAXWS};
-   void bindServiceRef(Context encCtx, String encName, UnifiedVirtualFile vfsRoot, ClassLoader loader, ServiceRefMetaData sref) throws NamingException;
+   enum Type {
+      JAXRPC, JAXWS
+   };
+
+   /**
+    * @deprecated use {@link #createReferenceable(org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData, ClassLoader)} instead
+    */
+   @Deprecated
+   void bindServiceRef(Context encCtx, String encName, UnifiedVirtualFile vfsRoot, ClassLoader loader,
+         ServiceRefMetaData sref) throws NamingException;
+
+   /**
+    * Creates JNDI referenceable representing this <b>serviceRef</b>.
+    *
+    * @param serviceRefUMDM service reference UMDM
+    * @param loader class loader
+    * @return JNDI referenceable
+    */
+   Referenceable createReferenceable(UnifiedServiceRefMetaData serviceRefUMDM, ClassLoader loader);
 }
