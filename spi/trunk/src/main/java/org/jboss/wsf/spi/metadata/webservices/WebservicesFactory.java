@@ -53,6 +53,9 @@ public class WebservicesFactory implements ObjectModelFactory
 
    // The URL to the webservices.xml descriptor
    private URL descriptorURL;
+   
+   private boolean processingAddressingElement;
+   private boolean processingRespectBindingElement;
 
    public WebservicesFactory(URL descriptorURL)
    {
@@ -178,7 +181,18 @@ public class WebservicesFactory implements ObjectModelFactory
          return new UnifiedHandlerMetaData(null);
       else if ("handler-chains".equals(localName))
          return new UnifiedHandlerChainsMetaData();
-      else return null;
+      // @Addressing related elements
+      else if ("addressing".equals(localName)) {
+         processingAddressingElement = true;
+         processingRespectBindingElement = false;
+      }
+      // @RespectBinding related elements
+      else if ("respect-binding".equals(localName)) {
+         processingAddressingElement = false;
+         processingRespectBindingElement = true;
+      }
+      
+      return null;
    }
 
    /**
@@ -293,19 +307,21 @@ public class WebservicesFactory implements ObjectModelFactory
          portComponent.setProtocolBinding(value);
       // @Addressing related elements
       else if (localName.equals("enabled"))
-         portComponent.setAddressingEnabled(Boolean.valueOf(value));
-      else if (localName.equals("required"))
+      {
+         if (processingAddressingElement)
+            portComponent.setAddressingEnabled(Boolean.valueOf(value));
+         if (processingRespectBindingElement)
+            portComponent.setRespectBindingEnabled(Boolean.valueOf(value));
+      }
+      else if (localName.equals("required") && processingAddressingElement)
          portComponent.setAddressingRequired(Boolean.valueOf(value));
-      else if (localName.equals("responses"))
+      else if (localName.equals("responses") && processingAddressingElement)
          portComponent.setAddressingResponses(value);
       // @MTOM related elements
       else if (localName.equals("enable-mtom"))
          portComponent.setMtomEnabled(Boolean.valueOf(value));
       else if (localName.equals("mtom-threshold"))
          portComponent.setMtomThreshold(Integer.valueOf(value));
-      // @RespectBinding related elements
-      else if (localName.equals("respect-binding"))
-         portComponent.setRespectBindingEnabled(Boolean.valueOf(value));
    }
 
    /**
