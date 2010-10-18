@@ -291,9 +291,21 @@ public class WebservicesFactory implements ObjectModelFactory
          portComponent.setWsdlService(navigator.resolveQName(value));
       else if (localName.equals("protocol-binding"))
          portComponent.setProtocolBinding(value);
+      // @Addressing related elements
+      else if (localName.equals("enabled"))
+         portComponent.setAddressingEnabled(Boolean.valueOf(value));
+      else if (localName.equals("required"))
+         portComponent.setAddressingRequired(Boolean.valueOf(value));
+      else if (localName.equals("responses"))
+         portComponent.setAddressingResponses(value);
+      // @MTOM related elements
       else if (localName.equals("enable-mtom"))
-         portComponent.setEnableMtom(Boolean.valueOf(value));
-
+         portComponent.setMtomEnabled(Boolean.valueOf(value));
+      else if (localName.equals("mtom-threshold"))
+         portComponent.setMtomThreshold(Integer.valueOf(value));
+      // @RespectBinding related elements
+      else if (localName.equals("respect-binding"))
+         portComponent.setRespectBindingEnabled(Boolean.valueOf(value));
    }
 
    /**
