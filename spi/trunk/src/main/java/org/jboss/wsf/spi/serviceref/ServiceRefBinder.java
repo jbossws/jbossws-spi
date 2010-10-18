@@ -25,6 +25,7 @@ import java.lang.reflect.AnnotatedElement;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
+import javax.naming.Referenceable;
 
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
@@ -32,9 +33,15 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
  * Creates a ServiceReferenceable and binds it to JNDI.
  *
  * @author Heiko.Braun@jboss.com
- *         Created: Jul 11, 2007
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 public interface ServiceRefBinder
 {
+   /**
+    * @deprecated use {@link #createReferenceable(UnifiedServiceRefMetaData, ClassLoader)} instead
+    */
+   @Deprecated
    void setupServiceRef(Context encCtx, String encName, AnnotatedElement anElement, UnifiedServiceRefMetaData serviceRef, ClassLoader loader) throws NamingException;
+   Referenceable createReferenceable(final UnifiedServiceRefMetaData serviceRef,
+         final ClassLoader loader);
 }
