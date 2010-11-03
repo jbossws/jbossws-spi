@@ -51,8 +51,9 @@ import org.jboss.wsf.spi.util.URLLoaderAdapter;
  * 
  * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public class UnifiedServiceRefMetaData extends ServiceRefElement
+public final class UnifiedServiceRefMetaData extends ServiceRefElement
 {
    private static final long serialVersionUID = -926464174132493955L;
 
@@ -105,11 +106,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefElement
    private int mtomThreshold;
    // @RespectBinding annotation metadata
    private boolean respectBindingEnabled;
-
-   // The JAXWS annotated element. JDK1.4 does not have java.lang.reflect.AnnotatedElement so we use an untyped Object
-   private transient Object anElement;
-   // A flag that should be set when this service-ref has been bound.
-   private transient boolean processed;
 
    public UnifiedServiceRefMetaData(UnifiedVirtualFile vfRoot)
    {
@@ -408,27 +404,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefElement
       this.handlerChain = handlerChain;
    }
 
-   public Object getAnnotatedElement()
-   {
-      return anElement;
-
-   }
-
-   public boolean isProcessed()
-   {
-      return processed;
-   }
-
-   public void setProcessed(boolean flag)
-   {
-      this.processed = flag;
-   }
-
-   public void setAnnotatedElement(Object anElement)
-   {
-      this.anElement = anElement;
-   }
-
    private void writeObject(ObjectOutputStream out) throws IOException
    {
       out.defaultWriteObject();
@@ -508,7 +483,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefElement
       str.append("\n serviceImplClass=" + serviceImplClass);
       str.append("\n serviceRefType=" + serviceRefType);
       str.append("\n serviceQName=" + serviceQName);
-      str.append("\n anElement=" + anElement);
       str.append("\n wsdlFile=" + wsdlFile);
       str.append("\n wsdlOverride=" + wsdlOverride);
       str.append("\n mappingFile=" + mappingFile);
@@ -521,7 +495,6 @@ public class UnifiedServiceRefMetaData extends ServiceRefElement
       str.append("\n mtomEnabled=" + mtomEnabled);
       str.append("\n mtomThreshold=" + mtomThreshold);
       str.append("\n respectBindingEnabled=" + respectBindingEnabled);
-      str.append("\n processed=" + processed);
       str.append("\n handlerChains=" + handlerChains);
       str.append("\n handlerChain=" + handlerChain);
       for (UnifiedHandlerMetaData uhmd : handlers)
