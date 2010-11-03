@@ -25,7 +25,6 @@ import org.jboss.wsf.spi.SPIView;
 
 /**
  * @author Thomas.Diesler@jboss.com
- * @since 01-Aug-2007
  */
 public interface ServiceRefBinderFactory extends SPIView
 {

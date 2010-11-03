@@ -42,7 +42,7 @@ import javax.xml.ws.WebServiceException;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.deployment.WritableUnifiedVirtualFile;
-import org.jboss.wsf.spi.serviceref.ServiceRefMetaData;
+import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 import org.jboss.wsf.spi.util.URLLoaderAdapter;
 
 /**
@@ -52,7 +52,7 @@ import org.jboss.wsf.spi.util.URLLoaderAdapter;
  * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
  */
-public class UnifiedServiceRefMetaData extends ServiceRefMetaData
+public class UnifiedServiceRefMetaData extends ServiceRefElement
 {
    private static final long serialVersionUID = -926464174132493955L;
 
