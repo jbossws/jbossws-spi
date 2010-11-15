@@ -328,11 +328,18 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       {
          try
          {
-            wsdlLocation = vfsRoot.findChild(wsdlFile).toURL();
+            wsdlLocation = new URL(wsdlFile);
          }
-         catch (Exception e)
+         catch (MalformedURLException e1)
          {
-            throw new WebServiceException("Cannot find wsdl-file: " + wsdlFile, e);
+            try
+            {
+               wsdlLocation = vfsRoot.findChild(wsdlFile).toURL();
+            }
+            catch (Exception e)
+            {
+               throw new WebServiceException("Cannot find wsdl-file: " + wsdlFile, e);
+            }
          }
       }
 
