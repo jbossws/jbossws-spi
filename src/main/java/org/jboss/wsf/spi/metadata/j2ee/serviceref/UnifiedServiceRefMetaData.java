@@ -43,6 +43,7 @@ import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.deployment.WritableUnifiedVirtualFile;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
+import org.jboss.wsf.spi.serviceref.ServiceRefHandler;
 import org.jboss.wsf.spi.util.URLLoaderAdapter;
 
 /**
@@ -64,6 +65,8 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
 
    // Standard properties 
 
+   // Service reference type - either JAX-RPC or JAXWS
+   private ServiceRefHandler.Type type;
    // The required <service-ref-name> element
    private String serviceRefName;
    // The JAXRPC required <service-interface> element
@@ -83,8 +86,6 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    // The optional <handler-chains> elements. JAX-WS handlers declared in the standard JavaEE5 descriptor
    private UnifiedHandlerChainsMetaData handlerChains;
 
-   // JBoss properties 
-
    // The optional <service-impl-class> element
    private String serviceImplClass;
    // The optional JBossWS config-name
@@ -98,13 +99,16 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    // Arbitrary proxy properties given by <call-property> 
    private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>();
    // @Addressing annotation metadata
+   private boolean isAddressingAnnotationSpecified;
    private boolean addressingEnabled;
    private boolean addressingRequired;
    private String addressingResponses = "ALL";
    // @MTOM annotation metadata
+   private boolean isMtomAnnotationSpecified;
    private boolean mtomEnabled;
    private int mtomThreshold;
    // @RespectBinding annotation metadata
+   private boolean isRespectBindingAnnotationSpecified;
    private boolean respectBindingEnabled;
 
    public UnifiedServiceRefMetaData(UnifiedVirtualFile vfRoot)
@@ -116,6 +120,14 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    {
    }
    
+   public void setAddressingAnnotationSpecified(final boolean isAddressingAnnotationSpecified) {
+      this.isAddressingAnnotationSpecified = isAddressingAnnotationSpecified;
+   }
+   
+   public boolean isAddressingAnnotationSpecified() {
+      return this.isAddressingAnnotationSpecified;
+   }
+
    public void setAddressingEnabled(final boolean addressingEnabled) {
       this.addressingEnabled = addressingEnabled;
    }
@@ -144,6 +156,14 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       return this.addressingResponses;
    }
 
+   public void setMtomAnnotationSpecified(final boolean isMtomAnnotationSpecified) {
+      this.isMtomAnnotationSpecified = isMtomAnnotationSpecified;
+   }
+   
+   public boolean isMtomAnnotationSpecified() {
+      return this.isMtomAnnotationSpecified;
+   }
+
    public void setMtomEnabled(final boolean mtomEnabled) {
       this.mtomEnabled = mtomEnabled;
    }
@@ -159,6 +179,14 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    
    public int getMtomThreshold() {
       return this.mtomThreshold;
+   }
+
+   public void setRespectBindingAnnotationSpecified(final boolean isRespectBindingAnnotationSpecified) {
+      this.isRespectBindingAnnotationSpecified = isRespectBindingAnnotationSpecified;
+   }
+   
+   public boolean isRespectBindingAnnotationSpecified() {
+      return this.isRespectBindingAnnotationSpecified;
    }
 
    public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
@@ -177,6 +205,16 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    public void setVfsRoot(UnifiedVirtualFile vfsRoot)
    {
       this.vfsRoot = vfsRoot;
+   }
+   
+   public ServiceRefHandler.Type getType()
+   {
+      return type;
+   }
+
+   public void setType(ServiceRefHandler.Type type)
+   {
+      this.type = type;
    }
 
    public String getServiceRefName()
@@ -486,6 +524,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       StringBuilder str = new StringBuilder();
       str.append("\nUnifiedServiceRef");
       str.append("\n serviceRefName=" + serviceRefName);
+      str.append("\n type=" + type);
       str.append("\n serviceInterface=" + serviceInterface);
       str.append("\n serviceImplClass=" + serviceImplClass);
       str.append("\n serviceRefType=" + serviceRefType);
@@ -496,11 +535,14 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       str.append("\n configName=" + configName);
       str.append("\n configFile=" + configFile);
       str.append("\n callProperties=" + callProperties);
+      str.append("\n addressingAnnotationSpecified=" + isAddressingAnnotationSpecified);
       str.append("\n addressingEnabled=" + addressingEnabled);
       str.append("\n addressingRequired=" + addressingRequired);
       str.append("\n addressingResponses=" + addressingResponses);
+      str.append("\n mtomAnnotationSpecified=" + isMtomAnnotationSpecified);
       str.append("\n mtomEnabled=" + mtomEnabled);
       str.append("\n mtomThreshold=" + mtomThreshold);
+      str.append("\n respectBindingAnnotationSpecified=" + isRespectBindingAnnotationSpecified);
       str.append("\n respectBindingEnabled=" + respectBindingEnabled);
       str.append("\n handlerChains=" + handlerChains);
       str.append("\n handlerChain=" + handlerChain);
