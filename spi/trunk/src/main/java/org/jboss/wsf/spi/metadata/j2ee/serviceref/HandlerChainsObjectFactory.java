@@ -33,6 +33,7 @@ import org.xml.sax.Attributes;
  * @author Thomas.Diesler@jboss.org
  * @since 15-Oct-2005
  */
+@Deprecated
 public class HandlerChainsObjectFactory implements ObjectModelFactory
 {
    // provide logging
