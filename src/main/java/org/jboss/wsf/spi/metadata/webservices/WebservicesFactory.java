@@ -45,7 +45,6 @@ import org.xml.sax.Attributes;
  * @author Thomas.Diesler@jboss.org
  * @since 16-Apr-2004
  */
-// TODO: move to jbossws-framework or jbossws-common
 public class WebservicesFactory implements ObjectModelFactory
 {
    // provide logging
@@ -103,19 +102,43 @@ public class WebservicesFactory implements ObjectModelFactory
          URL wsddUrl = wsdd.toURL();
          try
          {
-            InputStream is = wsddUrl.openStream();
-            Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
-            ObjectModelFactory factory = new WebservicesFactory(wsddUrl);
-            webservices = (WebservicesMetaData)unmarshaller.unmarshal(is, factory, null);
-            is.close();
+            webservices = load(wsddUrl);
          }
-         catch (Exception e)
+         catch (IOException e)
          {
             throw new WebServiceException("Failed to unmarshall webservices.xml:" + e.getMessage());
          }
       }
 
       return webservices;
+   }
+   
+   /**
+    * Load webservices.xml from <code>META-INF/webservices.xml</code>
+    * or <code>WEB-INF/webservices.xml</code>.
+    *
+    * @param root virtual file root
+    * @return WebservicesMetaData or <code>null</code> if it cannot be found
+    */
+   public static WebservicesMetaData load(URL wsddUrl) throws IOException
+   {
+      InputStream is = null;
+      try
+      {
+         is = wsddUrl.openStream();
+         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
+         ObjectModelFactory factory = new WebservicesFactory(wsddUrl);
+         return (WebservicesMetaData)unmarshaller.unmarshal(is, factory, null);
+      }
+      catch (Exception e)
+      {
+         throw new WebServiceException("Failed to unmarshall " + wsddUrl + ":" + e.getMessage());
+      }
+      finally
+      {
+         if (is != null)
+            is.close();
+      }
    }
 
    /**
