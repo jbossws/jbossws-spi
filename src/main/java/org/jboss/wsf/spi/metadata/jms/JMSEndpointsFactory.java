@@ -23,7 +23,6 @@ package org.jboss.wsf.spi.metadata.jms;
 
 import java.net.URL;
 
-import org.jboss.logging.Logger;
 import org.jboss.xb.binding.ObjectModelFactory;
 import org.jboss.xb.binding.UnmarshallingContext;
 import org.xml.sax.Attributes;
