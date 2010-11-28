@@ -25,22 +25,22 @@
 
   <!-- Properties -->
   <properties>
-    <ant.version>1.7.1</ant.version>
-    <dom4j.version>1.6.1</dom4j.version>
-    <getopt.version>1.0.13</getopt.version>
-    <jaxb.api.version>1.0.0.Final</jaxb.api.version>
-    <jaxws.api.version>1.0.0.Final</jaxws.api.version>
     <jms.api.version>1.0.0.Final</jms.api.version>
     <jboss.microcontainer.version>2.0.8.GA</jboss.microcontainer.version>
     <jbossxb.version>2.0.1.GA</jbossxb.version>
     <jboss-logging-spi.version>2.0.5.GA</jboss-logging-spi.version>
     <servlet.api.version>1.0.0.Final</servlet.api.version>
     <junit.version>3.8.2</junit.version>
-    <log4j.version>1.2.14</log4j.version>
   </properties>
 
   <!-- Dependencies -->
   <dependencies>
+
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-api</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
 
     <!-- provided apis -->
     <dependency>
@@ -50,21 +50,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.jboss.spec.javax.xml.bind</groupId>
-      <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
-      <version>${jaxb.api.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.jboss.spec.javax.jms</groupId>
       <artifactId>jboss-jms-api_1.1_spec</artifactId>
       <version>${jms.api.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.spec.javax.xml.ws</groupId>
-      <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
-      <version>${jaxws.api.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -84,29 +72,6 @@
           <artifactId>jaxb-api</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${log4j.version}</version>
-    </dependency>
-
-    <!-- transitive dependencies -->
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>${ant.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>${dom4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>gnu-getopt</groupId>
-      <artifactId>getopt</artifactId>
-      <version>${getopt.version}</version>
     </dependency>
 
     <!-- test dependencies -->
