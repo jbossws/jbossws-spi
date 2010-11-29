@@ -73,8 +73,11 @@ public class UnifiedHandlersChainsMDParserTestCase extends TestCase
       assertEquals("bar", params.get(1).getParamName());
       assertEquals("2", params.get(1).getParamValue());
       assertEquals(0, handler.getPortNames().size());
-      assertEquals(0, handler.getSoapHeaders().size());
-      assertEquals(0, handler.getSoapRoles().size());
+      assertEquals(2, handler.getSoapHeaders().size());
+      assertTrue(handler.getSoapHeaders().contains(new QName("http://org.jboss.ws/jaxws/samples/logicalhandler", "firstHeader")));
+      assertTrue(handler.getSoapHeaders().contains(new QName("http://java.sun.com/xml/ns/javaee", "secondHeader")));
+      assertEquals(1, handler.getSoapRoles().size());
+      assertEquals("MyRole", handler.getSoapRoles().iterator().next());
    }
    
    private void testHandlerChain2(UnifiedHandlerChainMetaData chain)
