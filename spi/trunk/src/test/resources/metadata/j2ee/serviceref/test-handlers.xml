@@ -19,6 +19,9 @@
 				<param-name>bar</param-name> 
 				<param-value>2</param-value> 
 			</init-param>
+			<soap-role>MyRole</soap-role>
+			<soap-header>ns1:firstHeader</soap-header>
+			<soap-header>secondHeader</soap-header>
 		</handler>
 	</handler-chain>
 

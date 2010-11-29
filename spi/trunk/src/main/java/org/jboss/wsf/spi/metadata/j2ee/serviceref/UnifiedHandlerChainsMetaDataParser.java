@@ -52,6 +52,8 @@ public class UnifiedHandlerChainsMetaDataParser
    private static final QName QNAME_HANDLER = new QName(JAVAEE_NS, "handler");
    private static final QName QNAME_HANDLER_NAME = new QName(JAVAEE_NS, "handler-name");
    private static final QName QNAME_HANDLER_CLASS = new QName(JAVAEE_NS, "handler-class");
+   private static final QName QNAME_HANDLER_SOAP_ROLE = new QName(JAVAEE_NS, "soap-role");
+   private static final QName QNAME_HANDLER_SOAP_HEADER = new QName(JAVAEE_NS, "soap-header");
    private static final QName QNAME_HANDLER_PARAM = new QName(JAVAEE_NS, "init-param");
    private static final QName QNAME_HANDLER_PARAM_NAME = new QName(JAVAEE_NS, "param-name");
    private static final QName QNAME_HANDLER_PARAM_VALUE = new QName(JAVAEE_NS, "param-value");
@@ -206,6 +208,12 @@ public class UnifiedHandlerChainsMetaDataParser
                }
                else if (match(reader, QNAME_HANDLER_PARAM)) {
                   handler.addInitParam(parseInitParam(reader));
+               }
+               else if (match(reader, QNAME_HANDLER_SOAP_ROLE)) {
+                  handler.addSoapRole(elementAsString(reader));
+               }
+               else if (match(reader, QNAME_HANDLER_SOAP_HEADER)) {
+                  handler.addSoapHeader(elementAsQName(reader));
                }
                else
                {
