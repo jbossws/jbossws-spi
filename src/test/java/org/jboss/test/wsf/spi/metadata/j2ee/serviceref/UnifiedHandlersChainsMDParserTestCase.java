@@ -57,6 +57,7 @@ public class UnifiedHandlersChainsMDParserTestCase extends TestCase
    private void testHandlerChain1(UnifiedHandlerChainMetaData chain)
    {
       assertEquals(new QName("http://ws.jboss.org/jbws2949", "EndpointPort", "foo"), chain.getPortNamePattern());
+      assertEquals("foo", chain.getPortNamePattern().getPrefix());
       assertEquals(new QName("http://ws.jboss.org/jbws2949", "EndpointService", "foo"), chain.getServiceNamePattern());
       assertEquals("##SOAP11_HTTP", chain.getProtocolBindings());
       List<UnifiedHandlerMetaData> handlers = chain.getHandlers();
@@ -78,8 +79,10 @@ public class UnifiedHandlersChainsMDParserTestCase extends TestCase
    
    private void testHandlerChain2(UnifiedHandlerChainMetaData chain)
    {
-      assertEquals(new QName("http://ws.jboss.org/jbws2949", "EndpointPort2", "foo"), chain.getPortNamePattern());
-      assertEquals(null, chain.getServiceNamePattern());
+      assertEquals(new QName("http://ws.jboss.org/jbws2949", "EndpointPort2", "ns1"), chain.getPortNamePattern());
+      assertEquals("ns1", chain.getPortNamePattern().getPrefix());
+      assertEquals(new QName("http://org.jboss.ws/jaxws/samples/logicalhandler", "EndpointService2", "ns1"), chain.getServiceNamePattern());
+      assertEquals("ns1", chain.getServiceNamePattern().getPrefix());
       assertEquals(null, chain.getProtocolBindings());
       List<UnifiedHandlerMetaData> handlers = chain.getHandlers();
       assertEquals(2, handlers.size());

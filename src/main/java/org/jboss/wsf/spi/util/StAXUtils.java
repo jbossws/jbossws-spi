@@ -128,9 +128,11 @@ public class StAXUtils
 
    public static QName elementAsQName(XMLStreamReader reader) throws XMLStreamException
    {
-      String namespaceURI = reader.getNamespaceURI(0);
       String text = reader.getElementText();
       String localPart = text.substring(text.indexOf(':') + 1, text.length());
-      return new QName(namespaceURI, localPart);
+      int i = text.indexOf(':');
+      String prefix = i < 0 ? null : text.substring(0, i);
+      String namespaceURI = prefix == null ? reader.getNamespaceURI() : reader.getNamespaceURI(prefix);
+      return prefix == null ? new QName(namespaceURI, localPart) : new QName(namespaceURI, localPart, prefix);
    }
 }
