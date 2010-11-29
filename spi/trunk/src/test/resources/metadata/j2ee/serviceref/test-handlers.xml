@@ -23,6 +23,7 @@
 	</handler-chain>
 
 	<handler-chain>
+		<service-name-pattern>ns1:EndpointService2</service-name-pattern>
 		<port-name-pattern xmlns:ns1="http://ws.jboss.org/jbws2949">ns1:EndpointPort2</port-name-pattern>
 		<handler>
 			<handler-name>SOAPServerHandler2</handler-name>
