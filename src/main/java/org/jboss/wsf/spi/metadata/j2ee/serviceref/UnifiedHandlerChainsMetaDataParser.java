@@ -23,47 +23,36 @@ package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
-import static org.jboss.wsf.spi.util.StAXUtils.createXMLStreamReader;
-import static org.jboss.wsf.spi.util.StAXUtils.elementAsQName;
-import static org.jboss.wsf.spi.util.StAXUtils.elementAsString;
+import static org.jboss.wsf.spi.metadata.ParserConstants.*;
 import static org.jboss.wsf.spi.util.StAXUtils.match;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLStreamConstants;
+import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
+import org.jboss.wsf.spi.util.StAXUtils;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-/** The interface of the parser for the unified metadata handler chains element
+/**
+ * The parser for the unified metadata handler chains element
  * 
  * @author alessio.soldano@jboss.com
  * @since 26-Nov-2010
  */
-public class UnifiedHandlerChainsMetaDataParser
+public class UnifiedHandlerChainsMetaDataParser extends AbstractHandlerChainsMetaDataParser
 {
-   private static final String JAVAEE_NS = "http://java.sun.com/xml/ns/javaee";
-   private static final QName QNAME_CHAIN_PORT_PATTERN = new QName(JAVAEE_NS, "port-name-pattern");
-   private static final QName QNAME_CHAIN_PROTOCOL_BINDING = new QName(JAVAEE_NS, "protocol-bindings");
-   private static final QName QNAME_CHAIN_SERVICE_PATTERN = new QName(JAVAEE_NS, "service-name-pattern");
-   private static final QName QNAME_HANDLER_CHAIN = new QName(JAVAEE_NS, "handler-chain");
-   private static final QName QNAME_HANDLER_CHAINS = new QName(JAVAEE_NS, "handler-chains");
-   private static final QName QNAME_HANDLER = new QName(JAVAEE_NS, "handler");
-   private static final QName QNAME_HANDLER_NAME = new QName(JAVAEE_NS, "handler-name");
-   private static final QName QNAME_HANDLER_CLASS = new QName(JAVAEE_NS, "handler-class");
-   private static final QName QNAME_HANDLER_SOAP_ROLE = new QName(JAVAEE_NS, "soap-role");
-   private static final QName QNAME_HANDLER_SOAP_HEADER = new QName(JAVAEE_NS, "soap-header");
-   private static final QName QNAME_HANDLER_PARAM = new QName(JAVAEE_NS, "init-param");
-   private static final QName QNAME_HANDLER_PARAM_NAME = new QName(JAVAEE_NS, "param-name");
-   private static final QName QNAME_HANDLER_PARAM_VALUE = new QName(JAVAEE_NS, "param-value");
-
+   private UnifiedHandlerChainsMetaDataParser()
+   {
+      super();
+   }
+   
    public static UnifiedHandlerChainsMetaData parse(InputStream is) throws IOException
    {
       // http://java.sun.com/xml/ns/javaee/javaee_web_services_1_2.xsd
       try
       {
-         XMLStreamReader xmlr = createXMLStreamReader(is);
+         XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
          return parse(xmlr);
       }
       catch (XMLStreamException e)
@@ -95,7 +84,8 @@ public class UnifiedHandlerChainsMetaDataParser
 
             if (match(reader, QNAME_HANDLER_CHAINS))
             {
-               handlerChains = parseHandlerChains(reader);
+               UnifiedHandlerChainsMetaDataParser parser = new UnifiedHandlerChainsMetaDataParser();
+               handlerChains = parser.parseHandlerChains(reader);
             }
             else
             {
@@ -104,160 +94,5 @@ public class UnifiedHandlerChainsMetaDataParser
          }
       }
       return handlerChains;
-   }
-   
-   private static UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader) throws XMLStreamException
-   {
-      UnifiedHandlerChainsMetaData handlerChains = new UnifiedHandlerChainsMetaData();
-      while (reader.hasNext())
-      {
-         switch (reader.nextTag())
-         {
-            case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_CHAINS))
-               {
-                  return handlerChains;
-               }
-               else
-               {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
-               }
-            }
-            case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_CHAIN)) {
-                  handlerChains.addHandlerChain(parseHandlerChain(reader, handlerChains));
-               }
-               else
-               {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
-               }
-            }
-         }
-      }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
-   }
-   
-   private static UnifiedHandlerChainMetaData parseHandlerChain(XMLStreamReader reader, UnifiedHandlerChainsMetaData handlerChains) throws XMLStreamException
-   {
-      UnifiedHandlerChainMetaData handlerChain = new UnifiedHandlerChainMetaData(handlerChains);
-      while (reader.hasNext())
-      {
-         switch (reader.nextTag())
-         {
-            case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_CHAIN))
-               {
-                  return handlerChain;
-               }
-               else
-               {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
-               }
-            }
-            case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_CHAIN_PORT_PATTERN))
-               {
-                  handlerChain.setPortNamePattern(elementAsQName(reader));
-               }
-               else if (match(reader, QNAME_CHAIN_SERVICE_PATTERN))
-               {
-                  handlerChain.setServiceNamePattern(elementAsQName(reader));
-               }
-               else if(match(reader, QNAME_CHAIN_PROTOCOL_BINDING))
-               {
-                  handlerChain.setProtocolBindings(elementAsString(reader));
-               }
-               else if (match(reader, QNAME_HANDLER)) {
-                  handlerChain.addHandler(parseHandler(reader, handlerChain));
-               }
-               else
-               {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
-               }
-            }
-         }
-      }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
-   }
-   
-   private static UnifiedHandlerMetaData parseHandler(XMLStreamReader reader, UnifiedHandlerChainMetaData handlerChain) throws XMLStreamException
-   {
-      UnifiedHandlerMetaData handler = new UnifiedHandlerMetaData(handlerChain);
-      while (reader.hasNext())
-      {
-         switch (reader.nextTag())
-         {
-            case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_HANDLER))
-               {
-                  return handler;
-               }
-               else
-               {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
-               }
-            }
-            case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_NAME))
-               {
-                  handler.setHandlerName(elementAsString(reader));
-               }
-               else if (match(reader, QNAME_HANDLER_CLASS))
-               {
-                  handler.setHandlerClass(elementAsString(reader));
-               }
-               else if (match(reader, QNAME_HANDLER_PARAM)) {
-                  handler.addInitParam(parseInitParam(reader));
-               }
-               else if (match(reader, QNAME_HANDLER_SOAP_ROLE)) {
-                  handler.addSoapRole(elementAsString(reader));
-               }
-               else if (match(reader, QNAME_HANDLER_SOAP_HEADER)) {
-                  handler.addSoapHeader(elementAsQName(reader));
-               }
-               else
-               {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
-               }
-            }
-         }
-      }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
-   }
-
-   private static UnifiedInitParamMetaData parseInitParam(XMLStreamReader reader) throws XMLStreamException
-   {
-      UnifiedInitParamMetaData initParam = new UnifiedInitParamMetaData();
-      while (reader.hasNext())
-      {
-         switch (reader.nextTag())
-         {
-            case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_PARAM))
-               {
-                  return initParam;
-               }
-               else
-               {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
-               }
-            }
-            case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_PARAM_NAME))
-               {
-                  initParam.setParamName(elementAsString(reader));
-               }
-               else if (match(reader, QNAME_HANDLER_PARAM_VALUE))
-               {
-                  initParam.setParamValue(elementAsString(reader));
-               }
-               else
-               {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
-               }
-            }
-         }
-      }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
 }

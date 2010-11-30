@@ -21,21 +21,33 @@
  */
 package org.jboss.wsf.spi.metadata.webservices;
 
+import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.jboss.wsf.spi.metadata.ParserConstants.*;
+import static org.jboss.wsf.spi.util.StAXUtils.elementAsBoolean;
+import static org.jboss.wsf.spi.util.StAXUtils.elementAsInt;
+import static org.jboss.wsf.spi.util.StAXUtils.elementAsQName;
+import static org.jboss.wsf.spi.util.StAXUtils.elementAsString;
+import static org.jboss.wsf.spi.util.StAXUtils.match;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.ws.WebServiceException;
 
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedInitParamMetaData;
+import org.jboss.wsf.spi.util.StAXUtils;
 import org.jboss.xb.binding.ObjectModelFactory;
-import org.jboss.xb.binding.Unmarshaller;
-import org.jboss.xb.binding.UnmarshallerFactory;
 import org.jboss.xb.binding.UnmarshallingContext;
 import org.xml.sax.Attributes;
 
@@ -45,7 +57,7 @@ import org.xml.sax.Attributes;
  * @author Thomas.Diesler@jboss.org
  * @since 16-Apr-2004
  */
-public class WebservicesFactory implements ObjectModelFactory
+public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser implements ObjectModelFactory
 {
    // provide logging
    private static final Logger log = Logger.getLogger(WebservicesFactory.class);
@@ -100,46 +112,322 @@ public class WebservicesFactory implements ObjectModelFactory
       {
 
          URL wsddUrl = wsdd.toURL();
+         InputStream is = null;
          try
          {
-            webservices = load(wsddUrl);
+            is = wsddUrl.openStream();
+            XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
+            webservices = parse(xmlr, wsddUrl);
          }
-         catch (IOException e)
+         catch (Exception e)
          {
-            throw new WebServiceException("Failed to unmarshall webservices.xml:" + e.getMessage());
+            throw new WebServiceException("Failed to unmarshall " + wsddUrl + ":" + e.getMessage());
+         }
+         finally
+         {
+            try
+            {
+               if (is != null) is.close();
+            }
+            catch (IOException e) {} //ignore
          }
       }
 
       return webservices;
    }
    
-   /**
-    * Load webservices.xml from <code>META-INF/webservices.xml</code>
-    * or <code>WEB-INF/webservices.xml</code>.
-    *
-    * @param root virtual file root
-    * @return WebservicesMetaData or <code>null</code> if it cannot be found
-    */
-   public static WebservicesMetaData load(URL wsddUrl) throws IOException
+   public static WebservicesMetaData parse(InputStream is)
    {
-      InputStream is = null;
+      return parse(is, null);
+   }
+   
+   public static WebservicesMetaData parse(InputStream is, URL descriptorURL)
+   {
       try
       {
-         is = wsddUrl.openStream();
-         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
-         ObjectModelFactory factory = new WebservicesFactory(wsddUrl);
-         return (WebservicesMetaData)unmarshaller.unmarshal(is, factory, null);
+         XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
+         return parse(xmlr, descriptorURL);
       }
       catch (Exception e)
       {
-         throw new WebServiceException("Failed to unmarshall " + wsddUrl + ":" + e.getMessage());
-      }
-      finally
-      {
-         if (is != null)
-            is.close();
+         throw new WebServiceException(e);
       }
    }
+   
+   public static WebservicesMetaData parse(XMLStreamReader reader) throws XMLStreamException
+   {
+      return parse(reader, null);
+   }
+   
+   private static WebservicesMetaData parse(XMLStreamReader reader, URL descriptorURL) throws XMLStreamException
+   {
+      int iterate;
+      try
+      {
+         iterate = reader.nextTag();
+      }
+      catch (XMLStreamException e)
+      {
+         // skip non-tag elements
+         iterate = reader.nextTag();
+      }
+      WebservicesMetaData metadata = null;
+      switch (iterate)
+      {
+         case END_ELEMENT : {
+            // we're done
+            break;
+         }
+         case START_ELEMENT : {
+
+            if (match(reader, QNAME_WEBSERVICES))
+            {
+               WebservicesFactory factory = new WebservicesFactory(descriptorURL);
+               metadata = factory.parseWebservices(reader, descriptorURL);
+            }
+            else
+            {
+               throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+            }
+         }
+      }
+      return metadata;
+   }
+   
+   private WebservicesMetaData parseWebservices(XMLStreamReader reader, URL descriptorURL) throws XMLStreamException
+   {
+      WebservicesMetaData metadata = new WebservicesMetaData(descriptorURL);
+      while (reader.hasNext())
+      {
+         switch (reader.nextTag())
+         {
+            case XMLStreamConstants.END_ELEMENT : {
+               if (match(reader, QNAME_WEBSERVICES))
+               {
+                  return metadata;
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+               }
+            }
+            case XMLStreamConstants.START_ELEMENT : {
+               if (match(reader, QNAME_WEBSERVICE_DESCRIPTION)) {
+                  metadata.addWebserviceDescription(parseWebserviceDescription(reader, metadata));
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+               }
+            }
+         }
+      }
+      throw new IllegalStateException("Reached end of xml document unexpectedly");
+   }
+   
+   private WebserviceDescriptionMetaData parseWebserviceDescription(XMLStreamReader reader, WebservicesMetaData wsMetaData) throws XMLStreamException
+   {
+      WebserviceDescriptionMetaData description = new WebserviceDescriptionMetaData(wsMetaData);
+      while (reader.hasNext())
+      {
+         switch (reader.nextTag())
+         {
+            case XMLStreamConstants.END_ELEMENT : {
+               if (match(reader, QNAME_WEBSERVICE_DESCRIPTION))
+               {
+                  return description;
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+               }
+            }
+            case XMLStreamConstants.START_ELEMENT : {
+               if (match(reader, QNAME_WEBSERVICE_DESCRIPTION_NAME)) {
+                  description.setWebserviceDescriptionName(elementAsString(reader));
+               }
+               else if (match(reader, QNAME_WSDL_FILE)) {
+                  description.setWsdlFile(elementAsString(reader));
+               }
+               else if (match(reader, QNAME_JAXRPC_MAPPING_FILE)) {
+                  description.setJaxrpcMappingFile(elementAsString(reader));
+               }
+               else if (match(reader, QNAME_PORT_COMPONENT)) {
+                  description.addPortComponent(parsePortComponent(reader, description));
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+               }
+            }
+         }
+      }
+      throw new IllegalStateException("Reached end of xml document unexpectedly");
+   }
+   
+   private PortComponentMetaData parsePortComponent(XMLStreamReader reader, WebserviceDescriptionMetaData desc) throws XMLStreamException
+   {
+      PortComponentMetaData pc = new PortComponentMetaData(desc);
+      while (reader.hasNext())
+      {
+         switch (reader.nextTag())
+         {
+            case XMLStreamConstants.END_ELEMENT : {
+               if (match(reader, QNAME_PORT_COMPONENT))
+               {
+                  return pc;
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+               }
+            }
+            case XMLStreamConstants.START_ELEMENT : {
+               if (match(reader, QNAME_PORT_COMPONENT_NAME)) {
+                  pc.setPortComponentName(elementAsString(reader));
+               }
+               else if (match(reader, QNAME_WSDL_SERVICE)) {
+                  pc.setWsdlService(elementAsQName(reader));
+               }
+               else if (match(reader, QNAME_WSDL_PORT)) {
+                  pc.setWsdlPort(elementAsQName(reader));
+               }
+               else if (match(reader, QNAME_ENABLE_MTOM)) {
+                  pc.setMtomEnabled(elementAsBoolean(reader));
+               }
+               else if (match(reader, QNAME_MTOM_THRESHOLD)) {
+                  pc.setMtomThreshold(elementAsInt(reader));
+               }
+               else if (match(reader, QNAME_ADDRESSING)) {
+                  parseAddressing(reader, pc);
+               }
+               else if (match(reader, QNAME_RESPECT_BINDING)) {
+                  parseRespectBinding(reader, pc);
+               }
+               else if (match(reader, QNAME_PROTOCOL_BINDING)) {
+                  pc.setProtocolBinding(elementAsString(reader));
+               }
+               else if (match(reader, QNAME_SERVICE_ENDPOINT_INTERFACE)) {
+                  pc.setServiceEndpointInterface(elementAsString(reader));
+               }
+               else if (match(reader, QNAME_SERVICE_IMPL_BEAN)) {
+                  parseServiceImplBean(reader, pc);
+               }
+               else if (match(reader, QNAME_HANDLER_CHAINS)) {
+                  pc.setHandlerChains(parseHandlerChains(reader));
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+               }
+            }
+         }
+      }
+      throw new IllegalStateException("Reached end of xml document unexpectedly");
+   }
+   
+   private void parseAddressing(XMLStreamReader reader, PortComponentMetaData pc) throws XMLStreamException
+   {
+      while (reader.hasNext())
+      {
+         switch (reader.nextTag())
+         {
+            case XMLStreamConstants.END_ELEMENT : {
+               if (match(reader, QNAME_ADDRESSING))
+               {
+                  return;
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+               }
+            }
+            case XMLStreamConstants.START_ELEMENT : {
+               if (match(reader, QNAME_ENABLED)) {
+                  pc.setAddressingEnabled(elementAsBoolean(reader));
+               }
+               else if (match(reader, QNAME_REQUIRED)) {
+                  pc.setAddressingRequired(elementAsBoolean(reader));
+               }
+               else if (match(reader, QNAME_ADDRESSING_RESPONSES)) {
+                  pc.setAddressingResponses(elementAsString(reader));
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+               }
+            }
+         }
+      }
+      throw new IllegalStateException("Reached end of xml document unexpectedly");
+   }
+   
+   private void parseRespectBinding(XMLStreamReader reader, PortComponentMetaData pc) throws XMLStreamException
+   {
+      while (reader.hasNext())
+      {
+         switch (reader.nextTag())
+         {
+            case XMLStreamConstants.END_ELEMENT : {
+               if (match(reader, QNAME_RESPECT_BINDING))
+               {
+                  return;
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+               }
+            }
+            case XMLStreamConstants.START_ELEMENT : {
+               if (match(reader, QNAME_ENABLED)) {
+                  pc.setRespectBindingEnabled(elementAsBoolean(reader));
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+               }
+            }
+         }
+      }
+      throw new IllegalStateException("Reached end of xml document unexpectedly");
+   }
+   
+   private void parseServiceImplBean(XMLStreamReader reader, PortComponentMetaData pc) throws XMLStreamException
+   {
+      while (reader.hasNext())
+      {
+         switch (reader.nextTag())
+         {
+            case XMLStreamConstants.END_ELEMENT : {
+               if (match(reader, QNAME_SERVICE_IMPL_BEAN))
+               {
+                  return;
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+               }
+            }
+            case XMLStreamConstants.START_ELEMENT : {
+               if (match(reader, QNAME_SERVLET_LINK)) {
+                  pc.setServletLink(elementAsString(reader));
+               }
+               else if (match(reader, QNAME_EJB_LINK)) {
+                  pc.setEjbLink(elementAsString(reader));
+               }
+               else
+               {
+                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+               }
+            }
+         }
+      }
+      throw new IllegalStateException("Reached end of xml document unexpectedly");
+   }
+   
+   //-----------------------------------------
+   //TODO Below are methods to be removed....
+   //-----------------------------------------
 
    /**
     * This method is called on the factory by the object model builder when the parsing starts.
