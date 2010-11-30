@@ -135,4 +135,16 @@ public class StAXUtils
       String namespaceURI = prefix == null ? reader.getNamespaceURI() : reader.getNamespaceURI(prefix);
       return prefix == null ? new QName(namespaceURI, localPart) : new QName(namespaceURI, localPart, prefix);
    }
+   
+   public static boolean elementAsBoolean(XMLStreamReader reader) throws XMLStreamException
+   {
+      String text = reader.getElementText();
+      return Boolean.parseBoolean(text);
+   }
+   
+   public static int elementAsInt(XMLStreamReader reader) throws XMLStreamException
+   {
+      String text = reader.getElementText();
+      return Integer.parseInt(text);
+   }
 }

@@ -84,9 +84,9 @@ public class WebservicesMetaData
 
    private void createHeader(StringBuilder buf)
    {
-      buf.append("<webservices xmlns='http://java.sun.com/xml/ns/j2ee'");
+      buf.append("<webservices xmlns='http://java.sun.com/xml/ns/javaee'");
       buf.append(" xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'");
-      buf.append(" xsi:schemaLocation='http://java.sun.com/xml/ns/j2ee http://www.ibm.com/webservices/xsd/j2ee_web_services_1_1.xsd'");
-      buf.append(" version='1.1'>");
+      buf.append(" xsi:schemaLocation='http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/javaee_web_services_1_2.xsd'");
+      buf.append(" version='1.2'>");
    }
 }
