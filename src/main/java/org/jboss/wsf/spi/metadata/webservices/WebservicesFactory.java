@@ -76,15 +76,9 @@ import org.jboss.wsf.spi.util.StAXUtils;
  */
 public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
 {
-   // provide logging
-   private static final Logger log = Logger.getLogger(WebservicesFactory.class);
-
    // The URL to the webservices.xml descriptor
    private URL descriptorURL;
    
-   private boolean processingAddressingElement;
-   private boolean processingRespectBindingElement;
-
    public WebservicesFactory(URL descriptorURL)
    {
       this.descriptorURL = descriptorURL;
@@ -448,4 +442,10 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
       }
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
+   
+   public URL getDescriptorURL()
+   {
+      return descriptorURL;
+   }
+
 }

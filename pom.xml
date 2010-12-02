@@ -27,7 +27,6 @@
   <properties>
     <jms.api.version>1.0.0.Final</jms.api.version>
     <jboss.microcontainer.version>2.0.8.GA</jboss.microcontainer.version>
-    <jbossxb.version>2.0.1.GA</jbossxb.version>
     <jboss-logging-spi.version>2.0.5.GA</jboss-logging-spi.version>
     <servlet.api.version>1.0.0.Final</servlet.api.version>
     <junit.version>3.8.2</junit.version>
