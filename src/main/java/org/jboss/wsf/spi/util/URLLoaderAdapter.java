@@ -23,6 +23,7 @@ package org.jboss.wsf.spi.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -35,6 +36,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.jboss.logging.Logger;
+import org.jboss.util.NotImplementedException;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 
 /**

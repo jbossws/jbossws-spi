@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,33 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee.serviceref;
+package org.jboss.wsf.spi.metadata.webservices;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.jboss.wsf.spi.metadata.DescriptorParser;
 
-import org.jboss.xb.binding.JBossXBException;
-import org.jboss.xb.binding.Unmarshaller;
-import org.jboss.xb.binding.UnmarshallerFactory;
-
-/** The interface of the parser for the unified metadata handler chains element
+/**
+ * Parser for WS UMDM.
  * 
- * @author alessio.soldano@jboss.com
- * @since 26-Nov-2010
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
-public class UnifiedHandlerChainsMetaDataParser
+public interface WebservicesDescriptorParser extends DescriptorParser<WebservicesMetaData>
 {
-   @SuppressWarnings("deprecation")
-   public static UnifiedHandlerChainsMetaData parse(InputStream is) throws IOException
-   {
-      try
-      {
-         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
-         return (UnifiedHandlerChainsMetaData) unmarshaller.unmarshal(is, new HandlerChainsObjectFactory(), null);
-      }
-      catch (JBossXBException xbe)
-      {
-         throw new IOException(xbe);
-      }
-   }
 }

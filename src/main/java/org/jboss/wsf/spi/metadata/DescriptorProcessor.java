@@ -27,9 +27,11 @@ import org.jboss.xb.binding.ObjectModelFactory;
 
 /**
  * Descriptor processor is abstraction over configuration procesing.
+ * @deprecated This will be replaced by {@link org.jboss.wsf.spi.metadata.DescriptorParser} interface. 
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@Deprecated
 public interface DescriptorProcessor<T>
 {
    /**

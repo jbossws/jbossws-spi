@@ -19,33 +19,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee.serviceref;
+package org.jboss.wsf.spi.binding;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
 
-import org.jboss.xb.binding.JBossXBException;
-import org.jboss.xb.binding.Unmarshaller;
-import org.jboss.xb.binding.UnmarshallerFactory;
-
-/** The interface of the parser for the unified metadata handler chains element
- * 
- * @author alessio.soldano@jboss.com
- * @since 26-Nov-2010
+/**
+ * Allows introduction of arbitrary binding customization properties.<p>
+ * This may be different between stacks and addresses meta data binding
+ * (i.e JSR-181 to UnifiedMetaData) as well as JAVA to XML binding operations.
+ * <p>
+ * Supported properties need to be documented in subclasses.
+ *
+ * @author Heiko.Braun@jboss.com
+ *         Created: Jun 28, 2007
  */
-public class UnifiedHandlerChainsMetaDataParser
+public abstract class BindingCustomization extends HashMap
 {
-   @SuppressWarnings("deprecation")
-   public static UnifiedHandlerChainsMetaData parse(InputStream is) throws IOException
-   {
-      try
-      {
-         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
-         return (UnifiedHandlerChainsMetaData) unmarshaller.unmarshal(is, new HandlerChainsObjectFactory(), null);
-      }
-      catch (JBossXBException xbe)
-      {
-         throw new IOException(xbe);
-      }
-   }
+
 }

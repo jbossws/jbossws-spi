@@ -19,33 +19,15 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee.serviceref;
+package org.jboss.wsf.spi.deployment;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.dom4j.Element;
 
-import org.jboss.xb.binding.JBossXBException;
-import org.jboss.xb.binding.Unmarshaller;
-import org.jboss.xb.binding.UnmarshallerFactory;
-
-/** The interface of the parser for the unified metadata handler chains element
- * 
- * @author alessio.soldano@jboss.com
- * @since 26-Nov-2010
- */
-public class UnifiedHandlerChainsMetaDataParser
+public interface SecurityHandler
 {
-   @SuppressWarnings("deprecation")
-   public static UnifiedHandlerChainsMetaData parse(InputStream is) throws IOException
-   {
-      try
-      {
-         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
-         return (UnifiedHandlerChainsMetaData) unmarshaller.unmarshal(is, new HandlerChainsObjectFactory(), null);
-      }
-      catch (JBossXBException xbe)
-      {
-         throw new IOException(xbe);
-      }
-   }
+   /** Add the security domain to jboss-web.xml */
+   void addSecurityDomain(Element jbossWeb, Deployment dep);
+   
+   /** Add the security roles to web.xml */
+   void addSecurityRoles(Element webApp, Deployment dep);
 }
