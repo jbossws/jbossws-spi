@@ -119,6 +119,12 @@ public class StAXUtils
    {
       return reader.getName().equals(name);
    }
+   
+   public static boolean match(XMLStreamReader reader, String namespace, String localName)
+   {
+      QName name = reader.getName();
+      return localName.equals(name.getLocalPart()) && namespace.equals(name.getNamespaceURI());
+   }
 
    public static String elementAsString(XMLStreamReader reader) throws XMLStreamException
    {

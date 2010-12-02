@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata;
 
-import javax.xml.namespace.QName;
-
 /**
  * Constants for parsing descriptors
  * 
@@ -33,72 +31,74 @@ import javax.xml.namespace.QName;
 public abstract class ParserConstants
 {
    public static final String JAVAEE_NS = "http://java.sun.com/xml/ns/javaee";
+   
+   public static final String J2EE_NS = "http://java.sun.com/xml/ns/j2ee";
 
-   public static final QName QNAME_CHAIN_PORT_PATTERN = new QName(JAVAEE_NS, "port-name-pattern");
+   public static final String CHAIN_PORT_PATTERN = "port-name-pattern";
 
-   public static final QName QNAME_CHAIN_PROTOCOL_BINDING = new QName(JAVAEE_NS, "protocol-bindings");
+   public static final String CHAIN_PROTOCOL_BINDING = "protocol-bindings";
 
-   public static final QName QNAME_CHAIN_SERVICE_PATTERN = new QName(JAVAEE_NS, "service-name-pattern");
+   public static final String CHAIN_SERVICE_PATTERN = "service-name-pattern";
 
-   public static final QName QNAME_HANDLER_CHAIN = new QName(JAVAEE_NS, "handler-chain");
+   public static final String HANDLER_CHAIN = "handler-chain";
 
-   public static final QName QNAME_HANDLER_CHAINS = new QName(JAVAEE_NS, "handler-chains");
+   public static final String HANDLER_CHAINS = "handler-chains";
 
-   public static final QName QNAME_HANDLER = new QName(JAVAEE_NS, "handler");
+   public static final String HANDLER = "handler";
 
-   public static final QName QNAME_HANDLER_NAME = new QName(JAVAEE_NS, "handler-name");
+   public static final String HANDLER_NAME = "handler-name";
 
-   public static final QName QNAME_HANDLER_CLASS = new QName(JAVAEE_NS, "handler-class");
+   public static final String HANDLER_CLASS = "handler-class";
 
-   public static final QName QNAME_HANDLER_SOAP_ROLE = new QName(JAVAEE_NS, "soap-role");
+   public static final String HANDLER_SOAP_ROLE = "soap-role";
 
-   public static final QName QNAME_HANDLER_SOAP_HEADER = new QName(JAVAEE_NS, "soap-header");
+   public static final String HANDLER_SOAP_HEADER = "soap-header";
 
-   public static final QName QNAME_HANDLER_PARAM = new QName(JAVAEE_NS, "init-param");
+   public static final String HANDLER_PARAM = "init-param";
 
-   public static final QName QNAME_HANDLER_PARAM_NAME = new QName(JAVAEE_NS, "param-name");
+   public static final String HANDLER_PARAM_NAME = "param-name";
 
-   public static final QName QNAME_HANDLER_PARAM_VALUE = new QName(JAVAEE_NS, "param-value");
+   public static final String HANDLER_PARAM_VALUE = "param-value";
 
-   public static final QName QNAME_WEBSERVICES = new QName(JAVAEE_NS, "webservices");
+   public static final String WEBSERVICES = "webservices";
 
-   public static final QName QNAME_WEBSERVICE_DESCRIPTION = new QName(JAVAEE_NS, "webservice-description");
+   public static final String WEBSERVICE_DESCRIPTION = "webservice-description";
 
-   public static final QName QNAME_WEBSERVICE_DESCRIPTION_NAME = new QName(JAVAEE_NS, "webservice-description-name");
+   public static final String WEBSERVICE_DESCRIPTION_NAME = "webservice-description-name";
 
-   public static final QName QNAME_JAXRPC_MAPPING_FILE = new QName(JAVAEE_NS, "jaxrpc-mapping-file");
+   public static final String JAXRPC_MAPPING_FILE = "jaxrpc-mapping-file";
 
-   public static final QName QNAME_WSDL_FILE = new QName(JAVAEE_NS, "wsdl-file");
+   public static final String WSDL_FILE = "wsdl-file";
 
-   public static final QName QNAME_PORT_COMPONENT = new QName(JAVAEE_NS, "port-component");
+   public static final String PORT_COMPONENT = "port-component";
 
-   public static final QName QNAME_PORT_COMPONENT_NAME = new QName(JAVAEE_NS, "port-component-name");
+   public static final String PORT_COMPONENT_NAME = "port-component-name";
 
-   public static final QName QNAME_WSDL_SERVICE = new QName(JAVAEE_NS, "wsdl-service");
+   public static final String WSDL_SERVICE = "wsdl-service";
 
-   public static final QName QNAME_WSDL_PORT = new QName(JAVAEE_NS, "wsdl-port");
+   public static final String WSDL_PORT = "wsdl-port";
 
-   public static final QName QNAME_ENABLE_MTOM = new QName(JAVAEE_NS, "enable-mtom");
+   public static final String ENABLE_MTOM = "enable-mtom";
 
-   public static final QName QNAME_MTOM_THRESHOLD = new QName(JAVAEE_NS, "mtom-threshold");
+   public static final String MTOM_THRESHOLD = "mtom-threshold";
 
-   public static final QName QNAME_ADDRESSING = new QName(JAVAEE_NS, "addressing");
+   public static final String ADDRESSING = "addressing";
 
-   public static final QName QNAME_ADDRESSING_RESPONSES = new QName(JAVAEE_NS, "responses");
+   public static final String ADDRESSING_RESPONSES = "responses";
 
-   public static final QName QNAME_RESPECT_BINDING = new QName(JAVAEE_NS, "respect-binding");
+   public static final String RESPECT_BINDING = "respect-binding";
 
-   public static final QName QNAME_PROTOCOL_BINDING = new QName(JAVAEE_NS, "protocol-binding");
+   public static final String PROTOCOL_BINDING = "protocol-binding";
 
-   public static final QName QNAME_SERVICE_ENDPOINT_INTERFACE = new QName(JAVAEE_NS, "service-endpoint-interface");
+   public static final String SERVICE_ENDPOINT_INTERFACE = "service-endpoint-interface";
 
-   public static final QName QNAME_SERVICE_IMPL_BEAN = new QName(JAVAEE_NS, "service-impl-bean");
+   public static final String SERVICE_IMPL_BEAN = "service-impl-bean";
 
-   public static final QName QNAME_EJB_LINK = new QName(JAVAEE_NS, "ejb-link");
+   public static final String EJB_LINK = "ejb-link";
 
-   public static final QName QNAME_SERVLET_LINK = new QName(JAVAEE_NS, "servlet-link");
+   public static final String SERVLET_LINK = "servlet-link";
 
-   public static final QName QNAME_ENABLED = new QName(JAVAEE_NS, "enabled");
+   public static final String ENABLED = "enabled";
 
-   public static final QName QNAME_REQUIRED = new QName(JAVAEE_NS, "required");
+   public static final String REQUIRED = "required";
 }

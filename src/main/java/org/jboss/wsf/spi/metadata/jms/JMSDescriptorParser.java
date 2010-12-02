@@ -19,17 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.webservices;
+package org.jboss.wsf.spi.metadata.jms;
 
-import org.jboss.wsf.spi.metadata.DescriptorProcessor;
+import org.jboss.wsf.spi.metadata.DescriptorParser;
 
 /**
- * Processor for WS UMDM.
+ * Parser for JMS UMDM.
  * 
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
- * @deprecated To be replaced by {@link org.jboss.wsf.spi.metadata.webservices.DescriptorParser}
+ * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
-@Deprecated
-public interface WebservicesDescriptorProcessor extends DescriptorProcessor<WebservicesMetaData>
+public interface JMSDescriptorParser extends DescriptorParser<JMSEndpointsMetaData>
 {
 }

@@ -21,15 +21,14 @@
  */
 package org.jboss.wsf.spi.metadata.webservices;
 
-import org.jboss.wsf.spi.metadata.DescriptorProcessor;
+import org.jboss.wsf.spi.metadata.DescriptorParser;
 
 /**
- * Processor for WS UMDM.
+ * Parser for WS UMDM.
  * 
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
- * @deprecated To be replaced by {@link org.jboss.wsf.spi.metadata.webservices.DescriptorParser}
+ * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
-@Deprecated
-public interface WebservicesDescriptorProcessor extends DescriptorProcessor<WebservicesMetaData>
+public interface WebservicesDescriptorParser extends DescriptorParser<WebservicesMetaData>
 {
 }

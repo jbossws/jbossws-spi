@@ -19,17 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.webservices;
+package org.jboss.wsf.spi.metadata;
 
-import org.jboss.wsf.spi.metadata.DescriptorProcessor;
+import java.net.URL;
 
 /**
- * Processor for WS UMDM.
  * 
+ *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
- * @deprecated To be replaced by {@link org.jboss.wsf.spi.metadata.webservices.DescriptorParser}
+ * @author alessio.soldano@jboss.com
  */
-@Deprecated
-public interface WebservicesDescriptorProcessor extends DescriptorProcessor<WebservicesMetaData>
+public interface DescriptorParser<T>
 {
+   /**
+    * Descriptor name to parse and process.
+    * @return descriptor name to consume.
+    */
+   String getDescriptorName();
+   
+   /**
+    * Parses the descriptor at the provided URL and returns
+    * the corresponding object (metadata)
+    * 
+    * @param url
+    * @return
+    */
+   T parse(final URL url);
 }

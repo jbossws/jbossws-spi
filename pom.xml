@@ -61,18 +61,6 @@
       <version>${jboss-logging-spi.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>jbossxb</artifactId>
-      <version>${jbossxb.version}</version>
-      <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>sun-jaxb</groupId>
-          <artifactId>jaxb-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
 
     <!-- test dependencies -->
     <dependency>
