@@ -82,10 +82,10 @@ public class UnifiedHandlerChainsMetaDataParser extends AbstractHandlerChainsMet
          }
          case START_ELEMENT : {
 
-            if (match(reader, QNAME_HANDLER_CHAINS))
+            if (match(reader, JAVAEE_NS, HANDLER_CHAINS) || match(reader, J2EE_NS, HANDLER_CHAINS))
             {
                UnifiedHandlerChainsMetaDataParser parser = new UnifiedHandlerChainsMetaDataParser();
-               handlerChains = parser.parseHandlerChains(reader);
+               handlerChains = parser.parseHandlerChains(reader, reader.getNamespaceURI());
             }
             else
             {

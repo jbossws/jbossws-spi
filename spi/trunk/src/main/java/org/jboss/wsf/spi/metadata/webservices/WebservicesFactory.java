@@ -23,7 +23,31 @@ package org.jboss.wsf.spi.metadata.webservices;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
-import static org.jboss.wsf.spi.metadata.ParserConstants.*;
+import static org.jboss.wsf.spi.metadata.ParserConstants.ADDRESSING;
+import static org.jboss.wsf.spi.metadata.ParserConstants.ADDRESSING_RESPONSES;
+import static org.jboss.wsf.spi.metadata.ParserConstants.EJB_LINK;
+import static org.jboss.wsf.spi.metadata.ParserConstants.ENABLED;
+import static org.jboss.wsf.spi.metadata.ParserConstants.ENABLE_MTOM;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_CHAINS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.J2EE_NS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JAVAEE_NS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JAXRPC_MAPPING_FILE;
+import static org.jboss.wsf.spi.metadata.ParserConstants.MTOM_THRESHOLD;
+import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT;
+import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT_NAME;
+import static org.jboss.wsf.spi.metadata.ParserConstants.PROTOCOL_BINDING;
+import static org.jboss.wsf.spi.metadata.ParserConstants.REQUIRED;
+import static org.jboss.wsf.spi.metadata.ParserConstants.RESPECT_BINDING;
+import static org.jboss.wsf.spi.metadata.ParserConstants.SERVICE_ENDPOINT_INTERFACE;
+import static org.jboss.wsf.spi.metadata.ParserConstants.SERVICE_IMPL_BEAN;
+import static org.jboss.wsf.spi.metadata.ParserConstants.SERVLET_LINK;
+import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICES;
+import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICE_DESCRIPTION;
+import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICE_DESCRIPTION_NAME;
+import static org.jboss.wsf.spi.metadata.ParserConstants.WSDL_FILE;
+import static org.jboss.wsf.spi.metadata.ParserConstants.WSDL_PORT;
+import static org.jboss.wsf.spi.metadata.ParserConstants.WSDL_SERVICE;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsBoolean;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsInt;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsQName;
@@ -42,14 +66,7 @@ import javax.xml.ws.WebServiceException;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedInitParamMetaData;
 import org.jboss.wsf.spi.util.StAXUtils;
-import org.jboss.xb.binding.ObjectModelFactory;
-import org.jboss.xb.binding.UnmarshallingContext;
-import org.xml.sax.Attributes;
 
 /**
  * A JBossXB factory for {@link WebservicesMetaData}
@@ -57,7 +74,7 @@ import org.xml.sax.Attributes;
  * @author Thomas.Diesler@jboss.org
  * @since 16-Apr-2004
  */
-public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser implements ObjectModelFactory
+public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
 {
    // provide logging
    private static final Logger log = Logger.getLogger(WebservicesFactory.class);
@@ -110,30 +127,33 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
       // the descriptor is optional
       if (wsdd != null)
       {
-
-         URL wsddUrl = wsdd.toURL();
-         InputStream is = null;
-         try
-         {
-            is = wsddUrl.openStream();
-            XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
-            webservices = parse(xmlr, wsddUrl);
-         }
-         catch (Exception e)
-         {
-            throw new WebServiceException("Failed to unmarshall " + wsddUrl + ":" + e.getMessage());
-         }
-         finally
-         {
-            try
-            {
-               if (is != null) is.close();
-            }
-            catch (IOException e) {} //ignore
-         }
+         return load(wsdd.toURL());
       }
 
       return webservices;
+   }
+   
+   public static WebservicesMetaData load(URL wsddUrl)
+   {
+      InputStream is = null;
+      try
+      {
+         is = wsddUrl.openStream();
+         XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
+         return parse(xmlr, wsddUrl);
+      }
+      catch (Exception e)
+      {
+         throw new WebServiceException("Failed to unmarshall " + wsddUrl + ":" + e.getMessage(), e);
+      }
+      finally
+      {
+         try
+         {
+            if (is != null) is.close();
+         }
+         catch (IOException e) {} //ignore
+      }
    }
    
    public static WebservicesMetaData parse(InputStream is)
@@ -180,10 +200,11 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
          }
          case START_ELEMENT : {
 
-            if (match(reader, QNAME_WEBSERVICES))
+            if (match(reader, JAVAEE_NS, WEBSERVICES) || match(reader, J2EE_NS, WEBSERVICES))
             {
+               String nsUri = reader.getNamespaceURI();
                WebservicesFactory factory = new WebservicesFactory(descriptorURL);
-               metadata = factory.parseWebservices(reader, descriptorURL);
+               metadata = factory.parseWebservices(reader, nsUri, descriptorURL);
             }
             else
             {
@@ -194,7 +215,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
       return metadata;
    }
    
-   private WebservicesMetaData parseWebservices(XMLStreamReader reader, URL descriptorURL) throws XMLStreamException
+   private WebservicesMetaData parseWebservices(XMLStreamReader reader, String nsUri, URL descriptorURL) throws XMLStreamException
    {
       WebservicesMetaData metadata = new WebservicesMetaData(descriptorURL);
       while (reader.hasNext())
@@ -202,7 +223,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_WEBSERVICES))
+               if (match(reader, nsUri, WEBSERVICES))
                {
                   return metadata;
                }
@@ -212,8 +233,8 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_WEBSERVICE_DESCRIPTION)) {
-                  metadata.addWebserviceDescription(parseWebserviceDescription(reader, metadata));
+               if (match(reader, nsUri, WEBSERVICE_DESCRIPTION)) {
+                  metadata.addWebserviceDescription(parseWebserviceDescription(reader, nsUri, metadata));
                }
                else
                {
@@ -225,7 +246,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
    
-   private WebserviceDescriptionMetaData parseWebserviceDescription(XMLStreamReader reader, WebservicesMetaData wsMetaData) throws XMLStreamException
+   private WebserviceDescriptionMetaData parseWebserviceDescription(XMLStreamReader reader, String nsUri, WebservicesMetaData wsMetaData) throws XMLStreamException
    {
       WebserviceDescriptionMetaData description = new WebserviceDescriptionMetaData(wsMetaData);
       while (reader.hasNext())
@@ -233,7 +254,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_WEBSERVICE_DESCRIPTION))
+               if (match(reader, nsUri, WEBSERVICE_DESCRIPTION))
                {
                   return description;
                }
@@ -243,17 +264,17 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_WEBSERVICE_DESCRIPTION_NAME)) {
+               if (match(reader, nsUri, WEBSERVICE_DESCRIPTION_NAME)) {
                   description.setWebserviceDescriptionName(elementAsString(reader));
                }
-               else if (match(reader, QNAME_WSDL_FILE)) {
+               else if (match(reader, nsUri, WSDL_FILE)) {
                   description.setWsdlFile(elementAsString(reader));
                }
-               else if (match(reader, QNAME_JAXRPC_MAPPING_FILE)) {
+               else if (match(reader, nsUri, JAXRPC_MAPPING_FILE)) {
                   description.setJaxrpcMappingFile(elementAsString(reader));
                }
-               else if (match(reader, QNAME_PORT_COMPONENT)) {
-                  description.addPortComponent(parsePortComponent(reader, description));
+               else if (match(reader, nsUri, PORT_COMPONENT)) {
+                  description.addPortComponent(parsePortComponent(reader, nsUri, description));
                }
                else
                {
@@ -265,7 +286,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
    
-   private PortComponentMetaData parsePortComponent(XMLStreamReader reader, WebserviceDescriptionMetaData desc) throws XMLStreamException
+   private PortComponentMetaData parsePortComponent(XMLStreamReader reader, String nsUri, WebserviceDescriptionMetaData desc) throws XMLStreamException
    {
       PortComponentMetaData pc = new PortComponentMetaData(desc);
       while (reader.hasNext())
@@ -273,7 +294,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_PORT_COMPONENT))
+               if (match(reader, nsUri, PORT_COMPONENT))
                {
                   return pc;
                }
@@ -283,38 +304,41 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_PORT_COMPONENT_NAME)) {
+               if (match(reader, nsUri, PORT_COMPONENT_NAME)) {
                   pc.setPortComponentName(elementAsString(reader));
                }
-               else if (match(reader, QNAME_WSDL_SERVICE)) {
+               else if (match(reader, nsUri, WSDL_SERVICE)) {
                   pc.setWsdlService(elementAsQName(reader));
                }
-               else if (match(reader, QNAME_WSDL_PORT)) {
+               else if (match(reader, nsUri, WSDL_PORT)) {
                   pc.setWsdlPort(elementAsQName(reader));
                }
-               else if (match(reader, QNAME_ENABLE_MTOM)) {
+               else if (match(reader, nsUri, ENABLE_MTOM)) {
                   pc.setMtomEnabled(elementAsBoolean(reader));
                }
-               else if (match(reader, QNAME_MTOM_THRESHOLD)) {
+               else if (match(reader, nsUri, MTOM_THRESHOLD)) {
                   pc.setMtomThreshold(elementAsInt(reader));
                }
-               else if (match(reader, QNAME_ADDRESSING)) {
-                  parseAddressing(reader, pc);
+               else if (match(reader, nsUri, ADDRESSING)) {
+                  parseAddressing(reader, nsUri, pc);
                }
-               else if (match(reader, QNAME_RESPECT_BINDING)) {
-                  parseRespectBinding(reader, pc);
+               else if (match(reader, nsUri, RESPECT_BINDING)) {
+                  parseRespectBinding(reader, nsUri, pc);
                }
-               else if (match(reader, QNAME_PROTOCOL_BINDING)) {
+               else if (match(reader, nsUri, PROTOCOL_BINDING)) {
                   pc.setProtocolBinding(elementAsString(reader));
                }
-               else if (match(reader, QNAME_SERVICE_ENDPOINT_INTERFACE)) {
+               else if (match(reader, nsUri, SERVICE_ENDPOINT_INTERFACE)) {
                   pc.setServiceEndpointInterface(elementAsString(reader));
                }
-               else if (match(reader, QNAME_SERVICE_IMPL_BEAN)) {
-                  parseServiceImplBean(reader, pc);
+               else if (match(reader, nsUri, SERVICE_IMPL_BEAN)) {
+                  parseServiceImplBean(reader, nsUri, pc);
                }
-               else if (match(reader, QNAME_HANDLER_CHAINS)) {
-                  pc.setHandlerChains(parseHandlerChains(reader));
+               else if (match(reader, nsUri, HANDLER_CHAINS)) {
+                  pc.setHandlerChains(parseHandlerChains(reader, nsUri));
+               }
+               else if (match(reader, nsUri, HANDLER)) {
+                  pc.addHandler(parseHandler(reader, nsUri));
                }
                else
                {
@@ -326,14 +350,14 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
    
-   private void parseAddressing(XMLStreamReader reader, PortComponentMetaData pc) throws XMLStreamException
+   private void parseAddressing(XMLStreamReader reader, String nsUri, PortComponentMetaData pc) throws XMLStreamException
    {
       while (reader.hasNext())
       {
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_ADDRESSING))
+               if (match(reader, nsUri, ADDRESSING))
                {
                   return;
                }
@@ -343,13 +367,13 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_ENABLED)) {
+               if (match(reader, nsUri, ENABLED)) {
                   pc.setAddressingEnabled(elementAsBoolean(reader));
                }
-               else if (match(reader, QNAME_REQUIRED)) {
+               else if (match(reader, nsUri, REQUIRED)) {
                   pc.setAddressingRequired(elementAsBoolean(reader));
                }
-               else if (match(reader, QNAME_ADDRESSING_RESPONSES)) {
+               else if (match(reader, nsUri, ADDRESSING_RESPONSES)) {
                   pc.setAddressingResponses(elementAsString(reader));
                }
                else
@@ -362,14 +386,14 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
    
-   private void parseRespectBinding(XMLStreamReader reader, PortComponentMetaData pc) throws XMLStreamException
+   private void parseRespectBinding(XMLStreamReader reader, String nsUri, PortComponentMetaData pc) throws XMLStreamException
    {
       while (reader.hasNext())
       {
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_RESPECT_BINDING))
+               if (match(reader, nsUri, RESPECT_BINDING))
                {
                   return;
                }
@@ -379,7 +403,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_ENABLED)) {
+               if (match(reader, nsUri, ENABLED)) {
                   pc.setRespectBindingEnabled(elementAsBoolean(reader));
                }
                else
@@ -392,14 +416,14 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
    
-   private void parseServiceImplBean(XMLStreamReader reader, PortComponentMetaData pc) throws XMLStreamException
+   private void parseServiceImplBean(XMLStreamReader reader, String nsUri, PortComponentMetaData pc) throws XMLStreamException
    {
       while (reader.hasNext())
       {
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_SERVICE_IMPL_BEAN))
+               if (match(reader, nsUri, SERVICE_IMPL_BEAN))
                {
                   return;
                }
@@ -409,10 +433,10 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_SERVLET_LINK)) {
+               if (match(reader, nsUri, SERVLET_LINK)) {
                   pc.setServletLink(elementAsString(reader));
                }
-               else if (match(reader, QNAME_EJB_LINK)) {
+               else if (match(reader, nsUri, EJB_LINK)) {
                   pc.setEjbLink(elementAsString(reader));
                }
                else
@@ -423,249 +447,5 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser impl
          }
       }
       throw new IllegalStateException("Reached end of xml document unexpectedly");
-   }
-   
-   //-----------------------------------------
-   //TODO Below are methods to be removed....
-   //-----------------------------------------
-
-   /**
-    * This method is called on the factory by the object model builder when the parsing starts.
-    *
-    * @return the root of the object model.
-    */
-   public Object newRoot(Object root, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs)
-   {
-      WebservicesMetaData webservicesMetaData = new WebservicesMetaData(descriptorURL);
-      return webservicesMetaData;
-   }
-
-   public Object completeRoot(Object root, UnmarshallingContext ctx, String uri, String name)
-   {
-      return root;
-   }
-
-   /**
-    * Called when parsing of a new element started.
-    */
-   public Object newChild(WebservicesMetaData webservices, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs)
-   {
-      if ("webservice-description".equals(localName))
-         return new WebserviceDescriptionMetaData(webservices);
-      else return null;
-   }
-
-   /**
-    * Called when parsing character is complete.
-    */
-   public void addChild(WebservicesMetaData webservices, WebserviceDescriptionMetaData webserviceDescription, UnmarshallingContext navigator, String namespaceURI,
-         String localName)
-   {
-      webservices.addWebserviceDescription(webserviceDescription);
-   }
-
-   /**
-    * Called when parsing of a new element started.
-    */
-   public Object newChild(WebserviceDescriptionMetaData webserviceDescription, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs)
-   {
-      if ("port-component".equals(localName))
-         return new PortComponentMetaData(webserviceDescription);
-      else return null;
-   }
-
-   /**
-    * Called when parsing character is complete.
-    */
-   public void addChild(WebserviceDescriptionMetaData webserviceDescription, PortComponentMetaData portComponent, UnmarshallingContext navigator, String namespaceURI,
-         String localName)
-   {
-      webserviceDescription.addPortComponent(portComponent);
-   }
-
-   /**
-    * Called when parsing of a new element started.
-    */
-   public Object newChild(PortComponentMetaData portComponent, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs)
-   {
-      if ("handler".equals(localName))
-         return new UnifiedHandlerMetaData(null);
-      else if ("handler-chains".equals(localName))
-         return new UnifiedHandlerChainsMetaData();
-      // @Addressing related elements
-      else if ("addressing".equals(localName)) {
-         processingAddressingElement = true;
-         processingRespectBindingElement = false;
-      }
-      // @RespectBinding related elements
-      else if ("respect-binding".equals(localName)) {
-         processingAddressingElement = false;
-         processingRespectBindingElement = true;
-      }
-      
-      return null;
-   }
-
-   /**
-    * Called when parsing of a new element started.
-    */
-   public Object newChild(UnifiedHandlerChainsMetaData handlerChains, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs)
-   {
-      if ("handler-chain".equals(localName))
-         return new UnifiedHandlerChainMetaData();
-      else return null;
-   }
-
-   /**
-    * Called when parsing of a new element started.
-    */
-   public Object newChild(UnifiedHandlerChainMetaData handlerChains, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs)
-   {
-      if ("handler".equals(localName))
-         return new UnifiedHandlerMetaData();
-      else return null;
-   }
-
-   /**
-    * Called when parsing character is complete.
-    */
-   public void addChild(PortComponentMetaData portComponent, UnifiedHandlerMetaData handler, UnmarshallingContext navigator, String namespaceURI, String localName)
-   {
-      portComponent.addHandler(handler);
-   }
-
-   /**
-    * Called when parsing character is complete.
-    */
-   public void addChild(PortComponentMetaData portComponent, UnifiedHandlerChainsMetaData handlerChains, UnmarshallingContext navigator, String namespaceURI,
-         String localName)
-   {
-      portComponent.setHandlerChains(handlerChains);
-   }
-
-   /**
-    * Called when parsing character is complete.
-    */
-   public void addChild(UnifiedHandlerChainsMetaData chains, UnifiedHandlerChainMetaData handlerChain, UnmarshallingContext navigator, String namespaceURI,
-         String localName)
-   {
-      chains.addHandlerChain(handlerChain);
-   }
-
-   /**
-    * Called when parsing character is complete.
-    */
-   public void addChild(UnifiedHandlerChainMetaData chain, UnifiedHandlerMetaData handler, UnmarshallingContext navigator, String namespaceURI, String localName)
-   {
-      chain.addHandler(handler);
-   }
-
-   /**
-    * Called when parsing of a new element started.
-    */
-   public Object newChild(UnifiedHandlerMetaData handler, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs)
-   {
-      if ("init-param".equals(localName))
-         return new UnifiedInitParamMetaData();
-      else return null;
-   }
-
-   /**
-    * Called when parsing character is complete.
-    */
-   public void addChild(UnifiedHandlerMetaData handler, UnifiedInitParamMetaData param, UnmarshallingContext navigator, String namespaceURI, String localName)
-   {
-      handler.addInitParam(param);
-   }
-
-   /**
-    * Called when a new simple child element with text value was read from the XML content.
-    */
-   public void setValue(WebserviceDescriptionMetaData webserviceDescription, UnmarshallingContext navigator, String namespaceURI, String localName, String value)
-   {
-      if (log.isTraceEnabled())
-         log.trace("WebserviceDescriptionMetaData setValue: nuri=" + namespaceURI + " localName=" + localName + " value=" + value);
-
-      if (localName.equals("webservice-description-name"))
-         webserviceDescription.setWebserviceDescriptionName(value);
-      else if (localName.equals("wsdl-file"))
-         webserviceDescription.setWsdlFile(value);
-      else if (localName.equals("jaxrpc-mapping-file"))
-         webserviceDescription.setJaxrpcMappingFile(value);
-   }
-
-   /**
-    * Called when a new simple child element with text value was read from the XML content.
-    */
-   public void setValue(PortComponentMetaData portComponent, UnmarshallingContext navigator, String namespaceURI, String localName, String value)
-   {
-      if (log.isTraceEnabled())
-         log.trace("PortComponentMetaData setValue: nuri=" + namespaceURI + " localName=" + localName + " value=" + value);
-
-      if (localName.equals("port-component-name"))
-         portComponent.setPortComponentName(value);
-      else if (localName.equals("wsdl-port"))
-         portComponent.setWsdlPort(navigator.resolveQName(value));
-      else if (localName.equals("service-endpoint-interface"))
-         portComponent.setServiceEndpointInterface(value);
-      else if (localName.equals("ejb-link"))
-         portComponent.setEjbLink(value);
-      else if (localName.equals("servlet-link"))
-         portComponent.setServletLink(value);
-      else if (localName.equals("wsdl-service"))
-         portComponent.setWsdlService(navigator.resolveQName(value));
-      else if (localName.equals("protocol-binding"))
-         portComponent.setProtocolBinding(value);
-      // @Addressing related elements
-      else if (localName.equals("enabled"))
-      {
-         if (processingAddressingElement)
-            portComponent.setAddressingEnabled(Boolean.valueOf(value));
-         if (processingRespectBindingElement)
-            portComponent.setRespectBindingEnabled(Boolean.valueOf(value));
-      }
-      else if (localName.equals("required") && processingAddressingElement)
-         portComponent.setAddressingRequired(Boolean.valueOf(value));
-      else if (localName.equals("responses") && processingAddressingElement)
-         portComponent.setAddressingResponses(value);
-      // @MTOM related elements
-      else if (localName.equals("enable-mtom"))
-         portComponent.setMtomEnabled(Boolean.valueOf(value));
-      else if (localName.equals("mtom-threshold"))
-         portComponent.setMtomThreshold(Integer.valueOf(value));
-   }
-
-   /**
-    * Called when a new simple child element with text value was read from the XML content.
-    */
-   public void setValue(UnifiedHandlerMetaData handler, UnmarshallingContext navigator, String namespaceURI, String localName, String value)
-   {
-      if (log.isTraceEnabled())
-         log.trace("UnifiedHandlerMetaData setValue: nuri=" + namespaceURI + " localName=" + localName + " value=" + value);
-
-      if (localName.equals("handler-name"))
-         handler.setHandlerName(value);
-      else if (localName.equals("handler-class"))
-         handler.setHandlerClass(value);
-      else if (localName.equals("soap-header"))
-         handler.addSoapHeader(navigator.resolveQName(value));
-      else if (localName.equals("soap-role"))
-         handler.addSoapRole(value);
-      else if (localName.equals("port-name"))
-         handler.addPortName(value);
-   }
-
-   /**
-    * Called when a new simple child element with text value was read from the XML content.
-    */
-   public void setValue(UnifiedInitParamMetaData param, UnmarshallingContext navigator, String namespaceURI, String localName, String value)
-   {
-      if (log.isTraceEnabled())
-         log.trace("UnifiedInitParamMetaData setValue: nuri=" + namespaceURI + " localName=" + localName + " value=" + value);
-
-      if (localName.equals("param-name"))
-         param.setParamName(value);
-      else if (localName.equals("param-value"))
-         param.setParamValue(value);
    }
 }

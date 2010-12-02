@@ -42,7 +42,7 @@ import javax.xml.stream.XMLStreamReader;
  */
 public abstract class AbstractHandlerChainsMetaDataParser
 {
-   protected UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader) throws XMLStreamException
+   protected UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
       UnifiedHandlerChainsMetaData handlerChains = new UnifiedHandlerChainsMetaData();
       while (reader.hasNext())
@@ -50,7 +50,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_CHAINS))
+               if (match(reader, nsUri, HANDLER_CHAINS))
                {
                   return handlerChains;
                }
@@ -60,8 +60,8 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_CHAIN)) {
-                  handlerChains.addHandlerChain(parseHandlerChain(reader, handlerChains));
+               if (match(reader, nsUri, HANDLER_CHAIN)) {
+                  handlerChains.addHandlerChain(parseHandlerChain(reader, nsUri, handlerChains));
                }
                else
                {
@@ -73,7 +73,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
    
-   private UnifiedHandlerChainMetaData parseHandlerChain(XMLStreamReader reader, UnifiedHandlerChainsMetaData handlerChains) throws XMLStreamException
+   private UnifiedHandlerChainMetaData parseHandlerChain(XMLStreamReader reader, String nsUri, UnifiedHandlerChainsMetaData handlerChains) throws XMLStreamException
    {
       UnifiedHandlerChainMetaData handlerChain = new UnifiedHandlerChainMetaData(handlerChains);
       while (reader.hasNext())
@@ -81,7 +81,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_CHAIN))
+               if (match(reader, nsUri, HANDLER_CHAIN))
                {
                   return handlerChain;
                }
@@ -91,20 +91,20 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_CHAIN_PORT_PATTERN))
+               if (match(reader, nsUri, CHAIN_PORT_PATTERN))
                {
                   handlerChain.setPortNamePattern(elementAsQName(reader));
                }
-               else if (match(reader, QNAME_CHAIN_SERVICE_PATTERN))
+               else if (match(reader, nsUri, CHAIN_SERVICE_PATTERN))
                {
                   handlerChain.setServiceNamePattern(elementAsQName(reader));
                }
-               else if(match(reader, QNAME_CHAIN_PROTOCOL_BINDING))
+               else if(match(reader, nsUri, CHAIN_PROTOCOL_BINDING))
                {
                   handlerChain.setProtocolBindings(elementAsString(reader));
                }
-               else if (match(reader, QNAME_HANDLER)) {
-                  handlerChain.addHandler(parseHandler(reader, handlerChain));
+               else if (match(reader, nsUri, HANDLER)) {
+                  handlerChain.addHandler(parseHandler(reader, nsUri, handlerChain));
                }
                else
                {
@@ -116,7 +116,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
    
-   private UnifiedHandlerMetaData parseHandler(XMLStreamReader reader, UnifiedHandlerChainMetaData handlerChain) throws XMLStreamException
+   protected UnifiedHandlerMetaData parseHandler(XMLStreamReader reader, String nsUri) throws XMLStreamException
+   {
+      return parseHandler(reader, nsUri, null);
+   }
+   
+   private UnifiedHandlerMetaData parseHandler(XMLStreamReader reader, String nsUri, UnifiedHandlerChainMetaData handlerChain) throws XMLStreamException
    {
       UnifiedHandlerMetaData handler = new UnifiedHandlerMetaData(handlerChain);
       while (reader.hasNext())
@@ -124,7 +129,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_HANDLER))
+               if (match(reader, nsUri, HANDLER))
                {
                   return handler;
                }
@@ -134,21 +139,21 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_NAME))
+               if (match(reader, nsUri, HANDLER_NAME))
                {
                   handler.setHandlerName(elementAsString(reader));
                }
-               else if (match(reader, QNAME_HANDLER_CLASS))
+               else if (match(reader, nsUri, HANDLER_CLASS))
                {
                   handler.setHandlerClass(elementAsString(reader));
                }
-               else if (match(reader, QNAME_HANDLER_PARAM)) {
-                  handler.addInitParam(parseInitParam(reader));
+               else if (match(reader, nsUri, HANDLER_PARAM)) {
+                  handler.addInitParam(parseInitParam(reader, nsUri));
                }
-               else if (match(reader, QNAME_HANDLER_SOAP_ROLE)) {
+               else if (match(reader, nsUri, HANDLER_SOAP_ROLE)) {
                   handler.addSoapRole(elementAsString(reader));
                }
-               else if (match(reader, QNAME_HANDLER_SOAP_HEADER)) {
+               else if (match(reader, nsUri, HANDLER_SOAP_HEADER)) {
                   handler.addSoapHeader(elementAsQName(reader));
                }
                else
@@ -161,7 +166,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
       throw new IllegalStateException("Reached end of xml document unexpectedly");
    }
 
-   private UnifiedInitParamMetaData parseInitParam(XMLStreamReader reader) throws XMLStreamException
+   private UnifiedInitParamMetaData parseInitParam(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
       UnifiedInitParamMetaData initParam = new UnifiedInitParamMetaData();
       while (reader.hasNext())
@@ -169,7 +174,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_PARAM))
+               if (match(reader, nsUri, HANDLER_PARAM))
                {
                   return initParam;
                }
@@ -179,11 +184,11 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, QNAME_HANDLER_PARAM_NAME))
+               if (match(reader, nsUri, HANDLER_PARAM_NAME))
                {
                   initParam.setParamName(elementAsString(reader));
                }
-               else if (match(reader, QNAME_HANDLER_PARAM_VALUE))
+               else if (match(reader, nsUri, HANDLER_PARAM_VALUE))
                {
                   initParam.setParamValue(elementAsString(reader));
                }
