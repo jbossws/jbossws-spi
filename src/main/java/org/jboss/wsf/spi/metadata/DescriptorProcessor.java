@@ -21,10 +21,13 @@
  */
 package org.jboss.wsf.spi.metadata;
 
+import java.net.URL;
+
+import org.jboss.xb.binding.ObjectModelFactory;
 
 /**
  * Descriptor processor is abstraction over configuration procesing.
- * @deprecated This will be replaced by {@link org.jboss.wsf.spi.metadata.DescriptorParser} interface.
+ * @deprecated This will be replaced by {@link org.jboss.wsf.spi.metadata.DescriptorParser} interface. 
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
@@ -40,10 +43,10 @@ public interface DescriptorProcessor<T>
     * Descriptor name to parse and process.
     * @return descriptor name to consume.
     */
-   String getDescriptorName();   
-//   /**
-//    * OM factory building object tree from the configuration file.
-//    * @return OM factory
-//    */
-//   ObjectModelFactory getFactory(final URL url);
+   String getDescriptorName();
+   /**
+    * OM factory building object tree from the configuration file.
+    * @return OM factory
+    */
+   ObjectModelFactory getFactory(final URL url);
 }

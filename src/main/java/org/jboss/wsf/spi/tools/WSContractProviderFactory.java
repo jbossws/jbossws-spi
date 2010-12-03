@@ -19,33 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee.serviceref;
+package org.jboss.wsf.spi.tools;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.jboss.wsf.spi.tools.WSContractProvider;
 
-import org.jboss.xb.binding.JBossXBException;
-import org.jboss.xb.binding.Unmarshaller;
-import org.jboss.xb.binding.UnmarshallerFactory;
-
-/** The interface of the parser for the unified metadata handler chains element
+/**
+ * Creates WSContractProvider implementations.
  * 
- * @author alessio.soldano@jboss.com
- * @since 26-Nov-2010
+ * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
  */
-public class UnifiedHandlerChainsMetaDataParser
+public interface WSContractProviderFactory
 {
-   @SuppressWarnings("deprecation")
-   public static UnifiedHandlerChainsMetaData parse(InputStream is) throws IOException
-   {
-      try
-      {
-         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
-         return (UnifiedHandlerChainsMetaData) unmarshaller.unmarshal(is, new HandlerChainsObjectFactory(), null);
-      }
-      catch (JBossXBException xbe)
-      {
-         throw new IOException(xbe);
-      }
-   }
+   /**
+    * Create a new WSContractProvider. There are no restrictions on how this
+    * should be performed. The passed ClassLoader is the one used in
+    * {@link WSContractProvider#newInstance(ClassLoader)}. This loader
+    * should be made available to the generated WSContractProvider.
+    * 
+    * @param loader the ClassLoader for type discovery
+    * @return a new WSContractProvider
+    */
+   public WSContractProvider createProvider(ClassLoader loader);
 }

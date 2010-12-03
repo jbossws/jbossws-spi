@@ -19,33 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee.serviceref;
+package org.jboss.wsf.spi.management.recording;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.Serializable;
 
-import org.jboss.xb.binding.JBossXBException;
-import org.jboss.xb.binding.Unmarshaller;
-import org.jboss.xb.binding.UnmarshallerFactory;
-
-/** The interface of the parser for the unified metadata handler chains element
+/**
+ * A record filter
  * 
  * @author alessio.soldano@jboss.com
- * @since 26-Nov-2010
+ * @since 8-Dec-2007
  */
-public class UnifiedHandlerChainsMetaDataParser
+public interface RecordFilter extends Cloneable, Serializable
 {
-   @SuppressWarnings("deprecation")
-   public static UnifiedHandlerChainsMetaData parse(InputStream is) throws IOException
-   {
-      try
-      {
-         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
-         return (UnifiedHandlerChainsMetaData) unmarshaller.unmarshal(is, new HandlerChainsObjectFactory(), null);
-      }
-      catch (JBossXBException xbe)
-      {
-         throw new IOException(xbe);
-      }
-   }
+   /**
+    * Returns true if the filter matches the given record.
+    */
+   boolean match(Record record);
+   
+   /**
+    * RecordFilters must override Object.clone()
+    */
+   Object clone() throws CloneNotSupportedException;
 }

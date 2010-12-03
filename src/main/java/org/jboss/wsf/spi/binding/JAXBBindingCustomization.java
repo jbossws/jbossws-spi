@@ -19,33 +19,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee.serviceref;
+package org.jboss.wsf.spi.binding;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.jboss.wsf.spi.binding.BindingCustomization;
 
-import org.jboss.xb.binding.JBossXBException;
-import org.jboss.xb.binding.Unmarshaller;
-import org.jboss.xb.binding.UnmarshallerFactory;
-
-/** The interface of the parser for the unified metadata handler chains element
- * 
+/**
+ * JAXB customizations.
+ *
  * @author alessio.soldano@jboss.com
- * @since 26-Nov-2010
+ * @since 05-Oct-2009
  */
-public class UnifiedHandlerChainsMetaDataParser
+public class JAXBBindingCustomization extends BindingCustomization
 {
-   @SuppressWarnings("deprecation")
-   public static UnifiedHandlerChainsMetaData parse(InputStream is) throws IOException
-   {
-      try
-      {
-         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
-         return (UnifiedHandlerChainsMetaData) unmarshaller.unmarshal(is, new HandlerChainsObjectFactory(), null);
-      }
-      catch (JBossXBException xbe)
-      {
-         throw new IOException(xbe);
-      }
-   }
+   private static final long serialVersionUID = 5547146387872057974L;
+   
 }
