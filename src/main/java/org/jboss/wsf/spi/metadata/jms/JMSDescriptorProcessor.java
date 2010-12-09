@@ -25,11 +25,9 @@ import org.jboss.wsf.spi.metadata.DescriptorProcessor;
 
 /**
  * Processor for JMS UMDM.
- * @deprecated To be replaced by {@link org.jboss.wsf.spi.metadata.jms.JMSDescriptorParser}
  * 
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-@Deprecated
 public interface JMSDescriptorProcessor extends DescriptorProcessor<JMSEndpointsMetaData>
 {
 }

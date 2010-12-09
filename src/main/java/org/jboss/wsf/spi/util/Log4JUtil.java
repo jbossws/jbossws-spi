@@ -19,32 +19,48 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata;
+package org.jboss.wsf.spi.util;
 
 import java.net.URL;
 
-import org.jboss.xb.binding.ObjectModelFactory;
+import org.apache.log4j.helpers.Loader;
 
 /**
- * Descriptor processor is abstraction over configuration procesing.
+ * 
+ * @author alessio.soldano@jboss.com
+ * @since 10-Jun-2010
  *
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public interface DescriptorProcessor<T>
+public class Log4JUtil
 {
+   public static final String LOG4J_CONFIGURATION = "log4j.configuration";
+   public static final String LOG4J_PROPERTIES = "log4j.properties";
+   
    /**
-    * Indicates whether validation is turned on or off.
-    * @return true if validation is on, false otherwise
+    * Returns true if a log4j configuration can be found given the current environment.
+    * See http://logging.apache.org/log4j/1.2/manual.html (Default Initialization Procedure)
+    * @return
     */
-   boolean isValidating();
-   /**
-    * Descriptor name to parse and process.
-    * @return descriptor name to consume.
-    */
-   String getDescriptorName();
-   /**
-    * OM factory building object tree from the configuration file.
-    * @return OM factory
-    */
-   ObjectModelFactory getFactory(final URL url);
+   public static boolean isLog4jConfigurationAvailable()
+   {
+      String log4jConfiguration = System.getProperty(LOG4J_CONFIGURATION);
+      String resource = log4jConfiguration != null ? log4jConfiguration : LOG4J_PROPERTIES;
+      URL url = null;
+      try
+      {
+         url = new URL(resource);
+      }
+      catch (Exception e1)
+      {
+         try
+         {
+            url = Loader.getResource(resource);
+         }
+         catch (Exception e2)
+         {
+            //ignore
+         }
+      }
+      return url != null;
+   }
 }

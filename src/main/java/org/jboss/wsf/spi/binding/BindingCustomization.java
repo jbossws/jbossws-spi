@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,16 +19,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.webservices;
+package org.jboss.wsf.spi.binding;
 
-import org.jboss.wsf.spi.metadata.DescriptorParser;
+import java.util.HashMap;
 
 /**
- * Parser for WS UMDM.
- * 
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
- * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
+ * Allows introduction of arbitrary binding customization properties.<p>
+ * This may be different between stacks and addresses meta data binding
+ * (i.e JSR-181 to UnifiedMetaData) as well as JAVA to XML binding operations.
+ * <p>
+ * Supported properties need to be documented in subclasses.
+ *
+ * @author Heiko.Braun@jboss.com
+ *         Created: Jun 28, 2007
  */
-public interface WebservicesDescriptorParser extends DescriptorParser<WebservicesMetaData>
+public abstract class BindingCustomization extends HashMap
 {
+
 }

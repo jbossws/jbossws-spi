@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,30 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata;
+package org.jboss.wsf.spi.management.recording;
 
-import java.net.URL;
+import java.io.Serializable;
 
 /**
+ * A record filter
  * 
- *
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  * @author alessio.soldano@jboss.com
+ * @since 8-Dec-2007
  */
-public interface DescriptorParser<T>
+public interface RecordFilter extends Cloneable, Serializable
 {
    /**
-    * Descriptor name to parse and process.
-    * @return descriptor name to consume.
+    * Returns true if the filter matches the given record.
     */
-   String getDescriptorName();
+   boolean match(Record record);
    
    /**
-    * Parses the descriptor at the provided URL and returns
-    * the corresponding object (metadata)
-    * 
-    * @param url
-    * @return
+    * RecordFilters must override Object.clone()
     */
-   T parse(final URL url);
+   Object clone() throws CloneNotSupportedException;
 }

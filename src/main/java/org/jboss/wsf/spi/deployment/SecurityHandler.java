@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,32 +19,15 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata;
+package org.jboss.wsf.spi.deployment;
 
-import java.net.URL;
+import org.dom4j.Element;
 
-import org.jboss.xb.binding.ObjectModelFactory;
-
-/**
- * Descriptor processor is abstraction over configuration procesing.
- *
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
- */
-public interface DescriptorProcessor<T>
+public interface SecurityHandler
 {
-   /**
-    * Indicates whether validation is turned on or off.
-    * @return true if validation is on, false otherwise
-    */
-   boolean isValidating();
-   /**
-    * Descriptor name to parse and process.
-    * @return descriptor name to consume.
-    */
-   String getDescriptorName();
-   /**
-    * OM factory building object tree from the configuration file.
-    * @return OM factory
-    */
-   ObjectModelFactory getFactory(final URL url);
+   /** Add the security domain to jboss-web.xml */
+   void addSecurityDomain(Element jbossWeb, Deployment dep);
+   
+   /** Add the security roles to web.xml */
+   void addSecurityRoles(Element webApp, Deployment dep);
 }

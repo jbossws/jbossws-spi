@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -19,15 +19,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.webservices;
+package org.jboss.test.wsf.spi.tools;
 
-import org.jboss.wsf.spi.metadata.DescriptorProcessor;
-
-/**
- * Processor for WS UMDM.
- * 
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
- */
-public interface WebservicesDescriptorProcessor extends DescriptorProcessor<WebservicesMetaData>
+// We just need to load it, therefore we skip the JSR 181 annotations here
+public class CalculatorBean
 {
+   public int add(int a, int b)
+   {
+      return a+b;
+   }
+
+   public int subtract(int a, int b)
+   {
+      return a-b;
+   }
 }
