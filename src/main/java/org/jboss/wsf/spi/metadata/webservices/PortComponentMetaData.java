@@ -77,16 +77,7 @@ public class PortComponentMetaData
    // -----------------------------------------
    // JAX-WS additions
 
-   // The optional <adressing> element
-   private boolean addressingEnabled;
-   private boolean addressingRequired;
-   private String addressingResponses = "ALL";
-   // The optional <enable-mtom> element
-   private boolean mtomEnabled;
-   // The optional <mtom-threshold> element
-   private int mtomThreshold;
-   // @RespectBinding annotation metadata
-   private boolean respectBindingEnabled;
+   private boolean enableMtom;
    private QName wsdlService;
    private String protocolBinding;
    private UnifiedHandlerChainsMetaData handlerChains;
@@ -189,75 +180,14 @@ public class PortComponentMetaData
       this.secureWSDLAccess = secureWSDLAccess;
    }
 
-   /**
-    * @deprecated Use {@link #isMtomEnabled()} instead.
-    */
-   @Deprecated
    public boolean isEnableMtom()
    {
-      return mtomEnabled;
+      return enableMtom;
    }
 
-   /**
-    * @deprecated Use {@link #setMtomEnabled(boolean)} instead.
-    */
-   @Deprecated
    public void setEnableMtom(boolean enableMtom)
    {
-      this.mtomEnabled = enableMtom;
-   }
-
-   public void setAddressingEnabled(final boolean addressingEnabled) {
-      this.addressingEnabled = addressingEnabled;
-   }
-   
-   public boolean isAddressingEnabled() {
-      return this.addressingEnabled;
-   }
-
-   public void setAddressingRequired(final boolean addressingRequired) {
-      this.addressingRequired = addressingRequired;
-   }
-   
-   public boolean isAddressingRequired() {
-      return this.addressingRequired;
-   }
-   
-   public void setAddressingResponses(final String responsesTypes)
-   {
-      if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings are allowed");
-
-      this.addressingResponses = responsesTypes;
-   }
-   
-   public String getAddressingResponses() {
-      return this.addressingResponses;
-   }
-
-   public void setMtomEnabled(final boolean mtomEnabled) {
-      this.mtomEnabled = mtomEnabled;
-   }
-   
-   public boolean isMtomEnabled() {
-      return this.mtomEnabled;
-   }
-
-   public void setMtomThreshold(final int mtomThreshold)
-   {
-      this.mtomThreshold = mtomThreshold;
-   }
-   
-   public int getMtomThreshold() {
-      return this.mtomThreshold;
-   }
-
-   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
-      this.respectBindingEnabled = respectBindingEnabled;
-   }
-   
-   public boolean isRespectBindingEnabled() {
-      return this.respectBindingEnabled;
+      this.enableMtom = enableMtom;
    }
 
    public QName getWsdlService()

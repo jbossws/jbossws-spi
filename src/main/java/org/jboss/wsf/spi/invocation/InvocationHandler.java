@@ -69,32 +69,4 @@ public abstract class InvocationHandler
 
       throw new UndeclaredThrowableException(th);
    }
-   
-   // invocation handler lifecycle callback methods
-   
-   /**
-    * Template method for notifying subclasses that endpoint instance have been instantiated.
-    *
-    * @param endpoint instantiated endpoint
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onEndpointInstantiated(final Endpoint endpoint, final Invocation invocation) throws Exception;
-
-   /**
-    * Template method for notifying subclasses that endpoint method is going to be invoked.
-    *
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onBeforeInvocation(final Invocation invocation) throws Exception;
-
-   /**
-    * Template method for notifying subclasses that endpoint method invocation was completed.
-    *
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onAfterInvocation(final Invocation invocation) throws Exception;
-   
 }
