@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,52 +21,39 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.serviceref.ServiceRefMetaData;
+import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.WebServiceException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.WebServiceException;
-
-import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.wsf.spi.deployment.WritableUnifiedVirtualFile;
-import org.jboss.wsf.spi.serviceref.ServiceRefElement;
-import org.jboss.wsf.spi.serviceref.ServiceRefHandler;
-import org.jboss.wsf.spi.util.URLLoaderAdapter;
-
 /**
- * The metadata from service-ref element in web.xml, ejb-jar.xml, and
+ * The metdata data from service-ref element in web.xml, ejb-jar.xml, and
  * application-client.xml.
  * 
  * @author Thomas.Diesler@jboss.org
- * @author alessio.soldano@jboss.com
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public final class UnifiedServiceRefMetaData extends ServiceRefElement
+public class UnifiedServiceRefMetaData extends ServiceRefMetaData
 {
-   private static final long serialVersionUID = -926464174132493955L;
+   private static final long serialVersionUID = -926464174132493951L;
 
    // provide logging
    private static Logger log = Logger.getLogger(UnifiedServiceRefMetaData.class);
 
-   private transient UnifiedVirtualFile vfsRoot;
+   private UnifiedVirtualFile vfsRoot;
 
    // Standard properties 
 
-   // Service reference type - either JAX-RPC or JAXWS
-   private ServiceRefHandler.Type type;
    // The required <service-ref-name> element
    private String serviceRefName;
    // The JAXRPC required <service-interface> element
@@ -86,6 +73,8 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    // The optional <handler-chains> elements. JAX-WS handlers declared in the standard JavaEE5 descriptor
    private UnifiedHandlerChainsMetaData handlerChains;
 
+   // JBoss properties 
+
    // The optional <service-impl-class> element
    private String serviceImplClass;
    // The optional JBossWS config-name
@@ -98,18 +87,14 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    private String handlerChain;
    // Arbitrary proxy properties given by <call-property> 
    private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>();
-   // @Addressing annotation metadata
-   private boolean isAddressingAnnotationSpecified;
-   private boolean addressingEnabled;
-   private boolean addressingRequired;
-   private String addressingResponses = "ALL";
-   // @MTOM annotation metadata
-   private boolean isMtomAnnotationSpecified;
-   private boolean mtomEnabled;
-   private int mtomThreshold;
-   // @RespectBinding annotation metadata
-   private boolean isRespectBindingAnnotationSpecified;
-   private boolean respectBindingEnabled;
+
+   // The JAXWS annotated element. JDK1.4 does not have java.lang.reflect.AnnotatedElement so we use an untyped Object
+   private transient Object anElement;
+   // A flag that should be set when this service-ref has been bound.
+   private transient boolean processed;
+
+   // Maps 'injection-target-class' to 'injection-target-name'
+   private List<String[]> injectionTargets = new LinkedList<String[]>();
 
    public UnifiedServiceRefMetaData(UnifiedVirtualFile vfRoot)
    {
@@ -119,82 +104,39 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    public UnifiedServiceRefMetaData()
    {
    }
-   
-   public void setAddressingAnnotationSpecified(final boolean isAddressingAnnotationSpecified) {
-      this.isAddressingAnnotationSpecified = isAddressingAnnotationSpecified;
-   }
-   
-   public boolean isAddressingAnnotationSpecified() {
-      return this.isAddressingAnnotationSpecified;
-   }
 
-   public void setAddressingEnabled(final boolean addressingEnabled) {
-      this.addressingEnabled = addressingEnabled;
-   }
-   
-   public boolean isAddressingEnabled() {
-      return this.addressingEnabled;
-   }
-
-   public void setAddressingRequired(final boolean addressingRequired) {
-      this.addressingRequired = addressingRequired;
-   }
-   
-   public boolean isAddressingRequired() {
-      return this.addressingRequired;
-   }
-   
-   public void setAddressingResponses(final String responsesTypes)
+   public void merge(ServiceRefMetaData sref)
    {
-      if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings are allowed");
+      UnifiedServiceRefMetaData sourceRef = (UnifiedServiceRefMetaData)sref;
+      serviceImplClass = sourceRef.serviceImplClass;
+      configName = sourceRef.configName;
+      configFile = sourceRef.configFile;
+      wsdlOverride = sourceRef.wsdlOverride;
+      handlerChain = sourceRef.handlerChain;
+      callProperties = sourceRef.callProperties;      
+      
+      if (serviceQName == null && sourceRef.serviceQName != null)
+         serviceQName = sourceRef.serviceQName;
 
-      this.addressingResponses = responsesTypes;
-   }
-   
-   public String getAddressingResponses() {
-      return this.addressingResponses;
-   }
+      for (UnifiedPortComponentRefMetaData pcref : sourceRef.getPortComponentRefs())
+      {
+         String seiName = pcref.getServiceEndpointInterface();
+         QName portQName = pcref.getPortQName();
+         UnifiedPortComponentRefMetaData targetPCRef = getPortComponentRef(seiName, portQName);
 
-   public void setMtomAnnotationSpecified(final boolean isMtomAnnotationSpecified) {
-      this.isMtomAnnotationSpecified = isMtomAnnotationSpecified;
-   }
-   
-   public boolean isMtomAnnotationSpecified() {
-      return this.isMtomAnnotationSpecified;
-   }
+         if (targetPCRef == null)
+         {
+            log.warn("Cannot find port component ref: [sei=" + seiName + ",port=" + portQName + "]");
+            if (seiName != null)
+               addPortComponentRef(pcref);
+            else
+               log.warn("Ingore port component ref without SEI declaration: " + pcref);
 
-   public void setMtomEnabled(final boolean mtomEnabled) {
-      this.mtomEnabled = mtomEnabled;
-   }
-   
-   public boolean isMtomEnabled() {
-      return this.mtomEnabled;
-   }
+            targetPCRef = pcref;
+         }
 
-   public void setMtomThreshold(final int mtomThreshold)
-   {
-      this.mtomThreshold = mtomThreshold;
-   }
-   
-   public int getMtomThreshold() {
-      return this.mtomThreshold;
-   }
-
-   public void setRespectBindingAnnotationSpecified(final boolean isRespectBindingAnnotationSpecified) {
-      this.isRespectBindingAnnotationSpecified = isRespectBindingAnnotationSpecified;
-   }
-   
-   public boolean isRespectBindingAnnotationSpecified() {
-      return this.isRespectBindingAnnotationSpecified;
-   }
-
-   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
-      this.respectBindingEnabled = respectBindingEnabled;
-   }
-   
-   public boolean isRespectBindingEnabled() {
-      return this.respectBindingEnabled;
+         targetPCRef.merge(pcref);
+      }
    }
 
    public UnifiedVirtualFile getVfsRoot()
@@ -205,16 +147,6 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    public void setVfsRoot(UnifiedVirtualFile vfsRoot)
    {
       this.vfsRoot = vfsRoot;
-   }
-   
-   public ServiceRefHandler.Type getType()
-   {
-      return type;
-   }
-
-   public void setType(ServiceRefHandler.Type type)
-   {
-      this.type = type;
    }
 
    public String getServiceRefName()
@@ -366,18 +298,11 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       {
          try
          {
-            wsdlLocation = new URL(wsdlFile);
+            wsdlLocation = vfsRoot.findChild(wsdlFile).toURL();
          }
-         catch (MalformedURLException e1)
+         catch (Exception e)
          {
-            try
-            {
-               wsdlLocation = vfsRoot.findChild(wsdlFile).toURL();
-            }
-            catch (Exception e)
-            {
-               throw new WebServiceException("Cannot find wsdl-file: " + wsdlFile, e);
-            }
+            throw new WebServiceException("Cannot find wsdl-file: " + wsdlFile, e);
          }
       }
 
@@ -449,74 +374,57 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       this.handlerChain = handlerChain;
    }
 
-   private void writeObject(ObjectOutputStream out) throws IOException
+   public Object getAnnotatedElement()
    {
-      out.defaultWriteObject();
-      out.writeObject(vfsRoot);
-      if (vfsRoot instanceof WritableUnifiedVirtualFile)
-      {
-         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-         ((WritableUnifiedVirtualFile)vfsRoot).writeContent(bos, new WritableUnifiedVirtualFile.NameFilter() {
-            public boolean accept(String fileName)
-            {
-               boolean result = fileName.contains("META-INF");
-               result = result || fileName.endsWith(".wsdl");
-               result = result ||  fileName.endsWith(".xsd");
-               result = result || fileName.endsWith(".xml");
-               return result;
-            }
-         });
-         out.writeObject(bos.toByteArray());
-         out.writeObject(vfsRoot.getName());
-      }
-   }
-   
-   private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-   {
-      in.defaultReadObject();
-      UnifiedVirtualFile obj = (UnifiedVirtualFile)in.readObject();
-      if (obj.toURL() == null && (obj instanceof WritableUnifiedVirtualFile))
-      {
-         //the virtual file has been created in a different VM (or is even pointing to a different filesystem), try getting the serialized contents
-         byte[] bytes = (byte[])in.readObject();
-         String vfName = (String)in.readObject();
-         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-         File tempFile = File.createTempFile("jbossws-vf-", "-" + vfName);
-         tempFile.deleteOnExit();
-         FileOutputStream fos = new FileOutputStream(tempFile);
-         copyStreamAndClose(fos, bis);
-         this.vfsRoot = new URLLoaderAdapter(tempFile.toURI().toURL());
-      }
-      else
-      {
-         this.vfsRoot = (UnifiedVirtualFile)obj;
-      }
+      return anElement;
+
    }
 
-   private static void copyStreamAndClose(OutputStream outs, InputStream ins) throws IOException
+   public boolean isProcessed()
    {
-      try
-      {
-         byte[] bytes = new byte[1024];
-         int r = ins.read(bytes);
-         while (r > 0)
-         {
-            outs.write(bytes, 0, r);
-            r = ins.read(bytes);
-         }
-      }
-      catch (IOException e)
-      {
-         throw e;
-      }
-      finally{
-         try {
-            ins.close();
-         } catch (Exception e) {}
-         try {
-            outs.close();
-         } catch (Exception e) {}
-      }
+      return processed;
+   }
+
+   public void setProcessed(boolean flag)
+   {
+      this.processed = flag;
+   }
+
+   public void setAnnotatedElement(Object anElement)
+   {
+      this.anElement = anElement;
+   }
+
+   public void registerInjectionTarget(String classname)
+   {      
+      this.injectionTargets.add( new String[]{classname, null} );
+   }
+
+   public void finalizeInjectionTarget(String propName)
+   {
+      int index = this.injectionTargets.isEmpty() ? 0 : this.injectionTargets.size() - 1;
+      this.injectionTargets.get(index)[1] =  propName;
+   }
+
+   public List<String[]> getInjectionTargets()
+   {
+      return this.injectionTargets;
+   }
+
+   @Override
+   public void importStandardXml(Element root)
+   {
+      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
+      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
+      factory.getServiceRefMetaDataParser().importStandardXml(root, this);
+   }
+
+   @Override
+   public void importJBossXml(Element root)
+   {
+      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
+      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
+      factory.getServiceRefMetaDataParser().importJBossXml(root, this);
    }
 
    public String toString()
@@ -524,26 +432,18 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       StringBuilder str = new StringBuilder();
       str.append("\nUnifiedServiceRef");
       str.append("\n serviceRefName=" + serviceRefName);
-      str.append("\n type=" + type);
       str.append("\n serviceInterface=" + serviceInterface);
       str.append("\n serviceImplClass=" + serviceImplClass);
       str.append("\n serviceRefType=" + serviceRefType);
       str.append("\n serviceQName=" + serviceQName);
+      str.append("\n anElement=" + anElement);
       str.append("\n wsdlFile=" + wsdlFile);
       str.append("\n wsdlOverride=" + wsdlOverride);
       str.append("\n mappingFile=" + mappingFile);
       str.append("\n configName=" + configName);
       str.append("\n configFile=" + configFile);
       str.append("\n callProperties=" + callProperties);
-      str.append("\n addressingAnnotationSpecified=" + isAddressingAnnotationSpecified);
-      str.append("\n addressingEnabled=" + addressingEnabled);
-      str.append("\n addressingRequired=" + addressingRequired);
-      str.append("\n addressingResponses=" + addressingResponses);
-      str.append("\n mtomAnnotationSpecified=" + isMtomAnnotationSpecified);
-      str.append("\n mtomEnabled=" + mtomEnabled);
-      str.append("\n mtomThreshold=" + mtomThreshold);
-      str.append("\n respectBindingAnnotationSpecified=" + isRespectBindingAnnotationSpecified);
-      str.append("\n respectBindingEnabled=" + respectBindingEnabled);
+      str.append("\n processed=" + processed);
       str.append("\n handlerChains=" + handlerChains);
       str.append("\n handlerChain=" + handlerChain);
       for (UnifiedHandlerMetaData uhmd : handlers)

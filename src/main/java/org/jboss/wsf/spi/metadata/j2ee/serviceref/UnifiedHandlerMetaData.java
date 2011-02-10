@@ -28,7 +28,10 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
+import org.w3c.dom.Element;
 
 /** 
  * The unified metdata data for a handler element
@@ -129,6 +132,13 @@ public class UnifiedHandlerMetaData extends ServiceRefElement
    public void addPortName(String value)
    {
       portNames.add(value);
+   }
+
+   public void importStandardXml(Element root)
+   {
+      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
+      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
+      factory.getServiceRefMetaDataParser().importStandardXml(root, this);
    }
 
    public String toString()

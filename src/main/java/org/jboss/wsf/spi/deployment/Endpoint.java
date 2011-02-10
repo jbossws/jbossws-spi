@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.management.ObjectName;
 import javax.naming.Context;
+import javax.naming.NamingException;
 
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.RequestHandler;
@@ -48,23 +49,8 @@ public interface Endpoint extends Extensible
 
    public enum EndpointState
    {
-      UNDEFINED, STARTED, STOPPED
+      UNDEFINED, CREATED, STARTED, STOPPED, DESTROYED
    };
-
-   /** Get the URL pattern for this endpoint.
-    *  This has been deprecated, getting the current URLPatter
-    *  makes sense for {@link HttpEndpoint} only. 
-    */
-   @Deprecated 
-   String getURLPattern();
-   /** Set the URL pattern for this endpoint
-    *  This has been deprecated, setting the current URLPatter
-    *  makes sense for {@link HttpEndpoint} only. 
-    * 
-    * @param urlPattern
-    */
-   @Deprecated
-   void setURLPattern(String urlPattern);
 
    /** Get the service this endpoint belongs to */
    Service getService();
@@ -98,7 +84,19 @@ public interface Endpoint extends Extensible
    
    /** Use the deployment classloader to load the bean */
    Class getTargetBeanClass();
-      
+   
+   /** Get the URL pattern for this endpoint */
+   String getURLPattern();
+   
+   /** Set the URL pattern for this endpoint */
+   void setURLPattern(String urlPattern);
+
+   /** Get endpoint address */
+   String getAddress();
+
+   /** Set endpoint address */
+   void setAddress(String address);
+   
    /** Set the request handler for this endpoint */
    void setRequestHandler(RequestHandler handler);
 
@@ -134,10 +132,4 @@ public interface Endpoint extends Extensible
    
    /** Returns associated JNDI context with this endpoint. */
    Context getJNDIContext();
-   
-   /** Get endpoint address */
-   String getAddress();
-
-   /** Set endpoint address */
-   void setAddress(String address);
 }

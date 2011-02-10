@@ -33,14 +33,5 @@ public abstract class DeploymentModelFactory implements SPIView
 
    public abstract Service newService();
 
-   @Deprecated
-   /**
-    * DEPRECATED: Use #newHttpEndpoint(String s) or new JMSEndpoint(String s) instead
-    */
    public abstract Endpoint newEndpoint(String targetBean);
-
-   public abstract Endpoint newHttpEndpoint(String targetBean);
-   
-   public abstract Endpoint newJMSEndpoint(String targetBean);
-  
 }
