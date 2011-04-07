@@ -70,7 +70,7 @@ public class WSFServlet extends HttpServlet
    protected ServletDelegate getDelegate(ServletConfig servletConfig)
    {
       ClassLoaderProvider clProvider = ClassLoaderProvider.getDefaultProvider();
-      ClassLoader cl = (clProvider != null) ? clProvider.getWebServiceSubsystemClassLoader() : getContextClassLoader();
+      ClassLoader cl = clProvider.getWebServiceSubsystemClassLoader();
       ServiceLoader<ServletDelegateFactory> sl = ServiceLoader.load(ServletDelegateFactory.class, cl);
       ServletDelegateFactory factory = sl.iterator().next();
       return factory.newServletDelegate(servletConfig.getInitParameter(STACK_SERVLET_DELEGATE_CLASS));

@@ -21,6 +21,9 @@
  */
 package org.jboss.wsf.spi.classloading;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
 /**
  * SPI for getting AS classloaders
  * 
@@ -30,20 +33,60 @@ package org.jboss.wsf.spi.classloading;
  */
 public abstract class ClassLoaderProvider
 {
-   private static ClassLoaderProvider provider = null;
-   
+   private static ClassLoaderProvider provider = new ClassLoaderProvider()
+   {
+      @Override
+      public ClassLoader getWebServiceSubsystemClassLoader()
+      {
+         return getContextClassLoader();
+      }
+
+      @Override
+      public ClassLoader getServerIntegrationClassLoader()
+      {
+         return getContextClassLoader();
+      }
+   };
+
    public static void setDefaultProvider(ClassLoaderProvider p)
    {
       provider = p;
    }
-   
+
    public static ClassLoaderProvider getDefaultProvider()
    {
       return provider;
    }
-   
+
+   /**
+    * Return the ClassLoader instance having visibility over the application server ws subsystem only
+    * 
+    * @return
+    */
    public abstract ClassLoader getWebServiceSubsystemClassLoader();
-   
+
+   /**
+    * Return the ClassLoader instance having visibility over the all server side ws libraries
+    * 
+    * @return
+    */
    public abstract ClassLoader getServerIntegrationClassLoader();
-   
+
+   static ClassLoader getContextClassLoader()
+   {
+      if (System.getSecurityManager() == null)
+      {
+         return Thread.currentThread().getContextClassLoader();
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>()
+         {
+            public ClassLoader run()
+            {
+               return Thread.currentThread().getContextClassLoader();
+            }
+         });
+      }
+   }
 }
