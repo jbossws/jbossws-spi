@@ -75,6 +75,15 @@ public class WSFServlet extends HttpServlet
       ServletDelegateFactory factory = sl.iterator().next();
       return factory.newServletDelegate(servletConfig.getInitParameter(STACK_SERVLET_DELEGATE_CLASS));
    }
+   
+   @Override
+   public void destroy()
+   {
+      if (delegate != null)
+      {
+         delegate.destroy();
+      }
+   }
 
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

@@ -38,6 +38,8 @@ import javax.servlet.http.HttpServletResponse;
 public interface ServletDelegate
 {
    public void init(ServletConfig servletConfig) throws ServletException;
+   
+   public void destroy();
 
    public void doHead(HttpServletRequest request, HttpServletResponse response, ServletContext context)
          throws ServletException, IOException;
