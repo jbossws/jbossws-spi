@@ -32,13 +32,28 @@ import org.jboss.wsf.spi.util.ServiceLoader;
 public abstract class SPIProviderResolver
 {
    public final static String DEFAULT_SPI_PROVIDER_RESOLVER = "org.jboss.wsf.framework.DefaultSPIProviderResolver";
-
+   
+   /**
+    * Get the SPIProviderResolver instance using the thread context classloader for lookup
+    * 
+    * @return
+    */
    public static SPIProviderResolver getInstance()
    {
-      SPIProviderResolver resolver = (SPIProviderResolver)ServiceLoader.loadService(SPIProviderResolver.class.getName(), DEFAULT_SPI_PROVIDER_RESOLVER);
+      return getInstance(SecurityActions.getContextClassLoader());
+   }
+   
+   /**
+    * Get the SPIProviderResolver instance using the provided classloader for lookup
+    * 
+    * @return
+    */
+   public static SPIProviderResolver getInstance(ClassLoader cl)
+   {
+      SPIProviderResolver resolver = (SPIProviderResolver)ServiceLoader.loadService(SPIProviderResolver.class.getName(), DEFAULT_SPI_PROVIDER_RESOLVER, cl);
       return resolver;
    }
 
    public abstract SPIProvider getProvider();
-
+   
 }
