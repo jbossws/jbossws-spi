@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,35 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi;
+package org.jboss.wsf.spi.deployment;
+
 
 /**
- * Gives access to the SPI implementation.
+ * 
+ * @author alessio.soldano@jboss.com
+ * @since 06-Apr-2011
  *
- * @author Heiko.Braun@jboss.com
- *         Created: Jul 18, 2007
  */
-public abstract class SPIProvider
+public interface ServletDelegateFactory
 {
-   /**
-    * Gets the specified SPI, using the current thread context classloader
-    * 
-    * @param <T>
-    * @param spiType
-    * @return
-    */
-   public <T> T getSPI(Class<T> spiType)
-   {
-      return getSPI(spiType, SecurityActions.getContextClassLoader());
-   }
-
-   /**
-    * Gets the specified SPI, using the provided classloader
-    * 
-    * @param <T>
-    * @param spiType
-    * @param loader
-    * @return
-    */
-   public abstract <T> T getSPI(Class<T> spiType, ClassLoader loader);
+   public ServletDelegate newServletDelegate(String delegateClassName);
 }
