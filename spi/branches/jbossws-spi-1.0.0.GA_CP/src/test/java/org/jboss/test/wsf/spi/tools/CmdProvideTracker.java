@@ -40,6 +40,11 @@ public class CmdProvideTracker extends WSContractProvider
       LAST_EVENT += "setGenerateWsdl";
    }
 
+   public void setExtension(boolean extension)
+   {
+      LAST_EVENT += "setExtension";
+   }
+
    public void setGenerateSource(boolean generateSource)
    {
       LAST_EVENT += "setGenerateSource";

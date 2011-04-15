@@ -53,8 +53,9 @@ import java.util.ArrayList;
  *   <tr><td>resourcedestdir</td><td>The output directory for resource artifacts (WSDL/XSD).</td><td>value of destdir</td></tr>
  *   <tr><td>sourcedestdir</td><td>The output directory for Java source.</td><td>value of destdir</td></tr>
  *   <tr><td>genwsdl</td><td>Whether or not to generate WSDL.</td><td>false</td><tr>
+ *   <tr><td>extension</td><td>Enable SOAP 1.2 binding extension.</td><td>false</td></tr>
  *   <tr><td>verbose</td><td>Enables more informational output about cmd progress.</td><td>false</td><tr>
- *   <tr><td>sei*</td><td>Service Endpoint Implementation.</td><td></td><tr>
+ *   <tr><td>sei</td><td>Service Endpoint Implementation.</td><td></td><tr>
  *   <tr><td>classpath</td><td>The classpath that contains the service endpoint implementation.</td><td>""</tr>
  * </table>
  * <b>* = required.</b>
@@ -73,6 +74,7 @@ import java.util.ArrayList;
  *      resourcedestdir=&quot;out-resource&quot;
  *      sourcedestdir=&quot;out-source&quot;
  *      genwsdl=&quot;true&quot; 
+ *      extension=&quot;true&quot;
  *      verbose=&quot;true&quot;
  *      sei=&quot;org.jboss.test.ws.jaxws.jsr181.soapbinding.DocWrappedServiceImpl&quot;&gt;
  *      &lt;classpath&gt;
@@ -83,21 +85,23 @@ import java.util.ArrayList;
  * </pre>
  * 
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  * @version $Revision$
  */
 public class WSProvideTask extends Task
 {
    private Path classpath = new Path(getProject());
    private CommandlineJava command = new CommandlineJava();
-   private String sei = null;
-   private File destdir = null;
-   private File resourcedestdir = null;
-   private File sourcedestdir = null;
-   private boolean keep = false;
-   private boolean genwsdl = false;
-   private boolean verbose = false;
-   private boolean fork = false;
-   private boolean debug = false;
+   private String sei;
+   private File destdir;
+   private File resourcedestdir;
+   private File sourcedestdir;
+   private boolean keep;
+   private boolean extension;
+   private boolean genwsdl;
+   private boolean verbose;
+   private boolean fork;
+   private boolean debug;
    
    // Not actually used right now
    public void setDebug(boolean debug)
@@ -129,7 +133,20 @@ public class WSProvideTask extends Task
    {
       this.destdir = destdir;
    }
+   
+   public void setExtension(boolean extension)
+   {
+      this.extension = extension;
+   }
 
+   public void setProtocol(String protocol)
+   {
+      if (protocol != null)
+      {
+         this.extension = protocol.toLowerCase().indexOf("Xsoap1.2") != -1;
+      }
+   }
+   
    public void setKeep(boolean keep)
    {
       this.keep = keep;
@@ -209,6 +226,8 @@ public class WSProvideTask extends Task
             gen.setMessageStream(new PrintStream(new LogOutputStream(this, Project.MSG_INFO)));
          gen.setGenerateSource(keep);
          gen.setGenerateWsdl(genwsdl);
+         gen.setExtension(extension);
+
          if (destdir != null)
             gen.setOutputDirectory(destdir);
          if (resourcedestdir != null)
@@ -262,6 +281,9 @@ public class WSProvideTask extends Task
       
       if (genwsdl)
          command.createArgument().setValue("-w");
+      
+      if (extension)
+         command.createArgument().setValue("-e");
       
       if (destdir != null)
       {

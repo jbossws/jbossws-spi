@@ -77,6 +77,13 @@ public abstract class WSContractProvider
     * @param generateWsdl whether or not to generate WSDL
     */
    public abstract void setGenerateWsdl(boolean generateWsdl);
+   
+   /**
+    * Enables/Disables SOAP 1.2 binding extension
+    * 
+    * @param extension whether or not to enable SOAP 1.2 binding extension
+    */
+   public abstract void setExtension(boolean extension);
 
    /**
     * Enables/Disables Java source generation.
