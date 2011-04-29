@@ -101,4 +101,30 @@ public abstract class ParserConstants
    public static final String ENABLED = "enabled";
 
    public static final String REQUIRED = "required";
+   
+   public static final String JBOSSWS_JAXWS_CONFIG_NS = "urn:jboss:jbossws-jaxws-config:4.0";
+   
+   public static final String JAXWS_CONFIG = "jaxws-config";
+   
+   public static final String ENDPOINT_CONFIG = "endpoint-config";
+   
+   public static final String CLIENT_CONFIG = "client-config";
+   
+   public static final String CONFIG_NAME = "config-name";
+   
+   public static final String PRE_HANDLER_CHAINS = "pre-handler-chains";
+   
+   public static final String POST_HANDLER_CHAINS = "post-handler-chains";
+   
+   public static final String FEATURE = "feature";
+   
+   public static final String PROPERTY = "property";
+   
+   public static final String PROPERTY_NAME = "property-name";
+   
+   public static final String PROPERTY_VALUE = "property-value";
+
+   public static final String FEATURE_NAME = "feature-name";
+   
+   public static final String FEATURE_DATA = "feature-data";
 }
