@@ -44,13 +44,19 @@ public abstract class AbstractHandlerChainsMetaDataParser
 {
    protected UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
+      return this.parseHandlerChains(reader, nsUri, nsUri, HANDLER_CHAINS);
+   }
+   
+   protected UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader, String nsUri,
+         String handlerChainsElementNS, String handlerChainsElementName) throws XMLStreamException
+   {
       UnifiedHandlerChainsMetaData handlerChains = new UnifiedHandlerChainsMetaData();
       while (reader.hasNext())
       {
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, nsUri, HANDLER_CHAINS))
+               if (match(reader, handlerChainsElementNS, handlerChainsElementName))
                {
                   return handlerChains;
                }
