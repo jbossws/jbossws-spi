@@ -29,6 +29,7 @@ import static org.jboss.wsf.spi.util.StAXUtils.match;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
@@ -50,6 +51,24 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
    private ConfigMetaDataParser()
    {
       super();
+   }
+   
+   public static ConfigRoot parse(URL url) throws IOException
+   {
+      InputStream is = null;
+      try
+      {
+         is = url.openStream();
+         return parse(is);
+      }
+      finally
+      {
+         if (is != null) {
+            try {
+               is.close();
+            } catch (Exception e) {} //ignore
+         }
+      }
    }
    
    public static ConfigRoot parse(InputStream is) throws IOException
