@@ -27,6 +27,6 @@ package org.jboss.wsf.spi.metadata.config;
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public class EndpointConfig extends CommonConfig
+public class EndpointConfig extends AbstractCommonConfig
 {
 }

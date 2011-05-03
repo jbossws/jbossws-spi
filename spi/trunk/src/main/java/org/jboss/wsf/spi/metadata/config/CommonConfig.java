@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.config;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,80 +33,29 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.Handler
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public abstract class CommonConfig
+public interface CommonConfig
 {
-   private String configName;
-   private Map<String, Feature> features = new HashMap<String, Feature>();
-   private Map<String, String> properties = new HashMap<String, String>();
-   private List<UnifiedHandlerChainMetaData> preHandlerChains;
-   private List<UnifiedHandlerChainMetaData> postHandlerChains;
+   public List<UnifiedHandlerChainMetaData> getPostHandlerChains();
 
-   public List<UnifiedHandlerChainMetaData> getPostHandlerChains()
-   {
-      return postHandlerChains;
-   }
+   public void setPostHandlerChains(List<UnifiedHandlerChainMetaData> postHandlerChain);
 
-   public void setPostHandlerChains(List<UnifiedHandlerChainMetaData> postHandlerChain)
-   {
-      this.postHandlerChains = postHandlerChain;
-   }
+   public List<UnifiedHandlerChainMetaData> getPreHandlerChains();
 
-   public List<UnifiedHandlerChainMetaData> getPreHandlerChains()
-   {
-      return preHandlerChains;
-   }
+   public void setPreHandlerChains(List<UnifiedHandlerChainMetaData> preHandlerChains);
 
-   public void setPreHandlerChains(List<UnifiedHandlerChainMetaData> preHandlerChains)
-   {
-      this.preHandlerChains = preHandlerChains;
-   }
+   public List<UnifiedHandlerChainMetaData> getHandlers(HandlerType type);
 
-   public List<UnifiedHandlerChainMetaData> getHandlers(HandlerType type)
-   {
-      List<UnifiedHandlerChainMetaData> handlerChains;
-      if (type == HandlerType.PRE)
-         handlerChains = getPreHandlerChains();
-      else if (type == HandlerType.POST)
-         handlerChains = getPostHandlerChains();
-      else throw new IllegalArgumentException("Invalid handler type: " + type);
-      return handlerChains;
-   }
+   public String getConfigName();
 
-   public String getConfigName()
-   {
-      return configName;
-   }
+   public void setConfigName(String configName);
 
-   public void setConfigName(String configName)
-   {
-      this.configName = configName;
-   }
-
-   public boolean hasFeature(String name)
-   {
-      return features.containsKey(name);
-   }
+   public boolean hasFeature(String name);
    
-   public void setFeature(Feature feature, boolean enabled) {
+   public void setFeature(Feature feature, boolean enabled);
 
-      if(enabled) {
-         features.put(feature.getName(), feature);
-      }
-      else
-         features.remove(feature.getName());
-   }
+   public void setProperty(String name, String value);
 
-   public void setProperty(String name, String value)
-   {
-      properties.put(name, value);
-   }
+   public String getProperty(String name);
 
-   public String getProperty(String name)
-   {
-      return properties.get(name);
-   }
-
-   public Map<String, String> getProperties() {
-      return properties;
-   }
+   public Map<String, String> getProperties();
 }
