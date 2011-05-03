@@ -35,6 +35,9 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.Handler
  */
 public interface CommonConfig
 {
+   public static final String JBOSSWS_CONFIG_FILE = "jbossws-config-file";
+   public static final String JBOSSWS_CONFIG_NAME = "jbossws-config-name";
+   
    public List<UnifiedHandlerChainMetaData> getPostHandlerChains();
 
    public void setPostHandlerChains(List<UnifiedHandlerChainMetaData> postHandlerChain);
