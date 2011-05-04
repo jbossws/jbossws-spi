@@ -134,7 +134,7 @@ public class StAXUtils
 
    public static QName elementAsQName(XMLStreamReader reader) throws XMLStreamException
    {
-      String text = reader.getElementText();
+      String text = elementAsString(reader);
       String localPart = text.substring(text.indexOf(':') + 1, text.length());
       int i = text.indexOf(':');
       String prefix = i < 0 ? null : text.substring(0, i);
@@ -144,13 +144,13 @@ public class StAXUtils
    
    public static boolean elementAsBoolean(XMLStreamReader reader) throws XMLStreamException
    {
-      String text = reader.getElementText();
+      String text = elementAsString(reader);
       return Boolean.parseBoolean(text);
    }
    
    public static int elementAsInt(XMLStreamReader reader) throws XMLStreamException
    {
-      String text = reader.getElementText();
+      String text = elementAsString(reader);
       return Integer.parseInt(text);
    }
 }
