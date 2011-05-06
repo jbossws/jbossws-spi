@@ -31,7 +31,7 @@ import org.jboss.ws.api.util.ServiceLoader;
  */
 public abstract class SPIProviderResolver
 {
-   public final static String DEFAULT_SPI_PROVIDER_RESOLVER = "org.jboss.wsf.framework.DefaultSPIProviderResolver";
+   public final static String DEFAULT_SPI_PROVIDER_RESOLVER = "org.jboss.ws.common.spi.DefaultSPIProviderResolver";
    
    /**
     * Get the SPIProviderResolver instance using the thread context classloader for lookup
