@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.spi;
 
-import org.jboss.wsf.spi.util.ServiceLoader;
+import org.jboss.ws.api.util.ServiceLoader;
 
 /**
  * Locates an SPIProvider.
