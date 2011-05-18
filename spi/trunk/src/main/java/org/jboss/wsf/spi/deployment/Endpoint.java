@@ -31,6 +31,7 @@ import org.jboss.ws.api.monitoring.RecordProcessor;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
+import org.jboss.wsf.spi.security.SecurityDomainContext;
 
 /**
  * A general JAXWS endpoint.
@@ -140,4 +141,10 @@ public interface Endpoint extends Extensible
 
    /** Set endpoint address */
    void setAddress(String address);
+   
+   /** Get security domain context */
+   SecurityDomainContext getSecurityDomainContext();
+   
+   /** Set security domain context */
+   void setSecurityDomainContext(SecurityDomainContext context);
 }
