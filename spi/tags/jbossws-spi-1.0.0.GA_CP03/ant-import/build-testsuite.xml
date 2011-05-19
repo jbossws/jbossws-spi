@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================================ -->
+<!--  JBoss, the OpenSource J2EE webOS                            -->
+<!--  Distributable under LGPL license.                           -->
+<!--  See terms of license at http://www.gnu.org.                 -->
+<!-- ============================================================ -->
+
+<!-- $Id$ -->
+
+<project>
+
+  <property environment="env"/>
+
+  <!-- ================================================================== -->
+  <!-- Setup                                                              -->
+  <!-- ================================================================== -->
+
+  <!-- Use -Ddebug=true for remote debugging -->
+  <condition property="remote.debug.line" value="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005">
+    <isset property="debug"/>
+  </condition>
+  <condition property="remote.debug.line" value="">
+    <not>
+      <isset property="debug"/>
+    </not>
+  </condition>
+
+  <!-- ================================================================== -->
+  <!-- Initialization                                                     -->
+  <!-- ================================================================== -->
+
+  <target name="tests-init">
+    <mkdir dir="${spi.test.output.dir}"/>
+    <mkdir dir="${spi.test.output.dir}/log"/>
+
+    <delete file="${spi.test.output.dir}/log/test.log"/>
+
+    <path id="test.classpath">
+      <path refid="spi.thirdparty.classpath"/>
+      <pathelement location="${spi.output.lib.dir}/jbossws-spi.jar"/>
+    </path>
+
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Compiling                                                          -->
+  <!-- ================================================================== -->
+  
+  <target name="tests-compile" depends="init, jars, tests-init">
+    
+    <mkdir dir="${spi.test.output.dir}/classes" />
+    <javac destdir="${spi.test.output.dir}/classes" debug="${javac.debug}" encoding="utf-8" verbose="${javac.verbose}" deprecation="${javac.deprecation}"
+           failonerror="${javac.fail.onerror}">
+      <src path="${spi.test.java.dir}"/>
+      <classpath refid="test.classpath"/>
+    </javac>
+
+    <!-- copy non binary files -->
+    <mkdir dir="${spi.test.output.dir}/resources"/>
+    <copy todir="${spi.test.output.dir}/resources">
+      <fileset dir="${spi.test.resources.dir}">
+        <include name="**/*.xml"/>
+      </fileset>
+      <filterset>
+        <filter token="SPI_DIR" value="${basedir}"/>        
+      </filterset>
+    </copy>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Testing                                                            -->
+  <!-- ================================================================== -->
+
+  <!-- Run all unit tests and generate a report -->
+  <target name="tests" depends="tests-compile" description="Run all unit tests and generate a report">
+    <antcall target="tests-run-internal">
+      <param name="include.wildcard" value="org/jboss/test/wsf/**/*TestCase.class"/>
+      <param name="exclude.wildcard" value="no-wildcard-exclude-see-excludesfile"/>
+      <param name="haltonfailure" value="true"/>
+    </antcall>
+  </target>
+
+  <target name="test" depends="tests-compile" if="test" description="Execute SPI testsuite">
+    <antcall target="tests-run-internal">
+      <param name="include.wildcard" value="org/jboss/test/wsf/${test}/**/*TestCase.class"/>
+      <param name="exclude.wildcard" value="no-wildcard-exclude-see-excludesfile"/>
+      <param name="haltonfailure" value="false"/>
+    </antcall>
+  </target>
+
+  <target name="tests-main" >
+    <antcall target="tests-compile"/>
+  </target>
+
+  <!-- Common test target -->
+  <target name="tests-run-internal" depends="tests-init">
+    <mkdir dir="${spi.test.output.dir}/reports"/>
+    <junit printsummary="yes" showoutput="yes" dir="${spi.test.output.dir}" haltonfailure="${haltonfailure}">
+      <!--jvmarg value="-Djava.security.manager"/-->
+      <sysproperty key="build.testlog" value="${spi.test.output.dir}/log"/>
+      <classpath>
+        <path refid="test.classpath"/>
+        <pathelement location="${spi.test.output.dir}/classes"/>
+      </classpath>
+      <formatter type="plain" usefile="true"/>
+      <formatter type="xml" usefile="true"/>
+      <batchtest todir="${spi.test.output.dir}/reports" fork="true">
+        <fileset dir="${spi.test.output.dir}/classes" includes="${include.wildcard}" excludes="${exclude.wildcard}"/>
+      </batchtest>
+    </junit>
+  </target>
+
+  <!--
+     Run a single unit test.
+     ant -Dtest=org.jboss.test.ws.jaxws.samples.provider.ProviderPayloadTestCase one-test
+  -->
+  <target name="one-test" depends="tests-init" if="test">
+    <mkdir dir="${spi.test.output.dir}/reports"/>
+    <junit printsummary="yes" showoutput="yes" dir="${spi.test.output.dir}">
+      <jvmarg line="${remote.debug.line}"/>      
+      <sysproperty key="build.testlog" value="${spi.test.output.dir}/log"/>
+      <classpath>
+        <path refid="test.classpath"/>
+        <pathelement location="${spi.test.output.dir}/classes"/>
+      </classpath>
+      <formatter type="plain" usefile="true"/>
+      <formatter type="xml" usefile="true"/>
+      <test todir="${spi.test.output.dir}/reports" name="${test}" fork="true"/>
+    </junit>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Reporting                                                          -->
+  <!-- ================================================================== -->
+
+  <!-- Build the tests report -->
+  <target name="tests-report" depends="tests-init">
+    <mkdir dir="${spi.test.output.dir}/reports"/>
+    <junitreport todir="${spi.test.output.dir}/reports">
+      <fileset dir="${spi.test.output.dir}/reports">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${spi.test.output.dir}/reports/html"/>
+    </junitreport>
+    <zip destfile="${spi.test.output.dir}/test-report-${build.id}.zip">
+      <fileset dir="${spi.test.output.dir}" includes="reports/**"/>
+    </zip>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Cleaning                                                           -->
+  <!-- ================================================================== -->
+
+  <target name="tests-clean" description="Delete all generated test files.">
+    <delete dir="${spi.test.output.dir}"/>
+  </target>
+
+</project>
