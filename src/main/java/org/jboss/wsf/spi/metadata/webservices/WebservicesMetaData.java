@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -19,10 +19,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+// $Id$
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.net.URL;
 import java.util.ArrayList;
+
+// $Id$
 
 /**
  * XML Binding root element for <code>webservices.xml</code>
@@ -84,9 +87,9 @@ public class WebservicesMetaData
 
    private void createHeader(StringBuilder buf)
    {
-      buf.append("<webservices xmlns='http://java.sun.com/xml/ns/javaee'");
+      buf.append("<webservices xmlns='http://java.sun.com/xml/ns/j2ee'");
       buf.append(" xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'");
-      buf.append(" xsi:schemaLocation='http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/javaee_web_services_1_2.xsd'");
-      buf.append(" version='1.2'>");
+      buf.append(" xsi:schemaLocation='http://java.sun.com/xml/ns/j2ee http://www.ibm.com/webservices/xsd/j2ee_web_services_1_1.xsd'");
+      buf.append(" version='1.1'>");
    }
 }

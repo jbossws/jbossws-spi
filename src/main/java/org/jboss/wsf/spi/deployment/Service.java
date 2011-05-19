@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,7 +21,10 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+// $Id$
+
 import java.util.List;
+
 
 /**
  * A general service deployment.
@@ -55,9 +58,9 @@ public interface Service extends Extensible
    void setContextRoot(String contextRoot);
    
    /** Get the virtual hosts for this service */
-   List<String> getVirtualHosts();
+   String[] getVirtualHosts();
    
    /** Set the virtual hosts for this service */
-   void setVirtualHosts(List<String> virtualHosts);
+   void setVirtualHosts(String[] virtualHosts);
    
 }

@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,21 +21,32 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import javax.naming.Referenceable;
+// $Id$
 
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
+import javax.naming.Context;
+import javax.naming.NamingException;
+
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.xb.binding.UnmarshallingContext;
+import org.xml.sax.Attributes;
 
 /**
- * An implementation of this interface handles all service-ref binding concerns.
- *
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ * An implementation of this interface handles all service-ref binding concerns 
+ * 
+ * @author Thomas.Diesler@jboss.org
+ * @since 05-May-2004
  */
 public interface ServiceRefHandler
 {
-   enum Type
-   {
-      JAXRPC, JAXWS
-   };
+   final String BEAN_NAME = "WSServiceRefHandler";
+   
+   enum Type {JAXRPC, JAXWS};
 
-   Referenceable createReferenceable(UnifiedServiceRefMetaData serviceRefUMDM);
+   ServiceRefMetaData newServiceRefMetaData();
+
+   Object newChild(ServiceRefElement ref, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs);
+
+   void setValue(ServiceRefElement ref, UnmarshallingContext navigator, String namespaceURI, String localName, String value);
+   
+   void bindServiceRef(Context encCtx, String encName, UnifiedVirtualFile vfsRoot, ClassLoader loader, ServiceRefMetaData sref) throws NamingException;
 }

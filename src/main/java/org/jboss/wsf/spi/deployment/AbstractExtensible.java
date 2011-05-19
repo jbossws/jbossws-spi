@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,10 +21,14 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+//$Id: BasicDeploymentContext.java 3959 2007-07-20 14:44:19Z heiko.braun@jboss.com $
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+
 
 /**
  * A general extendible artifact 
@@ -34,8 +38,7 @@ import java.util.Set;
  */
 public abstract class AbstractExtensible implements Extensible
 {
-
-   private Map<Class<?>, Object> attachments = new HashMap<Class<?>, Object>();
+   private Map<Class, Object> attachments = new HashMap<Class, Object>();
    private Map<String, Object> properties = new HashMap<String, Object>();
    
    public Collection<Object> getAttachments()
@@ -82,5 +85,4 @@ public abstract class AbstractExtensible implements Extensible
    {
       properties.putAll(props);
    }
-
 }

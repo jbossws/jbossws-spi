@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,54 +21,90 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+//$Id: AbstractDeployer.java 3146 2007-05-18 22:55:26Z thomas.diesler@jboss.com $
+
+import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
+
+import org.jboss.logging.Logger;
 
 /**
  * A deployment aspect that does nothing.
  * 
  * A deployment aspects can require/provide a set of string conditions.
- * This determines the order of deployment aspects in the deployment aspect manager. 
+ * This determins the order of deployment aspects in the deployment aspect manager. 
  * 
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public interface DeploymentAspect
+public abstract class DeploymentAspect
 {
+   // provide logging
+   protected final Logger log = Logger.getLogger(getClass());
+
    public static final String LAST_DEPLOYMENT_ASPECT = "LAST_DEPLOYMENT_ASPECT";
 
-   public void setLast(boolean isLast);
-   
-   public boolean isLast();
-   
-   public String getProvides();
+   private String provides;
+   private String requires;
 
-   public void setProvides(String provides);
+   public String getProvides()
+   {
+      return provides;
+   }
 
-   public String getRequires();
+   public void setProvides(String provides)
+   {
+      this.provides = provides;
+   }
 
-   public void setRequires(String requires);
-   
-   public void setRelativeOrder(int relativeOrder);
-   
-   public int getRelativeOrder();
+   public String getRequires()
+   {
+      return requires;
+   }
 
-   public void start(Deployment dep);
+   public void setRequires(String requires)
+   {
+      this.requires = requires;
+   }
 
-   public void stop(Deployment dep);
+   public void create(Deployment dep)
+   {
+   }
 
-   public Set<String> getProvidesAsSet();
+   public void destroy(Deployment dep)
+   {
+   }
 
-   public Set<String> getRequiresAsSet();
-   
-   public boolean canHandle(Deployment dep);
-   
-   public boolean isForJaxWs();
+   public void start(Deployment dep)
+   {
+   }
 
-   public void setForJaxWs(boolean isForJaxWs);
+   public void stop(Deployment dep)
+   {
+   }
 
-   public boolean isForJaxRpc();
+   public Set<String> getProvidesAsSet()
+   {
+      Set<String> condset = new HashSet<String>();
+      if (provides != null)
+      {
+         StringTokenizer st = new StringTokenizer(provides, ", ");
+         while (st.hasMoreTokens())
+            condset.add(st.nextToken());
+      }
+      return condset;
+   }
 
-   public void setForJaxRpc(boolean isForJaxRpc);
-   
-   public ClassLoader getLoader();
+   public Set<String> getRequiresAsSet()
+   {
+      Set<String> condset = new HashSet<String>();
+      if (requires != null)
+      {
+         StringTokenizer st = new StringTokenizer(requires, ", ");
+         while (st.hasMoreTokens())
+            condset.add(st.nextToken());
+      }
+      return condset;
+   }
 }

@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -19,7 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+// $Id$
 package org.jboss.wsf.spi.metadata.webservices;
+
+// $Id$
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,16 +80,7 @@ public class PortComponentMetaData
    // -----------------------------------------
    // JAX-WS additions
 
-   // The optional <adressing> element
-   private boolean addressingEnabled;
-   private boolean addressingRequired;
-   private String addressingResponses = "ALL";
-   // The optional <enable-mtom> element
-   private boolean mtomEnabled;
-   // The optional <mtom-threshold> element
-   private int mtomThreshold;
-   // @RespectBinding annotation metadata
-   private boolean respectBindingEnabled;
+   private boolean enableMtom;
    private QName wsdlService;
    private String protocolBinding;
    private UnifiedHandlerChainsMetaData handlerChains;
@@ -189,75 +183,14 @@ public class PortComponentMetaData
       this.secureWSDLAccess = secureWSDLAccess;
    }
 
-   /**
-    * @deprecated Use {@link #isMtomEnabled()} instead.
-    */
-   @Deprecated
    public boolean isEnableMtom()
    {
-      return mtomEnabled;
+      return enableMtom;
    }
 
-   /**
-    * @deprecated Use {@link #setMtomEnabled(boolean)} instead.
-    */
-   @Deprecated
    public void setEnableMtom(boolean enableMtom)
    {
-      this.mtomEnabled = enableMtom;
-   }
-
-   public void setAddressingEnabled(final boolean addressingEnabled) {
-      this.addressingEnabled = addressingEnabled;
-   }
-   
-   public boolean isAddressingEnabled() {
-      return this.addressingEnabled;
-   }
-
-   public void setAddressingRequired(final boolean addressingRequired) {
-      this.addressingRequired = addressingRequired;
-   }
-   
-   public boolean isAddressingRequired() {
-      return this.addressingRequired;
-   }
-   
-   public void setAddressingResponses(final String responsesTypes)
-   {
-      if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings are allowed");
-
-      this.addressingResponses = responsesTypes;
-   }
-   
-   public String getAddressingResponses() {
-      return this.addressingResponses;
-   }
-
-   public void setMtomEnabled(final boolean mtomEnabled) {
-      this.mtomEnabled = mtomEnabled;
-   }
-   
-   public boolean isMtomEnabled() {
-      return this.mtomEnabled;
-   }
-
-   public void setMtomThreshold(final int mtomThreshold)
-   {
-      this.mtomThreshold = mtomThreshold;
-   }
-   
-   public int getMtomThreshold() {
-      return this.mtomThreshold;
-   }
-
-   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
-      this.respectBindingEnabled = respectBindingEnabled;
-   }
-   
-   public boolean isRespectBindingEnabled() {
-      return this.respectBindingEnabled;
+      this.enableMtom = enableMtom;
    }
 
    public QName getWsdlService()

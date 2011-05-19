@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+// $Id$
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +30,10 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
+import org.w3c.dom.Element;
 
 /** 
  * The unified metdata data for a handler element
@@ -129,6 +134,13 @@ public class UnifiedHandlerMetaData extends ServiceRefElement
    public void addPortName(String value)
    {
       portNames.add(value);
+   }
+
+   public void importStandardXml(Element root)
+   {
+      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
+      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
+      factory.getServiceRefMetaDataParser().importStandardXml(root, this);
    }
 
    public String toString()

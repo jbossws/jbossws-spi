@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,9 +21,11 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+//$Id: Deployment.java 3992 2007-07-25 12:48:59Z thomas.diesler@jboss.com $
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
+
 
 /**
  * A general web service deployment dep. 
@@ -50,19 +52,6 @@ public interface ArchiveDeployment extends Deployment
    /** The concatenated names including all parents. */
    String getCanonicalName();
    
-   /** Get the URL for a given resource path
-    *  Deprecated, use getResourceResolver().resolve(String resourcePath).
-    */
-   @Deprecated
+   /** Get the URL for a given resource path */
    URL getMetaDataFileURL(String resourcePath) throws IOException;
-   
-   /** Get additional metadata files attached to the deployment **/
-   List<UnifiedVirtualFile> getMetadataFiles();
-   
-   /** Set additional metadata files for this deployment **/
-   void setMetadataFiles(List<UnifiedVirtualFile> metadataFiles);
-   
-   /** Get the resource resolver to be used to access resources from this archive */
-   ResourceResolver getResourceResolver();
-   
 }

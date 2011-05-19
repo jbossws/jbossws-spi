@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,17 +21,13 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-import java.util.List;
+// $Id$
 
 import javax.management.ObjectName;
-import javax.naming.Context;
 
-import org.jboss.ws.api.monitoring.Record;
-import org.jboss.ws.api.monitoring.RecordProcessor;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
-import org.jboss.wsf.spi.security.SecurityDomainContext;
 
 /**
  * A general JAXWS endpoint.
@@ -49,23 +45,8 @@ public interface Endpoint extends Extensible
 
    public enum EndpointState
    {
-      UNDEFINED, STARTED, STOPPED
+      UNDEFINED, CREATED, STARTED, STOPPED, DESTROYED
    };
-
-   /** Get the URL pattern for this endpoint.
-    *  This has been deprecated, getting the current URLPatter
-    *  makes sense for {@link HttpEndpoint} only. 
-    */
-   @Deprecated 
-   String getURLPattern();
-   /** Set the URL pattern for this endpoint
-    *  This has been deprecated, setting the current URLPatter
-    *  makes sense for {@link HttpEndpoint} only. 
-    * 
-    * @param urlPattern
-    */
-   @Deprecated
-   void setURLPattern(String urlPattern);
 
    /** Get the service this endpoint belongs to */
    Service getService();
@@ -99,7 +80,19 @@ public interface Endpoint extends Extensible
    
    /** Use the deployment classloader to load the bean */
    Class getTargetBeanClass();
-      
+   
+   /** Get the URL pattern for this endpoint */
+   String getURLPattern();
+   
+   /** Set the URL pattern for this endpoint */
+   void setURLPattern(String urlPattern);
+
+   /** Get endpoint address */
+   String getAddress();
+
+   /** Set endpoint address */
+   void setAddress(String address);
+   
    /** Set the request handler for this endpoint */
    void setRequestHandler(RequestHandler handler);
 
@@ -123,28 +116,4 @@ public interface Endpoint extends Extensible
 
    /** Set the endpoint metrics for this endpoint */
    void setEndpointMetrics(EndpointMetrics metrics);
-   
-   /** Get the record processors configured for this endpoint **/
-   List<RecordProcessor> getRecordProcessors();
-   
-   /** Set the record processors for this endpoint **/
-   void setRecordProcessors(List<RecordProcessor> recordProcessors);
-   
-   /** Ask configured processors for processing of the given record **/
-   void processRecord(Record record);
-   
-   /** Returns associated JNDI context with this endpoint. */
-   Context getJNDIContext();
-   
-   /** Get endpoint address */
-   String getAddress();
-
-   /** Set endpoint address */
-   void setAddress(String address);
-   
-   /** Get security domain context */
-   SecurityDomainContext getSecurityDomainContext();
-   
-   /** Set security domain context */
-   void setSecurityDomainContext(SecurityDomainContext context);
 }

@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -24,8 +24,6 @@ package org.jboss.wsf.spi.invocation;
 import java.lang.reflect.UndeclaredThrowableException;
 
 import javax.management.MBeanException;
-import javax.naming.Context;
-import javax.naming.NamingException;
 
 import org.jboss.wsf.spi.deployment.Endpoint;
 
@@ -38,17 +36,14 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  */
 public abstract class InvocationHandler
 {
-   /** Create a container specific invocation */
+   /** Create a container specific invocation **/
    public abstract Invocation createInvocation();
 
    /** Invoke the the service endpoint */
    public abstract void invoke(Endpoint ep, Invocation inv) throws Exception;
 
-   /** Initilize the invocation handler */
+   /** Initilize the invocation handler **/
    public abstract void init(Endpoint ep);
-   
-   /** Returns JNDI context associated with endpoint */
-   public abstract Context getJNDIContext(Endpoint ep) throws NamingException;
 
    protected void handleInvocationException(Throwable th) throws Exception
    {
@@ -69,32 +64,4 @@ public abstract class InvocationHandler
 
       throw new UndeclaredThrowableException(th);
    }
-   
-   // invocation handler lifecycle callback methods
-   
-   /**
-    * Template method for notifying subclasses that endpoint instance have been instantiated.
-    *
-    * @param endpoint instantiated endpoint
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onEndpointInstantiated(final Endpoint endpoint, final Invocation invocation) throws Exception;
-
-   /**
-    * Template method for notifying subclasses that endpoint method is going to be invoked.
-    *
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onBeforeInvocation(final Invocation invocation) throws Exception;
-
-   /**
-    * Template method for notifying subclasses that endpoint method invocation was completed.
-    *
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onAfterInvocation(final Invocation invocation) throws Exception;
-   
 }

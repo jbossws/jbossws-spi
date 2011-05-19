@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.spi;
 
-import org.jboss.ws.api.util.ServiceLoader;
+import org.jboss.wsf.spi.util.ServiceLoader;
 
 /**
  * Locates an SPIProvider.
@@ -31,29 +31,14 @@ import org.jboss.ws.api.util.ServiceLoader;
  */
 public abstract class SPIProviderResolver
 {
-   public final static String DEFAULT_SPI_PROVIDER_RESOLVER = "org.jboss.ws.common.spi.DefaultSPIProviderResolver";
-   
-   /**
-    * Get the SPIProviderResolver instance using the thread context classloader for lookup
-    * 
-    * @return
-    */
+   public final static String DEFAULT_SPI_PROVIDER_RESOLVER = "org.jboss.wsf.framework.DefaultSPIProviderResolver";
+
    public static SPIProviderResolver getInstance()
    {
-      return getInstance(SecurityActions.getContextClassLoader());
-   }
-   
-   /**
-    * Get the SPIProviderResolver instance using the provided classloader for lookup
-    * 
-    * @return
-    */
-   public static SPIProviderResolver getInstance(ClassLoader cl)
-   {
-      SPIProviderResolver resolver = (SPIProviderResolver)ServiceLoader.loadService(SPIProviderResolver.class.getName(), DEFAULT_SPI_PROVIDER_RESOLVER, cl);
+      SPIProviderResolver resolver = (SPIProviderResolver)ServiceLoader.loadService(SPIProviderResolver.class.getName(), DEFAULT_SPI_PROVIDER_RESOLVER);
       return resolver;
    }
 
    public abstract SPIProvider getProvider();
-   
+
 }

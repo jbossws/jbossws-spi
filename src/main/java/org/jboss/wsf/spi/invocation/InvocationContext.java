@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,7 +21,8 @@
  */
 package org.jboss.wsf.spi.invocation;
 
-import org.jboss.wsf.spi.deployment.AbstractExtensible;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * A basic invocation context.
@@ -29,10 +30,10 @@ import org.jboss.wsf.spi.deployment.AbstractExtensible;
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007
  */
-public class InvocationContext extends AbstractExtensible
+public class InvocationContext 
 {
-   
    private Object targetBean;
+   private Map<Class, Object> attachments = new HashMap<Class, Object>();
 
    public Object getTargetBean()
    {
@@ -44,4 +45,19 @@ public class InvocationContext extends AbstractExtensible
       this.targetBean = targetBean;
    }
 
+
+   public <T> T addAttachment(Class<T> key, Object value)
+   {
+      return (T)attachments.put(key, value);
+   }
+
+   public <T> T getAttachment(Class<T> key)
+   {
+      return (T)attachments.get(key);
+   }
+
+   public <T> T removeAttachment(Class<T> key)
+   {
+      return (T)attachments.get(key);
+   }
 }

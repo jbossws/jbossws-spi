@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.deployment;
 
+
 /**
  * Handles endpoint Lifecycle events
  * 
@@ -29,9 +30,15 @@ package org.jboss.wsf.spi.deployment;
  */
 public interface LifecycleHandler
 {
+   /** Handle the create step of an endpoint */ 
+   void create(Endpoint endpoint);
+   
    /** Handle the start step of an endpoint */ 
    void start(Endpoint endpoint);
 
    /** Handle the stop step of an endpoint */ 
    void stop(Endpoint endpoint);
+
+   /** Handle the destroy step of an endpoint */ 
+   void destroy(Endpoint endpoint);
 }

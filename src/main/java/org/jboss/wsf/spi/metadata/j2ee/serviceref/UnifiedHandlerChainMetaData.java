@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -20,6 +20,8 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
+
+// $Id$
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,6 @@ public class UnifiedHandlerChainMetaData extends ServiceRefElement
    private String protocolBindings;
    private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>();
    private PortInfo portInfo;
-   private boolean excluded;
 
    public UnifiedHandlerChainMetaData(UnifiedHandlerChainsMetaData handlerChains)
    {
@@ -91,13 +92,5 @@ public class UnifiedHandlerChainMetaData extends ServiceRefElement
    public void addHandler(UnifiedHandlerMetaData handler)
    {
       handlers.add(handler);
-   }
-   
-   public boolean isExcluded() {
-      return this.excluded;
-   }
-   
-   public void setExcluded(boolean excluded) {
-      this.excluded = excluded;
    }
 }

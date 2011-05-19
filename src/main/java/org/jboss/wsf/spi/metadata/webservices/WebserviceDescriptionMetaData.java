@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.webservices;
 
+// $Id$
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ import org.jboss.logging.Logger;
  * XML Binding element for <code>webservices/webservice-description</code>
  *
  * @author Thomas.Diesler@jboss.org
+ * @version $Revision$
  * @since 15-April-2004
  */
 public class WebserviceDescriptionMetaData
