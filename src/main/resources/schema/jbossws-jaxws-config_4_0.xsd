@@ -45,7 +45,7 @@
          <xsd:element name="config-name" type="xsd:string"/>
          <xsd:element name="pre-handler-chains" type="javaee:handler-chainsType" minOccurs="0"/>
          <xsd:element name="post-handler-chains" type="javaee:handler-chainsType" minOccurs="0"/>
-         <xsd:element name="feature" type="tns:featureType"" minOccurs="0" maxOccurs="unbounded"/>
+         <xsd:element name="feature" type="tns:featureType" minOccurs="0" maxOccurs="unbounded"/>
          <xsd:element name="property" type="tns:propertyType" minOccurs="0" maxOccurs="unbounded"/>
       </xsd:sequence>
    </xsd:complexType>
@@ -53,7 +53,7 @@
    <xsd:complexType name="featureType">
       <xsd:sequence>
          <xsd:element name="feature-name" type="xsd:string"/>
-         <xsd:element name="feature-data" type="xsd:any" minOccurs="0"/>
+         <xsd:element name="feature-data" type="xsd:anyType" minOccurs="0"/>
       </xsd:sequence>
    </xsd:complexType>
 
