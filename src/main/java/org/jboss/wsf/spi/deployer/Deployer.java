@@ -19,6 +19,7 @@
 package org.jboss.wsf.spi.deployer;
 
 import java.net.URL;
+import java.util.Map;
 
 import org.jboss.wsf.spi.SPIView;
 
@@ -41,4 +42,19 @@ public interface Deployer extends SPIView
 	 * @throws Exception if some problem occurs
 	 */
     void undeploy(URL archive) throws Exception;
+    
+    /**
+     * Adds a new security domain
+     * 
+     * @param name
+     * @param authenticationOptions
+     */
+    void addSecurityDomain(String name, Map<String,String> authenticationOptions) throws Exception;
+    
+    /**
+     * Removes a security domain
+     * 
+     * @param name
+     */
+    void removeSecurityDomain(String name) throws Exception;
 }
