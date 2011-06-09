@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -33,14 +33,8 @@ public abstract class DeploymentModelFactory implements SPIView
 
    public abstract Service newService();
 
-   @Deprecated
-   /**
-    * DEPRECATED: Use #newHttpEndpoint(String s) or new JMSEndpoint(String s) instead
-    */
-   public abstract Endpoint newEndpoint(String targetBean);
-
    public abstract Endpoint newHttpEndpoint(String targetBean);
    
    public abstract Endpoint newJMSEndpoint(String targetBean);
-  
+   
 }
