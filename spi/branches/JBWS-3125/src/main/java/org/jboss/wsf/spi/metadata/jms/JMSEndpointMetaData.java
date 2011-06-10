@@ -39,7 +39,8 @@ public class JMSEndpointMetaData
    //wsdl location
    private String wsdlLocation = "";
    
-
+   private String soapAddress = "";
+   
    //parent component 
    private JMSEndpointsMetaData endpointsMetaData = null;
 
@@ -91,6 +92,16 @@ public class JMSEndpointMetaData
    public void setWsdlLocation(String wsdlLocation)
    {
       this.wsdlLocation = wsdlLocation;
+   }
+
+   public String getSoapAddress()
+   {
+      return soapAddress;
+   }
+
+   public void setSoapAddress(String soapAddress)
+   {
+      this.soapAddress = soapAddress;
    }
 
 }
