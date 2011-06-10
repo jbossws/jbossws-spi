@@ -135,11 +135,7 @@ public class StAXUtils
    public static QName elementAsQName(XMLStreamReader reader) throws XMLStreamException
    {
       String text = elementAsString(reader);
-      String localPart = text.substring(text.indexOf(':') + 1, text.length());
-      int i = text.indexOf(':');
-      String prefix = i < 0 ? null : text.substring(0, i);
-      String namespaceURI = prefix == null ? reader.getNamespaceURI() : reader.getNamespaceURI(prefix);
-      return prefix == null ? new QName(namespaceURI, localPart) : new QName(namespaceURI, localPart, prefix);
+      return stringToQName(reader, text, reader.getNamespaceURI());
    }
    
    public static boolean elementAsBoolean(XMLStreamReader reader) throws XMLStreamException
@@ -152,5 +148,43 @@ public class StAXUtils
    {
       String text = elementAsString(reader);
       return Integer.parseInt(text);
+   }
+   
+   public static QName attributeAsQName(XMLStreamReader reader, String namespace, String localName) throws XMLStreamException
+   {
+      String text = reader.getAttributeValue(namespace, localName);
+      return stringToQName(reader, text, reader.getNamespaceURI());
+   }
+   
+   public static QName attributeAsQName(XMLStreamReader reader, String namespace, String localName, String targetNS) throws XMLStreamException
+   {
+      String text = reader.getAttributeValue(namespace, localName);
+      return stringToQName(reader, text, targetNS);
+   }
+   
+   private static QName stringToQName(XMLStreamReader reader, String text, String defaultNS)
+   {
+      String localPart = text.substring(text.indexOf(':') + 1, text.length());
+      int i = text.indexOf(':');
+      String prefix = i < 0 ? null : text.substring(0, i);
+      String namespaceURI = prefix == null ? defaultNS : reader.getNamespaceURI(prefix);
+      return prefix == null ? new QName(namespaceURI, localPart) : new QName(namespaceURI, localPart, prefix);
+   }
+   
+   public static int nextElement(XMLStreamReader reader)
+   {
+      try
+      {
+         int x = reader.next();
+         while (x != XMLStreamReader.START_ELEMENT && x != XMLStreamReader.END_ELEMENT && reader.hasNext())
+         {
+            x = reader.next();
+         }
+         return x;
+      }
+      catch (XMLStreamException e)
+      {
+         throw new RuntimeException("Couldn't parse stream.", e);
+      }
    }
 }
