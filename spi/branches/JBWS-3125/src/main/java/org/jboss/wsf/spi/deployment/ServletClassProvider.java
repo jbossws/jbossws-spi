@@ -28,6 +28,7 @@ package org.jboss.wsf.spi.deployment;
  * @author alessio.soldano@jboss.com
  *
  */
+@Deprecated
 public interface ServletClassProvider
 {
    public String getServletClassName();
