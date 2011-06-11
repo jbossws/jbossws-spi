@@ -41,11 +41,13 @@ public class JMSEndpointsMetaData
    {
    }
 
+   @Deprecated
    public JMSEndpointsMetaData(URL descriptorURL)
    {
       this.descriptorURL = descriptorURL;
    }
 
+   @Deprecated
    public URL getDescriptorURL()
    {
       return descriptorURL;
