@@ -23,6 +23,9 @@ package org.jboss.wsf.spi.management;
 
 import java.io.File;
 import java.net.UnknownHostException;
+import java.util.List;
+
+import org.jboss.wsf.spi.metadata.config.EndpointConfig;
 
 /**
  * Interface to container independent config 
@@ -60,4 +63,8 @@ public interface ServerConfig
    boolean isModifySOAPAddress();
    
    void setModifySOAPAddress(boolean flag);
+   
+   void addEndpointConfig(EndpointConfig config);
+   
+   List<EndpointConfig> getEndpointConfigs();
 }
