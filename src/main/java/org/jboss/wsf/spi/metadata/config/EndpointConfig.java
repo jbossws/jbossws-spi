@@ -29,5 +29,5 @@ package org.jboss.wsf.spi.metadata.config;
  */
 public class EndpointConfig extends AbstractCommonConfig
 {
-   public static final String STANDARD_ENDPOINT_CONFIG = "Standard Endpoint Config";
+   public static final String STANDARD_ENDPOINT_CONFIG = "Standard-Endpoint-Config";
 }
