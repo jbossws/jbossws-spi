@@ -29,10 +29,8 @@ package org.jboss.wsf.spi.deployment;
 public interface HttpEndpoint extends Endpoint
 {
    /** Get the URL pattern for this endpoint */
-   @Deprecated
    String getURLPattern();
    
    /** Set the URL pattern for this endpoint */
-   @Deprecated
    void setURLPattern(String urlPattern);
 }
