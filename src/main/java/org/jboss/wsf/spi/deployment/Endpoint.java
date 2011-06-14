@@ -52,21 +52,6 @@ public interface Endpoint extends Extensible
       UNDEFINED, STARTED, STOPPED
    };
 
-   /** Get the URL pattern for this endpoint.
-    *  This has been deprecated, getting the current URLPatter
-    *  makes sense for {@link HttpEndpoint} only. 
-    */
-   @Deprecated 
-   String getURLPattern();
-   /** Set the URL pattern for this endpoint
-    *  This has been deprecated, setting the current URLPatter
-    *  makes sense for {@link HttpEndpoint} only. 
-    * 
-    * @param urlPattern
-    */
-   @Deprecated
-   void setURLPattern(String urlPattern);
-
    /** Get the service this endpoint belongs to */
    Service getService();
 
