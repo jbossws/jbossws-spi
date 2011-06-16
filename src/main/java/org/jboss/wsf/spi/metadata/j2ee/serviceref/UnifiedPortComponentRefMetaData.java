@@ -74,24 +74,6 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       return serviceRefMetaData;
    }
 
-   /**
-    * @deprecated Use {@link #isMtomEnabled()} instead.
-    */
-   @Deprecated
-   public Boolean getEnableMTOM()
-   {
-      return mtomEnabled;
-   }
-
-   /**
-    * @deprecated Use {@link #setMtomEnabled(boolean)} instead.
-    */
-   @Deprecated
-   public void setEnableMTOM(Boolean enableMTOM)
-   {
-      this.mtomEnabled = enableMTOM;
-   }
-
    public void setAddressingEnabled(final boolean addressingEnabled) {
       this.addressingEnabled = addressingEnabled;
    }

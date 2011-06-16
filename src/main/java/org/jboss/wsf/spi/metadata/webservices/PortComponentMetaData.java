@@ -189,24 +189,6 @@ public class PortComponentMetaData
       this.secureWSDLAccess = secureWSDLAccess;
    }
 
-   /**
-    * @deprecated Use {@link #isMtomEnabled()} instead.
-    */
-   @Deprecated
-   public boolean isEnableMtom()
-   {
-      return mtomEnabled;
-   }
-
-   /**
-    * @deprecated Use {@link #setMtomEnabled(boolean)} instead.
-    */
-   @Deprecated
-   public void setEnableMtom(boolean enableMtom)
-   {
-      this.mtomEnabled = enableMtom;
-   }
-
    public void setAddressingEnabled(final boolean addressingEnabled) {
       this.addressingEnabled = addressingEnabled;
    }
