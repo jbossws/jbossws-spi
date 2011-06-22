@@ -211,7 +211,7 @@ public class PortComponentMetaData
    public void setAddressingResponses(final String responsesTypes)
    {
       if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "ONLY_ALL,_ANONYMOUS_OR_NON_ANONYMOUS_STRINGS_ARE_ALLOWED"));
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "ONLY_ALL_ANONYMOUS_OR_NON_ANONYMOUS_ALLOWED"));
 
       this.addressingResponses = responsesTypes;
    }
