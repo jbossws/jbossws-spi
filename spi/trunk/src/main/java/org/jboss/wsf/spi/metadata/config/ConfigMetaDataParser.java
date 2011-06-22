@@ -23,22 +23,37 @@ package org.jboss.wsf.spi.metadata.config;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
-import static org.jboss.wsf.spi.metadata.ParserConstants.*;
+import static org.jboss.wsf.spi.metadata.ParserConstants.CLIENT_CONFIG;
+import static org.jboss.wsf.spi.metadata.ParserConstants.CONFIG_NAME;
+import static org.jboss.wsf.spi.metadata.ParserConstants.ENDPOINT_CONFIG;
+import static org.jboss.wsf.spi.metadata.ParserConstants.FEATURE;
+import static org.jboss.wsf.spi.metadata.ParserConstants.FEATURE_DATA;
+import static org.jboss.wsf.spi.metadata.ParserConstants.FEATURE_NAME;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JAVAEE_NS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JAXWS_CONFIG;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JBOSSWS_JAXWS_CONFIG_NS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.POST_HANDLER_CHAINS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.PRE_HANDLER_CHAINS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.PROPERTY;
+import static org.jboss.wsf.spi.metadata.ParserConstants.PROPERTY_NAME;
+import static org.jboss.wsf.spi.metadata.ParserConstants.PROPERTY_VALUE;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsString;
 import static org.jboss.wsf.spi.util.StAXUtils.match;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-
-import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
-import org.jboss.wsf.spi.util.StAXUtils;
+import java.util.ResourceBundle;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+
+import org.jboss.logging.Logger;
+import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
+import org.jboss.wsf.spi.util.StAXUtils;
 
 /**
  * The parser for the configuration metadata
@@ -48,6 +63,7 @@ import javax.xml.stream.XMLStreamReader;
  */
 public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(ConfigMetaDataParser.class);
    private ConfigMetaDataParser()
    {
       super();
@@ -112,7 +128,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
             }
             else
             {
-               throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+               throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
             }
          }
       }
@@ -133,7 +149,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -149,12 +165,12 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
                }
             }
          }
       }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
+      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
    
    private void parseConfig(XMLStreamReader reader, CommonConfig config, String configElement) throws XMLStreamException
@@ -170,7 +186,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -193,12 +209,12 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
                }
             }
          }
       }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
+      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
    
    private void parseProperty(XMLStreamReader reader, CommonConfig config) throws XMLStreamException
@@ -214,14 +230,14 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                {
                   if (name == null)
                   {
-                     throw new IllegalStateException("Could not get property name!");
+                     throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_GET_PROPERTY_NAME"));
                   }
                   config.setProperty(name, value);
                   return;
                }
                else
                {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -233,12 +249,12 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
                }
             }
          }
       }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
+      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
    
    private Feature parseFeature(XMLStreamReader reader) throws XMLStreamException
@@ -253,13 +269,13 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                {
                   if (feature == null)
                   {
-                     throw new IllegalStateException("Could not read feature name!");
+                     throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_READ_FEATURE_NAME"));
                   }
                   return feature;
                }
                else
                {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -268,7 +284,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
                else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS, FEATURE_DATA)) {
                   //not implemented yet
-                  Logger.getLogger(this.getClass()).warn("Feature data not supported yet!");
+                  Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "FEATURE_DATA_NOT_SUPPORTED_YET"));
                   while (reader.hasNext()) {
                      reader.next();
                      if (reader.isEndElement() && match(reader, JBOSSWS_JAXWS_CONFIG_NS, FEATURE_DATA))
@@ -279,11 +295,11 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
                }
             }
          }
       }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
+      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
 }

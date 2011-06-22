@@ -22,6 +22,7 @@
 package org.jboss.wsf.spi.util;
 
 import java.io.InputStream;
+import java.util.ResourceBundle;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -31,6 +32,8 @@ import javax.xml.stream.XMLResolver;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.jboss.ws.api.util.BundleUtils;
+
 /**
  * StAX utils
  * 
@@ -39,6 +42,7 @@ import javax.xml.stream.XMLStreamReader;
  */
 public class StAXUtils
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(StAXUtils.class);
    private static final BlockingQueue<XMLInputFactory> INPUT_FACTORY_POOL;
 
    static
@@ -77,7 +81,7 @@ public class StAXUtils
          public Object resolveEntity(String publicID, String systemID, String baseURI, String namespace)
                throws XMLStreamException
          {
-            throw new XMLStreamException("Reading external entities is disabled");
+            throw new XMLStreamException(BundleUtils.getMessage(bundle, "READING_EXTERNAL_ENTITIES_IS_DISABLED"));
          }
       });
       return factory;
@@ -107,7 +111,7 @@ public class StAXUtils
       }
       catch (XMLStreamException e)
       {
-         throw new RuntimeException("Couldn't parse stream.", e);
+         throw new RuntimeException(BundleUtils.getMessage(bundle, "COULDN'T_PARSE_STREAM"),  e);
       }
       finally
       {
@@ -184,7 +188,7 @@ public class StAXUtils
       }
       catch (XMLStreamException e)
       {
-         throw new RuntimeException("Couldn't parse stream.", e);
+         throw new RuntimeException(BundleUtils.getMessage(bundle, "COULDN'T_PARSE_STREAM"),  e);
       }
    }
 }

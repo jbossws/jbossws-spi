@@ -22,6 +22,8 @@
 package org.jboss.wsf.spi.metadata.injection;
 
 import java.lang.annotation.Annotation;
+import java.util.ResourceBundle;
+import org.jboss.ws.api.util.BundleUtils;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -36,6 +38,7 @@ import java.util.Map;
  */
 public final class InjectionsMetaData
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(InjectionsMetaData.class);
    
    /**
     * Empty list constant.
@@ -63,9 +66,9 @@ public final class InjectionsMetaData
       super();
       
       if (injections == null)
-         throw new IllegalArgumentException("injections metadata list cannot be null");
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "INJECTIONS_METADATA_LIST_CANNOT_BE_NULL"));
       if ((resolvers == null) || (resolvers.size() == 0))
-         throw new IllegalArgumentException("reference resolvers list cannot be null or empty collection");
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "REFERENCE_RESOLVERS_LIST_CANNOT_BE_NULL"));
       
       this.injections = injections;
       this.referenceResolvers = resolvers;
@@ -80,7 +83,7 @@ public final class InjectionsMetaData
    public Collection<InjectionMetaData> getInjectionsMetaData(Class<?> clazz)
    {
       if (clazz == null)
-         throw new IllegalArgumentException("class cannot be null");
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "CLASS_CANNOT_BE_NULL"));
       
       if (this.injections.size() == 0)
          return EMPTY_LIST;
@@ -117,7 +120,7 @@ public final class InjectionsMetaData
       final ReferenceResolver resolver = this.referenceResolvers.get(annotation);
       if (resolver == null)
       {
-         throw new IllegalArgumentException("No registered reference resolver for: " + annotation);
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "NO_REGISTERED_REFERENCE_RESOLVER_FOR",  annotation));
       }
       
       return resolver;
