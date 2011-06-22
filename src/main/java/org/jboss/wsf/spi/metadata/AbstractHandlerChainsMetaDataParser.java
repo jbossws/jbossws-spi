@@ -21,18 +21,34 @@
  */
 package org.jboss.wsf.spi.metadata;
 
-import static org.jboss.wsf.spi.metadata.ParserConstants.*;
+import static org.jboss.wsf.spi.metadata.ParserConstants.CHAIN_PORT_PATTERN;
+import static org.jboss.wsf.spi.metadata.ParserConstants.CHAIN_PROTOCOL_BINDING;
+import static org.jboss.wsf.spi.metadata.ParserConstants.CHAIN_SERVICE_PATTERN;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_CHAIN;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_CHAINS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_CLASS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_NAME;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_PARAM;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_PARAM_NAME;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_PARAM_VALUE;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_SOAP_HEADER;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_SOAP_ROLE;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsQName;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsString;
 import static org.jboss.wsf.spi.util.StAXUtils.match;
 
+import java.util.ResourceBundle;
+
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedInitParamMetaData;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 
 /**
  * Basic handler-chains parser
@@ -42,6 +58,7 @@ import javax.xml.stream.XMLStreamReader;
  */
 public abstract class AbstractHandlerChainsMetaDataParser
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(AbstractHandlerChainsMetaDataParser.class);
    protected UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
       return this.parseHandlerChains(reader, nsUri, nsUri, HANDLER_CHAINS);
@@ -62,7 +79,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -71,12 +88,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
                }
             }
          }
       }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
+      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
    
    private UnifiedHandlerChainMetaData parseHandlerChain(XMLStreamReader reader, String nsUri, UnifiedHandlerChainsMetaData handlerChains) throws XMLStreamException
@@ -93,7 +110,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -114,12 +131,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
                }
             }
          }
       }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
+      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
    
    protected UnifiedHandlerMetaData parseHandler(XMLStreamReader reader, String nsUri) throws XMLStreamException
@@ -141,7 +158,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -164,12 +181,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
                }
             }
          }
       }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
+      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
 
    private UnifiedInitParamMetaData parseInitParam(XMLStreamReader reader, String nsUri) throws XMLStreamException
@@ -186,7 +203,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected end tag: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -200,11 +217,11 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
                }
             }
          }
       }
-      throw new IllegalStateException("Reached end of xml document unexpectedly");
+      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
 }

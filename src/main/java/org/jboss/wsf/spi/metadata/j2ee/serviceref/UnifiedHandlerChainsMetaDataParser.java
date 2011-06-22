@@ -23,16 +23,21 @@ package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
-import static org.jboss.wsf.spi.metadata.ParserConstants.*;
+import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_CHAINS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.J2EE_NS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JAVAEE_NS;
 import static org.jboss.wsf.spi.util.StAXUtils.match;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ResourceBundle;
 
-import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
-import org.jboss.wsf.spi.util.StAXUtils;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+
+import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
+import org.jboss.wsf.spi.util.StAXUtils;
 
 /**
  * The parser for the unified metadata handler chains element
@@ -42,6 +47,7 @@ import javax.xml.stream.XMLStreamReader;
  */
 public class UnifiedHandlerChainsMetaDataParser extends AbstractHandlerChainsMetaDataParser
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(UnifiedHandlerChainsMetaDataParser.class);
    private UnifiedHandlerChainsMetaDataParser()
    {
       super();
@@ -89,7 +95,7 @@ public class UnifiedHandlerChainsMetaDataParser extends AbstractHandlerChainsMet
             }
             else
             {
-               throw new IllegalStateException("Unexpected element: " + reader.getLocalName());
+               throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
             }
          }
       }

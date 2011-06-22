@@ -24,7 +24,9 @@ package org.jboss.wsf.spi.metadata.config;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.HandlerType;
 
@@ -36,6 +38,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.Handler
  */
 public abstract class AbstractCommonConfig implements CommonConfig
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(AbstractCommonConfig.class);
    private String configName;
    private Map<String, Feature> features = new HashMap<String, Feature>();
    private Map<String, String> properties = new HashMap<String, String>();
@@ -69,7 +72,7 @@ public abstract class AbstractCommonConfig implements CommonConfig
          handlerChains = getPreHandlerChains();
       else if (type == HandlerType.POST)
          handlerChains = getPostHandlerChains();
-      else throw new IllegalArgumentException("Invalid handler type: " + type);
+      else throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "INVALID_HANDLER_TYPE",  type));
       return handlerChains;
    }
 
