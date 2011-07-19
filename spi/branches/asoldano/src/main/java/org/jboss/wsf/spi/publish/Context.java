@@ -18,17 +18,24 @@
  */
 package org.jboss.wsf.spi.publish;
 
-import java.util.Map;
+import java.util.List;
 
-/**
- * EndpointPublisher defines the interface for facilities allowing to publish/destroy
- * WS endpoints on top of the running JBoss Application Server container.
- *
- * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
- */
-public interface EndpointPublisher
-{
-   public Context publish(String contextRoot, ClassLoader loader, Map<String, String> urlPatternToClassNameMap) throws Exception;
+import org.jboss.wsf.spi.deployment.Endpoint;
+
+public class Context {
+   private final String context;
+   private final List<Endpoint> endpoints;
    
-   public void destroy(Context context) throws Exception;
+   public Context(String context, List<Endpoint> endpoints) {
+      this.endpoints = endpoints;
+      this.context = context;
+   }
+   
+   public String getContext() {
+      return context;
+   }
+   
+   public List<Endpoint> getEndpoints() {
+      return endpoints;
+   }
 }
