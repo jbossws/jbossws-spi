@@ -23,8 +23,6 @@ package org.jboss.wsf.spi.annotation;
 
 import java.lang.annotation.Annotation;
 
-import org.jboss.ws.api.annotation.WebContext;
-
 /**
  * Represents a {@link org.jboss.wsf.spi.annotation.WebContext} annotation
  * and reflects the annotation defult values. <br>

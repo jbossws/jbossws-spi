@@ -32,7 +32,7 @@ public interface Deployment extends Extensible
 {
    public enum DeploymentType
    {
-      JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3, @Deprecated JAXWS_JMS;
+      JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3, JAXWS_JMS;
    };
    
    public enum DeploymentState

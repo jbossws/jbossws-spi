@@ -21,84 +21,31 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
-import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_CHAINS;
-import static org.jboss.wsf.spi.metadata.ParserConstants.J2EE_NS;
-import static org.jboss.wsf.spi.metadata.ParserConstants.JAVAEE_NS;
-import static org.jboss.wsf.spi.util.StAXUtils.match;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ResourceBundle;
 
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
+import org.jboss.xb.binding.JBossXBException;
+import org.jboss.xb.binding.Unmarshaller;
+import org.jboss.xb.binding.UnmarshallerFactory;
 
-import org.jboss.ws.api.util.BundleUtils;
-import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
-import org.jboss.wsf.spi.util.StAXUtils;
-
-/**
- * The parser for the unified metadata handler chains element
+/** The interface of the parser for the unified metadata handler chains element
  * 
  * @author alessio.soldano@jboss.com
  * @since 26-Nov-2010
  */
-public class UnifiedHandlerChainsMetaDataParser extends AbstractHandlerChainsMetaDataParser
+public class UnifiedHandlerChainsMetaDataParser
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(UnifiedHandlerChainsMetaDataParser.class);
-   private UnifiedHandlerChainsMetaDataParser()
-   {
-      super();
-   }
-   
+   @SuppressWarnings("deprecation")
    public static UnifiedHandlerChainsMetaData parse(InputStream is) throws IOException
    {
-      // http://java.sun.com/xml/ns/javaee/javaee_web_services_1_2.xsd
       try
       {
-         XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
-         return parse(xmlr);
+         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
+         return (UnifiedHandlerChainsMetaData) unmarshaller.unmarshal(is, new HandlerChainsObjectFactory(), null);
       }
-      catch (XMLStreamException e)
+      catch (JBossXBException xbe)
       {
-         throw new IOException(e);
+         throw new IOException(xbe);
       }
-   }
-   
-   public static UnifiedHandlerChainsMetaData parse(XMLStreamReader reader) throws XMLStreamException
-   {
-      int iterate;
-      try
-      {
-         iterate = reader.nextTag();
-      }
-      catch (XMLStreamException e)
-      {
-         // skip non-tag elements
-         iterate = reader.nextTag();
-      }
-      UnifiedHandlerChainsMetaData handlerChains = null;
-      switch (iterate)
-      {
-         case END_ELEMENT : {
-            // we're done
-            break;
-         }
-         case START_ELEMENT : {
-
-            if (match(reader, JAVAEE_NS, HANDLER_CHAINS) || match(reader, J2EE_NS, HANDLER_CHAINS))
-            {
-               UnifiedHandlerChainsMetaDataParser parser = new UnifiedHandlerChainsMetaDataParser();
-               handlerChains = parser.parseHandlerChains(reader, reader.getNamespaceURI());
-            }
-            else
-            {
-               throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
-            }
-         }
-      }
-      return handlerChains;
    }
 }

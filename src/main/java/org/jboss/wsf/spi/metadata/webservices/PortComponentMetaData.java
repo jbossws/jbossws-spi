@@ -23,12 +23,10 @@ package org.jboss.wsf.spi.metadata.webservices;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
 
 import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 
@@ -45,7 +43,6 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
  */
 public class PortComponentMetaData
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(PortComponentMetaData.class);
    /**
     * The index of the webservice-description in webservices.xml
     */
@@ -125,7 +122,7 @@ public class PortComponentMetaData
    public void setWsdlPort(QName wsdlPort)
    {
       if (wsdlPort.getNamespaceURI().length() == 0)
-         log.warn(BundleUtils.getMessage(bundle, "ELEMENT_IN_WEBSERVICES.XML_NOT_NAMESPACE_QUALIFIED",  wsdlPort));
+         log.warn("<wsdl-port> element in webservices.xml not namespace qualified: " + wsdlPort);
 
       this.wsdlPort = wsdlPort;
    }
@@ -192,6 +189,24 @@ public class PortComponentMetaData
       this.secureWSDLAccess = secureWSDLAccess;
    }
 
+   /**
+    * @deprecated Use {@link #isMtomEnabled()} instead.
+    */
+   @Deprecated
+   public boolean isEnableMtom()
+   {
+      return mtomEnabled;
+   }
+
+   /**
+    * @deprecated Use {@link #setMtomEnabled(boolean)} instead.
+    */
+   @Deprecated
+   public void setEnableMtom(boolean enableMtom)
+   {
+      this.mtomEnabled = enableMtom;
+   }
+
    public void setAddressingEnabled(final boolean addressingEnabled) {
       this.addressingEnabled = addressingEnabled;
    }
@@ -211,7 +226,7 @@ public class PortComponentMetaData
    public void setAddressingResponses(final String responsesTypes)
    {
       if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "ONLY_ALL_ANONYMOUS_OR_NON_ANONYMOUS_ALLOWED"));
+         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings are allowed");
 
       this.addressingResponses = responsesTypes;
    }

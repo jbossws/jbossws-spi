@@ -35,13 +35,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceException;
 
 import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.deployment.WritableUnifiedVirtualFile;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
@@ -58,7 +56,6 @@ import org.jboss.wsf.spi.util.URLLoaderAdapter;
  */
 public final class UnifiedServiceRefMetaData extends ServiceRefElement
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(UnifiedServiceRefMetaData.class);
    private static final long serialVersionUID = -926464174132493955L;
 
    // provide logging
@@ -150,7 +147,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    public void setAddressingResponses(final String responsesTypes)
    {
       if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "ONLY_ALL,ONLY_ALL_ANONYMOUS_OR_NON_ANONYMOUS_ALLOWED"));
+         throw new IllegalArgumentException("Only ALL, ANONYMOUS or NON_ANONYMOUS strings are allowed");
 
       this.addressingResponses = responsesTypes;
    }
@@ -251,7 +248,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
          }
          catch (Exception e)
          {
-            throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_FIND_JAXRCP-MAPPING-FILE",  mappingFile),  e);
+            throw new WebServiceException("Cannot find jaxrcp-mapping-file: " + mappingFile, e);
          }
       }
       return mappingURL;
@@ -270,7 +267,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
          if (ref.matches(seiName, portName))
          {
             if (matchingRef != null)
-               log.warn(BundleUtils.getMessage(bundle, "MULTIPLE_MATCHING_PORT_COMPONENT_REF", new Object[]{ seiName ,  portName }));
+               log.warn("Multiple matching port component ref: [sei=" + seiName + ",port=" + portName + "]");
 
             matchingRef = ref;
          }
@@ -360,7 +357,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
             }
             catch (Exception e)
             {
-               throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_FIND_WSDL-OVERRIDE",  wsdlOverride),  e);
+               throw new WebServiceException("Cannot find wsdl-override: " + wsdlOverride, e);
             }
          }
       }
@@ -379,7 +376,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
             }
             catch (Exception e)
             {
-               throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_FIND_WSDL-FILE",  wsdlFile),  e);
+               throw new WebServiceException("Cannot find wsdl-file: " + wsdlFile, e);
             }
          }
       }

@@ -31,14 +31,5 @@ import javax.xml.ws.handler.MessageContext;
  */
 public abstract class WebServiceContextFactory implements SPIView
 {
-   /**
-    * Use {@link #newWebServiceContext(MessageContext) instead}
-    */
-   @Deprecated
-   public ExtensibleWebServiceContext newWebServiceContext(InvocationType type, MessageContext messageContext)
-   {
-      return newWebServiceContext(messageContext);
-   }
-
-   public abstract ExtensibleWebServiceContext newWebServiceContext(MessageContext messageContext);
+   public abstract ExtensibleWebServiceContext newWebServiceContext(InvocationType type, MessageContext messageContext);
 }
