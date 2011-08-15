@@ -57,6 +57,7 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    // The optional JBossWS config-file
    private String configFile;
    // The optional <adressing> element
+   private boolean addressingAnnotationSpecified;
    private boolean addressingEnabled;
    private boolean addressingRequired;
    private String addressingResponses = "ALL";
@@ -65,6 +66,7 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    // The optional <mtom-threshold> element
    private int mtomThreshold;
    // @RespectBinding annotation metadata
+   private boolean respectBindingAnnotationSpecified;
    private boolean respectBindingEnabled;
 
    public UnifiedPortComponentRefMetaData(UnifiedServiceRefMetaData serviceRefMetaData)
@@ -75,6 +77,16 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    public UnifiedServiceRefMetaData getServiceRefMetaData()
    {
       return serviceRefMetaData;
+   }
+
+   public void setAddressingAnnotationSpecified(final boolean addressingAnnotationSpecified)
+   {
+      this.addressingAnnotationSpecified = addressingAnnotationSpecified;
+   }
+
+   public boolean isAddressingAnnotationSpecified()
+   {
+      return addressingAnnotationSpecified;
    }
 
    public void setAddressingEnabled(final boolean addressingEnabled) {
@@ -120,6 +132,16 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    
    public int getMtomThreshold() {
       return this.mtomThreshold;
+   }
+
+   public void setRespectBindingAnnotationSpecified(final boolean respectBindingAnnotationSpecified)
+   {
+      this.respectBindingAnnotationSpecified = respectBindingAnnotationSpecified;
+   }
+
+   public boolean isRespectBindingAnnotationSpecified()
+   {
+      return respectBindingAnnotationSpecified;
    }
 
    public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
@@ -245,11 +267,13 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       str.append("\nUnifiedPortComponentRef");
       str.append("\n serviceEndpointInterface=" + serviceEndpointInterface);
       str.append("\n portQName=" + portQName);
+      str.append("\n addressingAnnotationSpecified=" + addressingAnnotationSpecified);
       str.append("\n addressingEnabled=" + addressingEnabled);
       str.append("\n addressingRequired=" + addressingRequired);
       str.append("\n addressingResponses=" + addressingResponses);
       str.append("\n mtomEnabled=" + mtomEnabled);
       str.append("\n mtomThreshold=" + mtomThreshold);
+      str.append("\n respectBindingAnnotationSpecified=" + respectBindingAnnotationSpecified);
       str.append("\n respectBindingEnabled=" + respectBindingEnabled);
       str.append("\n portComponentLink=" + portComponentLink);
       str.append("\n callProperties=" + callProperties);
