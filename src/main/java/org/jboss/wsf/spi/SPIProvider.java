@@ -29,25 +29,8 @@ package org.jboss.wsf.spi;
  */
 public abstract class SPIProvider
 {
-   /**
-    * Gets the specified SPI, using the current thread context classloader
-    * 
-    * @param <T>
-    * @param spiType
-    * @return
-    */
-   public <T> T getSPI(Class<T> spiType)
-   {
-      return getSPI(spiType, SecurityActions.getContextClassLoader());
-   }
-
-   /**
-    * Gets the specified SPI, using the provided classloader
-    * 
-    * @param <T>
-    * @param spiType
-    * @param loader
-    * @return
-    */
-   public abstract <T> T getSPI(Class<T> spiType, ClassLoader loader);
+   /*
+   * Gets the specified SPI.
+   */
+   public abstract <T> T getSPI(java.lang.Class<T> spiType);
 }

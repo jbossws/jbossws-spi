@@ -21,21 +21,33 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import javax.naming.Referenceable;
+import javax.naming.Context;
+import javax.naming.NamingException;
 
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.xb.binding.UnmarshallingContext;
+import org.xml.sax.Attributes;
 
 /**
- * An implementation of this interface handles all service-ref binding concerns.
- *
- * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ * An implementation of this interface handles all service-ref binding concerns 
+ * 
+ * @author Thomas.Diesler@jboss.org
+ * @since 05-May-2004
  */
 public interface ServiceRefHandler
 {
-   enum Type
-   {
-      JAXRPC, JAXWS
-   };
+   final String BEAN_NAME = "WSServiceRefHandler";
+   
+   enum Type {JAXRPC, JAXWS};
 
-   Referenceable createReferenceable(UnifiedServiceRefMetaData serviceRefUMDM);
+   @Deprecated
+   ServiceRefMetaData newServiceRefMetaData();
+
+   @Deprecated
+   Object newChild(ServiceRefElement ref, UnmarshallingContext navigator, String namespaceURI, String localName, Attributes attrs);
+
+   @Deprecated
+   void setValue(ServiceRefElement ref, UnmarshallingContext navigator, String namespaceURI, String localName, String value);
+   
+   void bindServiceRef(Context encCtx, String encName, UnifiedVirtualFile vfsRoot, ClassLoader loader, ServiceRefMetaData sref) throws NamingException;
 }

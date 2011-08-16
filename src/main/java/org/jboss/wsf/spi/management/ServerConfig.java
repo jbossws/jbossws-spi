@@ -23,9 +23,6 @@ package org.jboss.wsf.spi.management;
 
 import java.io.File;
 import java.net.UnknownHostException;
-import java.util.List;
-
-import org.jboss.wsf.spi.metadata.config.EndpointConfig;
 
 /**
  * Interface to container independent config 
@@ -35,6 +32,9 @@ import org.jboss.wsf.spi.metadata.config.EndpointConfig;
  */
 public interface ServerConfig
 {
+   /** The default bean name */
+   String BEAN_NAME = "WSServerConfig";
+
    /** The host name that is returned if there is no other defined */
    String UNDEFINED_HOSTNAME = "jbossws.undefined.host";
    
@@ -63,8 +63,4 @@ public interface ServerConfig
    boolean isModifySOAPAddress();
    
    void setModifySOAPAddress(boolean flag);
-   
-   void addEndpointConfig(EndpointConfig config);
-   
-   List<EndpointConfig> getEndpointConfigs();
 }

@@ -21,10 +21,6 @@
  */
 package org.jboss.wsf.spi.metadata.injection;
 
-import java.util.ResourceBundle;
-
-import org.jboss.ws.api.util.BundleUtils;
-
 /**
  * An injection target specifies a class and a name within
  * that class into which a resource should be injected.
@@ -34,7 +30,6 @@ import org.jboss.ws.api.util.BundleUtils;
  */
 public final class InjectionMetaData
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(InjectionMetaData.class);
    
    /**
     * Target class to do injection on.
@@ -75,11 +70,11 @@ public final class InjectionMetaData
       super();
       
       if (targetClass == null)
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "TARGETCLASS_NOT_SPECIFIED"));
+         throw new IllegalArgumentException("targetClass not specified");
       if (targetName == null)
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "TARGETNAME_NOT_SPECIFIED"));
+         throw new IllegalArgumentException("targetName not specified");
       if (envEntryName == null)
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "ENVENTRYNAME_NOT_SPECIFIED"));
+         throw new IllegalArgumentException("envEntryName not specified");
       
       this.targetClass = targetClass;
       this.targetName = targetName;
@@ -118,7 +113,7 @@ public final class InjectionMetaData
       if (Double.class.getName().equals(s)) 
          return Double.class;   
 
-      throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "UNSUPPORTED_ENV_ENTRY_TYPE",  s));
+      throw new IllegalArgumentException("Unsupported env entry type: " + s);
    }
    
    /**

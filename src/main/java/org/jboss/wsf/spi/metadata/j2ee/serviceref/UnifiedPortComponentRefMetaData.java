@@ -23,12 +23,13 @@ package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
 
-import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
+import org.w3c.dom.Element;
 
 /** The metdata data from service-ref/port-component-ref element in web.xml, ejb-jar.xml, and application-client.xml.
  *
@@ -36,14 +37,13 @@ import org.jboss.wsf.spi.serviceref.ServiceRefElement;
  */
 public class UnifiedPortComponentRefMetaData extends ServiceRefElement
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(UnifiedPortComponentRefMetaData.class);
-   private static final long serialVersionUID = 8622309745808960649L;
-
    // The parent service-ref
    private UnifiedServiceRefMetaData serviceRefMetaData;
 
    // The required <service-endpoint-interface> element
    private String serviceEndpointInterface;
+   // The optional <enable-mtom> element
+   private Boolean enableMTOM = Boolean.FALSE;
    // The optional <port-component-link> element
    private String portComponentLink;
    // The optional <port-qname> element
@@ -56,22 +56,19 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    private String configName;
    // The optional JBossWS config-file
    private String configFile;
-   // The optional <adressing> element
-   private boolean addressingAnnotationSpecified;
-   private boolean addressingEnabled;
-   private boolean addressingRequired;
-   private String addressingResponses = "ALL";
-   // The optional <enable-mtom> element
-   private boolean mtomEnabled;
-   // The optional <mtom-threshold> element
-   private int mtomThreshold;
-   // @RespectBinding annotation metadata
-   private boolean respectBindingAnnotationSpecified;
-   private boolean respectBindingEnabled;
 
    public UnifiedPortComponentRefMetaData(UnifiedServiceRefMetaData serviceRefMetaData)
    {
       this.serviceRefMetaData = serviceRefMetaData;
+   }
+
+   public void merge(UnifiedPortComponentRefMetaData pcref)
+   {
+      portQName = pcref.portQName;
+      configName = pcref.configName;
+      configFile = pcref.configFile;
+      callProperties = pcref.callProperties;
+      stubProperties = pcref.stubProperties;
    }
 
    public UnifiedServiceRefMetaData getServiceRefMetaData()
@@ -79,77 +76,14 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       return serviceRefMetaData;
    }
 
-   public void setAddressingAnnotationSpecified(final boolean addressingAnnotationSpecified)
+   public Boolean getEnableMTOM()
    {
-      this.addressingAnnotationSpecified = addressingAnnotationSpecified;
+      return enableMTOM;
    }
 
-   public boolean isAddressingAnnotationSpecified()
+   public void setEnableMTOM(Boolean enableMTOM)
    {
-      return addressingAnnotationSpecified;
-   }
-
-   public void setAddressingEnabled(final boolean addressingEnabled) {
-      this.addressingEnabled = addressingEnabled;
-   }
-   
-   public boolean isAddressingEnabled() {
-      return this.addressingEnabled;
-   }
-
-   public void setAddressingRequired(final boolean addressingRequired) {
-      this.addressingRequired = addressingRequired;
-   }
-   
-   public boolean isAddressingRequired() {
-      return this.addressingRequired;
-   }
-   
-   public void setAddressingResponses(final String responsesTypes)
-   {
-      if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "ONLY_ALL_ANONYMOUS_OR_NON_ANONYMOUS_ALLOWED"));
-
-      this.addressingResponses = responsesTypes;
-   }
-   
-   public String getAddressingResponses() {
-      return this.addressingResponses;
-   }
-
-   public void setMtomEnabled(final boolean mtomEnabled) {
-      this.mtomEnabled = mtomEnabled;
-   }
-   
-   public boolean isMtomEnabled() {
-      return this.mtomEnabled;
-   }
-
-   public void setMtomThreshold(final int mtomThreshold)
-   {
-      this.mtomThreshold = mtomThreshold;
-   }
-   
-   public int getMtomThreshold() {
-      return this.mtomThreshold;
-   }
-
-   public void setRespectBindingAnnotationSpecified(final boolean respectBindingAnnotationSpecified)
-   {
-      this.respectBindingAnnotationSpecified = respectBindingAnnotationSpecified;
-   }
-
-   public boolean isRespectBindingAnnotationSpecified()
-   {
-      return respectBindingAnnotationSpecified;
-   }
-
-   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
-      this.respectBindingEnabled = respectBindingEnabled;
-   }
-   
-   public boolean isRespectBindingEnabled() {
-      return this.respectBindingEnabled;
+      this.enableMTOM = enableMTOM;
    }
 
    /** 
@@ -243,10 +177,24 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       this.configName = configName;
    }
 
+   public void importStandardXml(Element root)
+   {
+      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
+      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
+      factory.getServiceRefMetaDataParser().importStandardXml(root, this);
+   }
+
+   public void importJBossXml(Element root)
+   {
+      SPIProvider provider = SPIProviderResolver.getInstance().getProvider();
+      ServiceRefMetaDataParserFactory factory = provider.getSPI(ServiceRefMetaDataParserFactory.class);
+      factory.getServiceRefMetaDataParser().importJBossXml(root, this);
+   }
+
    public boolean matches(String seiName, QName portName)
    {
       if (seiName == null && portName == null)
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "CANNOT_MATCH"));
+         throw new IllegalArgumentException("Cannot match against seiName=null && portName=null.");
 
       boolean match = false;
 
@@ -267,14 +215,7 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       str.append("\nUnifiedPortComponentRef");
       str.append("\n serviceEndpointInterface=" + serviceEndpointInterface);
       str.append("\n portQName=" + portQName);
-      str.append("\n addressingAnnotationSpecified=" + addressingAnnotationSpecified);
-      str.append("\n addressingEnabled=" + addressingEnabled);
-      str.append("\n addressingRequired=" + addressingRequired);
-      str.append("\n addressingResponses=" + addressingResponses);
-      str.append("\n mtomEnabled=" + mtomEnabled);
-      str.append("\n mtomThreshold=" + mtomThreshold);
-      str.append("\n respectBindingAnnotationSpecified=" + respectBindingAnnotationSpecified);
-      str.append("\n respectBindingEnabled=" + respectBindingEnabled);
+      str.append("\n enableMTOM=" + enableMTOM);
       str.append("\n portComponentLink=" + portComponentLink);
       str.append("\n callProperties=" + callProperties);
       str.append("\n stubProperties=" + stubProperties);
