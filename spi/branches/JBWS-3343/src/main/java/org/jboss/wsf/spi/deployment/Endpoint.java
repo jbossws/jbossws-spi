@@ -145,10 +145,4 @@ public interface Endpoint extends Extensible
    /** get endpoint type */
    EndpointType getType();
    
-   
-   /** Get the context root for this service */
-   String getContextRoot();
-   
-   /** Set the context root for this service */
-   void setContextRoot(String contextRoot);
 }

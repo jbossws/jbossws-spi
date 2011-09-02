@@ -50,6 +50,12 @@ public interface Service extends Extensible
    /** Get the list of endpoints with EndpointTypeFilter*/
    List<Endpoint> getEndpoints(EndpointTypeFilter filter);
    
+   /** Get the endpoint type list */
+   List<EndpointType> getEndpointTypes();
+   
+   /** Add endpoint type */
+   void addEndpointType(EndpointType type);
+   
    /** Get an endpoint by name */
    Endpoint getEndpointByName(String simpleName);
    
@@ -58,5 +64,11 @@ public interface Service extends Extensible
    
    /** Set the virtual hosts for this service */
    void setVirtualHosts(List<String> virtualHosts);
+   
+   /** Get the context root for this service */
+   String getContextRoot();
+   
+   /** Set the context root for this service */
+   void setContextRoot(String contextRoot);
    
 }
