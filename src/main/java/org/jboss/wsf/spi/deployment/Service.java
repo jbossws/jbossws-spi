@@ -49,13 +49,7 @@ public interface Service extends Extensible
    
    /** Get the list of endpoints with EndpointTypeFilter*/
    List<Endpoint> getEndpoints(EndpointTypeFilter filter);
-   
-   /** Get the endpoint type list */
-   List<EndpointType> getEndpointTypes();
-   
-   /** Add endpoint type */
-   void addEndpointType(EndpointType type);
-   
+      
    /** Get an endpoint by name */
    Endpoint getEndpointByName(String simpleName);
    
