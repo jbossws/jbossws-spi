@@ -46,6 +46,11 @@ public interface Endpoint extends Extensible
    static final String SEPID_PROPERTY_ENDPOINT = "endpoint";
 
    static final String SEPID_DOMAIN_ENDPOINT = SEPID_DOMAIN + "." + SEPID_PROPERTY_ENDPOINT;
+   
+   public enum EndpointType
+   {
+      JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3, JAXWS_JMS;
+   };
 
    public enum EndpointState
    {
@@ -132,4 +137,12 @@ public interface Endpoint extends Extensible
    
    /** Set security domain context */
    void setSecurityDomainContext(SecurityDomainContext context);
+   
+   
+   /** Set endpoint type */
+   void setType(EndpointType type);
+   
+   /** get endpoint type */
+   EndpointType getType();
+   
 }
