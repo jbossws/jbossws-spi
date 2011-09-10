@@ -23,8 +23,6 @@ package org.jboss.wsf.spi.deployment;
 
 import java.util.List;
 
-import org.jboss.wsf.spi.deployment.Endpoint.EndpointType;
-
 /**
  * A general service deployment.
  * 
@@ -35,6 +33,7 @@ import org.jboss.wsf.spi.deployment.Endpoint.EndpointType;
  */
 public interface Service extends Extensible
 {
+
    /** Get the deployment this service belongs to */
    Deployment getDeployment();
    
@@ -44,25 +43,25 @@ public interface Service extends Extensible
    /** Add an endpoint to the service */
    void addEndpoint(Endpoint endpoint);
    
-   /** Get the list of endpoints*/
+   /** Get the list of endpoints */
    List<Endpoint> getEndpoints();
    
-   /** Get the list of endpoints with EndpointTypeFilter*/
+   /** Get the list of endpoints */
    List<Endpoint> getEndpoints(EndpointTypeFilter filter);
-      
+   
    /** Get an endpoint by name */
    Endpoint getEndpointByName(String simpleName);
-   
-   /** Get the virtual hosts for this service */
-   List<String> getVirtualHosts();
-   
-   /** Set the virtual hosts for this service */
-   void setVirtualHosts(List<String> virtualHosts);
    
    /** Get the context root for this service */
    String getContextRoot();
    
    /** Set the context root for this service */
    void setContextRoot(String contextRoot);
+   
+   /** Get the virtual hosts for this service */
+   List<String> getVirtualHosts();
+   
+   /** Set the virtual hosts for this service */
+   void setVirtualHosts(List<String> virtualHosts);
    
 }

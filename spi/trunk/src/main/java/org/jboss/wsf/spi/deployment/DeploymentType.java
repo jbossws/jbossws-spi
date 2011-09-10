@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,25 +19,15 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee;
+
+package org.jboss.wsf.spi.deployment;
 
 /**
- * The container independent metadata of a message driven bean. 
+ * WebService deployment type.
  *
- * @author Thomas.Diesler@jboss.org
- * @since 05-May-2006
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public class MDBMetaData extends EJBMetaData
+public enum DeploymentType
 {
-   private String destinationJndiName;
-
-   public String getDestinationJndiName()
-   {
-      return destinationJndiName;
-   }
-
-   public void setDestinationJndiName(String destinationJndiName)
-   {
-      this.destinationJndiName = destinationJndiName;
-   }
+    JAXWS, JAXRPC,
 }
