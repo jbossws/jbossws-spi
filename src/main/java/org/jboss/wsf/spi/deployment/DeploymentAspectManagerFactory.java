@@ -31,7 +31,7 @@ import org.jboss.wsf.spi.SPIView;
  */
 public abstract class DeploymentAspectManagerFactory implements SPIView
 {
-   //public abstract DeploymentAspectManager getDeploymentAspectManager(Deployment.DeploymentType deploymentType);
+   public abstract DeploymentAspectManager getDeploymentAspectManager(DeploymentType deploymentType);
    
    /**
     * Get a named instance of a deployment aspect manager 

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,15 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.invocation;
+
+package org.jboss.wsf.spi.deployment;
 
 /**
- * Known invocation types.
+ * WebService endpoint state.
  *
- * @author Heiko.Braun@jboss.com
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public enum InvocationType
-{
-   JAXWS_JSE, JAXWS_EJB3, JAXRPC_JSE, JAXRPC_EJB21, 
+public enum EndpointState {
+    UNDEFINED, STARTED, STOPPED
 }

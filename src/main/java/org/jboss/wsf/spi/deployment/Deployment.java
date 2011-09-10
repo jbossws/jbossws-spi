@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-
 /**
  * A general web service deployment dep.
  *
@@ -31,12 +30,6 @@ package org.jboss.wsf.spi.deployment;
  */
 public interface Deployment extends Extensible
 {
-
-   public enum DeploymentState
-   {
-      UNDEFINED, STARTED, STOPPED
-   };
-   
    /** Get the identifier for this deployment */
    String getSimpleName();
 
@@ -55,6 +48,11 @@ public interface Deployment extends Extensible
    /** Set the runtime class loader for this deployment */
    void setRuntimeClassLoader(ClassLoader loader);
    
+   /** Get the deployment type */
+   DeploymentType getType();
+   
+   /** Set the deployment type */
+   void setType(DeploymentType type);
    
    /** Get the current deployment state */
    DeploymentState getState();
