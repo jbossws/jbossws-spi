@@ -135,4 +135,10 @@ public interface Endpoint extends Extensible
    /** Set security domain context */
    void setSecurityDomainContext(SecurityDomainContext context);
 
+   /** Get instance provider */
+   InstanceProvider getInstanceProvider();
+
+   /** Set instance provider */
+   void setInstanceProvider(InstanceProvider provider);
+
 }
