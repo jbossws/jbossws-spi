@@ -43,6 +43,7 @@ import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 public class WSFServlet extends HttpServlet
 {
    public static final String STACK_SERVLET_DELEGATE_CLASS = "org.jboss.wsf.spi.deployment.stackServletDelegateClass";
+   public static final String INTEGRATION_CLASSLOADER = "org.jboss.wsf.spi.deployment.integrationClassLoader";
 
    private ServletDelegate delegate = null;
 
@@ -73,7 +74,8 @@ public class WSFServlet extends HttpServlet
       ClassLoader cl = clProvider.getWebServiceSubsystemClassLoader();
       ServiceLoader<ServletDelegateFactory> sl = ServiceLoader.load(ServletDelegateFactory.class, cl);
       ServletDelegateFactory factory = sl.iterator().next();
-      return factory.newServletDelegate(servletConfig.getInitParameter(STACK_SERVLET_DELEGATE_CLASS));
+      boolean isJaxWs = DeploymentType.JAXWS.toString().equals(servletConfig.getInitParameter(INTEGRATION_CLASSLOADER));
+      return factory.newServletDelegate(servletConfig.getInitParameter(STACK_SERVLET_DELEGATE_CLASS), isJaxWs);
    }
    
    @Override
