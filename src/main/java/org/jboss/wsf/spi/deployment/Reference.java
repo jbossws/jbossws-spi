@@ -23,13 +23,12 @@
 package org.jboss.wsf.spi.deployment;
 
 /**
- * Instance provider.
- *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public interface InstanceProvider
-{
+public interface Reference {
 
-    Reference getInstance(String className);
-    
+    Object getValue();
+
+    boolean isInitialized();
+
 }
