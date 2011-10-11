@@ -31,4 +31,6 @@ public interface Reference {
 
     boolean isInitialized();
 
+    void setInitialized();
+
 }
