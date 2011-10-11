@@ -30,5 +30,5 @@ package org.jboss.wsf.spi.deployment;
  */
 public interface ServletDelegateFactory
 {
-   public ServletDelegate newServletDelegate(String delegateClassName);
+   public ServletDelegate newServletDelegate(String delegateClassName, boolean isJaxWs);
 }
