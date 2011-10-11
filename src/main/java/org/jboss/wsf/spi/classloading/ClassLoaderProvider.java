@@ -46,6 +46,12 @@ public abstract class ClassLoaderProvider
       {
          return getContextClassLoader();
       }
+
+      @Override
+      public ClassLoader getServerJAXRPCIntegrationClassLoader()
+      {
+         return getContextClassLoader();
+      }
    };
 
    public static void setDefaultProvider(ClassLoaderProvider p)
@@ -66,11 +72,18 @@ public abstract class ClassLoaderProvider
    public abstract ClassLoader getWebServiceSubsystemClassLoader();
 
    /**
-    * Return the ClassLoader instance having visibility over the all server side ws libraries
+    * Return the ClassLoader instance having visibility over the all server side ws libraries (for JAXWS usage)
     * 
     * @return
     */
    public abstract ClassLoader getServerIntegrationClassLoader();
+
+   /**
+    * Return the ClassLoader instance having visibility over the all server side ws libraries (for JAXRPC usage)
+    * 
+    * @return
+    */
+   public abstract ClassLoader getServerJAXRPCIntegrationClassLoader();
 
    static ClassLoader getContextClassLoader()
    {
