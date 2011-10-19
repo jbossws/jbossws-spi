@@ -36,7 +36,7 @@ public class WebContextImpl implements WebContext
 {
    private String contextRoot = "";
    private String authmethod = "";
-   private String[] virtualHosts = new String[] {};
+   private String virtualHost = "";
    private String urlpattern = "";
    private String transportGuarantee  = "";
    private boolean securedWsdl = false;
@@ -59,18 +59,18 @@ public class WebContextImpl implements WebContext
    }
 
    /**
-    * The virtual hosts that the web service endpoint is deployed to.
+    * The virtual host that the web service endpoint is deployed to.
     *
     * Applies to server side port components only.
     */
-   public String[] virtualHosts(){
-      return virtualHosts;
+   public String virtualHost() {
+      return virtualHost;
    };
 
 
-   public void setVirtualHosts(String[] virtualHosts)
+   public void setVirtualHost(String virtualHost)
    {
-      this.virtualHosts = virtualHosts;
+      this.virtualHost = virtualHost;
    }
 
    /**
