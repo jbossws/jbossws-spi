@@ -30,9 +30,14 @@ package org.jboss.wsf.spi.metadata;
  */
 public abstract class ParserConstants
 {
+   
    public static final String JAVAEE_NS = "http://java.sun.com/xml/ns/javaee";
    
+   public static final String JBOSSEE_NS = "http://www.jboss.com/xml/ns/javaee";
+   
    public static final String J2EE_NS = "http://java.sun.com/xml/ns/j2ee";
+
+   public static final String AUTH_METHOD = "auth-method";
 
    public static final String CHAIN_PORT_PATTERN = "port-name-pattern";
 
@@ -70,9 +75,13 @@ public abstract class ParserConstants
 
    public static final String WSDL_FILE = "wsdl-file";
 
+   public static final String WSDL_PUBLISH_LOCATION = "wsdl-publish-location";
+
    public static final String PORT_COMPONENT = "port-component";
 
    public static final String PORT_COMPONENT_NAME = "port-component-name";
+
+   public static final String PORT_COMPONENT_URI = "port-component-uri";
 
    public static final String WSDL_SERVICE = "wsdl-service";
 
@@ -112,19 +121,28 @@ public abstract class ParserConstants
    
    public static final String CONFIG_NAME = "config-name";
    
+   public static final String CONFIG_FILE = "config-file";
+   
+   public static final String CONTEXT_ROOT = "context-root";
+   
    public static final String PRE_HANDLER_CHAINS = "pre-handler-chains";
    
    public static final String POST_HANDLER_CHAINS = "post-handler-chains";
    
    public static final String FEATURE = "feature";
    
+   public static final String FEATURE_DATA = "feature-data";
+
+   public static final String FEATURE_NAME = "feature-name";
+   
    public static final String PROPERTY = "property";
    
    public static final String PROPERTY_NAME = "property-name";
    
    public static final String PROPERTY_VALUE = "property-value";
-
-   public static final String FEATURE_NAME = "feature-name";
    
-   public static final String FEATURE_DATA = "feature-data";
+   public static final String SECURE_WSDL_ACCESS = "secure-wsdl-access";
+
+   public static final String TRANSPORT_GUARANTEE = "transport-guarantee";
+   
 }

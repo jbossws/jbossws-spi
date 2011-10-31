@@ -55,6 +55,18 @@ public class WebserviceDescriptionMetaData
    private String jaxrpcMappingFile;
    // The required <port-component> elements
    private ArrayList<PortComponentMetaData> portComponents = new ArrayList<PortComponentMetaData>();
+   // The optional <wsdl-publish-location> element
+   private String wsdlPublishLocation;
+
+   public String getWsdlPublishLocation()
+   {
+      return wsdlPublishLocation;
+   }
+
+   public void setWsdlPublishLocation(String wsdlPublishLocation)
+   {
+      this.wsdlPublishLocation = wsdlPublishLocation;
+   }
 
    public WebserviceDescriptionMetaData(WebservicesMetaData webservices)
    {
@@ -117,6 +129,16 @@ public class WebserviceDescriptionMetaData
       }
 
       log.error(BundleUtils.getMessage(bundle, "CANNOT_GET_PORT_COMPONENT_NAME", new Object[]{ name ,  pcNames}));
+      return null;
+   }
+
+   public PortComponentMetaData getPortComponentByEjbLinkName(String ejbName)
+   {
+      for (PortComponentMetaData pc : portComponents)
+      {
+         if (ejbName.equals(pc.getEjbLink())) return pc;
+      }
+
       return null;
    }
 
