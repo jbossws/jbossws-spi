@@ -67,9 +67,9 @@ public class JBossWebservicesFactory extends WebservicesFactory
     * @param root virtual file root
     * @return JBossWebservicesMetaData or <code>null</code> if it cannot be found
     */
-   public static WebservicesMetaData loadFromVFSRoot(UnifiedVirtualFile root)
+   public static JBossWebservicesMetaData loadFromVFSRoot(UnifiedVirtualFile root)
    {
-      WebservicesMetaData webservices = null;
+      JBossWebservicesMetaData webservices = null;
 
       UnifiedVirtualFile wsdd = null;
       try
