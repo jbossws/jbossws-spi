@@ -62,12 +62,6 @@ public class PortComponentMetaData
     * This name must be unique amongst all port component names in a module.
     */
    private String portComponentName;
-   // The optional <port-component-uri>
-   private String portComponentURI;
-   // The optional <auth-method>
-   private String authMethod;
-   // The optional <transport-guarantee>
-   private String transportGuarantee;
    // The required <wsdl-port> element
    private QName wsdlPort;
    // The required <service-endpoint-interface> element
@@ -80,8 +74,6 @@ public class PortComponentMetaData
 
    // The HTTP context root
    private String contextRoot;
-   // The optional secure wsdl access
-   private Boolean secureWSDLAccess;
 
    // -----------------------------------------
    // JAX-WS additions
@@ -121,36 +113,6 @@ public class PortComponentMetaData
    public void setPortComponentName(String portComponentName)
    {
       this.portComponentName = portComponentName;
-   }
-
-   public String getPortComponentURI()
-   {
-      return portComponentURI;
-   }
-
-   public void setPortComponentURI(String portComponentURI)
-   {
-      this.portComponentURI = portComponentURI;
-   }
-
-   public String getAuthMethod()
-   {
-      return authMethod;
-   }
-
-   public void setAuthMethod(String authMethod)
-   {
-      this.authMethod = authMethod;
-   }
-
-   public String getTransportGuarantee()
-   {
-      return transportGuarantee;
-   }
-
-   public void setTransportGuarantee(String transportGuarantee)
-   {
-      this.transportGuarantee = transportGuarantee;
    }
 
    public QName getWsdlPort()
@@ -216,16 +178,6 @@ public class PortComponentMetaData
    public void setContextRoot(String contextRoot)
    {
       this.contextRoot = contextRoot;
-   }
-
-   public Boolean getSecureWSDLAccess()
-   {
-      return secureWSDLAccess;
-   }
-
-   public void setSecureWSDLAccess(Boolean secureWSDLAccess)
-   {
-      this.secureWSDLAccess = secureWSDLAccess;
    }
 
    public void setAddressingEnabled(final boolean addressingEnabled) {

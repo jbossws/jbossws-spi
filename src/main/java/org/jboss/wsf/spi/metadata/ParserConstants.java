@@ -45,6 +45,8 @@ public abstract class ParserConstants
 
    public static final String CHAIN_SERVICE_PATTERN = "service-name-pattern";
 
+   public static final String EJB_NAME = "ejb-name";
+
    public static final String HANDLER_CHAIN = "handler-chain";
 
    public static final String HANDLER_CHAINS = "handler-chains";
