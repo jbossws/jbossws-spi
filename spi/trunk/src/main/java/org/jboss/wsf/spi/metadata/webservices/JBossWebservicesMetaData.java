@@ -23,59 +23,76 @@
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * XML Binding root element for <code>jboss-webservices.xml</code>
- *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public class JBossWebservicesMetaData extends WebservicesMetaData
-{
+public final class JBossWebservicesMetaData {
 
-   private String contextRoot;
+    private String contextRoot;
 
-   private String configName;
+    private String configName;
 
-   private String configFile;
+    private String configFile;
 
-   public JBossWebservicesMetaData()
-   {
-      super();
-   }
+    private List<JBossPortComponentMetaData> portComponents = new LinkedList<JBossPortComponentMetaData>();
 
-   public JBossWebservicesMetaData(final URL descriptorURL)
-   {
-      super(descriptorURL);
-   }
+    private List<JBossWebserviceDescriptionMetaData> webserviceDescriptions = new LinkedList<JBossWebserviceDescriptionMetaData>();
 
-   public String getContextRoot()
-   {
-      return contextRoot;
-   }
+    private URL descriptorURL;
 
-   public void setContextRoot(String contextRoot)
-   {
-      this.contextRoot = contextRoot;
-   }
+    public JBossWebservicesMetaData(final URL descriptorURL) {
+        this.descriptorURL = descriptorURL;
+    }
 
-   public String getConfigName()
-   {
-      return configName;
-   }
+    public URL getDescriptorURL() {
+        return descriptorURL;
+    }
 
-   public void setConfigName(String configName)
-   {
-      this.configName = configName;
-   }
+    public void setContextRoot(final String contextRoot) {
+        this.contextRoot = contextRoot;
+    }
 
-   public String getConfigFile()
-   {
-      return configFile;
-   }
+    public String getContextRoot() {
+        return contextRoot;
+    }
 
-   public void setConfigFile(String configFile)
-   {
-      this.configFile = configFile;
-   }
+    public void setConfigName(final String configName) {
+        this.configName = configName;
+    }
+
+    public String getConfigName() {
+        return configName;
+    }
+
+    public void setConfigFile(final String configFile) {
+        this.configFile = configFile;
+    }
+
+    public String getConfigFile() {
+        return configFile;
+    }
+
+    public void addPortComponent(final JBossPortComponentMetaData portComponent) {
+        portComponents.add(portComponent);
+    }
+
+    public JBossPortComponentMetaData[] getPortComponents() {
+        final JBossPortComponentMetaData[] array = new JBossPortComponentMetaData[portComponents.size()];
+        portComponents.toArray(array);
+        return array;
+    }
+
+    public void addWebserviceDescription(final JBossWebserviceDescriptionMetaData webserviceDescriptionMD) {
+        webserviceDescriptions.add(webserviceDescriptionMD);
+    }
+
+    public JBossWebserviceDescriptionMetaData[] getWebserviceDescriptions() {
+        final JBossWebserviceDescriptionMetaData[] array = new JBossWebserviceDescriptionMetaData[webserviceDescriptions.size()];
+        webserviceDescriptions.toArray(array);
+        return array;
+    }
 
 }

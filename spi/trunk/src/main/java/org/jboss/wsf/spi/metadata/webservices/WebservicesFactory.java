@@ -25,7 +25,6 @@ import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import static org.jboss.wsf.spi.metadata.ParserConstants.ADDRESSING;
 import static org.jboss.wsf.spi.metadata.ParserConstants.ADDRESSING_RESPONSES;
-import static org.jboss.wsf.spi.metadata.ParserConstants.AUTH_METHOD;
 import static org.jboss.wsf.spi.metadata.ParserConstants.EJB_LINK;
 import static org.jboss.wsf.spi.metadata.ParserConstants.ENABLED;
 import static org.jboss.wsf.spi.metadata.ParserConstants.ENABLE_MTOM;
@@ -37,20 +36,16 @@ import static org.jboss.wsf.spi.metadata.ParserConstants.JAXRPC_MAPPING_FILE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.MTOM_THRESHOLD;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT_NAME;
-import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT_URI;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PROTOCOL_BINDING;
 import static org.jboss.wsf.spi.metadata.ParserConstants.REQUIRED;
 import static org.jboss.wsf.spi.metadata.ParserConstants.RESPECT_BINDING;
-import static org.jboss.wsf.spi.metadata.ParserConstants.SECURE_WSDL_ACCESS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.SERVICE_ENDPOINT_INTERFACE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.SERVICE_IMPL_BEAN;
 import static org.jboss.wsf.spi.metadata.ParserConstants.SERVLET_LINK;
-import static org.jboss.wsf.spi.metadata.ParserConstants.TRANSPORT_GUARANTEE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICES;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICE_DESCRIPTION;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICE_DESCRIPTION_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WSDL_FILE;
-import static org.jboss.wsf.spi.metadata.ParserConstants.WSDL_PUBLISH_LOCATION;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WSDL_PORT;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WSDL_SERVICE;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsBoolean;
@@ -271,12 +266,9 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                else if (match(reader, nsUri, WSDL_FILE)) {
                   description.setWsdlFile(elementAsString(reader));
                }
-               else if (match(reader, nsUri, WSDL_PUBLISH_LOCATION)) {
-                  description.setWsdlPublishLocation(elementAsString(reader));
-               }
                else if (match(reader, nsUri, JAXRPC_MAPPING_FILE)) {
                    description.setJaxrpcMappingFile(elementAsString(reader));
-                }
+               }
                else if (match(reader, nsUri, PORT_COMPONENT)) {
                   description.addPortComponent(parsePortComponent(reader, nsUri, description));
                }
@@ -311,23 +303,11 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                if (match(reader, nsUri, PORT_COMPONENT_NAME)) {
                   pc.setPortComponentName(elementAsString(reader));
                }
-               else if (match(reader, nsUri, PORT_COMPONENT_URI)) {
-                  pc.setPortComponentURI(elementAsString(reader));
-               }
-               else if (match(reader, nsUri, AUTH_METHOD)) {
-                  pc.setAuthMethod(elementAsString(reader));
-               }
-               else if (match(reader, nsUri, TRANSPORT_GUARANTEE)) {
-                  pc.setTransportGuarantee(elementAsString(reader));
-               }
                else if (match(reader, nsUri, WSDL_SERVICE)) {
                   pc.setWsdlService(elementAsQName(reader));
                }
                else if (match(reader, nsUri, WSDL_PORT)) {
                   pc.setWsdlPort(elementAsQName(reader));
-               }
-               else if (match(reader, nsUri, SECURE_WSDL_ACCESS)) {
-                  pc.setSecureWSDLAccess(elementAsBoolean(reader));
                }
                else if (match(reader, nsUri, ENABLE_MTOM)) {
                   pc.setMtomEnabled(elementAsBoolean(reader));

@@ -55,18 +55,6 @@ public class WebserviceDescriptionMetaData
    private String jaxrpcMappingFile;
    // The required <port-component> elements
    private ArrayList<PortComponentMetaData> portComponents = new ArrayList<PortComponentMetaData>();
-   // The optional <wsdl-publish-location> element
-   private String wsdlPublishLocation;
-
-   public String getWsdlPublishLocation()
-   {
-      return wsdlPublishLocation;
-   }
-
-   public void setWsdlPublishLocation(String wsdlPublishLocation)
-   {
-      this.wsdlPublishLocation = wsdlPublishLocation;
-   }
 
    public WebserviceDescriptionMetaData(WebservicesMetaData webservices)
    {
