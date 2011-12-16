@@ -21,44 +21,24 @@
  */
 package org.jboss.wsf.spi.metadata.jms;
 
-import java.net.URL;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * <p>Meta data class from jbossws-cxf.xml</p>
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-
-public class JMSEndpointsMetaData
+public final class JMSEndpointsMetaData
 {
-   //The endpoints list
-   private List<JMSEndpointMetaData> endpointsMetaData = new ArrayList<JMSEndpointMetaData>();
 
-   private URL descriptorURL;
-
-   public JMSEndpointsMetaData()
-   {
-   }
-
-   @Deprecated
-   public JMSEndpointsMetaData(URL descriptorURL)
-   {
-      this.descriptorURL = descriptorURL;
-   }
-
-   @Deprecated
-   public URL getDescriptorURL()
-   {
-      return descriptorURL;
-   }
+   private List<JMSEndpointMetaData> jmsEndpointsMD = new LinkedList<JMSEndpointMetaData>();
 
    public void addEndpointMetaData(JMSEndpointMetaData endpointMetaData)
    {
-      endpointsMetaData.add(endpointMetaData);
+       jmsEndpointsMD.add(endpointMetaData);
    }
    
    public List<JMSEndpointMetaData> getEndpointsMetaData() {
-      return this.endpointsMetaData;
+      return jmsEndpointsMD;
    }
+
 }
