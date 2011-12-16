@@ -24,7 +24,6 @@ package org.jboss.wsf.spi.deployment;
 import java.util.List;
 
 import javax.management.ObjectName;
-import javax.naming.Context;
 
 import org.jboss.ws.api.monitoring.Record;
 import org.jboss.ws.api.monitoring.RecordProcessor;
@@ -119,9 +118,6 @@ public interface Endpoint extends Extensible
    
    /** Ask configured processors for processing of the given record **/
    void processRecord(Record record);
-   
-   /** Returns associated JNDI context with this endpoint. */
-   Context getJNDIContext();
    
    /** Get endpoint address */
    String getAddress();
