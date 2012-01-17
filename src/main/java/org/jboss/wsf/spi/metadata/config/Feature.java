@@ -21,13 +21,11 @@
  */
 package org.jboss.wsf.spi.metadata.config;
 
-public class Feature
+public final class Feature
 {
    private String name;
 
-   private Object data;
-   
-   public Feature(String name)
+   public Feature(final String name)
    {
       this.name = name;
    }
@@ -35,15 +33,5 @@ public class Feature
    public String getName()
    {
       return name;
-   }
-
-   public Object getData()
-   {
-      return data;
-   }
-
-   public void setData(Object data)
-   {
-      this.data = data;
    }
 }
