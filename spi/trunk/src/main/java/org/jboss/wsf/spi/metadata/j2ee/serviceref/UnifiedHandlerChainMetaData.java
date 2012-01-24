@@ -41,6 +41,11 @@ public class UnifiedHandlerChainMetaData extends ServiceRefElement
    private boolean excluded;
    private String id;
 
+   @Deprecated
+   public UnifiedHandlerChainMetaData(UnifiedHandlerChainsMetaData handlerChains)
+   {
+   }
+
    public UnifiedHandlerChainMetaData()
    {
    }
