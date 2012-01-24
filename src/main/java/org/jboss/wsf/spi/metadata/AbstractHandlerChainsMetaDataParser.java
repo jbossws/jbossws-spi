@@ -84,7 +84,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
             }
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, nsUri, HANDLER_CHAIN)) {
-                  handlerChains.addHandlerChain(parseHandlerChain(reader, nsUri, handlerChains));
+                  handlerChains.addHandlerChain(parseHandlerChain(reader, nsUri));
                }
                else
                {
@@ -96,9 +96,9 @@ public abstract class AbstractHandlerChainsMetaDataParser
       throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
    }
    
-   private UnifiedHandlerChainMetaData parseHandlerChain(XMLStreamReader reader, String nsUri, UnifiedHandlerChainsMetaData handlerChains) throws XMLStreamException
+   private UnifiedHandlerChainMetaData parseHandlerChain(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
-      UnifiedHandlerChainMetaData handlerChain = new UnifiedHandlerChainMetaData(handlerChains);
+      UnifiedHandlerChainMetaData handlerChain = new UnifiedHandlerChainMetaData();
       while (reader.hasNext())
       {
          switch (reader.nextTag())
