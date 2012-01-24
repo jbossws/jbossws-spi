@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.handler.PortInfo;
 
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 
@@ -35,22 +34,25 @@ import org.jboss.wsf.spi.serviceref.ServiceRefElement;
  */
 public class UnifiedHandlerChainMetaData extends ServiceRefElement
 {
-   private UnifiedHandlerChainsMetaData handlerChains;
-
    private QName serviceNamePattern;
    private QName portNamePattern;
    private String protocolBindings;
    private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>();
-   private PortInfo portInfo;
    private boolean excluded;
-
-   public UnifiedHandlerChainMetaData(UnifiedHandlerChainsMetaData handlerChains)
-   {
-      this.handlerChains = handlerChains;
-   }
+   private String id;
 
    public UnifiedHandlerChainMetaData()
    {
+   }
+
+   public String getId()
+   {
+      return id;
+   }
+
+   public void setId(final String id)
+   {
+      this.id = id;
    }
 
    public QName getPortNamePattern()
