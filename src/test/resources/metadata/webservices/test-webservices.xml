@@ -4,10 +4,20 @@
              xmlns:wsdl="http://Hello.org"
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/javaee_web_services_1_3.xsd"
              version="1.3">
+  <description>Test Description</description>
+  <display-name>Dispaly Name</display-name>
+  <icon>
+    <small-icon>small icon</small-icon>
+    <large-icon>largeIcon</large-icon>
+  </icon>
   <webservice-description>
     <webservice-description-name>HelloService</webservice-description-name>
     <wsdl-file>META-INF/wsdl/HelloService.wsdl</wsdl-file>
     <port-component>
+      <description>Test Description</description>
+      <icon>
+	 <large-icon>largeIcon</large-icon>
+      </icon>
       <port-component-name>HelloBean</port-component-name>
       <wsdl-service>wsdl:HelloService</wsdl-service>
       <wsdl-port>wsdl:Hello</wsdl-port>
