@@ -222,7 +222,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                if (match(reader, nsUri, WEBSERVICES))
                {
                   return metadata;
-               }
+               } 
                else
                {
                   throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
@@ -230,8 +230,17 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
             }
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, nsUri, WEBSERVICE_DESCRIPTION)) {
-                  metadata.addWebserviceDescription(parseWebserviceDescription(reader, nsUri, metadata));
+                  metadata.addWebserviceDescription(parseWebserviceDescription(reader, nsUri, metadata));                 
+               } else if (match(reader, nsUri, "description") || match(reader, nsUri, "display-name")) {
+            	   //skip to parse
+            	   elementAsString(reader);
+               } else if (match(reader, nsUri, "icon")) {
+            	   //skip icon
+            	   while (reader.hasNext() && !(reader.nextTag() == XMLStreamConstants.END_ELEMENT && match(reader, nsUri, "icon"))) {
+            		   reader.next();
+            	   }
                }
+               
                else
                {
                   throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
@@ -299,9 +308,18 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                   throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
                }
             }
-            case XMLStreamConstants.START_ELEMENT : {
+            case XMLStreamConstants.START_ELEMENT : {           	
                if (match(reader, nsUri, PORT_COMPONENT_NAME)) {
                   pc.setPortComponentName(elementAsString(reader));
+               }
+               else if (match(reader, nsUri, "description") || match(reader, nsUri, "display-name")) {
+            	   //skip to parse
+            	   elementAsString(reader);
+               } else if (match(reader, nsUri, "icon")) {
+            	   //skip icon
+            	   while (reader.hasNext() && !(reader.nextTag() == XMLStreamConstants.END_ELEMENT && match(reader, nsUri, "icon"))) {
+            		   reader.next();
+            	   }
                }
                else if (match(reader, nsUri, WSDL_SERVICE)) {
                   pc.setWsdlService(elementAsQName(reader));
