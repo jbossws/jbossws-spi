@@ -23,6 +23,8 @@ package org.jboss.wsf.spi.invocation;
 
 import java.security.Principal;
 
+import javax.security.auth.Subject;
+
 /**
  * A container independent security adaptor
  *
@@ -36,4 +38,6 @@ public interface SecurityAdaptor
    
    Object getCredential();
    void setCredential(Object credential);
+   
+   void pushSubjectContext(Subject subject, Principal principal, Object credential);
 }

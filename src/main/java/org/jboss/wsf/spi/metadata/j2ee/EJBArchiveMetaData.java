@@ -115,12 +115,13 @@ public class EJBArchiveMetaData
 
    public String getWsdlPublishLocationByName(String name)
    {
-      if (this.publishLocationAdapter != null)
-      {
-         return this.publishLocationAdapter.getWsdlPublishLocationByName(name);
-      }
-      
-      return null;
+      String publishLocation = (publishLocationAdapter != null ? publishLocationAdapter.getWsdlPublishLocationByName(name) : null);
+      return publishLocation;
+
    }
 
+   public interface PublishLocationAdapter
+   {
+      String getWsdlPublishLocationByName(String name);
+   }
 }

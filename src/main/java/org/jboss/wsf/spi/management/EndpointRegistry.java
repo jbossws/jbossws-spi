@@ -37,6 +37,9 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  */
 public interface EndpointRegistry
 {
+   /** The bean name in the kernel registry */
+   String BEAN_NAME = "WSEndpointRegistry";
+
    /** Get the list of registered endpoints */
    Set<ObjectName> getEndpoints();
 

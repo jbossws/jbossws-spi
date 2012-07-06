@@ -24,14 +24,14 @@ package org.jboss.wsf.spi.invocation;
 import org.jboss.wsf.spi.deployment.Endpoint;
 
 /**
- * Associates the endpoint meta data with the current thread. 
+ * Associates the endpoint meta data with the current thead. 
  * 
  * @author Thomas.Diesler@jboss.org
  * @since 10-May-2007
  */
 public final class EndpointAssociation
 {
-   private static final ThreadLocal<Endpoint> endpoint = new ThreadLocal<Endpoint>();
+   private static final ThreadLocal<Endpoint> endpoint = new InheritableThreadLocal<Endpoint>();
 
    public static void setEndpoint(Endpoint ep)
    {

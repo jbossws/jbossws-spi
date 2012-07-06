@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,20 +23,18 @@ package org.jboss.wsf.spi.management;
 
 import java.io.File;
 import java.net.UnknownHostException;
-import java.util.List;
-
-import org.jboss.wsf.spi.metadata.config.ClientConfig;
-import org.jboss.wsf.spi.metadata.config.EndpointConfig;
 
 /**
  * Interface to container independent config 
  *
  * @author Thomas.Diesler@jboss.org
- * @author alessio.soldano@jboss.com
  * @since 08-May-2006
  */
 public interface ServerConfig
 {
+   /** The default bean name */
+   String BEAN_NAME = "WSServerConfig";
+
    /** The host name that is returned if there is no other defined */
    String UNDEFINED_HOSTNAME = "jbossws.undefined.host";
    
@@ -65,12 +63,4 @@ public interface ServerConfig
    boolean isModifySOAPAddress();
    
    void setModifySOAPAddress(boolean flag);
-   
-   void addEndpointConfig(EndpointConfig config);
-   
-   List<EndpointConfig> getEndpointConfigs();
-   
-   void addClientConfig(ClientConfig config);
-   
-   List<ClientConfig> getClientConfigs();
 }

@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.spi;
 
-import org.jboss.ws.api.util.ServiceLoader;
+import org.jboss.wsf.spi.util.ServiceLoader;
 
 /**
  * Locates an SPIProvider.
@@ -31,29 +31,14 @@ import org.jboss.ws.api.util.ServiceLoader;
  */
 public abstract class SPIProviderResolver
 {
-   public final static String DEFAULT_SPI_PROVIDER_RESOLVER = "org.jboss.ws.common.spi.DefaultSPIProviderResolver";
-   
-   /**
-    * Get the SPIProviderResolver instance using the thread context classloader for lookup
-    * 
-    * @return
-    */
+   public final static String DEFAULT_SPI_PROVIDER_RESOLVER = "org.jboss.wsf.framework.DefaultSPIProviderResolver";
+
    public static SPIProviderResolver getInstance()
    {
-      return getInstance(SecurityActions.getContextClassLoader());
-   }
-   
-   /**
-    * Get the SPIProviderResolver instance using the provided classloader for lookup
-    * 
-    * @return
-    */
-   public static SPIProviderResolver getInstance(ClassLoader cl)
-   {
-      SPIProviderResolver resolver = (SPIProviderResolver)ServiceLoader.loadService(SPIProviderResolver.class.getName(), DEFAULT_SPI_PROVIDER_RESOLVER, cl);
+      SPIProviderResolver resolver = (SPIProviderResolver)ServiceLoader.loadService(SPIProviderResolver.class.getName(), DEFAULT_SPI_PROVIDER_RESOLVER);
       return resolver;
    }
 
    public abstract SPIProvider getProvider();
-   
+
 }

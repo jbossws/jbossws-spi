@@ -33,7 +33,6 @@ import java.util.List;
  */
 public interface Service extends Extensible
 {
-
    /** Get the deployment this service belongs to */
    Deployment getDeployment();
    
@@ -46,9 +45,6 @@ public interface Service extends Extensible
    /** Get the list of endpoints */
    List<Endpoint> getEndpoints();
    
-   /** Get the list of endpoints */
-   List<Endpoint> getEndpoints(EndpointTypeFilter filter);
-   
    /** Get an endpoint by name */
    Endpoint getEndpointByName(String simpleName);
    
@@ -58,10 +54,10 @@ public interface Service extends Extensible
    /** Set the context root for this service */
    void setContextRoot(String contextRoot);
    
-   /** Get the virtual host for this service */
-   String getVirtualHost();
+   /** Get the virtual hosts for this service */
+   String[] getVirtualHosts();
    
-   /** Set the virtual host for this service */
-   void setVirtualHost(String virtualHost);
+   /** Set the virtual hosts for this service */
+   void setVirtualHosts(String[] virtualHosts);
    
 }

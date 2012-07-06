@@ -22,8 +22,6 @@
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.util.ArrayList;
-import java.util.ResourceBundle;
-import org.jboss.ws.api.util.BundleUtils;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +38,6 @@ import org.jboss.logging.Logger;
  */
 public class WebserviceDescriptionMetaData
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(WebserviceDescriptionMetaData.class);
    // provide logging
    private static final Logger log = Logger.getLogger(WebserviceDescriptionMetaData.class);
 
@@ -116,17 +113,7 @@ public class WebserviceDescriptionMetaData
          pcNames.add(wsdlPortName);
       }
 
-      log.error(BundleUtils.getMessage(bundle, "CANNOT_GET_PORT_COMPONENT_NAME", new Object[]{ name ,  pcNames}));
-      return null;
-   }
-
-   public PortComponentMetaData getPortComponentByEjbLinkName(String ejbName)
-   {
-      for (PortComponentMetaData pc : portComponents)
-      {
-         if (ejbName.equals(pc.getEjbLink())) return pc;
-      }
-
+      log.error("Cannot get port component name '" + name + "', we have: " + pcNames);
       return null;
    }
 

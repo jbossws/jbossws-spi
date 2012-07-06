@@ -24,13 +24,14 @@ package org.jboss.wsf.spi.deployment;
 import java.util.List;
 
 import javax.management.ObjectName;
+import javax.naming.Context;
+import javax.naming.NamingException;
 
-import org.jboss.ws.api.monitoring.Record;
-import org.jboss.ws.api.monitoring.RecordProcessor;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
-import org.jboss.wsf.spi.security.SecurityDomainContext;
+import org.jboss.wsf.spi.management.recording.Record;
+import org.jboss.wsf.spi.management.recording.RecordProcessor;
 
 /**
  * A general JAXWS endpoint.
@@ -40,12 +41,16 @@ import org.jboss.wsf.spi.security.SecurityDomainContext;
  */
 public interface Endpoint extends Extensible
 {
-
    static final String SEPID_DOMAIN = "jboss.ws";
    static final String SEPID_PROPERTY_CONTEXT = "context";
    static final String SEPID_PROPERTY_ENDPOINT = "endpoint";
 
    static final String SEPID_DOMAIN_ENDPOINT = SEPID_DOMAIN + "." + SEPID_PROPERTY_ENDPOINT;
+
+   public enum EndpointState
+   {
+      UNDEFINED, CREATED, STARTED, STOPPED, DESTROYED
+   };
 
    /** Get the service this endpoint belongs to */
    Service getService();
@@ -71,12 +76,6 @@ public interface Endpoint extends Extensible
    /** Set the current state for this endpoint */
    void setState(EndpointState state);
 
-   /** Get endpoint type */
-   EndpointType getType();
-
-   /** Set endpoint type */
-   void setType(EndpointType type);
-
    /** Get the endpoint implementation bean */
    String getTargetBeanName();
 
@@ -85,7 +84,19 @@ public interface Endpoint extends Extensible
    
    /** Use the deployment classloader to load the bean */
    Class getTargetBeanClass();
-      
+   
+   /** Get the URL pattern for this endpoint */
+   String getURLPattern();
+   
+   /** Set the URL pattern for this endpoint */
+   void setURLPattern(String urlPattern);
+
+   /** Get endpoint address */
+   String getAddress();
+
+   /** Set endpoint address */
+   void setAddress(String address);
+   
    /** Set the request handler for this endpoint */
    void setRequestHandler(RequestHandler handler);
 
@@ -119,22 +130,6 @@ public interface Endpoint extends Extensible
    /** Ask configured processors for processing of the given record **/
    void processRecord(Record record);
    
-   /** Get endpoint address */
-   String getAddress();
-
-   /** Set endpoint address */
-   void setAddress(String address);
-   
-   /** Get security domain context */
-   SecurityDomainContext getSecurityDomainContext();
-   
-   /** Set security domain context */
-   void setSecurityDomainContext(SecurityDomainContext context);
-
-   /** Get instance provider */
-   InstanceProvider getInstanceProvider();
-
-   /** Set instance provider */
-   void setInstanceProvider(InstanceProvider provider);
-
+   /** Returns associated JNDI context with this endpoint. */
+   Context getJNDIContext();
 }

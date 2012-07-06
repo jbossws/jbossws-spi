@@ -24,6 +24,8 @@ package org.jboss.wsf.spi.invocation;
 import java.lang.reflect.UndeclaredThrowableException;
 
 import javax.management.MBeanException;
+import javax.naming.Context;
+import javax.naming.NamingException;
 
 import org.jboss.wsf.spi.deployment.Endpoint;
 
@@ -45,6 +47,9 @@ public abstract class InvocationHandler
    /** Initilize the invocation handler */
    public abstract void init(Endpoint ep);
    
+   /** Returns JNDI context associated with endpoint */
+   public abstract Context getJNDIContext(Endpoint ep) throws NamingException;
+
    protected void handleInvocationException(Throwable th) throws Exception
    {
       if (th instanceof MBeanException)
@@ -64,32 +69,4 @@ public abstract class InvocationHandler
 
       throw new UndeclaredThrowableException(th);
    }
-   
-   // invocation handler lifecycle callback methods
-   
-   /**
-    * Template method for notifying subclasses that endpoint instance have been instantiated.
-    *
-    * @param endpoint instantiated endpoint
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onEndpointInstantiated(final Endpoint endpoint, final Invocation invocation) throws Exception;
-
-   /**
-    * Template method for notifying subclasses that endpoint method is going to be invoked.
-    *
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onBeforeInvocation(final Invocation invocation) throws Exception;
-
-   /**
-    * Template method for notifying subclasses that endpoint method invocation was completed.
-    *
-    * @param invocation current invocation
-    * @throws Exception subclasses have to throw exception on any failure
-    */
-   public abstract void onAfterInvocation(final Invocation invocation) throws Exception;
-   
 }
