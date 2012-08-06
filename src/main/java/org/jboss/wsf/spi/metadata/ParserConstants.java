@@ -143,6 +143,10 @@ public abstract class ParserConstants
    
    public static final String PROPERTY_VALUE = "property-value";
    
+   public static final String NAME = "name";
+   
+   public static final String VALUE = "value";
+   
    public static final String SECURE_WSDL_ACCESS = "secure-wsdl-access";
 
    public static final String TRANSPORT_GUARANTEE = "transport-guarantee";

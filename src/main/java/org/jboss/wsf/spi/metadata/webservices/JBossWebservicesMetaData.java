@@ -23,8 +23,10 @@
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
@@ -36,6 +38,8 @@ public final class JBossWebservicesMetaData {
     private String configName;
 
     private String configFile;
+    
+    private Map<String, String> properties = new HashMap<String, String>();
 
     private List<JBossPortComponentMetaData> portComponents = new LinkedList<JBossPortComponentMetaData>();
 
@@ -93,6 +97,18 @@ public final class JBossWebservicesMetaData {
         final JBossWebserviceDescriptionMetaData[] array = new JBossWebserviceDescriptionMetaData[webserviceDescriptions.size()];
         webserviceDescriptions.toArray(array);
         return array;
+    }
+    
+    public void setProperty(String name, String value) {
+       properties.put(name, value);
+    }
+
+    public String getProperty(String name) {
+       return properties.get(name);
+    }
+
+    public Map<String, String> getProperties() {
+       return properties;
     }
 
 }
