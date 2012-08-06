@@ -33,6 +33,9 @@ import static org.jboss.wsf.spi.metadata.ParserConstants.JBOSSEE_NS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT_URI;
+import static org.jboss.wsf.spi.metadata.ParserConstants.PROPERTY;
+import static org.jboss.wsf.spi.metadata.ParserConstants.NAME;
+import static org.jboss.wsf.spi.metadata.ParserConstants.VALUE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.SECURE_WSDL_ACCESS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.TRANSPORT_GUARANTEE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICES;
@@ -59,6 +62,7 @@ import org.jboss.wsf.spi.util.StAXUtils;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
 public class JBossWebservicesFactory {
 
@@ -192,6 +196,8 @@ public class JBossWebservicesFactory {
                         metadata.setConfigName(elementAsString(reader));
                     } else if (match(reader, nsUri, CONFIG_FILE)) {
                         metadata.setConfigFile(elementAsString(reader));
+                    } else if (match(reader, nsUri, PROPERTY)) {
+                       parseProperty(reader, nsUri, metadata);
                     } else if (match(reader, nsUri, PORT_COMPONENT)) {
                         metadata.addPortComponent(parsePortComponent(reader, nsUri));
                     } else if (match(reader, nsUri, WEBSERVICE_DESCRIPTION)) {
@@ -267,6 +273,46 @@ public class JBossWebservicesFactory {
             }
         }
         throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+    }
+    
+    private void parseProperty(XMLStreamReader reader, String nsUri, JBossWebservicesMetaData metadata) throws XMLStreamException
+    {
+       String name = null;
+       String value = null;
+       while (reader.hasNext())
+       {
+          switch (reader.nextTag())
+          {
+             case XMLStreamConstants.END_ELEMENT : {
+                if (match(reader, nsUri, PROPERTY))
+                {
+                   if (name == null)
+                   {
+                      throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_GET_PROPERTY_NAME"));
+                   }
+                   metadata.setProperty(name, value);
+                   return;
+                }
+                else
+                {
+                   throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                }
+             }
+             case XMLStreamConstants.START_ELEMENT : {
+                if (match(reader, nsUri, NAME)) {
+                   name = elementAsString(reader);
+                }
+                else if (match(reader, nsUri, VALUE)) {
+                   value = elementAsString(reader);
+                }
+                else
+                {
+                   throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                }
+             }
+          }
+       }
+       throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
     }
 
 }
