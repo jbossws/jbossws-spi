@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -25,14 +25,12 @@ import java.io.File;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.metadata.config.EndpointConfig;
 
 /**
  * Interface to container independent config 
  *
  * @author Thomas.Diesler@jboss.org
- * @author alessio.soldano@jboss.com
  * @since 08-May-2006
  */
 public interface ServerConfig
@@ -69,8 +67,4 @@ public interface ServerConfig
    void addEndpointConfig(EndpointConfig config);
    
    List<EndpointConfig> getEndpointConfigs();
-   
-   void addClientConfig(ClientConfig config);
-   
-   List<ClientConfig> getClientConfigs();
 }

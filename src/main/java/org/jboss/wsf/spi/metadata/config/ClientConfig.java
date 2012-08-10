@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -29,5 +29,4 @@ package org.jboss.wsf.spi.metadata.config;
  */
 public class ClientConfig extends AbstractCommonConfig
 {
-   public static final String STANDARD_CLIENT_CONFIG = "Standard-Client-Config";
 }

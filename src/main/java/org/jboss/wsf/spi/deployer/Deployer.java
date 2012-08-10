@@ -57,19 +57,4 @@ public interface Deployer extends SPIView
      * @param name
      */
     void removeSecurityDomain(String name) throws Exception;
-    
-    /**
-     * Adds a test https connector
-     * 
-     * @param sslOptions
-     * @throws Exception
-     */
-    public void addHttpsConnector(Map<String, String> sslOptions) throws Exception;
-    
-    /**
-     * Remove the test https connector
-     * 
-     * @throws Exception
-     */
-    public void removeHttpsConnector() throws Exception;
 }
