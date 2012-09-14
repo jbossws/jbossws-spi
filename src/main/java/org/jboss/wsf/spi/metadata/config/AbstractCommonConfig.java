@@ -40,8 +40,8 @@ public abstract class AbstractCommonConfig implements CommonConfig
 {
    private static final ResourceBundle bundle = BundleUtils.getBundle(AbstractCommonConfig.class);
    private String configName;
-   private Map<String, Feature> features = new HashMap<String, Feature>();
-   private Map<String, String> properties = new HashMap<String, String>();
+   private Map<String, Feature> features = new HashMap<String, Feature>(2);
+   private Map<String, String> properties = new HashMap<String, String>(4);
    private List<UnifiedHandlerChainMetaData> preHandlerChains;
    private List<UnifiedHandlerChainMetaData> postHandlerChains;
 

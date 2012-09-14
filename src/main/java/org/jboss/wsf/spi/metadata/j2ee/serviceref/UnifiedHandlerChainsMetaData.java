@@ -21,20 +21,20 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.HandlerType;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 
-/** The unified metdata data for a handler chains element
+/** The unified metadata data for a handler chains element
  * 
  * @author Thomas.Diesler@jboss.org
  */
 public class UnifiedHandlerChainsMetaData extends ServiceRefElement
 {
    private HandlerType handlerType;
-   private List<UnifiedHandlerChainMetaData> handlerChains = new ArrayList<UnifiedHandlerChainMetaData>();
+   private List<UnifiedHandlerChainMetaData> handlerChains = new LinkedList<UnifiedHandlerChainMetaData>();
 
    public UnifiedHandlerChainsMetaData(HandlerType handlerType)
    {

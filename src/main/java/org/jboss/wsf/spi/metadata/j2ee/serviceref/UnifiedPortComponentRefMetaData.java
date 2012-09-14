@@ -49,9 +49,9 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    // The optional <port-qname> element
    private QName portQName;
    // Arbitrary proxy properties given by <call-property>
-   private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>();
+   private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>(2);
    // Arbitrary proxy properties given by <stub-property>
-   private List<UnifiedStubPropertyMetaData> stubProperties = new ArrayList<UnifiedStubPropertyMetaData>();
+   private List<UnifiedStubPropertyMetaData> stubProperties = new ArrayList<UnifiedStubPropertyMetaData>(2);
    // The optional JBossWS config-name
    private String configName;
    // The optional JBossWS config-file

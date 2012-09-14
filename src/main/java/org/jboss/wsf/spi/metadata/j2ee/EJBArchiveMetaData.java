@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,7 +34,7 @@ import java.util.List;
 public class EJBArchiveMetaData
 {
    /** ArrayList<BeanMetaData> for the ejbs */
-   private List<EJBMetaData> beans = new ArrayList<EJBMetaData>();
+   private List<EJBMetaData> beans = Collections.emptyList();
    /** The optional JBossWS config-name */
    private String configName;
    /** The optional JBossWS config-file */

@@ -23,6 +23,7 @@ package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ import javax.xml.namespace.QName;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 
 /** 
- * The unified metdata data for a handler element
+ * The unified metadata data for a handler element
  * 
  * @author Thomas.Diesler@jboss.org
  */
@@ -49,13 +50,13 @@ public class UnifiedHandlerMetaData extends ServiceRefElement
    // The required <handler-class> element
    private String handlerClass;
    // The optional <init-param> elements
-   private List<UnifiedInitParamMetaData> initParams = new ArrayList<UnifiedInitParamMetaData>();
+   private List<UnifiedInitParamMetaData> initParams = new LinkedList<UnifiedInitParamMetaData>();
    // The optional <soap-header> elements
-   private Set<QName> soapHeaders = new HashSet<QName>();
+   private Set<QName> soapHeaders = new HashSet<QName>(2);
    // The optional <soap-role> elements
-   private Set<String> soapRoles = new HashSet<String>();
-   // The optional <port-name> elements, these only apply to webserve clients
-   private Set<String> portNames = new HashSet<String>();
+   private Set<String> soapRoles = new HashSet<String>(2);
+   // The optional <port-name> elements, these only apply to webservice clients
+   private Set<String> portNames = new HashSet<String>(4);
 
    public UnifiedHandlerMetaData(UnifiedHandlerChainMetaData handlerChain)
    {
