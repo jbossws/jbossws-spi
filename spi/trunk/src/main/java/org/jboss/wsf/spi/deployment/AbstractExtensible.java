@@ -34,9 +34,20 @@ import java.util.Set;
  */
 public abstract class AbstractExtensible implements Extensible
 {
-
-   private Map<Class<?>, Object> attachments = new HashMap<Class<?>, Object>();
-   private Map<String, Object> properties = new HashMap<String, Object>();
+   private Map<Class<?>, Object> attachments;
+   private Map<String, Object> properties;
+   
+   public AbstractExtensible()
+   {
+      this.attachments  = new HashMap<Class<?>, Object>();
+      this.properties = new HashMap<String, Object>();
+   }
+   
+   public AbstractExtensible(int initialAttachmentsSize, int initialPropertiesSize)
+   {
+      this.attachments  = new HashMap<Class<?>, Object>(initialAttachmentsSize);
+      this.properties = new HashMap<String, Object>(initialPropertiesSize);
+   }
    
    public Collection<Object> getAttachments()
    {

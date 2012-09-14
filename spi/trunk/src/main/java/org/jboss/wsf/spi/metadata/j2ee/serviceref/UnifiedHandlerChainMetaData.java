@@ -28,7 +28,7 @@ import javax.xml.namespace.QName;
 
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 
-/** The unified metdata data for a handler chain element
+/** The unified metadata data for a handler chain element
  * 
  * @author Thomas.Diesler@jboss.org
  */
@@ -37,7 +37,7 @@ public class UnifiedHandlerChainMetaData extends ServiceRefElement
    private QName serviceNamePattern;
    private QName portNamePattern;
    private String protocolBindings;
-   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>();
+   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>(4);
    private boolean excluded;
    private String id;
 

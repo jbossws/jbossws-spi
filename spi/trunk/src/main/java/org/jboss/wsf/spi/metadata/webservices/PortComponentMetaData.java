@@ -70,7 +70,7 @@ public class PortComponentMetaData
    private String ejbLink;
    private String servletLink;
    // The optional <handler> elements
-   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>();
+   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>(2);
 
    // The HTTP context root
    private String contextRoot;

@@ -83,9 +83,9 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    // The optional <service-qname> element
    private QName serviceQName;
    // The list <port-component-ref> elements
-   private List<UnifiedPortComponentRefMetaData> portComponentRefs = new ArrayList<UnifiedPortComponentRefMetaData>();
+   private List<UnifiedPortComponentRefMetaData> portComponentRefs = new ArrayList<UnifiedPortComponentRefMetaData>(4);
    // The optional <handler> elements. JAX-RPC handlers declared in the standard J2EE1.4 descriptor
-   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>();
+   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>(4);
    // The optional <handler-chains> elements. JAX-WS handlers declared in the standard JavaEE5 descriptor
    private UnifiedHandlerChainsMetaData handlerChains;
 
@@ -100,7 +100,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    // The optional <handler-chain> element. JAX-WS handler chain declared in the JBoss JavaEE5 descriptor
    private String handlerChain;
    // Arbitrary proxy properties given by <call-property> 
-   private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>();
+   private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>(2);
    // @Addressing annotation metadata
    private boolean isAddressingAnnotationSpecified;
    private boolean addressingEnabled;

@@ -33,7 +33,7 @@ import java.util.ArrayList;
 public class WebservicesMetaData
 {
    // The required <webservice-description> elements
-   private ArrayList<WebserviceDescriptionMetaData> webserviceDescriptions = new ArrayList<WebserviceDescriptionMetaData>();
+   private ArrayList<WebserviceDescriptionMetaData> webserviceDescriptions = new ArrayList<WebserviceDescriptionMetaData>(2);
 
    // The URL to the webservices.xml descriptor
    private URL descriptorURL;
