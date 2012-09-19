@@ -23,20 +23,19 @@ package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
 
-import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.Messages;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 
-/** The metdata data from service-ref/port-component-ref element in web.xml, ejb-jar.xml, and application-client.xml.
+/** The metadata data from service-ref/port-component-ref element in web.xml, ejb-jar.xml, and application-client.xml.
  *
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  */
 public class UnifiedPortComponentRefMetaData extends ServiceRefElement
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(UnifiedPortComponentRefMetaData.class);
    private static final long serialVersionUID = 8622309745808960649L;
 
    // The parent service-ref
@@ -108,7 +107,7 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    public void setAddressingResponses(final String responsesTypes)
    {
       if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "ONLY_ALL_ANONYMOUS_OR_NON_ANONYMOUS_ALLOWED"));
+         throw Messages.MESSAGES.unsupportedAddressingResponseType(responsesTypes);
 
       this.addressingResponses = responsesTypes;
    }
@@ -246,7 +245,7 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    public boolean matches(String seiName, QName portName)
    {
       if (seiName == null && portName == null)
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "CANNOT_MATCH"));
+         throw Messages.MESSAGES.cannotMatchAgainstNull();
 
       boolean match = false;
 

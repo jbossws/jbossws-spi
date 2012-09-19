@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.util;
 
+import static org.jboss.wsf.spi.Loggers.ROOT_LOGGER;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -31,12 +33,10 @@ import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.Messages;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 
 /**
@@ -50,13 +50,11 @@ import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
  */
 public class URLLoaderAdapter implements UnifiedVirtualFile
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(URLLoaderAdapter.class);
    private static final long serialVersionUID = 8263115387770740414L;
    
    private URL rootURL;
    private URL resourceURL;
    private transient URLClassLoader loader;
-   private static Logger log = Logger.getLogger(URLLoaderAdapter.class);
    private static final String jarFileSeparator = "/";
 
    public URLLoaderAdapter(URL rootURL)
@@ -116,7 +114,7 @@ public class URLLoaderAdapter implements UnifiedVirtualFile
       }
 
       if (resourceURL == null)
-         throw new IOException(BundleUtils.getMessage(bundle, "CANNOT_GET_URL_FOR",  resourcePath));
+         throw Messages.MESSAGES.cannotGetURLFor(resourcePath);
 
       return new URLLoaderAdapter(rootURL, loader, resourceURL);
    }
@@ -203,8 +201,7 @@ public class URLLoaderAdapter implements UnifiedVirtualFile
          }
          catch (Exception e)
          {
-            e.printStackTrace();
-            log.error(BundleUtils.getMessage(bundle, "CANNOT_GET_CHILDREN_FOR_RESOURCE",  url));
+            ROOT_LOGGER.cannotGetChildrenForResource(e, url);
          }
       }
       else //std file/dir
@@ -226,7 +223,7 @@ public class URLLoaderAdapter implements UnifiedVirtualFile
          }
          catch (Exception e)
          {
-            log.error(BundleUtils.getMessage(bundle, "CANNOT_GET_CHILDREN_FOR_RESOURCE",  url),  e);
+            ROOT_LOGGER.cannotGetChildrenForResource(e, url);
          }
       }
       return list;
@@ -245,7 +242,7 @@ public class URLLoaderAdapter implements UnifiedVirtualFile
       }
       catch (Exception e)
       {
-         log.error(BundleUtils.getMessage(bundle, "CANNOT_GET_NAME_FOR_RESOURCE",  toURL()),  e);
+         ROOT_LOGGER.cannotGetNameForResource(e, toURL());
       }
       return name;
    }

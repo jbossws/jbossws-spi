@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,20 +24,21 @@ package org.jboss.wsf.spi.metadata.webservices;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.jboss.wsf.spi.Messages.MESSAGES;
 import static org.jboss.wsf.spi.metadata.ParserConstants.AUTH_METHOD;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CONFIG_FILE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CONFIG_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CONTEXT_ROOT;
 import static org.jboss.wsf.spi.metadata.ParserConstants.EJB_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.JBOSSEE_NS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT_URI;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PROPERTY;
-import static org.jboss.wsf.spi.metadata.ParserConstants.NAME;
-import static org.jboss.wsf.spi.metadata.ParserConstants.VALUE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.SECURE_WSDL_ACCESS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.TRANSPORT_GUARANTEE;
+import static org.jboss.wsf.spi.metadata.ParserConstants.VALUE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICES;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICE_DESCRIPTION;
 import static org.jboss.wsf.spi.metadata.ParserConstants.WEBSERVICE_DESCRIPTION_NAME;
@@ -49,14 +50,12 @@ import static org.jboss.wsf.spi.util.StAXUtils.match;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ResourceBundle;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.ws.WebServiceException;
 
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.util.StAXUtils;
 
@@ -65,8 +64,6 @@ import org.jboss.wsf.spi.util.StAXUtils;
  * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
 public class JBossWebservicesFactory {
-
-    private static final ResourceBundle bundle = BundleUtils.getBundle(JBossWebservicesFactory.class);
 
     // The URL to the jboss-webservices.xml descriptor
     private URL descriptorURL;
@@ -120,7 +117,7 @@ public class JBossWebservicesFactory {
             XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
             return parse(xmlr, wsddUrl);
         } catch (Exception e) {
-            throw new WebServiceException(BundleUtils.getMessage(bundle, "FAILED_TO_UNMARSHALL", wsddUrl), e);
+            throw MESSAGES.failedToUnmarshall(e, wsddUrl);
         } finally {
             try {
                 if (is != null)
@@ -169,7 +166,7 @@ public class JBossWebservicesFactory {
                     JBossWebservicesFactory factory = new JBossWebservicesFactory(descriptorURL);
                     metadata = factory.parseWebservices(reader, nsUri, descriptorURL);
                 } else {
-                    throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT", reader.getLocalName()));
+                   throw MESSAGES.unexpectedElement(descriptorURL != null ? descriptorURL.toString() : "jboss-webservices.xml", reader.getLocalName());
                 }
             }
         }
@@ -185,8 +182,7 @@ public class JBossWebservicesFactory {
                     if (match(reader, nsUri, WEBSERVICES)) {
                         return metadata;
                     } else {
-                        throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",
-                                reader.getLocalName()));
+                        throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
                 case XMLStreamConstants.START_ELEMENT: {
@@ -203,13 +199,12 @@ public class JBossWebservicesFactory {
                     } else if (match(reader, nsUri, WEBSERVICE_DESCRIPTION)) {
                         metadata.addWebserviceDescription(parseWebserviceDescription(reader, nsUri));
                     } else {
-                        throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",
-                                reader.getLocalName()));
+                        throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
             }
         }
-        throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+        throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
     }
 
     private JBossPortComponentMetaData parsePortComponent(XMLStreamReader reader, String nsUri) throws XMLStreamException {
@@ -220,8 +215,7 @@ public class JBossWebservicesFactory {
                     if (match(reader, nsUri, PORT_COMPONENT)) {
                         return pc;
                     } else {
-                        throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",
-                                reader.getLocalName()));
+                        throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
                 case XMLStreamConstants.START_ELEMENT: {
@@ -238,13 +232,12 @@ public class JBossWebservicesFactory {
                     } else if (match(reader, nsUri, SECURE_WSDL_ACCESS)) {
                         pc.setSecureWSDLAccess(elementAsBoolean(reader));
                     } else {
-                        throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",
-                                reader.getLocalName()));
+                        throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
             }
         }
-        throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+        throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
     }
 
     private JBossWebserviceDescriptionMetaData parseWebserviceDescription(XMLStreamReader reader, String nsUri)
@@ -256,8 +249,7 @@ public class JBossWebservicesFactory {
                     if (match(reader, nsUri, WEBSERVICE_DESCRIPTION)) {
                         return description;
                     } else {
-                        throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",
-                                reader.getLocalName()));
+                        throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
                 case XMLStreamConstants.START_ELEMENT: {
@@ -266,13 +258,12 @@ public class JBossWebservicesFactory {
                     } else if (match(reader, nsUri, WSDL_PUBLISH_LOCATION)) {
                         description.setWsdlPublishLocation(elementAsString(reader));
                     } else {
-                        throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",
-                                reader.getLocalName()));
+                        throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
             }
         }
-        throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+        throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
     }
     
     private void parseProperty(XMLStreamReader reader, String nsUri, JBossWebservicesMetaData metadata) throws XMLStreamException
@@ -288,14 +279,14 @@ public class JBossWebservicesFactory {
                 {
                    if (name == null)
                    {
-                      throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_GET_PROPERTY_NAME"));
+                      throw MESSAGES.couldNotGetPropertyName(getDescriptorForLogs());
                    }
                    metadata.setProperty(name, value);
                    return;
                 }
                 else
                 {
-                   throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                   throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                 }
              }
              case XMLStreamConstants.START_ELEMENT : {
@@ -307,12 +298,16 @@ public class JBossWebservicesFactory {
                 }
                 else
                 {
-                   throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                   throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                 }
              }
           }
        }
-       throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+       throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
+    }
+    
+    private String getDescriptorForLogs() {
+       return descriptorURL != null ? descriptorURL.toString() : "jboss-webservices.xml";
     }
 
 }

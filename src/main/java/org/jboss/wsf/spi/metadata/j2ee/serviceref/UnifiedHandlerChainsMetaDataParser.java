@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,12 +30,11 @@ import static org.jboss.wsf.spi.util.StAXUtils.match;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ResourceBundle;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.Messages;
 import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
 import org.jboss.wsf.spi.util.StAXUtils;
 
@@ -47,7 +46,6 @@ import org.jboss.wsf.spi.util.StAXUtils;
  */
 public class UnifiedHandlerChainsMetaDataParser extends AbstractHandlerChainsMetaDataParser
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(UnifiedHandlerChainsMetaDataParser.class);
    private UnifiedHandlerChainsMetaDataParser()
    {
       super();
@@ -95,10 +93,16 @@ public class UnifiedHandlerChainsMetaDataParser extends AbstractHandlerChainsMet
             }
             else
             {
-               throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+               throw Messages.MESSAGES.unexpectedElement("handlers", reader.getLocalName());
             }
          }
       }
       return handlerChains;
+   }
+
+   @Override
+   protected String getDescriptorForLogs()
+   {
+      return "handlers";
    }
 }
