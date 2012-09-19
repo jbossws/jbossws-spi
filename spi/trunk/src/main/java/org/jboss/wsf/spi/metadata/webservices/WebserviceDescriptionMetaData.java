@@ -22,15 +22,13 @@
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.util.ArrayList;
-import java.util.ResourceBundle;
-import org.jboss.ws.api.util.BundleUtils;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.Loggers;
 
 /**
  * XML Binding element for <code>webservices/webservice-description</code>
@@ -40,10 +38,6 @@ import org.jboss.logging.Logger;
  */
 public class WebserviceDescriptionMetaData
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(WebserviceDescriptionMetaData.class);
-   // provide logging
-   private static final Logger log = Logger.getLogger(WebserviceDescriptionMetaData.class);
-
    // The parent <webservices> element
    private WebservicesMetaData webservices;
 
@@ -116,7 +110,7 @@ public class WebserviceDescriptionMetaData
          pcNames.add(wsdlPortName);
       }
 
-      log.error(BundleUtils.getMessage(bundle, "CANNOT_GET_PORT_COMPONENT_NAME", new Object[]{ name ,  pcNames}));
+      Loggers.METADATA_LOGGER.cannotGetPortComponentName(name, pcNames);
       return null;
    }
 

@@ -23,6 +23,7 @@ package org.jboss.wsf.spi.metadata.webservices;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.jboss.wsf.spi.Messages.MESSAGES;
 import static org.jboss.wsf.spi.metadata.ParserConstants.ADDRESSING;
 import static org.jboss.wsf.spi.metadata.ParserConstants.ADDRESSING_RESPONSES;
 import static org.jboss.wsf.spi.metadata.ParserConstants.EJB_LINK;
@@ -57,14 +58,12 @@ import static org.jboss.wsf.spi.util.StAXUtils.match;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ResourceBundle;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.ws.WebServiceException;
 
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
 import org.jboss.wsf.spi.util.StAXUtils;
@@ -73,11 +72,11 @@ import org.jboss.wsf.spi.util.StAXUtils;
  * A JBossXB factory for {@link WebservicesMetaData}
  *
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  * @since 16-Apr-2004
  */
 public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(WebservicesFactory.class);
    // The URL to the webservices.xml descriptor
    private URL descriptorURL;
    
@@ -140,7 +139,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
       }
       catch (Exception e)
       {
-         throw new WebServiceException(BundleUtils.getMessage(bundle, "FAILED_TO_UNMARSHALL", wsddUrl),  e);
+         throw MESSAGES.failedToUnmarshall(e, wsddUrl);
       }
       finally
       {
@@ -204,7 +203,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
             }
             else
             {
-               throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+               throw MESSAGES.unexpectedElement(descriptorURL != null ? descriptorURL.toString() : "webservices.xml", reader.getLocalName());
             }
          }
       }
@@ -225,7 +224,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                } 
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -243,12 +242,12 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
    WebserviceDescriptionMetaData parseWebserviceDescription(XMLStreamReader reader, String nsUri, WebservicesMetaData wsMetaData) throws XMLStreamException
@@ -265,7 +264,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -283,12 +282,12 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
    private PortComponentMetaData parsePortComponent(XMLStreamReader reader, String nsUri, WebserviceDescriptionMetaData desc) throws XMLStreamException
@@ -305,7 +304,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {           	
@@ -356,12 +355,12 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
    private void parseAddressing(XMLStreamReader reader, String nsUri, PortComponentMetaData pc) throws XMLStreamException
@@ -377,7 +376,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -392,12 +391,12 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
    private void parseRespectBinding(XMLStreamReader reader, String nsUri, PortComponentMetaData pc) throws XMLStreamException
@@ -413,7 +412,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -422,12 +421,12 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
    private void parseServiceImplBean(XMLStreamReader reader, String nsUri, PortComponentMetaData pc) throws XMLStreamException
@@ -443,7 +442,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -455,12 +454,17 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
+   }
+   
+   @Override
+   protected String getDescriptorForLogs() {
+      return descriptorURL != null ? descriptorURL.toString() : "webservices.xml";
    }
    
    public URL getDescriptorURL()

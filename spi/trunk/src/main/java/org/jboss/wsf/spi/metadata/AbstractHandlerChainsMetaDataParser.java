@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.metadata;
 
+import static org.jboss.wsf.spi.Messages.MESSAGES;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CHAIN_PORT_PATTERN;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CHAIN_PROTOCOL_BINDING;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CHAIN_SERVICE_PATTERN;
@@ -38,13 +39,10 @@ import static org.jboss.wsf.spi.util.StAXUtils.elementAsQName;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsString;
 import static org.jboss.wsf.spi.util.StAXUtils.match;
 
-import java.util.ResourceBundle;
-
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
@@ -58,7 +56,6 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedInitParamMetaData;
  */
 public abstract class AbstractHandlerChainsMetaDataParser
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(AbstractHandlerChainsMetaDataParser.class);
    protected UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
       return this.parseHandlerChains(reader, nsUri, nsUri, HANDLER_CHAINS);
@@ -79,7 +76,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -88,12 +85,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
    private UnifiedHandlerChainMetaData parseHandlerChain(XMLStreamReader reader, String nsUri) throws XMLStreamException
@@ -110,7 +107,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -131,12 +128,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
    protected UnifiedHandlerMetaData parseHandler(XMLStreamReader reader, String nsUri) throws XMLStreamException
@@ -158,7 +155,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -181,12 +178,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
 
    private UnifiedInitParamMetaData parseInitParam(XMLStreamReader reader, String nsUri) throws XMLStreamException
@@ -203,7 +200,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_END_TAG",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
@@ -217,11 +214,13 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
                else
                {
-                  throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNEXPECTED_ELEMENT",  reader.getLocalName()));
+                  throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                }
             }
          }
       }
-      throw new IllegalStateException(BundleUtils.getMessage(bundle, "REACHED_END_OF_XML_DOCUMENT_UNEXPECTEDLY"));
+      throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
+   
+   protected abstract String getDescriptorForLogs();
 }

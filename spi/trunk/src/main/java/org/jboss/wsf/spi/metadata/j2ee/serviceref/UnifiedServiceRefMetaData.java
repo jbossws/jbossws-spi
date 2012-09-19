@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+import static org.jboss.wsf.spi.Messages.MESSAGES;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -35,13 +37,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.WebServiceException;
 
-import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.Loggers;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.deployment.WritableUnifiedVirtualFile;
 import org.jboss.wsf.spi.serviceref.ServiceRefElement;
@@ -58,11 +57,7 @@ import org.jboss.wsf.spi.util.URLLoaderAdapter;
  */
 public final class UnifiedServiceRefMetaData extends ServiceRefElement
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(UnifiedServiceRefMetaData.class);
    private static final long serialVersionUID = -926464174132493955L;
-
-   // provide logging
-   private static Logger log = Logger.getLogger(UnifiedServiceRefMetaData.class);
 
    private transient UnifiedVirtualFile vfsRoot;
 
@@ -150,7 +145,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    public void setAddressingResponses(final String responsesTypes)
    {
       if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "ONLY_ALL,ONLY_ALL_ANONYMOUS_OR_NON_ANONYMOUS_ALLOWED"));
+         throw MESSAGES.unsupportedAddressingResponseType(responsesTypes);
 
       this.addressingResponses = responsesTypes;
    }
@@ -251,7 +246,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
          }
          catch (Exception e)
          {
-            throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_FIND_JAXRCP-MAPPING-FILE",  mappingFile),  e);
+            throw MESSAGES.cannotFindFile(e, mappingFile);
          }
       }
       return mappingURL;
@@ -270,7 +265,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
          if (ref.matches(seiName, portName))
          {
             if (matchingRef != null)
-               log.warn(BundleUtils.getMessage(bundle, "MULTIPLE_MATCHING_PORT_COMPONENT_REF", new Object[]{ seiName ,  portName }));
+               Loggers.METADATA_LOGGER.multipleMatchingPortComponentRef(seiName, portName);
 
             matchingRef = ref;
          }
@@ -360,7 +355,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
             }
             catch (Exception e)
             {
-               throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_FIND_WSDL-OVERRIDE",  wsdlOverride),  e);
+               throw MESSAGES.cannotFindFile(e, wsdlOverride);
             }
          }
       }
@@ -379,7 +374,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
             }
             catch (Exception e)
             {
-               throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_FIND_WSDL-FILE",  wsdlFile),  e);
+               throw MESSAGES.cannotFindFile(e, wsdlFile);
             }
          }
       }
