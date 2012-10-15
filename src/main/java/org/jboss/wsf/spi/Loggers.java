@@ -37,7 +37,7 @@ import org.jboss.logging.Message;
 import org.jboss.logging.MessageLogger;
 
 /**
- * JBossWS API log messages
+ * JBossWS SPI log messages
  * 
  * @author alessio.soldano@jboss.com
  */
