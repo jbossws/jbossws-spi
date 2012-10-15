@@ -32,7 +32,7 @@ import org.jboss.logging.Message;
 import org.jboss.logging.MessageBundle;
 
 /**
- * JBossWS API exception messages
+ * JBossWS SPI exception messages
  * 
  * @author alessio.soldano@jboss.com
  */
