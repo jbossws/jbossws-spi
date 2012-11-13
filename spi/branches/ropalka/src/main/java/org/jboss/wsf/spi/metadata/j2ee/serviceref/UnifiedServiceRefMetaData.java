@@ -23,15 +23,7 @@ package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import static org.jboss.wsf.spi.Messages.MESSAGES;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,10 +34,7 @@ import javax.xml.namespace.QName;
 
 import org.jboss.wsf.spi.Loggers;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.wsf.spi.deployment.WritableUnifiedVirtualFile;
-import org.jboss.wsf.spi.serviceref.ServiceRefElement;
-import org.jboss.wsf.spi.serviceref.ServiceRefHandler;
-import org.jboss.wsf.spi.util.URLLoaderAdapter;
+import org.jboss.wsf.spi.serviceref.ServiceRefType;
 
 /**
  * The metadata from service-ref element in web.xml, ejb-jar.xml, and
@@ -55,16 +44,15 @@ import org.jboss.wsf.spi.util.URLLoaderAdapter;
  * @author alessio.soldano@jboss.com
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public final class UnifiedServiceRefMetaData extends ServiceRefElement
+public final class UnifiedServiceRefMetaData implements Serializable
 {
-   private static final long serialVersionUID = -926464174132493955L;
-
+   private static final long serialVersionUID = 1L;
    private transient UnifiedVirtualFile vfsRoot;
-
-   // Standard properties 
-
+   
+   // Standard properties
+   
    // Service reference type - either JAX-RPC or JAXWS
-   private ServiceRefHandler.Type type;
+   private ServiceRefType type;
    // The required <service-ref-name> element
    private String serviceRefName;
    // The JAXRPC required <service-interface> element
@@ -75,6 +63,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    private String wsdlFile;
    // The optional <jaxrpc-mapping-file> element
    private String mappingFile;
+   private URL mappingURL;
    // The optional <service-qname> element
    private QName serviceQName;
    // The list <port-component-ref> elements
@@ -92,10 +81,9 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    private String configFile;
    // The optional URL of the actual WSDL to use, <wsdl-override> 
    private String wsdlOverride;
+   private URL wsdlLocation;
    // The optional <handler-chain> element. JAX-WS handler chain declared in the JBoss JavaEE5 descriptor
    private String handlerChain;
-   // Arbitrary proxy properties given by <call-property> 
-   private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>(2);
    // @Addressing annotation metadata
    private boolean isAddressingAnnotationSpecified;
    private boolean addressingEnabled;
@@ -117,7 +105,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    public UnifiedServiceRefMetaData()
    {
    }
-   
+
    public void setAddressingAnnotationSpecified(final boolean isAddressingAnnotationSpecified) {
       this.isAddressingAnnotationSpecified = isAddressingAnnotationSpecified;
    }
@@ -205,12 +193,12 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       this.vfsRoot = vfsRoot;
    }
    
-   public ServiceRefHandler.Type getType()
+   public ServiceRefType getType()
    {
       return type;
    }
 
-   public void setType(ServiceRefHandler.Type type)
+   public void setType(ServiceRefType type)
    {
       this.type = type;
    }
@@ -232,23 +220,21 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
 
    public void setMappingFile(String mappingFile)
    {
+      if (mappingFile != null) {
+          try
+          {
+             mappingURL = vfsRoot.findChild(mappingFile).toURL();
+          }
+          catch (Exception e)
+          {
+             throw MESSAGES.cannotFindFile(e, mappingFile);
+          }
+      }
       this.mappingFile = mappingFile;
    }
 
    public URL getMappingLocation()
    {
-      URL mappingURL = null;
-      if (mappingFile != null)
-      {
-         try
-         {
-            mappingURL = vfsRoot.findChild(mappingFile).toURL();
-         }
-         catch (Exception e)
-         {
-            throw MESSAGES.cannotFindFile(e, mappingFile);
-         }
-      }
       return mappingURL;
    }
 
@@ -336,11 +322,15 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    public void setWsdlFile(String wsdlFile)
    {
       this.wsdlFile = wsdlFile;
+      initWsdlLocation();
+   }
+   
+   public URL getWsdlLocation() {
+       return wsdlLocation;
    }
 
-   public URL getWsdlLocation()
+   public void initWsdlLocation()
    {
-      URL wsdlLocation = null;
       if (wsdlOverride != null)
       {
          try
@@ -378,8 +368,6 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
             }
          }
       }
-
-      return wsdlLocation;
    }
 
    public String getConfigFile()
@@ -410,21 +398,7 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
    public void setWsdlOverride(String wsdlOverride)
    {
       this.wsdlOverride = wsdlOverride;
-   }
-
-   public List<UnifiedCallPropertyMetaData> getCallProperties()
-   {
-      return callProperties;
-   }
-
-   public void setCallProperties(List<UnifiedCallPropertyMetaData> callProps)
-   {
-      callProperties = callProps;
-   }
-
-   public void addCallProperty(UnifiedCallPropertyMetaData callProp)
-   {
-      callProperties.add(callProp);
+      initWsdlLocation();
    }
 
    public UnifiedHandlerChainsMetaData getHandlerChains()
@@ -447,76 +421,6 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       this.handlerChain = handlerChain;
    }
 
-   private void writeObject(ObjectOutputStream out) throws IOException
-   {
-      out.defaultWriteObject();
-      out.writeObject(vfsRoot);
-      if (vfsRoot instanceof WritableUnifiedVirtualFile)
-      {
-         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-         ((WritableUnifiedVirtualFile)vfsRoot).writeContent(bos, new WritableUnifiedVirtualFile.NameFilter() {
-            public boolean accept(String fileName)
-            {
-               boolean result = fileName.contains("META-INF");
-               result = result || fileName.endsWith(".wsdl");
-               result = result ||  fileName.endsWith(".xsd");
-               result = result || fileName.endsWith(".xml");
-               return result;
-            }
-         });
-         out.writeObject(bos.toByteArray());
-         out.writeObject(vfsRoot.getName());
-      }
-   }
-   
-   private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-   {
-      in.defaultReadObject();
-      UnifiedVirtualFile obj = (UnifiedVirtualFile)in.readObject();
-      if (obj.toURL() == null && (obj instanceof WritableUnifiedVirtualFile))
-      {
-         //the virtual file has been created in a different VM (or is even pointing to a different filesystem), try getting the serialized contents
-         byte[] bytes = (byte[])in.readObject();
-         String vfName = (String)in.readObject();
-         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-         File tempFile = File.createTempFile("jbossws-vf-", "-" + vfName);
-         tempFile.deleteOnExit();
-         FileOutputStream fos = new FileOutputStream(tempFile);
-         copyStreamAndClose(fos, bis);
-         this.vfsRoot = new URLLoaderAdapter(tempFile.toURI().toURL());
-      }
-      else
-      {
-         this.vfsRoot = (UnifiedVirtualFile)obj;
-      }
-   }
-
-   private static void copyStreamAndClose(OutputStream outs, InputStream ins) throws IOException
-   {
-      try
-      {
-         byte[] bytes = new byte[1024];
-         int r = ins.read(bytes);
-         while (r > 0)
-         {
-            outs.write(bytes, 0, r);
-            r = ins.read(bytes);
-         }
-      }
-      catch (IOException e)
-      {
-         throw e;
-      }
-      finally{
-         try {
-            ins.close();
-         } catch (Exception e) {}
-         try {
-            outs.close();
-         } catch (Exception e) {}
-      }
-   }
-
    public String toString()
    {
       StringBuilder str = new StringBuilder();
@@ -532,7 +436,6 @@ public final class UnifiedServiceRefMetaData extends ServiceRefElement
       str.append("\n mappingFile=" + mappingFile);
       str.append("\n configName=" + configName);
       str.append("\n configFile=" + configFile);
-      str.append("\n callProperties=" + callProperties);
       str.append("\n addressingAnnotationSpecified=" + isAddressingAnnotationSpecified);
       str.append("\n addressingEnabled=" + addressingEnabled);
       str.append("\n addressingRequired=" + addressingRequired);

@@ -21,25 +21,19 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.HandlerType;
-import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 
 /** The unified metadata data for a handler chains element
  * 
  * @author Thomas.Diesler@jboss.org
  */
-public class UnifiedHandlerChainsMetaData extends ServiceRefElement
+public class UnifiedHandlerChainsMetaData implements Serializable
 {
-   private HandlerType handlerType;
-   private List<UnifiedHandlerChainMetaData> handlerChains = new LinkedList<UnifiedHandlerChainMetaData>();
+   private static final long serialVersionUID = 1L;
 
-   public UnifiedHandlerChainsMetaData(HandlerType handlerType)
-   {
-      this.handlerType = handlerType;
-   }
+   private List<UnifiedHandlerChainMetaData> handlerChains = new LinkedList<UnifiedHandlerChainMetaData>();
 
    public UnifiedHandlerChainsMetaData()
    {

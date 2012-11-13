@@ -21,21 +21,12 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import javax.naming.Referenceable;
-
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
-
 /**
- * An implementation of this interface handles all service-ref binding concerns.
+ * Creates a ServiceReferenceable and binds it to JNDI.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public interface ServiceRefHandler
+public enum ServiceRefType
 {
-   enum Type
-   {
-      JAXRPC, JAXWS
-   };
-
-   Referenceable createReferenceable(UnifiedServiceRefMetaData serviceRefUMDM);
+    JAXRPC, JAXWS
 }

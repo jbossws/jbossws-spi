@@ -21,14 +21,15 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-import org.jboss.wsf.spi.serviceref.ServiceRefElement;
+import java.io.Serializable;
 
 /**
  * @author Thomas.Diesler@jboss.org
  * @since 06-May-2004
  */
-public class UnifiedInitParamMetaData extends ServiceRefElement
+public class UnifiedInitParamMetaData implements Serializable
 {
+   private static final long serialVersionUID = 1L;
    // The required <param-name> element
    private String paramName;
    // The required <param-value> element
