@@ -63,7 +63,6 @@ public final class UnifiedServiceRefMetaData implements Serializable
    private String wsdlFile;
    // The optional <jaxrpc-mapping-file> element
    private String mappingFile;
-   private URL mappingURL;
    // The optional <service-qname> element
    private QName serviceQName;
    // The list <port-component-ref> elements
@@ -81,7 +80,6 @@ public final class UnifiedServiceRefMetaData implements Serializable
    private String configFile;
    // The optional URL of the actual WSDL to use, <wsdl-override> 
    private String wsdlOverride;
-   private URL wsdlLocation;
    // The optional <handler-chain> element. JAX-WS handler chain declared in the JBoss JavaEE5 descriptor
    private String handlerChain;
    // @Addressing annotation metadata
@@ -220,21 +218,26 @@ public final class UnifiedServiceRefMetaData implements Serializable
 
    public void setMappingFile(String mappingFile)
    {
-      if (mappingFile != null) {
-          try
-          {
-             mappingURL = vfsRoot.findChild(mappingFile).toURL();
-          }
-          catch (Exception e)
-          {
-             throw MESSAGES.cannotFindFile(e, mappingFile);
-          }
-      }
       this.mappingFile = mappingFile;
    }
 
    public URL getMappingLocation()
    {
+      URL mappingURL = null;
+      if (mappingFile != null) {
+          if (vfsRoot != null) {
+              try
+              {
+                  mappingURL = vfsRoot.findChild(mappingFile).toURL();
+              }
+              catch (Exception e)
+              {
+                  throw MESSAGES.cannotFindFile(e, mappingFile);
+              }
+          } else {
+              mappingURL = Thread.currentThread().getContextClassLoader().getResource(mappingFile);
+          }
+      }
       return mappingURL;
    }
 
@@ -322,15 +325,11 @@ public final class UnifiedServiceRefMetaData implements Serializable
    public void setWsdlFile(String wsdlFile)
    {
       this.wsdlFile = wsdlFile;
-      initWsdlLocation();
-   }
-   
-   public URL getWsdlLocation() {
-       return wsdlLocation;
    }
 
-   public void initWsdlLocation()
+   public URL getWsdlLocation()
    {
+      URL wsdlLocation = null;
       if (wsdlOverride != null)
       {
          try
@@ -339,13 +338,17 @@ public final class UnifiedServiceRefMetaData implements Serializable
          }
          catch (MalformedURLException e1)
          {
-            try
-            {
-               wsdlLocation = vfsRoot.findChild(wsdlOverride).toURL();
-            }
-            catch (Exception e)
-            {
-               throw MESSAGES.cannotFindFile(e, wsdlOverride);
+            if (vfsRoot != null) {
+                try
+                {
+                    wsdlLocation = vfsRoot.findChild(wsdlOverride).toURL();
+                }
+                catch (Exception e)
+                {
+                    throw MESSAGES.cannotFindFile(e, wsdlOverride);
+                }
+            } else {
+                wsdlLocation = Thread.currentThread().getContextClassLoader().getResource(wsdlOverride);
             }
          }
       }
@@ -358,16 +361,21 @@ public final class UnifiedServiceRefMetaData implements Serializable
          }
          catch (MalformedURLException e1)
          {
-            try
-            {
-               wsdlLocation = vfsRoot.findChild(wsdlFile).toURL();
-            }
-            catch (Exception e)
-            {
-               throw MESSAGES.cannotFindFile(e, wsdlFile);
+            if (vfsRoot != null) {
+                try
+                {
+                    wsdlLocation = vfsRoot.findChild(wsdlFile).toURL();
+                }
+                catch (Exception e)
+                {
+                    throw MESSAGES.cannotFindFile(e, wsdlFile);
+                }
+            } else {
+                wsdlLocation = Thread.currentThread().getContextClassLoader().getResource(wsdlFile);
             }
          }
       }
+      return wsdlLocation;
    }
 
    public String getConfigFile()
@@ -398,7 +406,6 @@ public final class UnifiedServiceRefMetaData implements Serializable
    public void setWsdlOverride(String wsdlOverride)
    {
       this.wsdlOverride = wsdlOverride;
-      initWsdlLocation();
    }
 
    public UnifiedHandlerChainsMetaData getHandlerChains()
