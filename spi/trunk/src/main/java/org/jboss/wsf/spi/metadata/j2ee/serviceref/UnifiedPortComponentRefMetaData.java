@@ -21,23 +21,22 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.jboss.wsf.spi.Messages;
-import org.jboss.wsf.spi.serviceref.ServiceRefElement;
 
 /** The metadata data from service-ref/port-component-ref element in web.xml, ejb-jar.xml, and application-client.xml.
  *
  * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
  */
-public class UnifiedPortComponentRefMetaData extends ServiceRefElement
+public class UnifiedPortComponentRefMetaData implements Serializable
 {
-   private static final long serialVersionUID = 8622309745808960649L;
-
+   private static final long serialVersionUID = 1L;
    // The parent service-ref
    private UnifiedServiceRefMetaData serviceRefMetaData;
 
@@ -47,8 +46,6 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
    private String portComponentLink;
    // The optional <port-qname> element
    private QName portQName;
-   // Arbitrary proxy properties given by <call-property>
-   private List<UnifiedCallPropertyMetaData> callProperties = new ArrayList<UnifiedCallPropertyMetaData>(2);
    // Arbitrary proxy properties given by <stub-property>
    private List<UnifiedStubPropertyMetaData> stubProperties = new ArrayList<UnifiedStubPropertyMetaData>(2);
    // The optional JBossWS config-name
@@ -192,21 +189,6 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       this.portQName = portQName;
    }
 
-   public List<UnifiedCallPropertyMetaData> getCallProperties()
-   {
-      return callProperties;
-   }
-
-   public void setCallProperties(List<UnifiedCallPropertyMetaData> callProps)
-   {
-      callProperties = callProps;
-   }
-
-   public void addCallProperty(UnifiedCallPropertyMetaData callProp)
-   {
-      callProperties.add(callProp);
-   }
-
    public List<UnifiedStubPropertyMetaData> getStubProperties()
    {
       return stubProperties;
@@ -275,7 +257,6 @@ public class UnifiedPortComponentRefMetaData extends ServiceRefElement
       str.append("\n respectBindingAnnotationSpecified=" + respectBindingAnnotationSpecified);
       str.append("\n respectBindingEnabled=" + respectBindingEnabled);
       str.append("\n portComponentLink=" + portComponentLink);
-      str.append("\n callProperties=" + callProperties);
       str.append("\n stubProperties=" + stubProperties);
       str.append("\n configName=" + configName);
       str.append("\n configFile=" + configFile);

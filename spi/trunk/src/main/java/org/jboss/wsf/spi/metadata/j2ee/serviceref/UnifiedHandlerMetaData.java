@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,15 +29,15 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.jboss.wsf.spi.serviceref.ServiceRefElement;
-
 /** 
  * The unified metadata data for a handler element
  * 
  * @author Thomas.Diesler@jboss.org
  */
-public class UnifiedHandlerMetaData extends ServiceRefElement
+public class UnifiedHandlerMetaData implements Serializable
 {
+   private static final long serialVersionUID = 1L;
+    
    public enum HandlerType
    {
       PRE, ENDPOINT, POST, ALL
