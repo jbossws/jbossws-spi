@@ -21,9 +21,14 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import org.jboss.wsf.spi.SPIView;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
-public interface ServiceRefHandlerFactory extends SPIView
+/**
+ * Creates service ref instance.
+ *
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ */
+public interface ServiceRefFactory
 {
-   ServiceRefHandler getServiceRefHandler();
+   Object newServiceRef(final UnifiedServiceRefMetaData serviceRef);
 }

@@ -21,14 +21,12 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
-import java.io.Serializable;
+import org.jboss.wsf.spi.SPIView;
 
 /**
- * A marker for all <service-ref> related objects.
- * 
- * @author Thomas.Diesler@jboss.org
- * @since 08-Mar-2007
+ * @author Thomas.Diesler@jboss.com
  */
-public abstract class ServiceRefElement implements Serializable
+public interface ServiceRefFactoryFactory extends SPIView
 {
+   ServiceRefFactory newServiceRefFactory();
 }

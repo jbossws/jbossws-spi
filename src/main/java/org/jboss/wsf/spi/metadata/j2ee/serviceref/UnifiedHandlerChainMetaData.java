@@ -21,30 +21,25 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.jboss.wsf.spi.serviceref.ServiceRefElement;
-
 /** The unified metadata data for a handler chain element
  * 
  * @author Thomas.Diesler@jboss.org
  */
-public class UnifiedHandlerChainMetaData extends ServiceRefElement
+public class UnifiedHandlerChainMetaData implements Serializable
 {
+   private static final long serialVersionUID = 1L;
    private QName serviceNamePattern;
    private QName portNamePattern;
    private String protocolBindings;
    private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>(4);
    private boolean excluded;
    private String id;
-
-   @Deprecated
-   public UnifiedHandlerChainMetaData(UnifiedHandlerChainsMetaData handlerChains)
-   {
-   }
 
    public UnifiedHandlerChainMetaData()
    {

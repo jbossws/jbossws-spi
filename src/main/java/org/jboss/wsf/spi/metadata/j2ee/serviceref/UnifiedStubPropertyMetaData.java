@@ -21,14 +21,15 @@
  */
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-import org.jboss.wsf.spi.serviceref.ServiceRefElement;
+import java.io.Serializable;
 
 /**
  * @author Thomas.Diesler@jboss.org
  * @since 06-May-2004
  */
-public class UnifiedStubPropertyMetaData extends ServiceRefElement
+public class UnifiedStubPropertyMetaData implements Serializable
 {
+   private static final long serialVersionUID = 1L;
    // The required <prop-name> element
    private String propName;
    // The required <prop-value> element
