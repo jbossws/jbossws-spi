@@ -236,7 +236,7 @@ public class UnifiedPortComponentRefMetaData implements Serializable
          match = portName.equals(getPortQName());
 
       // if it fails try seiName
-      if (match == false)
+      if (!match && seiName != null)
          match = seiName.equals(getServiceEndpointInterface());
 
       return match;
