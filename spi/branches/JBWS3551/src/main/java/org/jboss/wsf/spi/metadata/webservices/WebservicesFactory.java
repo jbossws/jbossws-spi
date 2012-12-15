@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -96,27 +96,12 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
    {
       WebservicesMetaData webservices = null;
 
-      UnifiedVirtualFile wsdd = null;
-      try
-      {
-         wsdd = root.findChild("META-INF/webservices.xml");
-      }
-      catch (IOException e)
-      {
-         //
-      }
+      UnifiedVirtualFile wsdd = root.findChildFailSafe("META-INF/webservices.xml");
 
       // Maybe a web application deployment?
       if (null == wsdd)
       {
-         try
-         {
-            wsdd = root.findChild("WEB-INF/webservices.xml");
-         }
-         catch (IOException e)
-         {
-            //
-         }
+         wsdd = root.findChildFailSafe("WEB-INF/webservices.xml");
       }
 
       // the descriptor is optional

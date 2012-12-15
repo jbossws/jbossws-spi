@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -27,15 +27,23 @@ import java.net.URL;
 import java.util.List;
 
 /**
- * An adaptor to a VirtualFile from jboss-vfs.jar
- * jboss-vfs cannot be used in jboss-4.x because of its dependeny on jboss-common-core.jar
  *  
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  * @since 05-May-2006
  */
 public interface UnifiedVirtualFile extends Serializable
 {
    UnifiedVirtualFile findChild(String child) throws IOException;
+   
+   /**
+    * Same as findChild(String child) but does not throw any exception
+    * on child not found, simply returns null.
+    * 
+    * @param child
+    * @return
+    */
+   UnifiedVirtualFile findChildFailSafe(String child);
    
    List<UnifiedVirtualFile> getChildren() throws IOException;
    
