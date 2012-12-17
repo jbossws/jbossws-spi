@@ -41,4 +41,13 @@ public interface ResourceResolver
     */
    public URL resolve(String resourcePath) throws IOException;
    
+   /**
+    * Same as resolve(String resourcePath) except it does not throw exception
+    * when resource is not found, simply returns null.
+    * 
+    * @param resourcePath
+    * @return
+    */
+   public URL resolveFailSafe(String resourcePath);
+   
 }

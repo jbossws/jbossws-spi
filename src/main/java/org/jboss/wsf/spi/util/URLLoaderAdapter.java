@@ -69,7 +69,7 @@ public class URLLoaderAdapter implements UnifiedVirtualFile
       this.loader = loader;
    }
 
-   public UnifiedVirtualFile findChild(String resourcePath) throws IOException
+   private UnifiedVirtualFile findChild(String resourcePath, boolean throwExceptionIfNotFound) throws IOException
    {
       URL resourceURL = null;
       if (resourcePath != null)
@@ -114,9 +114,36 @@ public class URLLoaderAdapter implements UnifiedVirtualFile
       }
 
       if (resourceURL == null)
-         throw Messages.MESSAGES.cannotGetURLFor(resourcePath);
+      {
+         if (throwExceptionIfNotFound)
+         {
+            throw Messages.MESSAGES.cannotGetURLFor(resourcePath);
+         }
+         else
+         {
+            if (ROOT_LOGGER.isTraceEnabled()) ROOT_LOGGER.cannotGetURLFor(resourcePath);
+            return null;
+         }
+      }
 
       return new URLLoaderAdapter(rootURL, loader, resourceURL);
+   }
+
+   public UnifiedVirtualFile findChild(String resourcePath) throws IOException
+   {
+      return findChild(resourcePath, true);
+   }
+
+   public UnifiedVirtualFile findChildFailSafe(String resourcePath)
+   {
+      try
+      {
+         return findChild(resourcePath, false);
+      }
+      catch (IOException e)
+      {
+         throw new RuntimeException(e);
+      }
    }
 
    public URL toURL()
