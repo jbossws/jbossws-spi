@@ -86,20 +86,11 @@ public class JBossWebservicesFactory {
     public static JBossWebservicesMetaData loadFromVFSRoot(final UnifiedVirtualFile root) {
         JBossWebservicesMetaData webservices = null;
 
-        UnifiedVirtualFile wsdd = null;
-        try {
-            wsdd = root.findChild("META-INF/jboss-webservices.xml");
-        } catch (IOException e) {
-            //
-        }
+        UnifiedVirtualFile wsdd = root.findChildFailSafe("META-INF/jboss-webservices.xml");
 
         // Maybe a web application deployment?
         if (null == wsdd) {
-            try {
-                wsdd = root.findChild("WEB-INF/jboss-webservices.xml");
-            } catch (IOException e) {
-                //
-            }
+           wsdd = root.findChildFailSafe("WEB-INF/jboss-webservices.xml");
         }
 
         // the descriptor is optional

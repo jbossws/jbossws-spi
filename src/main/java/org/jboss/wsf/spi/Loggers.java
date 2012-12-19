@@ -21,8 +21,9 @@
  */
 package org.jboss.wsf.spi;
 
-import static org.jboss.logging.Logger.Level.WARN;
 import static org.jboss.logging.Logger.Level.ERROR;
+import static org.jboss.logging.Logger.Level.TRACE;
+import static org.jboss.logging.Logger.Level.WARN;
 
 import java.net.URL;
 import java.util.Collection;
@@ -32,7 +33,6 @@ import javax.xml.namespace.QName;
 import org.jboss.logging.BasicLogger;
 import org.jboss.logging.Cause;
 import org.jboss.logging.LogMessage;
-import org.jboss.logging.Logger.Level;
 import org.jboss.logging.Message;
 import org.jboss.logging.MessageLogger;
 
@@ -70,5 +70,9 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = ERROR)
     @Message(id = 21018, value = "Cannot get name for resource %s")
     void cannotGetNameForResource(@Cause Throwable cause, URL url);
+    
+    @LogMessage(level = TRACE)
+    @Message(id = 21019, value = "Cannot get URL for %s")
+    void cannotGetURLFor(String path);
     
 }
