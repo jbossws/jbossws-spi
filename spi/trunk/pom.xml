@@ -18,9 +18,9 @@
 
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/spi/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/spi/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/spi/trunk</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/spi/branches/jbossws-spi-2.1.x</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/spi/branches/jbossws-spi-2.1.x</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/spi/branches/jbossws-spi-2.1.x</url>
   </scm>
 
   <!-- Properties -->
@@ -85,7 +85,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.0-beta-8</version>
         <configuration>
-          <scmCommentPrefix>[${jira.issue}] :</scmCommentPrefix>
+<!--          <scmCommentPrefix>[${jira.issue}] :</scmCommentPrefix>-->
           <autoVersionSubmodules>true</autoVersionSubmodules>
         </configuration>
       </plugin>
