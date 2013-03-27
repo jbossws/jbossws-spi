@@ -20,6 +20,7 @@ package org.jboss.wsf.spi.publish;
 
 import java.util.Map;
 
+import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
 
 /**
@@ -33,6 +34,8 @@ public interface EndpointPublisher
    public Context publish(String contextRoot, ClassLoader loader, Map<String, String> urlPatternToClassNameMap) throws Exception;
    
    public Context publish(String contextRoot, ClassLoader loader, Map<String, String> urlPatternToClassNameMap, WebservicesMetaData metadata) throws Exception;
+   
+   public Context publish(String contextRoot, ClassLoader loader, Map<String, String> urlPatternToClassNameMap, WebservicesMetaData metadata, JBossWebservicesMetaData jbwsMetadata) throws Exception;
    
    public void destroy(Context context) throws Exception;
 }
