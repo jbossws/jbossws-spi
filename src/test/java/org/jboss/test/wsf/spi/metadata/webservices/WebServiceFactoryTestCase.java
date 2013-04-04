@@ -53,7 +53,7 @@ public class WebServiceFactoryTestCase extends TestCase
       File file = new File("src/test/resources/metadata/webservices/test-webservices.xml");
       InputStream is = new FileInputStream(file);
       URL url = file.toURI().toURL();
-      WebservicesMetaData metadata = WebservicesFactory.parse(is, url);
+      WebservicesMetaData metadata = new WebservicesFactory(url).parse(is, url);
       assertEquals(url, metadata.getDescriptorURL());
       assertEquals(2, metadata.getWebserviceDescriptions().length);
       testDescription1(metadata.getWebserviceDescriptions()[0], metadata);
