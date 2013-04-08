@@ -83,7 +83,7 @@ public class JBossWebservicesFactory {
      * @param root virtual file root
      * @return JBossWebservicesMetaData or <code>null</code> if it cannot be found
      */
-    public JBossWebservicesMetaData loadFromVFSRoot(final UnifiedVirtualFile root) {
+    public static JBossWebservicesMetaData loadFromVFSRoot(final UnifiedVirtualFile root) {
         JBossWebservicesMetaData webservices = null;
 
         UnifiedVirtualFile wsdd = root.findChildFailSafe("META-INF/jboss-webservices.xml");
@@ -101,7 +101,7 @@ public class JBossWebservicesFactory {
         return webservices;
     }
 
-    public JBossWebservicesMetaData load(final URL wsddUrl) {
+    public static JBossWebservicesMetaData load(final URL wsddUrl) {
         InputStream is = null;
         try {
             is = wsddUrl.openStream();
@@ -118,11 +118,11 @@ public class JBossWebservicesFactory {
         }
     }
 
-    public JBossWebservicesMetaData parse(final InputStream is) {
+    public static JBossWebservicesMetaData parse(final InputStream is) {
         return parse(is, null);
     }
 
-    public JBossWebservicesMetaData parse(final InputStream is, final URL descriptorURL) {
+    public static JBossWebservicesMetaData parse(final InputStream is, final URL descriptorURL) {
         try {
             final XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
             return parse(xmlr, descriptorURL);
@@ -131,11 +131,11 @@ public class JBossWebservicesFactory {
         }
     }
 
-    public JBossWebservicesMetaData parse(final XMLStreamReader reader) throws XMLStreamException {
+    public static JBossWebservicesMetaData parse(final XMLStreamReader reader) throws XMLStreamException {
         return parse(reader, null);
     }
 
-    private JBossWebservicesMetaData parse(final XMLStreamReader reader, final URL descriptorURL)
+    private static JBossWebservicesMetaData parse(final XMLStreamReader reader, final URL descriptorURL)
             throws XMLStreamException {
         int iterate;
         try {
@@ -154,7 +154,8 @@ public class JBossWebservicesFactory {
 
                 if (match(reader, JBOSSEE_NS, WEBSERVICES)) {
                     String nsUri = reader.getNamespaceURI();
-                    metadata = parseWebservices(reader, nsUri, descriptorURL);
+                    JBossWebservicesFactory factory = new JBossWebservicesFactory(descriptorURL);
+                    metadata = factory.parseWebservices(reader, nsUri, descriptorURL);
                 } else {
                    throw MESSAGES.unexpectedElement(descriptorURL != null ? descriptorURL.toString() : "jboss-webservices.xml", reader.getLocalName());
                 }
@@ -177,11 +178,11 @@ public class JBossWebservicesFactory {
                 }
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(reader, nsUri, CONTEXT_ROOT)) {
-                        metadata.setContextRoot(getElementText(reader));
+                        metadata.setContextRoot(elementAsString(reader));
                     } else if (match(reader, nsUri, CONFIG_NAME)) {
-                        metadata.setConfigName(getElementText(reader));
+                        metadata.setConfigName(elementAsString(reader));
                     } else if (match(reader, nsUri, CONFIG_FILE)) {
-                        metadata.setConfigFile(getElementText(reader));
+                        metadata.setConfigFile(elementAsString(reader));
                     } else if (match(reader, nsUri, PROPERTY)) {
                        parseProperty(reader, nsUri, metadata);
                     } else if (match(reader, nsUri, PORT_COMPONENT)) {
@@ -210,15 +211,15 @@ public class JBossWebservicesFactory {
                 }
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(reader, nsUri, EJB_NAME)) {
-                        pc.setEjbName(getElementText(reader));
+                        pc.setEjbName(elementAsString(reader));
                     } else if (match(reader, nsUri, PORT_COMPONENT_NAME)) {
-                        pc.setPortComponentName(getElementText(reader));
+                        pc.setPortComponentName(elementAsString(reader));
                     } else if (match(reader, nsUri, PORT_COMPONENT_URI)) {
-                        pc.setPortComponentURI(getElementText(reader));
+                        pc.setPortComponentURI(elementAsString(reader));
                     } else if (match(reader, nsUri, AUTH_METHOD)) {
-                        pc.setAuthMethod(getElementText(reader));
+                        pc.setAuthMethod(elementAsString(reader));
                     } else if (match(reader, nsUri, TRANSPORT_GUARANTEE)) {
-                        pc.setTransportGuarantee(getElementText(reader));
+                        pc.setTransportGuarantee(elementAsString(reader));
                     } else if (match(reader, nsUri, SECURE_WSDL_ACCESS)) {
                         pc.setSecureWSDLAccess(elementAsBoolean(reader));
                     } else {
@@ -244,9 +245,9 @@ public class JBossWebservicesFactory {
                 }
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(reader, nsUri, WEBSERVICE_DESCRIPTION_NAME)) {
-                        description.setWebserviceDescriptionName(getElementText(reader));
+                        description.setWebserviceDescriptionName(elementAsString(reader));
                     } else if (match(reader, nsUri, WSDL_PUBLISH_LOCATION)) {
-                        description.setWsdlPublishLocation(getElementText(reader));
+                        description.setWsdlPublishLocation(elementAsString(reader));
                     } else {
                         throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                     }
@@ -281,10 +282,10 @@ public class JBossWebservicesFactory {
              }
              case XMLStreamConstants.START_ELEMENT : {
                 if (match(reader, nsUri, NAME)) {
-                   name = getElementText(reader);
+                   name = elementAsString(reader);
                 }
                 else if (match(reader, nsUri, VALUE)) {
-                   value = getElementText(reader);
+                   value = elementAsString(reader);
                 }
                 else
                 {
@@ -294,10 +295,6 @@ public class JBossWebservicesFactory {
           }
        }
        throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
-    }
-    
-    protected String getElementText(XMLStreamReader reader) throws XMLStreamException {
-       return elementAsString(reader);
     }
     
     private String getDescriptorForLogs() {
