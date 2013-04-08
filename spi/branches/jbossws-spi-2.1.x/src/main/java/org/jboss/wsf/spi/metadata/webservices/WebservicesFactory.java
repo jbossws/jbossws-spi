@@ -92,7 +92,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
     * @param root virtual file root
     * @return WebservicesMetaData or <code>null</code> if it cannot be found
     */
-   public static WebservicesMetaData loadFromVFSRoot(UnifiedVirtualFile root)
+   public WebservicesMetaData loadFromVFSRoot(UnifiedVirtualFile root)
    {
       WebservicesMetaData webservices = null;
 
@@ -113,7 +113,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
       return webservices;
    }
    
-   public static WebservicesMetaData load(URL wsddUrl)
+   public WebservicesMetaData load(URL wsddUrl)
    {
       InputStream is = null;
       try
@@ -136,12 +136,12 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
       }
    }
    
-   public static WebservicesMetaData parse(InputStream is)
+   public WebservicesMetaData parse(InputStream is)
    {
       return parse(is, null);
    }
    
-   public static WebservicesMetaData parse(InputStream is, URL descriptorURL)
+   public WebservicesMetaData parse(InputStream is, URL descriptorURL)
    {
       try
       {
@@ -154,12 +154,12 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
       }
    }
    
-   public static WebservicesMetaData parse(XMLStreamReader reader) throws XMLStreamException
+   public  WebservicesMetaData parse(XMLStreamReader reader) throws XMLStreamException
    {
       return parse(reader, null);
    }
    
-   private static WebservicesMetaData parse(XMLStreamReader reader, URL descriptorURL) throws XMLStreamException
+   private WebservicesMetaData parse(XMLStreamReader reader, URL descriptorURL) throws XMLStreamException
    {
       int iterate;
       try
@@ -183,8 +183,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
             if (match(reader, JAVAEE_NS, WEBSERVICES) || match(reader, J2EE_NS, WEBSERVICES))
             {
                String nsUri = reader.getNamespaceURI();
-               WebservicesFactory factory = new WebservicesFactory(descriptorURL);
-               metadata = factory.parseWebservices(reader, nsUri, descriptorURL);
+               metadata = parseWebservices(reader, nsUri, descriptorURL);
             }
             else
             {
@@ -217,7 +216,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                   metadata.addWebserviceDescription(parseWebserviceDescription(reader, nsUri, metadata));                 
                } else if (match(reader, nsUri, "description") || match(reader, nsUri, "display-name")) {
             	   //skip to parse
-            	   elementAsString(reader);
+                  getElementText(reader);
                } else if (match(reader, nsUri, "icon")) {
             	   //skip icon
             	   while (reader.hasNext() && !(reader.nextTag() == XMLStreamConstants.END_ELEMENT && match(reader, nsUri, "icon"))) {
@@ -254,13 +253,13 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
             }
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, nsUri, WEBSERVICE_DESCRIPTION_NAME)) {
-                  description.setWebserviceDescriptionName(elementAsString(reader));
+                  description.setWebserviceDescriptionName(getElementText(reader));
                }
                else if (match(reader, nsUri, WSDL_FILE)) {
-                  description.setWsdlFile(elementAsString(reader));
+                  description.setWsdlFile(getElementText(reader));
                }
                else if (match(reader, nsUri, JAXRPC_MAPPING_FILE)) {
-                   description.setJaxrpcMappingFile(elementAsString(reader));
+                   description.setJaxrpcMappingFile(getElementText(reader));
                }
                else if (match(reader, nsUri, PORT_COMPONENT)) {
                   description.addPortComponent(parsePortComponent(reader, nsUri, description));
@@ -294,11 +293,11 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
             }
             case XMLStreamConstants.START_ELEMENT : {           	
                if (match(reader, nsUri, PORT_COMPONENT_NAME)) {
-                  pc.setPortComponentName(elementAsString(reader));
+                  pc.setPortComponentName(getElementText(reader));
                }
                else if (match(reader, nsUri, "description") || match(reader, nsUri, "display-name")) {
             	   //skip to parse
-            	   elementAsString(reader);
+            	   getElementText(reader);
                } else if (match(reader, nsUri, "icon")) {
             	   //skip icon
             	   while (reader.hasNext() && !(reader.nextTag() == XMLStreamConstants.END_ELEMENT && match(reader, nsUri, "icon"))) {
@@ -324,10 +323,10 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                   parseRespectBinding(reader, nsUri, pc);
                }
                else if (match(reader, nsUri, PROTOCOL_BINDING)) {
-                  pc.setProtocolBinding(elementAsString(reader));
+                  pc.setProtocolBinding(getElementText(reader));
                }
                else if (match(reader, nsUri, SERVICE_ENDPOINT_INTERFACE)) {
-                  pc.setServiceEndpointInterface(elementAsString(reader));
+                  pc.setServiceEndpointInterface(getElementText(reader));
                }
                else if (match(reader, nsUri, SERVICE_IMPL_BEAN)) {
                   parseServiceImplBean(reader, nsUri, pc);
@@ -346,6 +345,10 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
          }
       }
       throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
+   }
+   
+   protected String getElementText(XMLStreamReader reader) throws XMLStreamException {
+      return elementAsString(reader);
    }
    
    private void parseAddressing(XMLStreamReader reader, String nsUri, PortComponentMetaData pc) throws XMLStreamException
@@ -372,7 +375,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
                   pc.setAddressingRequired(elementAsBoolean(reader));
                }
                else if (match(reader, nsUri, ADDRESSING_RESPONSES)) {
-                  pc.setAddressingResponses(elementAsString(reader));
+                  pc.setAddressingResponses(getElementText(reader));
                }
                else
                {
@@ -432,10 +435,10 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
             }
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, nsUri, SERVLET_LINK)) {
-                  pc.setServletLink(elementAsString(reader));
+                  pc.setServletLink(getElementText(reader));
                }
                else if (match(reader, nsUri, EJB_LINK)) {
-                  pc.setEjbLink(elementAsString(reader));
+                  pc.setEjbLink(getElementText(reader));
                }
                else
                {
