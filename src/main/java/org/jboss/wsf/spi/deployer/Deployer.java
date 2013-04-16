@@ -61,10 +61,10 @@ public interface Deployer extends SPIView
     /**
      * Adds a test https connector
      * 
-     * @param sslOptions
+     * @param options
      * @throws Exception
      */
-    public void addHttpsConnector(Map<String, String> sslOptions) throws Exception;
+    public void addHttpsConnector(Map<String, String> options) throws Exception;
     
     /**
      * Remove the test https connector
