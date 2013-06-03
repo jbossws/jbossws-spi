@@ -29,5 +29,8 @@ import org.jboss.wsf.spi.SPIView;
  */
 public abstract class RequestHandlerFactory implements SPIView
 {
+   @Deprecated
+   public abstract RequestHandler newRequestHandler();
+   
    public abstract RequestHandler getRequestHandler();
 }
