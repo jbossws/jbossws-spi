@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.spi;
 
-import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
-
 /**
  * Gives access to the SPI implementation.
  *
@@ -31,24 +29,6 @@ import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
  */
 public abstract class SPIProvider
 {
-   private static SPIProvider me;
-
-   /**
-    * Gets the a singleton reference to the SPIProvider returned by the SPIProviderResolver
-    * retrieved using the default server integration classloader.
-    * 
-    * @return
-    */
-   public static SPIProvider getInstance()
-   {
-      if (me == null)
-      {
-         final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
-         me = SPIProviderResolver.getInstance(cl).getProvider();
-      }
-      return me;
-   }
-   
    /**
     * Gets the specified SPI, using the current thread context classloader
     * 

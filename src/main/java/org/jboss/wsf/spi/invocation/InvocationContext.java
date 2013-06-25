@@ -31,11 +31,8 @@ import org.jboss.wsf.spi.deployment.AbstractExtensible;
  */
 public class InvocationContext extends AbstractExtensible
 {
-   private Object targetBean;
    
-   public InvocationContext() {
-      super(4, 4);
-   }
+   private Object targetBean;
 
    public Object getTargetBean()
    {
