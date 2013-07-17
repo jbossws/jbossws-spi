@@ -26,6 +26,8 @@ import static org.jboss.wsf.spi.Messages.MESSAGES;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -235,7 +237,7 @@ public final class UnifiedServiceRefMetaData implements Serializable
                   throw MESSAGES.cannotFindFile(e, mappingFile);
               }
           } else {
-              mappingURL = Thread.currentThread().getContextClassLoader().getResource(mappingFile);
+              mappingURL = getContextClassLoader().getResource(mappingFile);
           }
       }
       return mappingURL;
@@ -348,7 +350,7 @@ public final class UnifiedServiceRefMetaData implements Serializable
                     throw MESSAGES.cannotFindFile(e, wsdlOverride);
                 }
             } else {
-                wsdlLocation = Thread.currentThread().getContextClassLoader().getResource(wsdlOverride);
+                wsdlLocation = getContextClassLoader().getResource(wsdlOverride);
             }
          }
       }
@@ -371,7 +373,7 @@ public final class UnifiedServiceRefMetaData implements Serializable
                     throw MESSAGES.cannotFindFile(e, wsdlFile);
                 }
             } else {
-                wsdlLocation = Thread.currentThread().getContextClassLoader().getResource(wsdlFile);
+                wsdlLocation = getContextClassLoader().getResource(wsdlFile);
             }
          }
       }
@@ -426,6 +428,24 @@ public final class UnifiedServiceRefMetaData implements Serializable
    public void setHandlerChain(String handlerChain)
    {
       this.handlerChain = handlerChain;
+   }
+
+   private static ClassLoader getContextClassLoader()
+   {
+      if (System.getSecurityManager() == null)
+      {
+         return Thread.currentThread().getContextClassLoader();
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>()
+         {
+            public ClassLoader run()
+            {
+               return Thread.currentThread().getContextClassLoader();
+            }
+         });
+      }
    }
 
    public String toString()
