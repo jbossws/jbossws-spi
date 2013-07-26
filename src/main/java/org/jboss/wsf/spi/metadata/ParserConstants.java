@@ -153,4 +153,6 @@ public abstract class ParserConstants
 
    public static final String TRANSPORT_GUARANTEE = "transport-guarantee";
    
+   public static final String JCP_JAVAEENS = "http://xmlns.jcp.org/xml/ns/javaee";
+   
 }

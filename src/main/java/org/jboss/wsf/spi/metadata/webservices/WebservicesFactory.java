@@ -33,6 +33,7 @@ import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER;
 import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_CHAINS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.J2EE_NS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.JAVAEE_NS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JCP_JAVAEENS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.JAXRPC_MAPPING_FILE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.MTOM_THRESHOLD;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PORT_COMPONENT;
@@ -180,7 +181,7 @@ public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
          }
          case START_ELEMENT : {
 
-            if (match(reader, JAVAEE_NS, WEBSERVICES) || match(reader, J2EE_NS, WEBSERVICES))
+            if (match(reader, JAVAEE_NS, WEBSERVICES) || match(reader, J2EE_NS, WEBSERVICES) || match(reader, JCP_JAVAEENS, WEBSERVICES))
             {
                String nsUri = reader.getNamespaceURI();
                metadata = parseWebservices(reader, nsUri, descriptorURL);
