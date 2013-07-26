@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+  
+  <endpoint-config>
+    <config-name>Standard Endpoint</config-name>
+    <pre-handler-chains>
+      <javaee:handler-chain>
+        <javaee:protocol-bindings>##SOAP11_HTTP</javaee:protocol-bindings>
+        <javaee:handler>
+          <javaee:handler-name>Recording Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.ws.common.invocation.RecordingServerHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </pre-handler-chains>
+    <post-handler-chains>
+      <javaee:handler-chain>
+        <javaee:protocol-bindings>##SOAP11_HTTP</javaee:protocol-bindings>
+        <javaee:handler>
+          <javaee:handler-name>WSAddressing Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.ws.extensions.addressing.jaxws.WSAddressingServerHandler</javaee:handler-class>
+        </javaee:handler>
+        <javaee:handler>
+          <javaee:handler-name>Recording Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.ws.common.invocation.RecordingServerHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </post-handler-chains>
+    <property>
+      <property-name>name1</property-name>
+      <property-value>value1</property-value>
+    </property>
+    <property>
+      <property-name>name2</property-name>
+      <property-value>value2</property-value>
+    </property>
+  </endpoint-config>
+  
+  <endpoint-config>
+    <config-name>.NET friendly Endpoint</config-name>
+    <feature>
+      <feature-name>http://org.jboss.ws/binding/wsdl/dotnet</feature-name>
+      <feature-data>
+        foo-bar
+        <foo>foo</foo>
+        <bar>bar</bar>
+      </feature-data>
+    </feature>
+  </endpoint-config>
+  
+  <client-config>
+    <config-name>Standard Client</config-name>
+  </client-config>
+  
+</jaxws-config>
