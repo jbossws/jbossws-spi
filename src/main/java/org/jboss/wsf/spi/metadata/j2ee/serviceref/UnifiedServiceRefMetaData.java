@@ -30,7 +30,9 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -96,6 +98,8 @@ public final class UnifiedServiceRefMetaData implements Serializable
    // @RespectBinding annotation metadata
    private boolean isRespectBindingAnnotationSpecified;
    private boolean respectBindingEnabled;
+   
+   private Map<QName, String> deployedServiceAddresses = new HashMap<QName, String>();
 
    public UnifiedServiceRefMetaData(UnifiedVirtualFile vfRoot)
    {
@@ -429,6 +433,16 @@ public final class UnifiedServiceRefMetaData implements Serializable
    {
       this.handlerChain = handlerChain;
    }
+   
+   public Map<QName, String> getDeployedServiceAddresses()
+   {
+      return this.deployedServiceAddresses;
+   }
+
+   public void addDeployedServiceAddresses(Map<QName, String> addressMap)
+   {
+      deployedServiceAddresses.putAll(addressMap);
+   }
 
    private static ClassLoader getContextClassLoader()
    {
@@ -480,4 +494,8 @@ public final class UnifiedServiceRefMetaData implements Serializable
          str.append(pcref.toString());
       return str.toString();
    }
+
+
+
+
 }
