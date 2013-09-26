@@ -45,7 +45,7 @@ public class WSFServlet extends HttpServlet
    public static final String STACK_SERVLET_DELEGATE_CLASS = "org.jboss.wsf.spi.deployment.stackServletDelegateClass";
    public static final String INTEGRATION_CLASSLOADER = "org.jboss.wsf.spi.deployment.integrationClassLoader";
 
-   private ServletDelegate delegate = null;
+   private volatile ServletDelegate delegate = null;
 
    @Override
    public void init(ServletConfig servletConfig) throws ServletException
