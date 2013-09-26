@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,37 +19,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.invocation.integration;
+package org.jboss.wsf.spi.security;
 
 import java.lang.reflect.Method;
 
+
 /**
- * Host's web service implementation and allows invocations on them.
- *  
- * @author Heiko.Braun <heiko.braun@jboss.com>
+ * Container independent provider of EJB3 method security metadata
+ *
+ * @author alessio.soldano@jboss.com
+ * @since 25-Sep-2013
  */
-public interface ServiceEndpointContainer
+public interface EJBMethodSecurityAttributeProvider
 {
-   /**
-    * Identifies a service endpoint container
-    * @return
-    */
-   String getContainerName();
-
-   /**
-    * The actual web service implementation hosted by this container.
-    * @return
-    */
-   Class<?> getServiceImplementationClass();
-
-   /**
-    * Invokes a particular endpoint opertation.
-    * 
-    * @param method  business method
-    * @param args  parameters
-    * @param callback gives access to invocation context properties. I.e. for injecting the WebServiceContext
-    * @return null for operations without return parameter
-    * @throws Exception
-    */
-   Object invokeEndpoint(Method method, Object[] args, InvocationContextCallback callback) throws Throwable;
+   EJBMethodSecurityAttribute getSecurityAttributes(final Method viewMethod);
 }
