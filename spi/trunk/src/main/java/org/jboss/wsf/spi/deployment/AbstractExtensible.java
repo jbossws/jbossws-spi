@@ -34,8 +34,8 @@ import java.util.Set;
  */
 public abstract class AbstractExtensible implements Extensible
 {
-   private Map<Class<?>, Object> attachments;
-   private Map<String, Object> properties;
+   private final Map<Class<?>, Object> attachments;
+   private final Map<String, Object> properties;
    
    public AbstractExtensible()
    {
@@ -54,16 +54,19 @@ public abstract class AbstractExtensible implements Extensible
       return attachments.values();
    }
    
+   @SuppressWarnings("unchecked")
    public <T> T getAttachment(Class<T> clazz)
    {
       return (T)attachments.get(clazz);
    }
    
+   @SuppressWarnings("unchecked")
    public <T> T addAttachment(Class<T> clazz, Object obj)
    {
       return (T)attachments.put(clazz, obj);
    }
 
+   @SuppressWarnings("unchecked")
    public <T> T removeAttachment(Class<T> key)
    {
       return (T)attachments.remove(key);
