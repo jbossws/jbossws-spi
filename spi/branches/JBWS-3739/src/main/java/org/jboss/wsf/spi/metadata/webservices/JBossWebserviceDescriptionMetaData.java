@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,26 +24,27 @@ package org.jboss.wsf.spi.metadata.webservices;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
-public final class JBossWebserviceDescriptionMetaData {
+public final class JBossWebserviceDescriptionMetaData
+{
+   private final String webserviceDescriptionName;
+   private final String wsdlPublishLocation;
 
-    private String webserviceDescriptionName;
-    private String wsdlPublishLocation;
+   public JBossWebserviceDescriptionMetaData(String webserviceDescriptionName, String wsdlPublishLocation)
+   {
+      this.webserviceDescriptionName = webserviceDescriptionName;
+      this.wsdlPublishLocation = wsdlPublishLocation;
+   }
 
-    public void setWsdlPublishLocation(final String wsdlPublishLocation) {
-        this.wsdlPublishLocation = wsdlPublishLocation;
-    }
+   public String getWsdlPublishLocation()
+   {
+      return wsdlPublishLocation;
+   }
 
-    public String getWsdlPublishLocation() {
-        return wsdlPublishLocation;
-    }
-
-    public void setWebserviceDescriptionName(final String webserviceDescriptionName) {
-        this.webserviceDescriptionName = webserviceDescriptionName;
-    }
-
-    public String getWebserviceDescriptionName() {
-        return webserviceDescriptionName;
-    }
+   public String getWebserviceDescriptionName()
+   {
+      return webserviceDescriptionName;
+   }
 
 }

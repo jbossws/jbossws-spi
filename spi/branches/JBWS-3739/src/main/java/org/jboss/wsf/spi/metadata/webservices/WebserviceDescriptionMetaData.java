@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,7 +23,9 @@ package org.jboss.wsf.spi.metadata.webservices;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -34,35 +36,48 @@ import org.jboss.wsf.spi.Loggers;
  * XML Binding element for <code>webservices/webservice-description</code>
  *
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  * @since 15-April-2004
  */
 public class WebserviceDescriptionMetaData
 {
    // The parent <webservices> element
-   private WebservicesMetaData webservices;
+   private volatile WebservicesMetaData webservices;
 
    // The required <webservice-description-name> element
-   private String webserviceDescriptionName;
+   private final String webserviceDescriptionName;
    // The required <wsdl-file> element
-   private String wsdlFile;
+   private final String wsdlFile;
    // The required <jaxrpc-mapping-file> element
-   private String jaxrpcMappingFile;
+   private final String jaxrpcMappingFile;
    // The required <port-component> elements
-   private ArrayList<PortComponentMetaData> portComponents = new ArrayList<PortComponentMetaData>();
-
-   public WebserviceDescriptionMetaData(WebservicesMetaData webservices)
+   private final List<PortComponentMetaData> portComponents; // = new ArrayList<PortComponentMetaData>();
+   
+   public WebserviceDescriptionMetaData(String webserviceDescriptionName,
+         String wsdlFile, String jaxrpcMappingFile, List<PortComponentMetaData> portComponents)
    {
       this.webservices = webservices;
+      this.webserviceDescriptionName = webserviceDescriptionName;
+      this.wsdlFile = wsdlFile;
+      this.jaxrpcMappingFile = jaxrpcMappingFile;
+      if (portComponents != null && !portComponents.isEmpty()) {
+         this.portComponents = Collections.unmodifiableList(portComponents);
+         for (PortComponentMetaData pcm : portComponents) {
+            pcm.setWebserviceDescription(this);
+         }
+      } else {
+         this.portComponents = Collections.emptyList();
+      }
    }
 
    public WebservicesMetaData getWebservices()
    {
       return webservices;
    }
-
-   public void addPortComponent(PortComponentMetaData portComponent)
+   
+   protected void setWebservices(WebservicesMetaData webservices)
    {
-      portComponents.add(portComponent);
+      this.webservices = webservices;
    }
 
    public PortComponentMetaData[] getPortComponents()
@@ -129,29 +144,14 @@ public class WebserviceDescriptionMetaData
       return webserviceDescriptionName;
    }
 
-   public void setWebserviceDescriptionName(String webserviceDescriptionName)
-   {
-      this.webserviceDescriptionName = webserviceDescriptionName;
-   }
-
    public String getWsdlFile()
    {
       return wsdlFile;
    }
 
-   public void setWsdlFile(String wsdlFile)
-   {
-      this.wsdlFile = wsdlFile;
-   }
-
    public String getJaxrpcMappingFile()
    {
       return jaxrpcMappingFile;
-   }
-
-   public void setJaxrpcMappingFile(String jaxrpcMappingFile)
-   {
-      this.jaxrpcMappingFile = jaxrpcMappingFile;
    }
 
    /**

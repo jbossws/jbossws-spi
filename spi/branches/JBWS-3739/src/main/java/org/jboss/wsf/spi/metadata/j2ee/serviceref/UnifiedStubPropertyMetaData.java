@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -25,34 +25,31 @@ import java.io.Serializable;
 
 /**
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  * @since 06-May-2004
  */
 public class UnifiedStubPropertyMetaData implements Serializable
 {
-   private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = -4584869798181720949L;
    // The required <prop-name> element
-   private String propName;
+   private final String propName;
    // The required <prop-value> element
-   private String propValue;
+   private final String propValue;
+   
+   public UnifiedStubPropertyMetaData(String propName, String propValue)
+   {
+      this.propName = propName;
+      this.propValue = propValue;
+   }
 
    public String getPropName()
    {
       return propName;
    }
 
-   public void setPropName(String paramName)
-   {
-      this.propName = paramName;
-   }
-
    public String getPropValue()
    {
       return propValue;
-   }
-
-   public void setPropValue(String paramValue)
-   {
-      this.propValue = paramValue;
    }
 
    public String toString()

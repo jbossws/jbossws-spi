@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,39 +22,40 @@
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * XML Binding root element for <code>webservices.xml</code>
  *
  * @author Thomas.Diesler@jboss.org
+ * @autor alessio.soldano@jboss.com
  * @since 15-April-2004
  */
 public class WebservicesMetaData
 {
    // The required <webservice-description> elements
-   private ArrayList<WebserviceDescriptionMetaData> webserviceDescriptions = new ArrayList<WebserviceDescriptionMetaData>(2);
+   private final List<WebserviceDescriptionMetaData> webserviceDescriptions;
 
    // The URL to the webservices.xml descriptor
-   private URL descriptorURL;
-
-   public WebservicesMetaData()
+   private final URL descriptorURL;
+   
+   public WebservicesMetaData(URL descriptorURL, List<WebserviceDescriptionMetaData> webserviceDescriptions)
    {
-   }
-
-   public WebservicesMetaData(URL descriptorURL)
-   {
+      if (webserviceDescriptions != null && !webserviceDescriptions.isEmpty()) {
+         this.webserviceDescriptions = Collections.unmodifiableList(webserviceDescriptions);
+         for (WebserviceDescriptionMetaData wsdmd : webserviceDescriptions) {
+            wsdmd.setWebservices(this);
+         }
+      } else {
+         this.webserviceDescriptions = Collections.emptyList();
+      }
       this.descriptorURL = descriptorURL;
    }
 
    public URL getDescriptorURL()
    {
       return descriptorURL;
-   }
-
-   public void addWebserviceDescription(WebserviceDescriptionMetaData webserviceDescription)
-   {
-      webserviceDescriptions.add(webserviceDescription);
    }
 
    public WebserviceDescriptionMetaData[] getWebserviceDescriptions()

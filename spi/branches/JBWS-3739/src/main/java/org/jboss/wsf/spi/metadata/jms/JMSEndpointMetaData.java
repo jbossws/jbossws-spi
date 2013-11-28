@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,34 +24,42 @@ package org.jboss.wsf.spi.metadata.jms;
 /**
  * JMS Meta data class contains the implementor and address information
  * @author <a href="ema@redhat.com">Jim Ma</a>
+ * @author <a href="alessio.soldano@jboss.com">Alessio Soldano</a>
  */
 public class JMSEndpointMetaData
 {
    //Endpoint name
-   private String name;
-   
+   private final String name;
    //port name
-   private String endpointName = "";
-
+   private final String endpointName;
    //implementor class
-   private String implementor = "";
-
+   private final String implementor;
    //wsdl location
-   private String wsdlLocation = "";
-   
-   private String soapAddress = "";
-   
+   private final String wsdlLocation;
+   private final String soapAddress;
    //parent component 
-   private JMSEndpointsMetaData endpointsMetaData = null;
-
-   public JMSEndpointMetaData(JMSEndpointsMetaData endpoints)
+   private volatile JMSEndpointsMetaData endpointsMetaData;
+   
+   public JMSEndpointMetaData(String name, String endpointName, String implementor, String wsdlLocation,
+         String soapAddress)
    {
-      endpointsMetaData = endpoints;
+      this.name = name;
+      this.endpointName = endpointName;
+      this.implementor = implementor;
+      this.wsdlLocation = wsdlLocation;
+      this.soapAddress = soapAddress;
    }
 
    public JMSEndpointsMetaData getParentMetaData()
    {
       return endpointsMetaData;
+   }
+   
+   public void setParentMetaData(JMSEndpointsMetaData endpointsMetaData) {
+      if (endpointsMetaData != null) {
+         throw new IllegalStateException();
+      }
+      this.endpointsMetaData = endpointsMetaData;
    }
 
    public String getImplementor()
@@ -74,34 +82,8 @@ public class JMSEndpointMetaData
       return wsdlLocation;
    }
 
-   public void setImplementor(String implementor)
-   {
-      this.implementor = implementor;
-   }
-
-   public void setName(String name)
-   {
-      this.name = name;
-   }
-
-   public void setEndpointName(String endpointName)
-   {
-      this.endpointName = endpointName;
-   }
-
-   public void setWsdlLocation(String wsdlLocation)
-   {
-      this.wsdlLocation = wsdlLocation;
-   }
-
    public String getSoapAddress()
    {
       return soapAddress;
    }
-
-   public void setSoapAddress(String soapAddress)
-   {
-      this.soapAddress = soapAddress;
-   }
-
 }

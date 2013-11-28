@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat, Inc., and individual contributors
+ * Copyright 2013, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,58 +24,46 @@ package org.jboss.wsf.spi.metadata.webservices;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
 public final class JBossPortComponentMetaData {
 
-    private String ejbName;
-    private String portComponentName;
-    private String portComponentURI;
-    private String authMethod;
-    private String transportGuarantee;
-    private Boolean secureWSDLAccess;
+   private final String ejbName;
+   private final String portComponentName;
+   private final String portComponentURI;
+   private final String authMethod;
+   private final String transportGuarantee;
+   private final Boolean secureWSDLAccess;
 
-    public void setEjbName(String ejbName) {
-        this.ejbName = ejbName;
-    }
+   public JBossPortComponentMetaData(String ejbName, String portComponentName, String portComponentURI,
+         String authMethod, String transportGuarantee, Boolean secureWSDLAccess)
+   {
+      this.ejbName = ejbName;
+      this.portComponentName = portComponentName;
+      this.portComponentURI = portComponentURI;
+      this.authMethod = authMethod;
+      this.transportGuarantee = transportGuarantee;
+      this.secureWSDLAccess = secureWSDLAccess;
+   }
 
     public String getEjbName() {
         return ejbName;
-    }
-
-    public void setPortComponentName(String portComponentName) {
-        this.portComponentName = portComponentName;
     }
 
     public String getPortComponentName() {
         return portComponentName;
     }
 
-    public void setPortComponentURI(String portComponentURI) {
-        this.portComponentURI = portComponentURI;
-    }
-
     public String getPortComponentURI() {
         return portComponentURI;
-    }
-
-    public void setAuthMethod(String authMethod) {
-        this.authMethod = authMethod;
     }
 
     public String getAuthMethod() {
         return authMethod;
     }
 
-    public void setTransportGuarantee(String transportGuarantee) {
-        this.transportGuarantee = transportGuarantee;
-    }
-
     public String getTransportGuarantee() {
         return transportGuarantee;
-    }
-
-    public void setSecureWSDLAccess(Boolean secureWSDLAccess) {
-        this.secureWSDLAccess = secureWSDLAccess;
     }
 
     public Boolean getSecureWSDLAccess() {

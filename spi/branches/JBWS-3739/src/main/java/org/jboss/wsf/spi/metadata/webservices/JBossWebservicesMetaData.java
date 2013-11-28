@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat, Inc., and individual contributors
+ * Copyright 2013, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,64 +23,67 @@
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
 public final class JBossWebservicesMetaData {
 
-    private String contextRoot;
-
-    private String configName;
-
-    private String configFile;
+    private final String contextRoot;
+    private final String configName;
+    private final String configFile;
+    private final Map<String, String> properties;
+    private final List<JBossPortComponentMetaData> portComponents;
+    private final List<JBossWebserviceDescriptionMetaData> webserviceDescriptions;
+    private final URL descriptorURL;
     
-    private Map<String, String> properties = new HashMap<String, String>();
-
-    private List<JBossPortComponentMetaData> portComponents = new LinkedList<JBossPortComponentMetaData>();
-
-    private List<JBossWebserviceDescriptionMetaData> webserviceDescriptions = new LinkedList<JBossWebserviceDescriptionMetaData>();
-
-    private URL descriptorURL;
-
-    public JBossWebservicesMetaData(final URL descriptorURL) {
-        this.descriptorURL = descriptorURL;
+    public JBossWebservicesMetaData(String contextRoot,
+                                    String configName,
+                                    String configFile,
+                                    URL descriptorURL,
+                                    Map<String, String> properties,
+                                    List<JBossPortComponentMetaData> portComponents,
+                                    List<JBossWebserviceDescriptionMetaData> webserviceDescriptions)
+    {
+      this.contextRoot = contextRoot;
+      this.configName = configName;
+      this.configFile = configFile;
+      this.descriptorURL = descriptorURL;
+      if (properties != null && !properties.isEmpty()) {
+         this.properties = Collections.unmodifiableMap(properties);
+      } else {
+         this.properties = Collections.emptyMap();
+      }
+      if (portComponents != null && !portComponents.isEmpty()) {
+         this.portComponents = Collections.unmodifiableList(portComponents);
+      } else {
+         this.portComponents = Collections.emptyList();
+      }
+      if (webserviceDescriptions != null && !webserviceDescriptions.isEmpty()) {
+         this.webserviceDescriptions = Collections.unmodifiableList(webserviceDescriptions);
+      } else {
+         this.webserviceDescriptions = Collections.emptyList();
+      }
     }
 
     public URL getDescriptorURL() {
         return descriptorURL;
     }
 
-    public void setContextRoot(final String contextRoot) {
-        this.contextRoot = contextRoot;
-    }
-
     public String getContextRoot() {
         return contextRoot;
-    }
-
-    public void setConfigName(final String configName) {
-        this.configName = configName;
     }
 
     public String getConfigName() {
         return configName;
     }
 
-    public void setConfigFile(final String configFile) {
-        this.configFile = configFile;
-    }
-
     public String getConfigFile() {
         return configFile;
-    }
-
-    public void addPortComponent(final JBossPortComponentMetaData portComponent) {
-        portComponents.add(portComponent);
     }
 
     public JBossPortComponentMetaData[] getPortComponents() {
@@ -89,20 +92,12 @@ public final class JBossWebservicesMetaData {
         return array;
     }
 
-    public void addWebserviceDescription(final JBossWebserviceDescriptionMetaData webserviceDescriptionMD) {
-        webserviceDescriptions.add(webserviceDescriptionMD);
-    }
-
     public JBossWebserviceDescriptionMetaData[] getWebserviceDescriptions() {
         final JBossWebserviceDescriptionMetaData[] array = new JBossWebserviceDescriptionMetaData[webserviceDescriptions.size()];
         webserviceDescriptions.toArray(array);
         return array;
     }
     
-    public void setProperty(String name, String value) {
-       properties.put(name, value);
-    }
-
     public String getProperty(String name) {
        return properties.get(name);
     }
@@ -110,5 +105,4 @@ public final class JBossWebservicesMetaData {
     public Map<String, String> getProperties() {
        return properties;
     }
-
 }

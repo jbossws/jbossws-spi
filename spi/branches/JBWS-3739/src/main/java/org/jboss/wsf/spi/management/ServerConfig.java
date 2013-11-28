@@ -66,6 +66,12 @@ public interface ServerConfig
    
    void setModifySOAPAddress(boolean flag);
    
+   /**
+    * Adds a provided endpoint config to the server configuration; the provided EndpoinConfig instance
+    * is cloned into a new instance which is actually stored in the server configuration. 
+    * 
+    * @param config
+    */
    void addEndpointConfig(EndpointConfig config);
    
    List<EndpointConfig> getEndpointConfigs();

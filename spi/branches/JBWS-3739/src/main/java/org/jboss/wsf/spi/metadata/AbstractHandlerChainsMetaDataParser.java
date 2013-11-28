@@ -39,6 +39,13 @@ import static org.jboss.wsf.spi.util.StAXUtils.elementAsQName;
 import static org.jboss.wsf.spi.util.StAXUtils.elementAsString;
 import static org.jboss.wsf.spi.util.StAXUtils.match;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -64,7 +71,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
    protected UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader, String nsUri,
          String handlerChainsElementNS, String handlerChainsElementName) throws XMLStreamException
    {
-      UnifiedHandlerChainsMetaData handlerChains = new UnifiedHandlerChainsMetaData();
+      List<UnifiedHandlerChainMetaData> handlerChains = new LinkedList<UnifiedHandlerChainMetaData>();
       while (reader.hasNext())
       {
          switch (reader.nextTag())
@@ -72,7 +79,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
             case XMLStreamConstants.END_ELEMENT : {
                if (match(reader, handlerChainsElementNS, handlerChainsElementName))
                {
-                  return handlerChains;
+                  return new UnifiedHandlerChainsMetaData(handlerChains);
                }
                else
                {
@@ -81,7 +88,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
             }
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, nsUri, HANDLER_CHAIN)) {
-                  handlerChains.addHandlerChain(parseHandlerChain(reader, nsUri));
+                  handlerChains.add(parseHandlerChain(reader, nsUri));
                }
                else
                {
@@ -95,7 +102,10 @@ public abstract class AbstractHandlerChainsMetaDataParser
    
    private UnifiedHandlerChainMetaData parseHandlerChain(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
-      UnifiedHandlerChainMetaData handlerChain = new UnifiedHandlerChainMetaData();
+      QName portNamePattern = null;
+      QName serviceNamePattern = null;
+      String protocolBindings = null;
+      List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>(4);
       while (reader.hasNext())
       {
          switch (reader.nextTag())
@@ -103,7 +113,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
             case XMLStreamConstants.END_ELEMENT : {
                if (match(reader, nsUri, HANDLER_CHAIN))
                {
-                  return handlerChain;
+                  return new UnifiedHandlerChainMetaData(serviceNamePattern, portNamePattern, protocolBindings, handlers, false, null);
                }
                else
                {
@@ -113,18 +123,18 @@ public abstract class AbstractHandlerChainsMetaDataParser
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, nsUri, CHAIN_PORT_PATTERN))
                {
-                  handlerChain.setPortNamePattern(elementAsQName(reader));
+                  portNamePattern = elementAsQName(reader);
                }
                else if (match(reader, nsUri, CHAIN_SERVICE_PATTERN))
                {
-                  handlerChain.setServiceNamePattern(elementAsQName(reader));
+                  serviceNamePattern = elementAsQName(reader);
                }
                else if(match(reader, nsUri, CHAIN_PROTOCOL_BINDING))
                {
-                  handlerChain.setProtocolBindings(elementAsString(reader));
+                  protocolBindings = elementAsString(reader);
                }
                else if (match(reader, nsUri, HANDLER)) {
-                  handlerChain.addHandler(parseHandler(reader, nsUri, handlerChain));
+                  handlers.add(parseHandler(reader, nsUri));
                }
                else
                {
@@ -138,12 +148,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
    
    protected UnifiedHandlerMetaData parseHandler(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
-      return parseHandler(reader, nsUri, null);
-   }
-   
-   private UnifiedHandlerMetaData parseHandler(XMLStreamReader reader, String nsUri, UnifiedHandlerChainMetaData handlerChain) throws XMLStreamException
-   {
-      UnifiedHandlerMetaData handler = new UnifiedHandlerMetaData(handlerChain);
+      String handlerName = null;
+      String handlerClass = null;
+      List<UnifiedInitParamMetaData> initParams = new LinkedList<UnifiedInitParamMetaData>();
+      Set<QName> soapHeaders = new HashSet<QName>(2);
+      Set<String> soapRoles = new HashSet<String>(2);
+      Set<String> portNames = new HashSet<String>(4);
       while (reader.hasNext())
       {
          switch (reader.nextTag())
@@ -151,7 +161,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
             case XMLStreamConstants.END_ELEMENT : {
                if (match(reader, nsUri, HANDLER))
                {
-                  return handler;
+                  return new UnifiedHandlerMetaData(handlerClass, handlerName, initParams, soapHeaders, soapRoles, portNames);
                }
                else
                {
@@ -161,20 +171,20 @@ public abstract class AbstractHandlerChainsMetaDataParser
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, nsUri, HANDLER_NAME))
                {
-                  handler.setHandlerName(elementAsString(reader));
+                  handlerName = elementAsString(reader);
                }
                else if (match(reader, nsUri, HANDLER_CLASS))
                {
-                  handler.setHandlerClass(elementAsString(reader));
+                  handlerClass = elementAsString(reader);
                }
                else if (match(reader, nsUri, HANDLER_PARAM)) {
-                  handler.addInitParam(parseInitParam(reader, nsUri));
+                  initParams.add(parseInitParam(reader, nsUri));
                }
                else if (match(reader, nsUri, HANDLER_SOAP_ROLE)) {
-                  handler.addSoapRole(elementAsString(reader));
+                  soapRoles.add(elementAsString(reader));
                }
                else if (match(reader, nsUri, HANDLER_SOAP_HEADER)) {
-                  handler.addSoapHeader(elementAsQName(reader));
+                  soapHeaders.add(elementAsQName(reader));
                }
                else
                {
@@ -188,7 +198,8 @@ public abstract class AbstractHandlerChainsMetaDataParser
 
    private UnifiedInitParamMetaData parseInitParam(XMLStreamReader reader, String nsUri) throws XMLStreamException
    {
-      UnifiedInitParamMetaData initParam = new UnifiedInitParamMetaData();
+      String paramName = null;
+      String paramValue = null;
       while (reader.hasNext())
       {
          switch (reader.nextTag())
@@ -196,7 +207,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
             case XMLStreamConstants.END_ELEMENT : {
                if (match(reader, nsUri, HANDLER_PARAM))
                {
-                  return initParam;
+                  return new UnifiedInitParamMetaData(paramName, paramValue);
                }
                else
                {
@@ -206,11 +217,11 @@ public abstract class AbstractHandlerChainsMetaDataParser
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, nsUri, HANDLER_PARAM_NAME))
                {
-                  initParam.setParamName(elementAsString(reader));
+                  paramName = elementAsString(reader);
                }
                else if (match(reader, nsUri, HANDLER_PARAM_VALUE))
                {
-                  initParam.setParamValue(elementAsString(reader));
+                  paramValue = elementAsString(reader);
                }
                else
                {
