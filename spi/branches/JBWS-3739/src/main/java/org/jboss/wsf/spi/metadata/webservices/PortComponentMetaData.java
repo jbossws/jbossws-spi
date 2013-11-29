@@ -131,6 +131,14 @@ public class PortComponentMetaData
       this.handlerChains = handlerChains;
    }
 
+   public PortComponentMetaData(String portComponentName, QName wsdlPort, String serviceEndpointInterface,
+         String ejbLink, String servletLink, List<UnifiedHandlerMetaData> handlers, String contextRoot,
+         QName wsdlService, String protocolBinding, UnifiedHandlerChainsMetaData handlerChains)
+   {
+      this(portComponentName, wsdlPort, serviceEndpointInterface, ejbLink, servletLink, handlers, contextRoot,
+            false, false, "ALL", false, 0, false, wsdlService, protocolBinding, handlerChains);
+   }
+   
    public WebserviceDescriptionMetaData getWebserviceDescription()
    {
       return webserviceDescription;
