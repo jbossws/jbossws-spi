@@ -22,6 +22,7 @@
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,6 +53,12 @@ public class WebserviceDescriptionMetaData
    private final String jaxrpcMappingFile;
    // The required <port-component> elements
    private final List<PortComponentMetaData> portComponents; // = new ArrayList<PortComponentMetaData>();
+   
+   public WebserviceDescriptionMetaData(String webserviceDescriptionName,
+         String wsdlFile, String jaxrpcMappingFile, PortComponentMetaData... portComponents)
+   {
+      this(webserviceDescriptionName, wsdlFile, jaxrpcMappingFile, portComponents != null ? Arrays.asList(portComponents) : null);
+   }
    
    public WebserviceDescriptionMetaData(String webserviceDescriptionName,
          String wsdlFile, String jaxrpcMappingFile, List<PortComponentMetaData> portComponents)

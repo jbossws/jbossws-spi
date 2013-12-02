@@ -22,6 +22,7 @@
 package org.jboss.wsf.spi.metadata.webservices;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +40,11 @@ public class WebservicesMetaData
 
    // The URL to the webservices.xml descriptor
    private final URL descriptorURL;
+   
+   public WebservicesMetaData(URL descriptorURL, WebserviceDescriptionMetaData... webserviceDescriptions)
+   {
+      this(descriptorURL, webserviceDescriptions != null ? Arrays.asList(webserviceDescriptions) : null);
+   }
    
    public WebservicesMetaData(URL descriptorURL, List<WebserviceDescriptionMetaData> webserviceDescriptions)
    {
