@@ -22,6 +22,7 @@
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,6 +36,11 @@ public class UnifiedHandlerChainsMetaData implements Serializable
    private static final long serialVersionUID = -4983482217732535558L;
    
    private final List<UnifiedHandlerChainMetaData> handlerChains;
+   
+   public UnifiedHandlerChainsMetaData(UnifiedHandlerChainMetaData... handlerChains)
+   {
+      this(handlerChains != null ? Arrays.asList(handlerChains) : null);
+   }
 
    public UnifiedHandlerChainsMetaData(List<UnifiedHandlerChainMetaData> handlerChains)
    {
