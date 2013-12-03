@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -44,6 +44,10 @@ import static org.jboss.wsf.spi.Messages.MESSAGES;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
@@ -52,6 +56,7 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.jboss.wsf.spi.Loggers;
 import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.util.StAXUtils;
 
@@ -153,14 +158,10 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
             }
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, ENDPOINT_CONFIG)) {
-                  EndpointConfig epConfig = new EndpointConfig();
-                  parseConfig(reader, epConfig, ENDPOINT_CONFIG);
-                  configRoot.addEndpointConfig(epConfig);
+                  configRoot.addEndpointConfig(parseEndpointConfig(reader));
                }
                else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, CLIENT_CONFIG)) {
-                  ClientConfig clConfig = new ClientConfig();
-                  parseConfig(reader, clConfig, CLIENT_CONFIG);
-                  configRoot.addClientConfig(clConfig);
+                  configRoot.addClientConfig(parseClientConfig(reader));
                }
                else
                {
@@ -172,8 +173,23 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
       throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
-   private void parseConfig(XMLStreamReader reader, CommonConfig config, String configElement) throws XMLStreamException
+   private EndpointConfig parseEndpointConfig(final XMLStreamReader reader) throws XMLStreamException
    {
+      return (EndpointConfig)parseConfig(reader, ENDPOINT_CONFIG);
+   }
+   
+   private ClientConfig parseClientConfig(final XMLStreamReader reader) throws XMLStreamException
+   {
+      return (ClientConfig)parseConfig(reader, CLIENT_CONFIG);
+   }
+   
+   private CommonConfig parseConfig(final XMLStreamReader reader, final String configElement) throws XMLStreamException
+   {
+      String configName = null;
+      List<UnifiedHandlerChainMetaData> pre = null;
+      List<UnifiedHandlerChainMetaData> post = null;
+      List<Feature> features = new ArrayList<Feature>(1);
+      List<Prop> properties = new ArrayList<Prop>(1);
       while (reader.hasNext())
       {
          switch (reader.nextTag())
@@ -181,7 +197,24 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
             case XMLStreamConstants.END_ELEMENT : {
                if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, configElement))
                {
-                  return;
+                  Map<String, String> props = null;
+                  if (!properties.isEmpty()) {
+                     props = new HashMap<String, String>(properties.size(), 1);
+                     for (Prop ps : properties)
+                     {
+                        props.put(ps.getName(), ps.getValue());
+                     }
+                  }
+                  Map<String, Feature> featuresMap = null;
+                  if (!features.isEmpty()) {
+                     featuresMap = new HashMap<String, Feature>(features.size(), 1);
+                     for (Feature f : features)
+                     {
+                        featuresMap.put(f.getName(), f);
+                     }
+                  }
+                  return CLIENT_CONFIG.equals(configElement) ? new ClientConfig(configName, pre, post, props,
+                        featuresMap) : new EndpointConfig(configName, pre, post, props, featuresMap);
                }
                else
                {
@@ -190,21 +223,21 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
             }
             case XMLStreamConstants.START_ELEMENT : {
                if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, CONFIG_NAME)) {
-                  config.setConfigName(elementAsString(reader));
+                  configName = elementAsString(reader);
                }
                else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, PRE_HANDLER_CHAINS)) {
                   UnifiedHandlerChainsMetaData uhcmd = parseHandlerChains(reader, JAVAEE_NS, JBOSSWS_JAXWS_CONFIG_NS_4_0, PRE_HANDLER_CHAINS);
-                  config.setPreHandlerChains(uhcmd.getHandlerChains());
+                  pre = uhcmd.getHandlerChains();
                }
                else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, POST_HANDLER_CHAINS)) {
                   UnifiedHandlerChainsMetaData uhcmd = parseHandlerChains(reader, JAVAEE_NS, JBOSSWS_JAXWS_CONFIG_NS_4_0, POST_HANDLER_CHAINS);
-                  config.setPostHandlerChains(uhcmd.getHandlerChains());
+                  post = uhcmd.getHandlerChains();
                }
                else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, FEATURE)) {
-                  config.setFeature(parseFeature(reader), true);
+                  features.add(parseFeature(reader));
                }
                else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, PROPERTY)) {
-                  parseProperty(reader, config);
+                  properties.add(parseProperty(reader));
                }
                else
                {
@@ -216,7 +249,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
       throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
    }
    
-   private void parseProperty(XMLStreamReader reader, CommonConfig config) throws XMLStreamException
+   private Prop parseProperty(XMLStreamReader reader) throws XMLStreamException
    {
       String name = null;
       String value = null;
@@ -231,8 +264,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                   {
                      throw MESSAGES.couldNotGetPropertyName(getDescriptorForLogs());
                   }
-                  config.setProperty(name, value);
-                  return;
+                  return new Prop(name, value);
                }
                else
                {
@@ -254,6 +286,28 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
          }
       }
       throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
+   }
+   
+   private class Prop {
+      private final String name;
+      private final String value;
+      
+      public Prop(String name, String value)
+      {
+         super();
+         this.name = name;
+         this.value = value;
+      }
+      
+      public String getName()
+      {
+         return name;
+      }
+
+      public String getValue()
+      {
+         return value;
+      }
    }
    
    private Feature parseFeature(XMLStreamReader reader) throws XMLStreamException

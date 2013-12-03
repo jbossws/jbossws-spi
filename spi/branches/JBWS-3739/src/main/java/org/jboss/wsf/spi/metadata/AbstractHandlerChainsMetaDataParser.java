@@ -71,7 +71,7 @@ public abstract class AbstractHandlerChainsMetaDataParser
    protected UnifiedHandlerChainsMetaData parseHandlerChains(XMLStreamReader reader, String nsUri,
          String handlerChainsElementNS, String handlerChainsElementName) throws XMLStreamException
    {
-      List<UnifiedHandlerChainMetaData> handlerChains = new LinkedList<UnifiedHandlerChainMetaData>();
+      List<UnifiedHandlerChainMetaData> handlerChains = new ArrayList<UnifiedHandlerChainMetaData>(1);
       while (reader.hasNext())
       {
          switch (reader.nextTag())
