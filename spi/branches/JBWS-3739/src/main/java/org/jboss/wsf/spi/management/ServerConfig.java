@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,7 +23,6 @@ package org.jboss.wsf.spi.management;
 
 import java.io.File;
 import java.net.UnknownHostException;
-import java.util.List;
 
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.metadata.config.EndpointConfig;
@@ -67,16 +66,58 @@ public interface ServerConfig
    void setModifySOAPAddress(boolean flag);
    
    /**
-    * Adds a provided endpoint config to the server configuration; the provided EndpoinConfig instance
-    * is cloned into a new instance which is actually stored in the server configuration. 
+    * Register a client config in the server configuration; the new config will apply to runtime when the server config is started
+    * or after a client config store reload.
     * 
     * @param config
     */
-   void addEndpointConfig(EndpointConfig config);
+   void registerClientConfig(ClientConfig config);
    
-   List<EndpointConfig> getEndpointConfigs();
+   /**
+    * Unregister a client config from the server configuration; the new config will be removed from
+    * the collection returned to callers after next endpoint store reload.
+    * 
+    * @param config
+    */
+   void unregisterClientConfig(ClientConfig config);
    
-   void addClientConfig(ClientConfig config);
+   /**
+    * Reloads the client config store
+    */
+   void reloadClientConfigs();
    
-   List<ClientConfig> getClientConfigs();
+   /**
+    * Get a client config by name
+    * 
+    * @return
+    */
+   ClientConfig getClientConfig(String name);
+   
+   /**
+    * Register an endpoint config in the server configuration; the new config will apply to runtime when the server config is started
+    * or after an endpoint config store reload.
+    * 
+    * @param config
+    */
+   void registerEndpointConfig(EndpointConfig config);
+   
+   /**
+    * Unregister an endpoint config from the server configuration; the new config will be removed from
+    * the collection returned to callers after next endpoint store reload.
+    * 
+    * @param config
+    */
+   void unregisterEndpointConfig(EndpointConfig config);
+   
+   /**
+    * Reloads the endpoint config store
+    */
+   void reloadEndpointConfigs();
+   
+   /**
+    * Get an endpoint config by name
+    * 
+    * @return
+    */
+   EndpointConfig getEndpointConfig(String name);
 }

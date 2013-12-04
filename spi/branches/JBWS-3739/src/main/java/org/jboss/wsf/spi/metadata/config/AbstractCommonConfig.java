@@ -21,7 +21,9 @@
  */
 package org.jboss.wsf.spi.metadata.config;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +71,84 @@ public abstract class AbstractCommonConfig implements CommonConfig
       if (postHandlerChains != null && !postHandlerChains.isEmpty()) {
          this.postHandlerChains = Collections.unmodifiableList(postHandlerChains);
       } else {
+         this.postHandlerChains = Collections.emptyList();
+      }
+   }
+   
+   protected AbstractCommonConfig(AbstractCommonConfig base, AbstractCommonConfig conf)
+   {
+      super();
+      this.configName = base.getConfigName();
+      if (conf.features != null && !conf.features.isEmpty())
+      {
+         Map<String, Feature> map;
+         if (base.features.isEmpty())
+         {
+            map = conf.features;
+         }
+         else
+         {
+            map = new HashMap<String, Feature>(base.features);
+            map.putAll(conf.features);
+         }
+         this.features = Collections.unmodifiableMap(map);
+      }
+      else
+      {
+         this.features = Collections.emptyMap();
+      }
+      if (conf.properties != null && !conf.properties.isEmpty())
+      {
+         Map<String, String> map;
+         if (base.properties.isEmpty())
+         {
+            map = conf.properties;
+         }
+         else
+         {
+            map = new HashMap<String, String>(base.properties);
+            map.putAll(conf.properties);
+         }
+         this.properties = Collections.unmodifiableMap(map);
+      }
+      else
+      {
+         this.properties = Collections.emptyMap();
+      }
+      if (conf.preHandlerChains != null && !conf.preHandlerChains.isEmpty())
+      {
+         List<UnifiedHandlerChainMetaData> list;
+         if (base.preHandlerChains.isEmpty())
+         {
+            list = conf.preHandlerChains;
+         }
+         else
+         {
+            list = new ArrayList<UnifiedHandlerChainMetaData>(base.preHandlerChains);
+            list.addAll(conf.preHandlerChains);
+         }
+         this.preHandlerChains = Collections.unmodifiableList(list);
+      }
+      else
+      {
+         this.preHandlerChains = Collections.emptyList();
+      }
+      if (conf.postHandlerChains != null && !conf.postHandlerChains.isEmpty())
+      {
+         List<UnifiedHandlerChainMetaData> list;
+         if (base.postHandlerChains.isEmpty())
+         {
+            list = conf.postHandlerChains;
+         }
+         else
+         {
+            list = new ArrayList<UnifiedHandlerChainMetaData>(base.postHandlerChains);
+            list.addAll(preHandlerChains);
+         }
+         this.postHandlerChains = Collections.unmodifiableList(list);
+      }
+      else
+      {
          this.postHandlerChains = Collections.emptyList();
       }
    }

@@ -42,4 +42,8 @@ public class EndpointConfig extends AbstractCommonConfig
    {
       super(configName, preHandlerChains, postHandlerChains, properties, features);
    }
+   
+   public EndpointConfig(EndpointConfig base, EndpointConfig conf) {
+      super(base, conf);
+   }
 }
