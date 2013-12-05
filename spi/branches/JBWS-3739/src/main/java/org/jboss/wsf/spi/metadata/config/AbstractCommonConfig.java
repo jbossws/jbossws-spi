@@ -75,21 +75,21 @@ public abstract class AbstractCommonConfig implements CommonConfig
       }
    }
    
-   protected AbstractCommonConfig(AbstractCommonConfig base, AbstractCommonConfig conf)
+   protected AbstractCommonConfig(AbstractCommonConfig base, AbstractCommonConfig addon)
    {
       super();
       this.configName = base.getConfigName();
-      if (conf.features != null && !conf.features.isEmpty())
+      if (addon.features != null && !addon.features.isEmpty())
       {
          Map<String, Feature> map;
          if (base.features.isEmpty())
          {
-            map = conf.features;
+            map = addon.features;
          }
          else
          {
             map = new HashMap<String, Feature>(base.features);
-            map.putAll(conf.features);
+            map.putAll(addon.features);
          }
          this.features = Collections.unmodifiableMap(map);
       }
@@ -97,17 +97,17 @@ public abstract class AbstractCommonConfig implements CommonConfig
       {
          this.features = Collections.emptyMap();
       }
-      if (conf.properties != null && !conf.properties.isEmpty())
+      if (addon.properties != null && !addon.properties.isEmpty())
       {
          Map<String, String> map;
          if (base.properties.isEmpty())
          {
-            map = conf.properties;
+            map = addon.properties;
          }
          else
          {
             map = new HashMap<String, String>(base.properties);
-            map.putAll(conf.properties);
+            map.putAll(addon.properties);
          }
          this.properties = Collections.unmodifiableMap(map);
       }
@@ -115,17 +115,17 @@ public abstract class AbstractCommonConfig implements CommonConfig
       {
          this.properties = Collections.emptyMap();
       }
-      if (conf.preHandlerChains != null && !conf.preHandlerChains.isEmpty())
+      if (addon.preHandlerChains != null && !addon.preHandlerChains.isEmpty())
       {
          List<UnifiedHandlerChainMetaData> list;
          if (base.preHandlerChains.isEmpty())
          {
-            list = conf.preHandlerChains;
+            list = addon.preHandlerChains;
          }
          else
          {
             list = new ArrayList<UnifiedHandlerChainMetaData>(base.preHandlerChains);
-            list.addAll(conf.preHandlerChains);
+            list.addAll(addon.preHandlerChains);
          }
          this.preHandlerChains = Collections.unmodifiableList(list);
       }
@@ -133,12 +133,12 @@ public abstract class AbstractCommonConfig implements CommonConfig
       {
          this.preHandlerChains = Collections.emptyList();
       }
-      if (conf.postHandlerChains != null && !conf.postHandlerChains.isEmpty())
+      if (addon.postHandlerChains != null && !addon.postHandlerChains.isEmpty())
       {
          List<UnifiedHandlerChainMetaData> list;
          if (base.postHandlerChains.isEmpty())
          {
-            list = conf.postHandlerChains;
+            list = addon.postHandlerChains;
          }
          else
          {

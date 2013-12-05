@@ -43,7 +43,7 @@ public class ClientConfig extends AbstractCommonConfig
       super(configName, preHandlerChains, postHandlerChains, properties, features);
    }
    
-   public ClientConfig(ClientConfig base, ClientConfig conf) {
-      super(base, conf);
+   public ClientConfig(ClientConfig base, ClientConfig addon) {
+      super(base, addon);
    }
 }
