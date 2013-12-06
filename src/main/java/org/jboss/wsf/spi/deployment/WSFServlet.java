@@ -45,10 +45,6 @@ public class WSFServlet extends HttpServlet
    public static final String STACK_SERVLET_DELEGATE_CLASS = "org.jboss.wsf.spi.deployment.stackServletDelegateClass";
    public static final String INTEGRATION_CLASSLOADER = "org.jboss.wsf.spi.deployment.integrationClassLoader";
 
-   //Besides for the obvious visibility consequence on the actual field, the 'volatile' keyword here also
-   //establishes a "happens-before" relationship between what happened on the WS model during deployment
-   //and the model usage for serving requests. Everything that is only written during deployment, can be
-   //safely read after this point without visibility issues related to different threads serving requests.
    private volatile ServletDelegate delegate = null;
 
    @Override
