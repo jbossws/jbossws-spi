@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,17 +21,9 @@
  */
 package org.jboss.wsf.spi.management;
 
-import java.util.Date;
-
-import org.jboss.wsf.spi.deployment.Endpoint;
 
 public interface EndpointMetrics
 {
-
-   Endpoint getEndpoint();
-
-   void setEndpoint(Endpoint endpoint);
-
    void start();
 
    void stop();
@@ -41,10 +33,6 @@ public interface EndpointMetrics
    void processResponseMessage(long beginTime);
 
    void processFaultMessage(long beginTime);
-
-   Date getStartTime();
-
-   Date getStopTime();
 
    long getMinProcessingTime();
 
