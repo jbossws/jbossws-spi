@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -27,9 +27,16 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A general extendible artifact 
+ * A general extendible artifact; please note the 'attachments' and 'properties' fields are not meant to be modified concurrently,
+ * as they are initialied to plain HashMap instances. Extensions of this class should override the methods accessing those fields
+ * and add synchronized keyword.  
+ * Most of the time, though, there will only be a single thread writing/deleting stuff in this class at the same time, for example
+ * because that only happens during deployment processing (which executes in the same thread for deployment processors / aspects
+ * and only the last aspect installs a service for each endpoint that run very limited stuff in different threads).
+ * Visibility is ensured by the fields being final.
  * 
  * @author Thomas.Diesler@jboss.com
+ * @author alessio.soldano@jboss.com
  * @since 20-Apr-2007 
  */
 public abstract class AbstractExtensible implements Extensible
