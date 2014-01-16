@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,22 +21,26 @@
  */
 package org.jboss.wsf.spi.metadata.jms;
 
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author <a href="ema@redhat.com">Jim Ma</a>
+ * @author <a href="alessio.soldano@jboss.com">Alessio Soldano</a>
  */
 public final class JMSEndpointsMetaData
 {
-
-   private List<JMSEndpointMetaData> jmsEndpointsMD = new LinkedList<JMSEndpointMetaData>();
-
-   public void addEndpointMetaData(JMSEndpointMetaData endpointMetaData)
-   {
-       jmsEndpointsMD.add(endpointMetaData);
-   }
+   private final List<JMSEndpointMetaData> jmsEndpointsMD;
    
+   public JMSEndpointsMetaData(List<JMSEndpointMetaData> jmsEndpointsMD)
+   {
+      if (jmsEndpointsMD != null && !jmsEndpointsMD.isEmpty()) {
+         this.jmsEndpointsMD = Collections.unmodifiableList(jmsEndpointsMD);
+      } else {
+         this.jmsEndpointsMD = Collections.emptyList();
+      }
+   }
+
    public List<JMSEndpointMetaData> getEndpointsMetaData() {
       return jmsEndpointsMD;
    }

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,8 +22,7 @@
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -33,48 +32,66 @@ import javax.xml.namespace.QName;
  * The unified metadata data for a handler element
  * 
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  */
 public class UnifiedHandlerMetaData implements Serializable
 {
-   private static final long serialVersionUID = 1L;
-    
+   private static final long serialVersionUID = 1042008569778083467L;
+
    public enum HandlerType
    {
       PRE, ENDPOINT, POST, ALL
    }
 
-   private UnifiedHandlerChainMetaData handlerChain;
+   private volatile UnifiedHandlerChainMetaData handlerChain;
 
    // The required <handler-name> element
-   private String handlerName;
+   private final String handlerName;
    // The required <handler-class> element
-   private String handlerClass;
+   private final String handlerClass;
    // The optional <init-param> elements
-   private List<UnifiedInitParamMetaData> initParams = new LinkedList<UnifiedInitParamMetaData>();
+   private final List<UnifiedInitParamMetaData> initParams;
    // The optional <soap-header> elements
-   private Set<QName> soapHeaders = new HashSet<QName>(2);
+   private final Set<QName> soapHeaders;
    // The optional <soap-role> elements
-   private Set<String> soapRoles = new HashSet<String>(2);
+   private final Set<String> soapRoles;
    // The optional <port-name> elements, these only apply to webservice clients
-   private Set<String> portNames = new HashSet<String>(4);
+   private final Set<String> portNames;
 
-   public UnifiedHandlerMetaData(UnifiedHandlerChainMetaData handlerChain)
-   {
-      this.handlerChain = handlerChain;
-   }
-
-   public UnifiedHandlerMetaData()
-   {
+   public UnifiedHandlerMetaData(String handlerClass,
+                                 String handlerName,
+                                 List<UnifiedInitParamMetaData> initParams,
+                                 Set<QName> soapHeaders,
+                                 Set<String> soapRoles,
+                                 Set<String> portNames) {
+      this.handlerClass = handlerClass;
+      this.handlerName = handlerName;
+      this.initParams = initParams != null ? Collections.unmodifiableList(initParams) : null;
+      if (soapHeaders != null && !soapHeaders.isEmpty()) {
+         this.soapHeaders = Collections.unmodifiableSet(soapHeaders);
+      } else {
+         this.soapHeaders = Collections.emptySet();
+      }
+      if (soapRoles != null && !soapRoles.isEmpty()) {
+         this.soapRoles = Collections.unmodifiableSet(soapRoles);
+      } else {
+         this.soapRoles = Collections.emptySet();
+      }
+      if (portNames != null && !portNames.isEmpty()) {
+         this.portNames = Collections.unmodifiableSet(portNames);
+      } else {
+         this.portNames = Collections.emptySet();
+      }
    }
 
    public UnifiedHandlerChainMetaData getHandlerChain()
    {
       return handlerChain;
    }
-
-   public void setHandlerName(String value)
+   
+   protected void setHandlerChain(UnifiedHandlerChainMetaData handlerChain)
    {
-      this.handlerName = value;
+      this.handlerChain = handlerChain;
    }
 
    public String getHandlerName()
@@ -82,19 +99,9 @@ public class UnifiedHandlerMetaData implements Serializable
       return handlerName;
    }
 
-   public void setHandlerClass(String handlerClass)
-   {
-      this.handlerClass = handlerClass;
-   }
-
    public String getHandlerClass()
    {
       return handlerClass;
-   }
-
-   public void addInitParam(UnifiedInitParamMetaData param)
-   {
-      initParams.add(param);
    }
 
    public List<UnifiedInitParamMetaData> getInitParams()
@@ -102,19 +109,9 @@ public class UnifiedHandlerMetaData implements Serializable
       return initParams;
    }
 
-   public void addSoapHeader(QName qName)
-   {
-      soapHeaders.add(qName);
-   }
-
    public Set<QName> getSoapHeaders()
    {
       return soapHeaders;
-   }
-
-   public void addSoapRole(String value)
-   {
-      soapRoles.add(value);
    }
 
    public Set<String> getSoapRoles()
@@ -125,11 +122,6 @@ public class UnifiedHandlerMetaData implements Serializable
    public Set<String> getPortNames()
    {
       return portNames;
-   }
-
-   public void addPortName(String value)
-   {
-      portNames.add(value);
    }
 
    public String toString()

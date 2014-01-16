@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,6 +21,11 @@
  */
 package org.jboss.wsf.spi.metadata.config;
 
+import java.util.List;
+import java.util.Map;
+
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
+
 /** 
  * A JBossWS endpoint configuration 
  *
@@ -30,4 +35,15 @@ package org.jboss.wsf.spi.metadata.config;
 public class EndpointConfig extends AbstractCommonConfig
 {
    public static final String STANDARD_ENDPOINT_CONFIG = "Standard-Endpoint-Config";
+
+   public EndpointConfig(String configName, List<UnifiedHandlerChainMetaData> preHandlerChains,
+         List<UnifiedHandlerChainMetaData> postHandlerChains, Map<String, String> properties,
+         Map<String, Feature> features)
+   {
+      super(configName, preHandlerChains, postHandlerChains, properties, features);
+   }
+   
+   public EndpointConfig(EndpointConfig base, EndpointConfig conf) {
+      super(base, conf);
+   }
 }

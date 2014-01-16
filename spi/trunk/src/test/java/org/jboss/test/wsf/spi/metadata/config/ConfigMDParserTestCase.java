@@ -51,8 +51,8 @@ public class ConfigMDParserTestCase extends TestCase
       ClientConfig cc = clientConfigs.get(0);
       assertEquals("Standard Client", cc.getConfigName());
       assertTrue(cc.getProperties().isEmpty());
-      assertNull(cc.getPreHandlerChains());
-      assertNull(cc.getPostHandlerChains());
+      assertTrue(cc.getPreHandlerChains() == null || cc.getPreHandlerChains().isEmpty());
+      assertTrue(cc.getPostHandlerChains() == null || cc.getPostHandlerChains().isEmpty());
 
       List<EndpointConfig> endpointConfigs = metadata.getEndpointConfig();
       assertEquals(2, endpointConfigs.size());
@@ -67,8 +67,8 @@ public class ConfigMDParserTestCase extends TestCase
       assertEquals("value2", ec.getProperty("name2"));
 
       ec = metadata.getEndpointConfigByName(".NET friendly Endpoint");
-      assertNull(ec.getPreHandlerChains());
-      assertNull(ec.getPostHandlerChains());
+      assertTrue(ec.getPreHandlerChains() == null || ec.getPreHandlerChains().isEmpty());
+      assertTrue(ec.getPostHandlerChains() == null || ec.getPostHandlerChains().isEmpty());
       assertTrue(ec.getProperties().isEmpty());
       assertTrue(ec.hasFeature("http://org.jboss.ws/binding/wsdl/dotnet"));
    }

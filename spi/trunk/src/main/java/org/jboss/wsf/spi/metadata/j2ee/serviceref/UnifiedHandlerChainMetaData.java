@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,27 +22,47 @@
 package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
 /** The unified metadata data for a handler chain element
- * 
+ *
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  */
 public class UnifiedHandlerChainMetaData implements Serializable
 {
-   private static final long serialVersionUID = 1L;
-   private QName serviceNamePattern;
-   private QName portNamePattern;
-   private String protocolBindings;
-   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>(4);
-   private boolean excluded;
-   private String id;
+   private static final long serialVersionUID = 4612021639718764949L;
+   
+   private final QName serviceNamePattern;
+   private final QName portNamePattern;
+   private final String protocolBindings;
+   private final List<UnifiedHandlerMetaData> handlers;
+   private final boolean excluded;
+   private final String id;
 
-   public UnifiedHandlerChainMetaData()
+   public UnifiedHandlerChainMetaData(QName serviceNamePattern,
+                                      QName portNamePattern,
+                                      String protocolBindings,
+                                      List<UnifiedHandlerMetaData> handlers,
+                                      boolean excluded,
+                                      String id)
    {
+      this.serviceNamePattern = serviceNamePattern;
+      this.portNamePattern = portNamePattern;
+      this.protocolBindings = protocolBindings;
+      this.excluded = excluded;
+      this.id = id;
+      if (handlers != null && !handlers.isEmpty()) {
+         this.handlers = Collections.unmodifiableList(handlers);
+         for (UnifiedHandlerMetaData uhmd : handlers) {
+            uhmd.setHandlerChain(this);
+         }
+      } else {
+         this.handlers = Collections.emptyList();
+      }
    }
 
    public String getId()
@@ -50,19 +70,9 @@ public class UnifiedHandlerChainMetaData implements Serializable
       return id;
    }
 
-   public void setId(final String id)
-   {
-      this.id = id;
-   }
-
    public QName getPortNamePattern()
    {
       return portNamePattern;
-   }
-
-   public void setPortNamePattern(QName portNamePattern)
-   {
-      this.portNamePattern = portNamePattern;
    }
 
    public QName getServiceNamePattern()
@@ -70,19 +80,9 @@ public class UnifiedHandlerChainMetaData implements Serializable
       return serviceNamePattern;
    }
 
-   public void setServiceNamePattern(QName serviceNamePattern)
-   {
-      this.serviceNamePattern = serviceNamePattern;
-   }
-
    public String getProtocolBindings()
    {
       return protocolBindings;
-   }
-
-   public void setProtocolBindings(String protocolBindings)
-   {
-      this.protocolBindings = protocolBindings;
    }
 
    public List<UnifiedHandlerMetaData> getHandlers()
@@ -90,16 +90,7 @@ public class UnifiedHandlerChainMetaData implements Serializable
       return handlers;
    }
 
-   public void addHandler(UnifiedHandlerMetaData handler)
-   {
-      handlers.add(handler);
-   }
-   
    public boolean isExcluded() {
       return this.excluded;
-   }
-   
-   public void setExcluded(boolean excluded) {
-      this.excluded = excluded;
    }
 }
