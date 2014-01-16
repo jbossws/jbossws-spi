@@ -50,6 +50,10 @@ import static org.jboss.wsf.spi.util.StAXUtils.match;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -165,29 +169,34 @@ public class JBossWebservicesFactory {
 
     private JBossWebservicesMetaData parseWebservices(final XMLStreamReader reader, final String nsUri, final URL descriptorURL)
             throws XMLStreamException {
-        JBossWebservicesMetaData metadata = new JBossWebservicesMetaData(descriptorURL);
+        String contextRoot = null;
+        String configName = null;
+        String configFile = null;
+        List<JBossPortComponentMetaData> jpcmds = new LinkedList<JBossPortComponentMetaData>();
+        List<JBossWebserviceDescriptionMetaData> jwsdmds = new LinkedList<JBossWebserviceDescriptionMetaData>();
+        Map<String, String> props = new HashMap<String, String>();
         while (reader.hasNext()) {
             switch (reader.nextTag()) {
                 case XMLStreamConstants.END_ELEMENT: {
                     if (match(reader, nsUri, WEBSERVICES)) {
-                        return metadata;
+                        return new JBossWebservicesMetaData(contextRoot, configName, configFile, descriptorURL, props, jpcmds, jwsdmds);
                     } else {
                         throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(reader, nsUri, CONTEXT_ROOT)) {
-                        metadata.setContextRoot(getElementText(reader));
+                        contextRoot = getElementText(reader);
                     } else if (match(reader, nsUri, CONFIG_NAME)) {
-                        metadata.setConfigName(getElementText(reader));
+                        configName = getElementText(reader);
                     } else if (match(reader, nsUri, CONFIG_FILE)) {
-                        metadata.setConfigFile(getElementText(reader));
+                        configFile = getElementText(reader);
                     } else if (match(reader, nsUri, PROPERTY)) {
-                       parseProperty(reader, nsUri, metadata);
+                       parseProperty(reader, nsUri, props);
                     } else if (match(reader, nsUri, PORT_COMPONENT)) {
-                        metadata.addPortComponent(parsePortComponent(reader, nsUri));
+                        jpcmds.add(parsePortComponent(reader, nsUri));
                     } else if (match(reader, nsUri, WEBSERVICE_DESCRIPTION)) {
-                        metadata.addWebserviceDescription(parseWebserviceDescription(reader, nsUri));
+                       jwsdmds.add(parseWebserviceDescription(reader, nsUri));
                     } else {
                         throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                     }
@@ -198,29 +207,35 @@ public class JBossWebservicesFactory {
     }
 
     private JBossPortComponentMetaData parsePortComponent(XMLStreamReader reader, String nsUri) throws XMLStreamException {
-        JBossPortComponentMetaData pc = new JBossPortComponentMetaData();
+        String ejbName = null;
+        String portComponentName = null;
+        String portComponentURI = null;
+        String authMethod = null;
+        String transportGuarantee = null;
+        Boolean secureWsdlAccess = null;
         while (reader.hasNext()) {
             switch (reader.nextTag()) {
                 case XMLStreamConstants.END_ELEMENT: {
                     if (match(reader, nsUri, PORT_COMPONENT)) {
-                        return pc;
+                        return new JBossPortComponentMetaData(ejbName, portComponentName, portComponentURI,
+                              authMethod, transportGuarantee, secureWsdlAccess);
                     } else {
                         throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(reader, nsUri, EJB_NAME)) {
-                        pc.setEjbName(getElementText(reader));
+                        ejbName = getElementText(reader);
                     } else if (match(reader, nsUri, PORT_COMPONENT_NAME)) {
-                        pc.setPortComponentName(getElementText(reader));
+                        portComponentName = getElementText(reader);
                     } else if (match(reader, nsUri, PORT_COMPONENT_URI)) {
-                        pc.setPortComponentURI(getElementText(reader));
+                        portComponentURI = getElementText(reader);
                     } else if (match(reader, nsUri, AUTH_METHOD)) {
-                        pc.setAuthMethod(getElementText(reader));
+                        authMethod = getElementText(reader);
                     } else if (match(reader, nsUri, TRANSPORT_GUARANTEE)) {
-                        pc.setTransportGuarantee(getElementText(reader));
+                        transportGuarantee = getElementText(reader);
                     } else if (match(reader, nsUri, SECURE_WSDL_ACCESS)) {
-                        pc.setSecureWSDLAccess(elementAsBoolean(reader));
+                        secureWsdlAccess = elementAsBoolean(reader);
                     } else {
                         throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                     }
@@ -232,21 +247,22 @@ public class JBossWebservicesFactory {
 
     private JBossWebserviceDescriptionMetaData parseWebserviceDescription(XMLStreamReader reader, String nsUri)
             throws XMLStreamException {
-        JBossWebserviceDescriptionMetaData description = new JBossWebserviceDescriptionMetaData();
+        String webserviceDescriptionName = null;
+        String wsdlPublishLocation = null;
         while (reader.hasNext()) {
             switch (reader.nextTag()) {
                 case XMLStreamConstants.END_ELEMENT: {
                     if (match(reader, nsUri, WEBSERVICE_DESCRIPTION)) {
-                        return description;
+                        return new JBossWebserviceDescriptionMetaData(webserviceDescriptionName, wsdlPublishLocation);
                     } else {
                         throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                     }
                 }
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(reader, nsUri, WEBSERVICE_DESCRIPTION_NAME)) {
-                        description.setWebserviceDescriptionName(getElementText(reader));
+                        webserviceDescriptionName = getElementText(reader);
                     } else if (match(reader, nsUri, WSDL_PUBLISH_LOCATION)) {
-                        description.setWsdlPublishLocation(getElementText(reader));
+                        wsdlPublishLocation = getElementText(reader);
                     } else {
                         throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
                     }
@@ -256,7 +272,7 @@ public class JBossWebservicesFactory {
         throw MESSAGES.reachedEndOfXMLDocUnexpectedly(getDescriptorForLogs());
     }
     
-    private void parseProperty(XMLStreamReader reader, String nsUri, JBossWebservicesMetaData metadata) throws XMLStreamException
+    private void parseProperty(XMLStreamReader reader, String nsUri, Map<String, String> map) throws XMLStreamException
     {
        String name = null;
        String value = null;
@@ -271,7 +287,7 @@ public class JBossWebservicesFactory {
                    {
                       throw MESSAGES.couldNotGetPropertyName(getDescriptorForLogs());
                    }
-                   metadata.setProperty(name, value);
+                   map.put(name, value);
                    return;
                 }
                 else

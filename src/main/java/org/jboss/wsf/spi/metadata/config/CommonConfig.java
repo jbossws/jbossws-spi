@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -40,24 +40,14 @@ public interface CommonConfig
    
    public List<UnifiedHandlerChainMetaData> getPostHandlerChains();
 
-   public void setPostHandlerChains(List<UnifiedHandlerChainMetaData> postHandlerChain);
-
    public List<UnifiedHandlerChainMetaData> getPreHandlerChains();
-
-   public void setPreHandlerChains(List<UnifiedHandlerChainMetaData> preHandlerChains);
 
    public List<UnifiedHandlerChainMetaData> getHandlers(HandlerType type);
 
    public String getConfigName();
 
-   public void setConfigName(String configName);
-
    public boolean hasFeature(String name);
    
-   public void setFeature(Feature feature, boolean enabled);
-
-   public void setProperty(String name, String value);
-
    public String getProperty(String name);
 
    public Map<String, String> getProperties();

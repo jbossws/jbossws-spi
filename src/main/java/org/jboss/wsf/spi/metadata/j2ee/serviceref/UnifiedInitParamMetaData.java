@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -25,15 +25,18 @@ import java.io.Serializable;
 
 /**
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
+ *
  * @since 06-May-2004
  */
 public class UnifiedInitParamMetaData implements Serializable
 {
-   private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 2508971618066360091L;
+   
    // The required <param-name> element
-   private String paramName;
+   private final String paramName;
    // The required <param-value> element
-   private String paramValue;
+   private final String paramValue;
 
    public UnifiedInitParamMetaData(String paramName, String paramValue)
    {
@@ -41,28 +44,14 @@ public class UnifiedInitParamMetaData implements Serializable
       this.paramValue = paramValue;
    }
    
-   public UnifiedInitParamMetaData()
-   {
-   }
-
    public String getParamName()
    {
       return paramName;
    }
 
-   public void setParamName(String paramName)
-   {
-      this.paramName = paramName;
-   }
-
    public String getParamValue()
    {
       return paramValue;
-   }
-
-   public void setParamValue(String paramValue)
-   {
-      this.paramValue = paramValue;
    }
 
    public String toString()

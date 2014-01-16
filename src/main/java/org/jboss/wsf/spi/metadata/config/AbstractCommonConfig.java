@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.metadata.config;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,30 +39,128 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.Handler
  */
 public abstract class AbstractCommonConfig implements CommonConfig
 {
-   private String configName;
-   private Map<String, Feature> features = new HashMap<String, Feature>(2);
-   private Map<String, String> properties = new HashMap<String, String>(4);
-   private List<UnifiedHandlerChainMetaData> preHandlerChains;
-   private List<UnifiedHandlerChainMetaData> postHandlerChains;
+   private final String configName;
+   private final Map<String, Feature> features;
+   private final Map<String, String> properties;
+   private final List<UnifiedHandlerChainMetaData> preHandlerChains;
+   private final List<UnifiedHandlerChainMetaData> postHandlerChains;
+   
+   protected AbstractCommonConfig(String configName,
+                                  List<UnifiedHandlerChainMetaData> preHandlerChains,
+                                  List<UnifiedHandlerChainMetaData> postHandlerChains,
+                                  Map<String, String> properties,
+                                  Map<String, Feature> features)
+   {
+      super();
+      this.configName = configName;
+      if (features != null && !features.isEmpty()) {
+         this.features = Collections.unmodifiableMap(features);
+      } else {
+         this.features = Collections.emptyMap();
+      }
+      if (properties != null && !properties.isEmpty()) {
+         this.properties = Collections.unmodifiableMap(properties);
+      } else {
+         this.properties = Collections.emptyMap();
+      }
+      if (preHandlerChains != null && !preHandlerChains.isEmpty()) {
+         this.preHandlerChains = Collections.unmodifiableList(preHandlerChains);
+      } else {
+         this.preHandlerChains = Collections.emptyList();
+      }
+      if (postHandlerChains != null && !postHandlerChains.isEmpty()) {
+         this.postHandlerChains = Collections.unmodifiableList(postHandlerChains);
+      } else {
+         this.postHandlerChains = Collections.emptyList();
+      }
+   }
+   
+   protected AbstractCommonConfig(AbstractCommonConfig base, AbstractCommonConfig addon)
+   {
+      super();
+      this.configName = base.getConfigName();
+      if (addon.features != null && !addon.features.isEmpty())
+      {
+         Map<String, Feature> map;
+         if (base.features.isEmpty())
+         {
+            map = addon.features;
+         }
+         else
+         {
+            map = new HashMap<String, Feature>(base.features);
+            map.putAll(addon.features);
+         }
+         this.features = Collections.unmodifiableMap(map);
+      }
+      else
+      {
+         this.features = Collections.emptyMap();
+      }
+      if (addon.properties != null && !addon.properties.isEmpty())
+      {
+         Map<String, String> map;
+         if (base.properties.isEmpty())
+         {
+            map = addon.properties;
+         }
+         else
+         {
+            map = new HashMap<String, String>(base.properties);
+            map.putAll(addon.properties);
+         }
+         this.properties = Collections.unmodifiableMap(map);
+      }
+      else
+      {
+         this.properties = Collections.emptyMap();
+      }
+      if (addon.preHandlerChains != null && !addon.preHandlerChains.isEmpty())
+      {
+         List<UnifiedHandlerChainMetaData> list;
+         if (base.preHandlerChains.isEmpty())
+         {
+            list = addon.preHandlerChains;
+         }
+         else
+         {
+            list = new ArrayList<UnifiedHandlerChainMetaData>(base.preHandlerChains);
+            list.addAll(addon.preHandlerChains);
+         }
+         this.preHandlerChains = Collections.unmodifiableList(list);
+      }
+      else
+      {
+         this.preHandlerChains = Collections.emptyList();
+      }
+      if (addon.postHandlerChains != null && !addon.postHandlerChains.isEmpty())
+      {
+         List<UnifiedHandlerChainMetaData> list;
+         if (base.postHandlerChains.isEmpty())
+         {
+            list = addon.postHandlerChains;
+         }
+         else
+         {
+            list = new ArrayList<UnifiedHandlerChainMetaData>(base.postHandlerChains);
+            list.addAll(preHandlerChains);
+         }
+         this.postHandlerChains = Collections.unmodifiableList(list);
+      }
+      else
+      {
+         this.postHandlerChains = Collections.emptyList();
+      }
+   }
 
    public List<UnifiedHandlerChainMetaData> getPostHandlerChains()
    {
       return postHandlerChains;
    }
 
-   public void setPostHandlerChains(List<UnifiedHandlerChainMetaData> postHandlerChain)
-   {
-      this.postHandlerChains = postHandlerChain;
-   }
-
    public List<UnifiedHandlerChainMetaData> getPreHandlerChains()
    {
       return preHandlerChains;
-   }
-
-   public void setPreHandlerChains(List<UnifiedHandlerChainMetaData> preHandlerChains)
-   {
-      this.preHandlerChains = preHandlerChains;
    }
 
    public List<UnifiedHandlerChainMetaData> getHandlers(HandlerType type)
@@ -79,30 +179,11 @@ public abstract class AbstractCommonConfig implements CommonConfig
       return configName;
    }
 
-   public void setConfigName(String configName)
-   {
-      this.configName = configName;
-   }
-
    public boolean hasFeature(String name)
    {
       return features.containsKey(name);
    }
    
-   public void setFeature(Feature feature, boolean enabled) {
-
-      if(enabled) {
-         features.put(feature.getName(), feature);
-      }
-      else
-         features.remove(feature.getName());
-   }
-
-   public void setProperty(String name, String value)
-   {
-      properties.put(name, value);
-   }
-
    public String getProperty(String name)
    {
       return properties.get(name);

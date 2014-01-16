@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.spi.metadata.webservices;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -40,6 +40,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
  * <p/>
  *
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  * @since 15-April-2004
  */
 public class PortComponentMetaData
@@ -50,54 +51,102 @@ public class PortComponentMetaData
    public static final String PARAMETER_WEBSERVICE_ID = "webserviceID";
 
    // The parent <webservice-description> element
-   private WebserviceDescriptionMetaData webserviceDescription;
+   private volatile WebserviceDescriptionMetaData webserviceDescription;
 
    /** The required <port-component-name> element
     * This name bears no relationship to the WSDL port name.
     * This name must be unique amongst all port component names in a module.
     */
-   private String portComponentName;
+   private final String portComponentName;
    // The required <wsdl-port> element
-   private QName wsdlPort;
+   private final QName wsdlPort;
    // The required <service-endpoint-interface> element
-   private String serviceEndpointInterface;
+   private final String serviceEndpointInterface;
    // The required <ejb-link> or <servlet-link> in the <service-impl-bean> element
-   private String ejbLink;
-   private String servletLink;
+   private final String ejbLink;
+   private final String servletLink;
    // The optional <handler> elements
-   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>(2);
+   private final List<UnifiedHandlerMetaData> handlers;
 
    // The HTTP context root
-   private String contextRoot;
+   private final String contextRoot;
 
    // -----------------------------------------
    // JAX-WS additions
 
    // The optional <adressing> element
-   private boolean addressingEnabled;
-   private boolean addressingRequired;
-   private String addressingResponses = "ALL";
+   private final boolean addressingEnabled;
+   private final boolean addressingRequired;
+   private final String addressingResponses;
    // The optional <enable-mtom> element
-   private boolean mtomEnabled;
+   private final boolean mtomEnabled;
    // The optional <mtom-threshold> element
-   private int mtomThreshold;
+   private final int mtomThreshold;
    // @RespectBinding annotation metadata
-   private boolean respectBindingEnabled;
-   private QName wsdlService;
-   private String protocolBinding;
-   private UnifiedHandlerChainsMetaData handlerChains;
+   private final boolean respectBindingEnabled;
+   private final QName wsdlService;
+   private final String protocolBinding;
+   private final UnifiedHandlerChainsMetaData handlerChains;
 
-
-   /** Construct a new PortComponentMetaData for a given WebserviceDescriptionMetaData
-    */
-   public PortComponentMetaData(WebserviceDescriptionMetaData webserviceDescription)
+   public PortComponentMetaData(String portComponentName,
+                                QName wsdlPort,
+                                String serviceEndpointInterface,
+                                String ejbLink,
+                                String servletLink,
+                                List<UnifiedHandlerMetaData> handlers,
+                                String contextRoot,
+                                boolean addressingEnabled,
+                                boolean addressingRequired,
+                                String addressingResponses,
+                                boolean mtomEnabled,
+                                int mtomThreshold,
+                                boolean respectBindingEnabled,
+                                QName wsdlService,
+                                String protocolBinding,
+                                UnifiedHandlerChainsMetaData handlerChains)
    {
-      this.webserviceDescription = webserviceDescription;
+      this.portComponentName = portComponentName;
+      if (wsdlPort.getNamespaceURI().length() == 0)
+         Loggers.METADATA_LOGGER.webservicesXmlElementNotNamespaceQualified(wsdlPort);
+      this.wsdlPort = wsdlPort;
+      this.serviceEndpointInterface = serviceEndpointInterface;
+      this.ejbLink = ejbLink;
+      this.servletLink = servletLink;
+      if (handlers != null && !handlers.isEmpty()) {
+         this.handlers = Collections.unmodifiableList(handlers);
+      } else {
+         this.handlers = Collections.emptyList();
+      }
+      this.contextRoot = contextRoot;
+      this.addressingEnabled = addressingEnabled;
+      this.addressingRequired = addressingRequired;
+      if (!"ANONYMOUS".equals(addressingResponses) && !"NON_ANONYMOUS".equals(addressingResponses) && !"ALL".equals(addressingResponses))
+         throw Messages.MESSAGES.unsupportedAddressingResponseType(addressingResponses);
+      this.addressingResponses = addressingResponses;
+      this.mtomEnabled = mtomEnabled;
+      this.mtomThreshold = mtomThreshold;
+      this.respectBindingEnabled = respectBindingEnabled;
+      this.wsdlService = wsdlService;
+      this.protocolBinding = protocolBinding;
+      this.handlerChains = handlerChains;
    }
 
+   public PortComponentMetaData(String portComponentName, QName wsdlPort, String serviceEndpointInterface,
+         String ejbLink, String servletLink, List<UnifiedHandlerMetaData> handlers, String contextRoot,
+         QName wsdlService, String protocolBinding, UnifiedHandlerChainsMetaData handlerChains)
+   {
+      this(portComponentName, wsdlPort, serviceEndpointInterface, ejbLink, servletLink, handlers, contextRoot,
+            false, false, "ALL", false, 0, false, wsdlService, protocolBinding, handlerChains);
+   }
+   
    public WebserviceDescriptionMetaData getWebserviceDescription()
    {
       return webserviceDescription;
+   }
+   
+   protected void setWebserviceDescription(WebserviceDescriptionMetaData webserviceDescription)
+   {
+      this.webserviceDescription = webserviceDescription;
    }
 
    public String getPortComponentName()
@@ -105,22 +154,9 @@ public class PortComponentMetaData
       return portComponentName;
    }
 
-   public void setPortComponentName(String portComponentName)
-   {
-      this.portComponentName = portComponentName;
-   }
-
    public QName getWsdlPort()
    {
       return wsdlPort;
-   }
-
-   public void setWsdlPort(QName wsdlPort)
-   {
-      if (wsdlPort.getNamespaceURI().length() == 0)
-         Loggers.METADATA_LOGGER.webservicesXmlElementNotNamespaceQualified(wsdlPort);
-
-      this.wsdlPort = wsdlPort;
    }
 
    public String getEjbLink()
@@ -128,29 +164,14 @@ public class PortComponentMetaData
       return ejbLink;
    }
 
-   public void setEjbLink(String ejbLink)
-   {
-      this.ejbLink = ejbLink;
-   }
-
    public String getServletLink()
    {
       return servletLink;
    }
 
-   public void setServletLink(String servletLink)
-   {
-      this.servletLink = servletLink;
-   }
-
    public String getServiceEndpointInterface()
    {
       return serviceEndpointInterface;
-   }
-
-   public void setServiceEndpointInterface(String serviceEndpointInterface)
-   {
-      this.serviceEndpointInterface = serviceEndpointInterface;
    }
 
    public void addHandler(UnifiedHandlerMetaData handler)
@@ -170,60 +191,26 @@ public class PortComponentMetaData
       return contextRoot;
    }
 
-   public void setContextRoot(String contextRoot)
-   {
-      this.contextRoot = contextRoot;
-   }
-
-   public void setAddressingEnabled(final boolean addressingEnabled) {
-      this.addressingEnabled = addressingEnabled;
-   }
-   
    public boolean isAddressingEnabled() {
       return this.addressingEnabled;
    }
 
-   public void setAddressingRequired(final boolean addressingRequired) {
-      this.addressingRequired = addressingRequired;
-   }
-   
    public boolean isAddressingRequired() {
       return this.addressingRequired;
-   }
-   
-   public void setAddressingResponses(final String responsesTypes)
-   {
-      if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw Messages.MESSAGES.unsupportedAddressingResponseType(responsesTypes);
-
-      this.addressingResponses = responsesTypes;
    }
    
    public String getAddressingResponses() {
       return this.addressingResponses;
    }
 
-   public void setMtomEnabled(final boolean mtomEnabled) {
-      this.mtomEnabled = mtomEnabled;
-   }
-   
    public boolean isMtomEnabled() {
       return this.mtomEnabled;
    }
 
-   public void setMtomThreshold(final int mtomThreshold)
-   {
-      this.mtomThreshold = mtomThreshold;
-   }
-   
    public int getMtomThreshold() {
       return this.mtomThreshold;
    }
 
-   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
-      this.respectBindingEnabled = respectBindingEnabled;
-   }
-   
    public boolean isRespectBindingEnabled() {
       return this.respectBindingEnabled;
    }
@@ -233,29 +220,14 @@ public class PortComponentMetaData
       return wsdlService;
    }
 
-   public void setWsdlService(QName wsdlService)
-   {
-      this.wsdlService = wsdlService;
-   }
-
    public String getProtocolBinding()
    {
       return protocolBinding;
    }
 
-   public void setProtocolBinding(String protocolBinding)
-   {
-      this.protocolBinding = protocolBinding;
-   }
-
    public UnifiedHandlerChainsMetaData getHandlerChains()
    {
       return handlerChains;
-   }
-
-   public void setHandlerChains(UnifiedHandlerChainsMetaData handlerChains)
-   {
-      this.handlerChains = handlerChains;
    }
 
    public String serialize()
