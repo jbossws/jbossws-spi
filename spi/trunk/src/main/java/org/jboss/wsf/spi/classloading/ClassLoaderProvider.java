@@ -53,15 +53,22 @@ public abstract class ClassLoaderProvider
          return getContextClassLoader();
       }
    };
+   private static volatile boolean set = false;
 
    public static void setDefaultProvider(ClassLoaderProvider p)
    {
       provider = p;
+      set = true;
    }
 
    public static ClassLoaderProvider getDefaultProvider()
    {
       return provider;
+   }
+   
+   public static boolean isSet()
+   {
+      return set;
    }
 
    /**
