@@ -22,6 +22,7 @@
 package org.jboss.wsf.spi.classloading;
 
 import java.security.AccessController;
+import java.security.Permission;
 import java.security.PrivilegedAction;
 
 /**
@@ -33,6 +34,8 @@ import java.security.PrivilegedAction;
  */
 public abstract class ClassLoaderProvider
 {
+   private static final RuntimePermission SET_DEFAULT_CLASSLOADER_PROVIDER = new RuntimePermission("org.jboss.wsf.spi.SET_DEFAULT_CLASSLOADER_PROVIDER");
+   
    private static ClassLoaderProvider provider = new ClassLoaderProvider()
    {
       @Override
@@ -57,6 +60,7 @@ public abstract class ClassLoaderProvider
 
    public static void setDefaultProvider(ClassLoaderProvider p)
    {
+      checkPermission(SET_DEFAULT_CLASSLOADER_PROVIDER);
       provider = p;
       set = true;
    }
@@ -107,6 +111,15 @@ public abstract class ClassLoaderProvider
                return Thread.currentThread().getContextClassLoader();
             }
          });
+      }
+   }
+
+   private static void checkPermission(final Permission permission)
+   {
+      SecurityManager securityManager = System.getSecurityManager();
+      if (securityManager != null)
+      {
+         AccessController.checkPermission(permission);
       }
    }
 }
