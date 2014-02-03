@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -370,7 +371,11 @@ public final class UnifiedServiceRefMetaData implements Serializable
             if (vfsRoot != null) {
                 try
                 {
-                    wsdlLocation = vfsRoot.findChild(wsdlFile).toURL();
+                   wsdlLocation = AccessController.doPrivileged(new PrivilegedExceptionAction<URL>() {
+                      public URL run() throws Exception {
+                         return vfsRoot.findChild(wsdlFile).toURL();
+                      }
+                   });
                 }
                 catch (Exception e)
                 {
