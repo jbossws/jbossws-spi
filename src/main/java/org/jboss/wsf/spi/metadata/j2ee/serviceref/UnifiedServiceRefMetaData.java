@@ -348,7 +348,11 @@ public final class UnifiedServiceRefMetaData implements Serializable
             if (vfsRoot != null) {
                 try
                 {
-                    wsdlLocation = vfsRoot.findChild(wsdlOverride).toURL();
+                   wsdlLocation = AccessController.doPrivileged(new PrivilegedExceptionAction<URL>() {
+                      public URL run() throws Exception {
+                         return vfsRoot.findChild(wsdlOverride).toURL();
+                      }
+                   });
                 }
                 catch (Exception e)
                 {
