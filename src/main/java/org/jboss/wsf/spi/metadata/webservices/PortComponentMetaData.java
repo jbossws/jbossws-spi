@@ -59,7 +59,7 @@ public class PortComponentMetaData
     */
    private final String portComponentName;
    // The required <wsdl-port> element
-   private final QName wsdlPort;
+   private volatile QName wsdlPort;
    // The required <service-endpoint-interface> element
    private final String serviceEndpointInterface;
    // The required <ejb-link> or <servlet-link> in the <service-impl-bean> element
@@ -159,6 +159,18 @@ public class PortComponentMetaData
       return wsdlPort;
    }
 
+   /**
+    * set the wsdlPort for this PortComponentMetaData. This is deprecated, the proper wsdlPort
+    * should be provided when creating a new instance.
+    * 
+    * @return
+    */
+   @Deprecated
+   public void setWsdlPort(QName wsdlPort)
+   {
+      this.wsdlPort = wsdlPort;
+   }
+
    public String getEjbLink()
    {
       return ejbLink;
@@ -232,6 +244,7 @@ public class PortComponentMetaData
 
    public String serialize()
    {
+      final QName wsdlPort = getWsdlPort();
       StringBuilder builder = new StringBuilder("<port-component>");
       builder.append("<port-component-name>").append(portComponentName).append("</port-component-name>");
       builder.append("<wsdl-port xmlns:").append(wsdlPort.getPrefix()).append("='").append(wsdlPort.getNamespaceURI()).append("'>");
