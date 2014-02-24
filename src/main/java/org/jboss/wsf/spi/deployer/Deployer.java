@@ -51,6 +51,11 @@ public interface Deployer extends SPIView
      */
     void addSecurityDomain(String name, Map<String,String> authenticationOptions) throws Exception;
     
+    
+    public void addJaspiSecurityDomain(String name, String loginModuleStackName, Map<String, String> loginModuleOptions, 
+          String authModuleName, Map<String, String> authModuleOptions) throws Exception;
+    
+    
     /**
      * Removes a security domain
      * 
