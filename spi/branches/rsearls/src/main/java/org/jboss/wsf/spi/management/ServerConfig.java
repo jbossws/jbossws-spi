@@ -60,6 +60,10 @@ public interface ServerConfig
    int getWebServiceSecurePort();
 
    void setWebServiceSecurePort(int port);
+
+   String getWebServicePath();
+
+   void setWebServicePath(String path);
    
    boolean isModifySOAPAddress();
    
