@@ -84,7 +84,7 @@ import org.jboss.wsf.spi.util.StAXUtils;
 public class WebservicesFactory extends AbstractHandlerChainsMetaDataParser
 {
    // The URL to the webservices.xml descriptor
-   private URL descriptorURL;
+   private final URL descriptorURL;
    
    public WebservicesFactory(URL descriptorURL)
    {

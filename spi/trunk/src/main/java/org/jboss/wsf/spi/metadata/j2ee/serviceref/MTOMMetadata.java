@@ -19,39 +19,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee;
+package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-/**
- * The container independent EJB security meta data class  
- *
- * @author Thomas.Diesler@jboss.org
- * @since 05-May-2006
- */
-public class EJBSecurityMetaData
+public final class MTOMMetadata
 {
-   private final String authMethod;
-   private final String transportGuarantee;
-   private final boolean secureWSDLAccess;
+   private final boolean annotationSpecified;
+   private final boolean enabled;
+   private final int threshold;
 
-   public EJBSecurityMetaData(String authMethod, String transportGuarantee, boolean secureWSDLAccess)
+   public MTOMMetadata(boolean annotationSpecified, boolean enabled, int threshold)
    {
-      this.authMethod = authMethod;
-      this.transportGuarantee = transportGuarantee;
-      this.secureWSDLAccess = secureWSDLAccess;
+      this.annotationSpecified = annotationSpecified;
+      this.enabled = enabled;
+      this.threshold = threshold;
    }
 
-   public String getAuthMethod()
+   public boolean isAnnotationSpecified()
    {
-      return authMethod;
+      return annotationSpecified;
    }
 
-   public String getTransportGuarantee()
+   public boolean isEnabled()
    {
-      return transportGuarantee;
+      return enabled;
    }
 
-   public boolean getSecureWSDLAccess()
+   public int getThreshold()
    {
-      return secureWSDLAccess;
+      return threshold;
    }
 }

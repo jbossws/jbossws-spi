@@ -23,7 +23,7 @@ package org.jboss.wsf.spi.metadata.config;
 
 public final class Feature
 {
-   private String name;
+   private final String name;
 
    public Feature(final String name)
    {
