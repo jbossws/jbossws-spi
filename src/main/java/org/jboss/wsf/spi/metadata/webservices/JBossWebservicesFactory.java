@@ -70,7 +70,7 @@ import org.jboss.wsf.spi.util.StAXUtils;
 public class JBossWebservicesFactory {
 
     // The URL to the jboss-webservices.xml descriptor
-    private URL descriptorURL;
+    private final URL descriptorURL;
 
     public JBossWebservicesFactory(final URL descriptorURL) {
         this.descriptorURL = descriptorURL;

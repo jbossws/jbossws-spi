@@ -19,39 +19,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee;
+package org.jboss.wsf.spi.metadata.j2ee.serviceref;
 
-/**
- * The container independent EJB security meta data class  
- *
- * @author Thomas.Diesler@jboss.org
- * @since 05-May-2006
- */
-public class EJBSecurityMetaData
+public final class RespectBindingMetadata
 {
-   private final String authMethod;
-   private final String transportGuarantee;
-   private final boolean secureWSDLAccess;
+   private final boolean annotationSpecified;
+   private final boolean enabled;
 
-   public EJBSecurityMetaData(String authMethod, String transportGuarantee, boolean secureWSDLAccess)
+   public RespectBindingMetadata(boolean annotationSpecified, boolean enabled)
    {
-      this.authMethod = authMethod;
-      this.transportGuarantee = transportGuarantee;
-      this.secureWSDLAccess = secureWSDLAccess;
+      this.annotationSpecified = annotationSpecified;
+      this.enabled = enabled;
    }
 
-   public String getAuthMethod()
+   public boolean isAnnotationSpecified()
    {
-      return authMethod;
+      return annotationSpecified;
    }
 
-   public String getTransportGuarantee()
+   public boolean isEnabled()
    {
-      return transportGuarantee;
-   }
-
-   public boolean getSecureWSDLAccess()
-   {
-      return secureWSDLAccess;
+      return enabled;
    }
 }

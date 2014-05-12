@@ -29,8 +29,8 @@ import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +42,11 @@ import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.serviceref.ServiceRefType;
 
 /**
- * The metadata from service-ref element in web.xml, ejb-jar.xml, and
- * application-client.xml.
+ * The metadata from service-ref element in web.xml, ejb-jar.xml,
+ * application-client.xml and @WebServiceRef annotations.
+ * The class is threadsafe; the information coming from descriptors
+ * only is immutable, while the information that can be overridden
+ * by annotations are stored using volatile references. 
  * 
  * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
@@ -51,141 +54,175 @@ import org.jboss.wsf.spi.serviceref.ServiceRefType;
  */
 public final class UnifiedServiceRefMetaData implements Serializable
 {
-   private static final long serialVersionUID = 1L;
-   private transient UnifiedVirtualFile vfsRoot;
+   private static final long serialVersionUID = -3140013087984532678L;
+
+   private volatile transient UnifiedVirtualFile vfsRoot;
    
    // Standard properties
    
    // Service reference type - either JAX-RPC or JAXWS
-   private ServiceRefType type;
+   private volatile ServiceRefType type; //TODO REMOVE
    // The required <service-ref-name> element
-   private String serviceRefName;
-   // The JAXRPC required <service-interface> element
-   private String serviceInterface;
+   private final String serviceRefName;
+   // The <service-interface> element
+   private volatile String serviceInterface;
    // service-res-type
-   private String serviceRefType;
+   private volatile String serviceRefType;
    // The optional <wsdl-file> element
-   private String wsdlFile;
+   private volatile String wsdlFile;
+   
    // The optional <jaxrpc-mapping-file> element
-   private String mappingFile;
+   private final String mappingFile;
    // The optional <service-qname> element
-   private QName serviceQName;
+   private final QName serviceQName;
    // The list <port-component-ref> elements
-   private List<UnifiedPortComponentRefMetaData> portComponentRefs = new ArrayList<UnifiedPortComponentRefMetaData>(4);
-   // The optional <handler> elements. JAX-RPC handlers declared in the standard J2EE1.4 descriptor
-   private List<UnifiedHandlerMetaData> handlers = new ArrayList<UnifiedHandlerMetaData>(4);
+   private final List<UnifiedPortComponentRefMetaData> portComponentRefs;
+   // The optional <handler> elements.
+   private final List<UnifiedHandlerMetaData> handlers;
    // The optional <handler-chains> elements. JAX-WS handlers declared in the standard JavaEE5 descriptor
-   private UnifiedHandlerChainsMetaData handlerChains;
-
+   private final UnifiedHandlerChainsMetaData handlerChains;
    // The optional <service-impl-class> element
-   private String serviceImplClass;
+   private final String serviceImplClass;
    // The optional JBossWS config-name
-   private String configName;
+   private final String configName;
    // The optional JBossWS config-file
-   private String configFile;
+   private final String configFile;
    // The optional URL of the actual WSDL to use, <wsdl-override> 
-   private String wsdlOverride;
+   private final String wsdlOverride;
+   
    // The optional <handler-chain> element. JAX-WS handler chain declared in the JBoss JavaEE5 descriptor
-   private String handlerChain;
+   private volatile String handlerChain;
    // @Addressing annotation metadata
-   private boolean isAddressingAnnotationSpecified;
-   private boolean addressingEnabled;
-   private boolean addressingRequired;
-   private String addressingResponses = "ALL";
+   private volatile AddressingMetadata addressingMetadata = new AddressingMetadata(false, false, false, "ALL");
    // @MTOM annotation metadata
-   private boolean isMtomAnnotationSpecified;
-   private boolean mtomEnabled;
-   private int mtomThreshold;
+   private volatile MTOMMetadata mtomMetadata = new MTOMMetadata(false,  false,  0);
    // @RespectBinding annotation metadata
-   private boolean isRespectBindingAnnotationSpecified;
-   private boolean respectBindingEnabled;
+   private volatile RespectBindingMetadata respectBindingMetadata = new RespectBindingMetadata(false, false);
    
-   private Map<QName, String> deployedServiceAddresses = new HashMap<QName, String>();
-
-   public UnifiedServiceRefMetaData(UnifiedVirtualFile vfRoot)
+   private final Map<QName, String> deployedServiceAddresses = Collections.synchronizedMap(new HashMap<QName, String>());
+   
+   public UnifiedServiceRefMetaData(UnifiedVirtualFile vfsRoot, String serviceRefName)
    {
-      this.vfsRoot = vfRoot;
+      this(vfsRoot, serviceRefName, null, null, null, null, null, null, null, null, null);
    }
 
-   public UnifiedServiceRefMetaData()
+   public UnifiedServiceRefMetaData(UnifiedVirtualFile vfsRoot,
+                                    String serviceRefName,
+                                    String mappingFile,
+                                    QName serviceQName,
+                                    List<UnifiedPortComponentRefMetaData> portComponentRefs,
+                                    List<UnifiedHandlerMetaData> handlers,
+                                    UnifiedHandlerChainsMetaData handlerChains,
+                                    String serviceImplClass,
+                                    String configName,
+                                    String configFile,
+                                    String wsdlOverride)
    {
-   }
-
-   public void setAddressingAnnotationSpecified(final boolean isAddressingAnnotationSpecified) {
-      this.isAddressingAnnotationSpecified = isAddressingAnnotationSpecified;
+      this.vfsRoot = vfsRoot;
+      this.serviceRefName = serviceRefName;
+      this.mappingFile = mappingFile;
+      this.serviceQName = serviceQName;
+      if (portComponentRefs != null && !portComponentRefs.isEmpty()) {
+         this.portComponentRefs = Collections.unmodifiableList(portComponentRefs);
+      } else {
+         this.portComponentRefs = Collections.emptyList();
+      }
+      if (handlers != null && !handlers.isEmpty()) {
+         this.handlers = Collections.unmodifiableList(handlers);
+      } else {
+         this.handlers = Collections.emptyList();
+      }
+      this.handlerChains = handlerChains;
+      this.serviceImplClass = serviceImplClass;
+      this.configName = configName;
+      this.configFile = configFile;
+      this.wsdlOverride = wsdlOverride;
    }
    
+   
+
+   public UnifiedServiceRefMetaData(UnifiedVirtualFile vfsRoot, ServiceRefType type, String serviceRefName,
+         String serviceInterface, String serviceRefType, String wsdlFile, String mappingFile, QName serviceQName,
+         List<UnifiedPortComponentRefMetaData> portComponentRefs, List<UnifiedHandlerMetaData> handlers,
+         UnifiedHandlerChainsMetaData handlerChains, String serviceImplClass, String configName, String configFile,
+         String wsdlOverride, String handlerChain, AddressingMetadata addressingMetadata, MTOMMetadata mtomMetadata,
+         RespectBindingMetadata respectBindingMetadata)
+   {
+      this.vfsRoot = vfsRoot;
+      this.type = type;
+      this.serviceRefName = serviceRefName;
+      this.serviceInterface = serviceInterface;
+      this.serviceRefType = serviceRefType;
+      this.wsdlFile = wsdlFile;
+      this.mappingFile = mappingFile;
+      this.serviceQName = serviceQName;
+      if (portComponentRefs != null && !portComponentRefs.isEmpty()) {
+         this.portComponentRefs = Collections.unmodifiableList(portComponentRefs);
+      } else {
+         this.portComponentRefs = Collections.emptyList();
+      }
+      if (handlers != null && !handlers.isEmpty()) {
+         this.handlers = Collections.unmodifiableList(handlers);
+      } else {
+         this.handlers = Collections.emptyList();
+      }
+      this.handlerChains = handlerChains;
+      this.serviceImplClass = serviceImplClass;
+      this.configName = configName;
+      this.configFile = configFile;
+      this.wsdlOverride = wsdlOverride;
+      this.handlerChain = handlerChain;
+      this.addressingMetadata = addressingMetadata;
+      this.mtomMetadata = mtomMetadata;
+      this.respectBindingMetadata = respectBindingMetadata;
+   }
+
    public boolean isAddressingAnnotationSpecified() {
-      return this.isAddressingAnnotationSpecified;
+      return this.addressingMetadata.isAnnotationSpecified();
    }
 
-   public void setAddressingEnabled(final boolean addressingEnabled) {
-      this.addressingEnabled = addressingEnabled;
-   }
-   
    public boolean isAddressingEnabled() {
-      return this.addressingEnabled;
+      return this.addressingMetadata.isEnabled();
    }
 
-   public void setAddressingRequired(final boolean addressingRequired) {
-      this.addressingRequired = addressingRequired;
-   }
-   
    public boolean isAddressingRequired() {
-      return this.addressingRequired;
+      return this.addressingMetadata.isRequired();
    }
    
-   public void setAddressingResponses(final String responsesTypes)
-   {
-      if (!"ANONYMOUS".equals(responsesTypes) && !"NON_ANONYMOUS".equals(responsesTypes) && !"ALL".equals(responsesTypes))
-         throw MESSAGES.unsupportedAddressingResponseType(responsesTypes);
-
-      this.addressingResponses = responsesTypes;
+   public void setAddressingMedadata(AddressingMetadata addressingMetadata) {
+      this.addressingMetadata = addressingMetadata;
    }
    
    public String getAddressingResponses() {
-      return this.addressingResponses;
+      return this.addressingMetadata.getResponses();
    }
 
-   public void setMtomAnnotationSpecified(final boolean isMtomAnnotationSpecified) {
-      this.isMtomAnnotationSpecified = isMtomAnnotationSpecified;
-   }
-   
    public boolean isMtomAnnotationSpecified() {
-      return this.isMtomAnnotationSpecified;
+      return this.mtomMetadata.isAnnotationSpecified();
    }
 
-   public void setMtomEnabled(final boolean mtomEnabled) {
-      this.mtomEnabled = mtomEnabled;
-   }
-   
    public boolean isMtomEnabled() {
-      return this.mtomEnabled;
+      return this.mtomMetadata.isEnabled();
    }
 
-   public void setMtomThreshold(final int mtomThreshold)
-   {
-      this.mtomThreshold = mtomThreshold;
-   }
-   
    public int getMtomThreshold() {
-      return this.mtomThreshold;
-   }
-
-   public void setRespectBindingAnnotationSpecified(final boolean isRespectBindingAnnotationSpecified) {
-      this.isRespectBindingAnnotationSpecified = isRespectBindingAnnotationSpecified;
+      return this.mtomMetadata.getThreshold();
    }
    
+   public void setMTOMMetadata(MTOMMetadata mtomMetadata) {
+      this.mtomMetadata = mtomMetadata;
+   }
+
    public boolean isRespectBindingAnnotationSpecified() {
-      return this.isRespectBindingAnnotationSpecified;
+      return this.respectBindingMetadata.isAnnotationSpecified();
    }
 
-   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
-      this.respectBindingEnabled = respectBindingEnabled;
+   public boolean isRespectBindingEnabled() {
+      return this.respectBindingMetadata.isEnabled();
    }
    
-   public boolean isRespectBindingEnabled() {
-      return this.respectBindingEnabled;
+   public void setRespectBindingMetadata(RespectBindingMetadata respectBindingMetadata) {
+      this.respectBindingMetadata = respectBindingMetadata;
    }
 
    public UnifiedVirtualFile getVfsRoot()
@@ -213,19 +250,9 @@ public final class UnifiedServiceRefMetaData implements Serializable
       return serviceRefName;
    }
 
-   public void setServiceRefName(String serviceRefName)
-   {
-      this.serviceRefName = serviceRefName;
-   }
-
    public String getMappingFile()
    {
       return mappingFile;
-   }
-
-   public void setMappingFile(String mappingFile)
-   {
-      this.mappingFile = mappingFile;
    }
 
    public URL getMappingLocation()
@@ -269,19 +296,9 @@ public final class UnifiedServiceRefMetaData implements Serializable
       return matchingRef;
    }
 
-   public void addPortComponentRef(UnifiedPortComponentRefMetaData pcRef)
-   {
-      portComponentRefs.add(pcRef);
-   }
-
    public List<UnifiedHandlerMetaData> getHandlers()
    {
       return handlers;
-   }
-
-   public void addHandler(UnifiedHandlerMetaData handler)
-   {
-      handlers.add(handler);
    }
 
    public String getServiceInterface()
@@ -299,19 +316,9 @@ public final class UnifiedServiceRefMetaData implements Serializable
       return serviceImplClass;
    }
 
-   public void setServiceImplClass(String serviceImplClass)
-   {
-      this.serviceImplClass = serviceImplClass;
-   }
-
    public QName getServiceQName()
    {
       return serviceQName;
-   }
-
-   public void setServiceQName(QName serviceQName)
-   {
-      this.serviceQName = serviceQName;
    }
 
    public String getServiceRefType()
@@ -333,8 +340,13 @@ public final class UnifiedServiceRefMetaData implements Serializable
    {
       this.wsdlFile = wsdlFile;
    }
-
+   
    public URL getWsdlLocation()
+   {
+      return this.getWsdlLocation(this.wsdlOverride);
+   }
+
+   public URL getWsdlLocation(final String wsdlOverride)
    {
       URL wsdlLocation = null;
       if (wsdlOverride != null)
@@ -398,19 +410,9 @@ public final class UnifiedServiceRefMetaData implements Serializable
       return configFile;
    }
 
-   public void setConfigFile(String configFile)
-   {
-      this.configFile = configFile;
-   }
-
    public String getConfigName()
    {
       return configName;
-   }
-
-   public void setConfigName(String configName)
-   {
-      this.configName = configName;
    }
 
    public String getWsdlOverride()
@@ -418,19 +420,9 @@ public final class UnifiedServiceRefMetaData implements Serializable
       return wsdlOverride;
    }
 
-   public void setWsdlOverride(String wsdlOverride)
-   {
-      this.wsdlOverride = wsdlOverride;
-   }
-
    public UnifiedHandlerChainsMetaData getHandlerChains()
    {
       return handlerChains;
-   }
-
-   public void setHandlerChains(UnifiedHandlerChainsMetaData handlerChains)
-   {
-      this.handlerChains = handlerChains;
    }
 
    public String getHandlerChain()
@@ -443,9 +435,9 @@ public final class UnifiedServiceRefMetaData implements Serializable
       this.handlerChain = handlerChain;
    }
    
-   public Map<QName, String> getDeployedServiceAddresses()
+   public String getDeployedServiceAddress(QName serviceQName)
    {
-      return this.deployedServiceAddresses;
+      return deployedServiceAddresses.get(serviceQName);
    }
 
    public void addDeployedServiceAddresses(Map<QName, String> addressMap)
@@ -486,15 +478,15 @@ public final class UnifiedServiceRefMetaData implements Serializable
       str.append("\n mappingFile=" + mappingFile);
       str.append("\n configName=" + configName);
       str.append("\n configFile=" + configFile);
-      str.append("\n addressingAnnotationSpecified=" + isAddressingAnnotationSpecified);
-      str.append("\n addressingEnabled=" + addressingEnabled);
-      str.append("\n addressingRequired=" + addressingRequired);
-      str.append("\n addressingResponses=" + addressingResponses);
-      str.append("\n mtomAnnotationSpecified=" + isMtomAnnotationSpecified);
-      str.append("\n mtomEnabled=" + mtomEnabled);
-      str.append("\n mtomThreshold=" + mtomThreshold);
-      str.append("\n respectBindingAnnotationSpecified=" + isRespectBindingAnnotationSpecified);
-      str.append("\n respectBindingEnabled=" + respectBindingEnabled);
+      str.append("\n addressingAnnotationSpecified=" + addressingMetadata.isAnnotationSpecified());
+      str.append("\n addressingEnabled=" + addressingMetadata.isEnabled());
+      str.append("\n addressingRequired=" + addressingMetadata.isRequired());
+      str.append("\n addressingResponses=" + addressingMetadata.getResponses());
+      str.append("\n mtomAnnotationSpecified=" + mtomMetadata.isAnnotationSpecified());
+      str.append("\n mtomEnabled=" + mtomMetadata.isEnabled());
+      str.append("\n mtomThreshold=" + mtomMetadata.getThreshold());
+      str.append("\n respectBindingAnnotationSpecified=" + respectBindingMetadata.isAnnotationSpecified());
+      str.append("\n respectBindingEnabled=" + respectBindingMetadata.isEnabled());
       str.append("\n handlerChains=" + handlerChains);
       str.append("\n handlerChain=" + handlerChain);
       for (UnifiedHandlerMetaData uhmd : handlers)
@@ -503,8 +495,4 @@ public final class UnifiedServiceRefMetaData implements Serializable
          str.append(pcref.toString());
       return str.toString();
    }
-
-
-
-
 }
