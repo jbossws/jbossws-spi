@@ -87,7 +87,7 @@ public class JSESecurityMetaData
       public JSEResourceCollection(final String name, Collection<String> urlPatterns)
       {
          this.name = name;
-         if (urlPatterns != null) {
+         if (urlPatterns != null && !urlPatterns.isEmpty()) {
             this.urlPatterns = Collections.unmodifiableSet(new HashSet<String>(urlPatterns));
          } else {
             this.urlPatterns = Collections.emptySet();

@@ -139,12 +139,12 @@ public class JSEArchiveMetaData
          PublishLocationAdapter publishLocationAdapter, List<JSESecurityMetaData> securityMetaData)
    {
       this.contextRoot = contextRoot;
-      if (servletMappings != null) {
+      if (servletMappings != null && !servletMappings.isEmpty()) {
          this.servletMappings = Collections.unmodifiableMap(servletMappings);
       } else {
          this.servletMappings = Collections.emptyMap();
       }
-      if (servletClassNames != null) {
+      if (servletClassNames != null && !servletClassNames.isEmpty()) {
          this.servletClassNames = Collections.unmodifiableMap(servletClassNames);
       } else {
          this.servletClassNames = Collections.emptyMap();
@@ -153,7 +153,7 @@ public class JSEArchiveMetaData
       this.configFile = configFile;
       this.securityDomain = securityDomain;
       this.publishLocationAdapter = publishLocationAdapter;
-      if (securityMetaData != null) {
+      if (securityMetaData != null && !securityMetaData.isEmpty()) {
          this.securityMetaData = Collections.unmodifiableList(securityMetaData);
       } else {
          this.securityMetaData = Collections.emptyList();
