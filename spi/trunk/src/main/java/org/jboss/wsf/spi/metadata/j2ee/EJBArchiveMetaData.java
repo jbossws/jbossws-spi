@@ -115,7 +115,7 @@ public class EJBArchiveMetaData
    public EJBArchiveMetaData(List<EJBMetaData> beans, String configName, String configFile,
          String webServiceContextRoot, String securityDomain, PublishLocationAdapter publishLocationAdapter)
    {
-      if (beans != null) {
+      if (beans != null && !beans.isEmpty()) {
          this.beans = Collections.unmodifiableList(beans);
       } else {
          this.beans = Collections.emptyList();
