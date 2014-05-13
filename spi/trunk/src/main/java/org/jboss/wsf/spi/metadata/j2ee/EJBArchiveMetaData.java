@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -34,17 +34,98 @@ import java.util.List;
 public class EJBArchiveMetaData
 {
    /** ArrayList<BeanMetaData> for the ejbs */
-   private List<EJBMetaData> beans = Collections.emptyList();
+   private final List<EJBMetaData> beans;
    /** The optional JBossWS config-name */
-   private String configName;
+   private final String configName;
    /** The optional JBossWS config-file */
-   private String configFile;
+   private final String configFile;
    /** The web context root to use for web services */
-   private String webServiceContextRoot;
+   private final String webServiceContextRoot;
    /** The security-domain value assigned to the application */
-   private String securityDomain;
+   private final String securityDomain;
    /** A HashMap<String, String> for webservice description publish locations */
-   private PublishLocationAdapter publishLocationAdapter;
+   private final PublishLocationAdapter publishLocationAdapter;
+   
+   public static class Builder
+   {
+      private List<EJBMetaData> beans = Collections.emptyList();
+      private String configName;
+      private String configFile;
+      private String webServiceContextRoot;
+      private String securityDomain;
+      private PublishLocationAdapter publishLocationAdapter;
+      
+      public EJBArchiveMetaData build()
+      {
+         return new EJBArchiveMetaData(beans, configName, configFile, webServiceContextRoot, securityDomain,
+               publishLocationAdapter);
+      }
+      
+      public List<EJBMetaData> getEnterpriseBeans()
+      {
+         return beans;
+      }
+      public void setEnterpriseBeans(List<EJBMetaData> beans)
+      {
+         this.beans = beans;
+      }
+      public String getConfigName()
+      {
+         return configName;
+      }
+      public void setConfigName(String configName)
+      {
+         this.configName = configName;
+      }
+      public String getConfigFile()
+      {
+         return configFile;
+      }
+      public void setConfigFile(String configFile)
+      {
+         this.configFile = configFile;
+      }
+      public String getWebServiceContextRoot()
+      {
+         return webServiceContextRoot;
+      }
+      public void setWebServiceContextRoot(String webServiceContextRoot)
+      {
+         this.webServiceContextRoot = webServiceContextRoot;
+      }
+      public String getSecurityDomain()
+      {
+         return securityDomain;
+      }
+      public void setSecurityDomain(String securityDomain)
+      {
+         this.securityDomain = securityDomain;
+      }
+      public PublishLocationAdapter getPublishLocationAdapter()
+      {
+         return publishLocationAdapter;
+      }
+      public void setPublishLocationAdapter(PublishLocationAdapter publishLocationAdapter)
+      {
+         this.publishLocationAdapter = publishLocationAdapter;
+      }
+      
+   }
+   
+   public EJBArchiveMetaData(List<EJBMetaData> beans, String configName, String configFile,
+         String webServiceContextRoot, String securityDomain, PublishLocationAdapter publishLocationAdapter)
+   {
+      if (beans != null) {
+         this.beans = Collections.unmodifiableList(beans);
+      } else {
+         this.beans = Collections.emptyList();
+      }
+      this.configName = configName;
+      this.configFile = configFile;
+      this.webServiceContextRoot = webServiceContextRoot;
+      this.securityDomain = securityDomain;
+      this.publishLocationAdapter = publishLocationAdapter;
+   }
 
    public EJBMetaData getBeanByEjbName(String ejbName)
    {
@@ -63,19 +144,9 @@ public class EJBArchiveMetaData
       return beans.iterator();
    }
 
-   public void setEnterpriseBeans(List<EJBMetaData> beans)
-   {
-      this.beans = beans;
-   }
-
    public String getConfigName()
    {
       return configName;
-   }
-
-   public void setConfigName(String configName)
-   {
-      this.configName = configName;
    }
 
    public String getConfigFile()
@@ -83,34 +154,14 @@ public class EJBArchiveMetaData
       return configFile;
    }
 
-   public void setConfigFile(String configFile)
-   {
-      this.configFile = configFile;
-   }
-
    public String getWebServiceContextRoot()
    {
       return webServiceContextRoot;
    }
 
-   public void setWebServiceContextRoot(String contextRoot)
-   {
-      this.webServiceContextRoot = contextRoot;
-   }
-
    public String getSecurityDomain()
    {
       return securityDomain;
-   }
-
-   public void setSecurityDomain(String securityDomain)
-   {
-      this.securityDomain = securityDomain;
-   }
-
-   public void setPublishLocationAdapter(PublishLocationAdapter publishLocationAdapter)
-   {
-      this.publishLocationAdapter = publishLocationAdapter;
    }
 
    public String getWsdlPublishLocationByName(String name)

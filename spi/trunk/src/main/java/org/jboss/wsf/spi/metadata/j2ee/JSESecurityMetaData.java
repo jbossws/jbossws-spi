@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,8 +22,11 @@
 package org.jboss.wsf.spi.metadata.j2ee;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -33,15 +36,37 @@ import java.util.HashSet;
 public class JSESecurityMetaData
 {
    // The optional security-constraint/user-data-constraint/transport-guarantee 
-   private String transportGuarantee;
-   // The HashMap for the security-constraint/web-resource-collection elements.
-   private HashMap<String, JSEResourceCollection> webResources = new HashMap<String, JSEResourceCollection>();
+   private final String transportGuarantee;
+   // The Map for the security-constraint/web-resource-collection elements.
+   private final Map<String, JSEResourceCollection> webResources;
 
-   public JSEResourceCollection addWebResource(final String name)
+   public static class Builder
    {
-      JSEResourceCollection wrc = new JSEResourceCollection(name);
-      webResources.put(name, wrc);
-      return wrc;
+      private String transportGuarantee;
+      // The HashMap for the security-constraint/web-resource-collection elements.
+      private HashMap<String, JSEResourceCollection> webResources = new HashMap<String, JSEResourceCollection>();
+      
+      public JSESecurityMetaData build()
+      {
+         return new JSESecurityMetaData(transportGuarantee, webResources);
+      }
+      
+      public void addWebResource(final String name, final Collection<String> urlPatterns)
+      {
+         JSEResourceCollection wrc = new JSEResourceCollection(name, urlPatterns);
+         webResources.put(name, wrc);
+      }
+      
+      public void setTransportGuarantee(final String transportGuarantee)
+      {
+         this.transportGuarantee = transportGuarantee;
+      }
+   }
+   
+   protected JSESecurityMetaData(String transportGuarantee, HashMap<String, JSEResourceCollection> webResources)
+   {
+      this.transportGuarantee = transportGuarantee;
+      this.webResources = webResources;
    }
 
    public Collection<JSEResourceCollection> getWebResources()
@@ -54,19 +79,19 @@ public class JSESecurityMetaData
       return transportGuarantee;
    }
 
-   public void setTransportGuarantee(String transportGuarantee)
-   {
-      this.transportGuarantee = transportGuarantee;
-   }
-
    public static class JSEResourceCollection
    {
-      private String name;
-      private HashSet<String> urlPatterns = new HashSet<String>();
+      private final String name;
+      private final Set<String> urlPatterns;
 
-      public JSEResourceCollection(final String name)
+      public JSEResourceCollection(final String name, Collection<String> urlPatterns)
       {
          this.name = name;
+         if (urlPatterns != null) {
+            this.urlPatterns = Collections.unmodifiableSet(new HashSet<String>(urlPatterns));
+         } else {
+            this.urlPatterns = Collections.emptySet();
+         }
       }
 
       public String getName()
@@ -74,12 +99,7 @@ public class JSESecurityMetaData
          return name;
       }
 
-      public void addPattern(String pattern)
-      {
-         urlPatterns.add(pattern);
-      }
-
-      public HashSet<String> getUrlPatterns()
+      public Set<String> getUrlPatterns()
       {
          return urlPatterns;
       }

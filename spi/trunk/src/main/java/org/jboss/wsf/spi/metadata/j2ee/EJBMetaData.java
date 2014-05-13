@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,34 +30,45 @@ package org.jboss.wsf.spi.metadata.j2ee;
 public abstract class EJBMetaData
 {
    // The ejb-name element specifies an enterprise bean's name. 
-   private String ejbName;
+   private final String ejbName;
    // The ejb-class element contains the fully-qualified name of the enterprise bean's class. 
-   private String ejbClass;
+   private final String ejbClass;
    // The home element contains the fully-qualified name of the enterprise bean's home interface. */
-   private String homeClass;
+   private final String homeClass;
    // The local-home element contains the fully-qualified name of the enterprise bean's local home interface. 
-   private String localHomeClass;
+   private final String localHomeClass;
    // The service-endpoint element contains the fully-qualified name of the beans service endpoint interface (SEI) 
-   private String seiName;
+   private final String seiName;
    // The JNDI name under with the home interface should be bound 
-   private String jndiName;
+   private final String jndiName;
    // The JNDI name under with the local home interface should be bound 
-   private String localJndiName;
+   private final String localJndiName;
    // The optional port-component-name
-   private String portComponentName;
+   private final String portComponentName;
    // The optional port-component-uri
-   private String portComponentURI;
+   private final String portComponentURI;
    // The optional security meta data
-   private EJBSecurityMetaData securityMetaData;
+   private final EJBSecurityMetaData securityMetaData;
    
+   protected EJBMetaData(String ejbName, String ejbClass, String homeClass, String localHomeClass, String seiName,
+         String jndiName, String localJndiName, String portComponentName, String portComponentURI,
+         EJBSecurityMetaData securityMetaData)
+   {
+      this.ejbName = ejbName;
+      this.ejbClass = ejbClass;
+      this.homeClass = homeClass;
+      this.localHomeClass = localHomeClass;
+      this.seiName = seiName;
+      this.jndiName = jndiName;
+      this.localJndiName = localJndiName;
+      this.portComponentName = portComponentName;
+      this.portComponentURI = portComponentURI;
+      this.securityMetaData = securityMetaData;
+   }
+
    public String getEjbName()
    {
       return ejbName;
-   }
-
-   public void setEjbName(String ejbName)
-   {
-      this.ejbName = ejbName;
    }
 
    public String getEjbClass()
@@ -65,19 +76,9 @@ public abstract class EJBMetaData
       return ejbClass;
    }
 
-   public void setEjbClass(String ejbClass)
-   {
-      this.ejbClass = ejbClass;
-   }
-
    public String getServiceEndpointInterface()
    {
       return seiName;
-   }
-
-   public void setServiceEndpointInterface(String seiName)
-   {
-      this.seiName = seiName;
    }
 
    public String getContainerObjectNameJndiName()
@@ -90,19 +91,9 @@ public abstract class EJBMetaData
       return homeClass;
    }
 
-   public void setHome(String homeClass)
-   {
-      this.homeClass = homeClass;
-   }
-
    public String getJndiName()
    {
       return jndiName;
-   }
-
-   public void setJndiName(String jndiName)
-   {
-      this.jndiName = jndiName;
    }
 
    public String getLocalHome()
@@ -110,19 +101,9 @@ public abstract class EJBMetaData
       return localHomeClass;
    }
 
-   public void setLocalHome(String localHomeClass)
-   {
-      this.localHomeClass = localHomeClass;
-   }
-
    public String getLocalJndiName()
    {
       return localJndiName;
-   }
-
-   public void setLocalJndiName(String localJndiName)
-   {
-      this.localJndiName = localJndiName;
    }
 
    public String getPortComponentName()
@@ -130,19 +111,9 @@ public abstract class EJBMetaData
       return portComponentName;
    }
 
-   public void setPortComponentName(String portComponentName)
-   {
-      this.portComponentName = portComponentName;
-   }
-
    public String getPortComponentURI()
    {
       return portComponentURI;
-   }
-
-   public void setPortComponentURI(String portComponentURI)
-   {
-      this.portComponentURI = portComponentURI;
    }
 
    public EJBSecurityMetaData getSecurityMetaData()
@@ -150,8 +121,4 @@ public abstract class EJBMetaData
       return securityMetaData;
    }
 
-   public void setSecurityMetaData(EJBSecurityMetaData securityMetaData)
-   {
-      this.securityMetaData = securityMetaData;
-   }
 }

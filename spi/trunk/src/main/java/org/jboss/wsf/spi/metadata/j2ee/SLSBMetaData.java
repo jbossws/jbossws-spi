@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,4 +30,110 @@ package org.jboss.wsf.spi.metadata.j2ee;
 public class SLSBMetaData extends EJBMetaData
 {
 
+   protected SLSBMetaData(String ejbName, String ejbClass, String homeClass, String localHomeClass, String seiName,
+         String jndiName, String localJndiName, String portComponentName, String portComponentURI,
+         EJBSecurityMetaData securityMetaData)
+   {
+      super(ejbName, ejbClass, homeClass, localHomeClass, seiName, jndiName, localJndiName, portComponentName,
+            portComponentURI, securityMetaData);
+   }
+   
+   public static class Builder {
+      private String ejbName;
+      private String ejbClass;
+      private String homeClass;
+      private String localHomeClass;
+      private String seiName;
+      private String jndiName;
+      private String localJndiName;
+      private String portComponentName;
+      private String portComponentURI;
+      private EJBSecurityMetaData securityMetaData;
+      
+      public SLSBMetaData build()
+      {
+         return new SLSBMetaData(ejbName, ejbClass, homeClass, localHomeClass, seiName, jndiName, localJndiName, portComponentName, portComponentURI, securityMetaData);
+      }
+      
+      public String getEjbName()
+      {
+         return ejbName;
+      }
+      public void setEjbName(String ejbName)
+      {
+         this.ejbName = ejbName;
+      }
+      public String getEjbClass()
+      {
+         return ejbClass;
+      }
+      public void setEjbClass(String ejbClass)
+      {
+         this.ejbClass = ejbClass;
+      }
+      public String getHomeClass()
+      {
+         return homeClass;
+      }
+      public void setHomeClass(String homeClass)
+      {
+         this.homeClass = homeClass;
+      }
+      public String getLocalHomeClass()
+      {
+         return localHomeClass;
+      }
+      public void setLocalHomeClass(String localHomeClass)
+      {
+         this.localHomeClass = localHomeClass;
+      }
+      public String getSeiName()
+      {
+         return seiName;
+      }
+      public void setSeiName(String seiName)
+      {
+         this.seiName = seiName;
+      }
+      public String getJndiName()
+      {
+         return jndiName;
+      }
+      public void setJndiName(String jndiName)
+      {
+         this.jndiName = jndiName;
+      }
+      public String getLocalJndiName()
+      {
+         return localJndiName;
+      }
+      public void setLocalJndiName(String localJndiName)
+      {
+         this.localJndiName = localJndiName;
+      }
+      public String getPortComponentName()
+      {
+         return portComponentName;
+      }
+      public void setPortComponentName(String portComponentName)
+      {
+         this.portComponentName = portComponentName;
+      }
+      public String getPortComponentURI()
+      {
+         return portComponentURI;
+      }
+      public void setPortComponentURI(String portComponentURI)
+      {
+         this.portComponentURI = portComponentURI;
+      }
+      public EJBSecurityMetaData getSecurityMetaData()
+      {
+         return securityMetaData;
+      }
+      public void setSecurityMetaData(EJBSecurityMetaData securityMetaData)
+      {
+         this.securityMetaData = securityMetaData;
+      }
+   }
 }
