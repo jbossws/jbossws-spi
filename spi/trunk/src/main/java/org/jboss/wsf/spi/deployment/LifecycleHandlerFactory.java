@@ -21,13 +21,12 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-import org.jboss.wsf.spi.SPIView;
 
 /**
  * @author Heiko.Braun@jboss.com
  *         Created: Jul 23, 2007
  */
-public abstract class LifecycleHandlerFactory implements SPIView
+public abstract class LifecycleHandlerFactory
 {
    public abstract LifecycleHandler getLifecycleHandler();
 }

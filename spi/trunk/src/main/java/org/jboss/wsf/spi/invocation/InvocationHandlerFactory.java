@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.spi.invocation;
 
-import org.jboss.wsf.spi.SPIView;
 
 /**
  * Creates invocation related artefacts.
@@ -29,7 +28,7 @@ import org.jboss.wsf.spi.SPIView;
  * @author Heiko.Braun@jboss.com
  *         Created: Jul 19, 2007
  */
-public abstract class InvocationHandlerFactory implements SPIView
+public abstract class InvocationHandlerFactory
 {
    public abstract InvocationHandler newInvocationHandler(InvocationType type);
 }

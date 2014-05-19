@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-import org.jboss.wsf.spi.SPIView;
 
 /**
  * Creates DeploymentAspectManager's by {@link org.jboss.wsf.spi.deployment.Deployment.DeploymentType}
@@ -29,7 +28,7 @@ import org.jboss.wsf.spi.SPIView;
  * @author Heiko.Braun@jboss.com
  *         Created: Jul 20, 2007
  */
-public abstract class DeploymentAspectManagerFactory implements SPIView
+public abstract class DeploymentAspectManagerFactory
 {
    public abstract DeploymentAspectManager getDeploymentAspectManager(DeploymentType deploymentType);
    

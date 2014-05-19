@@ -52,14 +52,15 @@ public class URLLoaderAdapter implements UnifiedVirtualFile
 {
    private static final long serialVersionUID = 8263115387770740414L;
    
-   private URL rootURL;
-   private URL resourceURL;
-   private transient URLClassLoader loader;
+   private final URL rootURL;
+   private final URL resourceURL;
+   private transient volatile URLClassLoader loader;
    private static final String jarFileSeparator = "/";
 
    public URLLoaderAdapter(URL rootURL)
    {
       this.rootURL = rootURL;
+      this.resourceURL = null;
    }
 
    private URLLoaderAdapter(URL rootURL, URLClassLoader loader, URL resourceURL)

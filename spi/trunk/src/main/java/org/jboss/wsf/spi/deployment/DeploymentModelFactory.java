@@ -21,13 +21,12 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-import org.jboss.wsf.spi.SPIView;
 
 /**
  * @author Heiko.Braun@jboss.com
  *         Created: Jul 18, 2007
  */
-public abstract class DeploymentModelFactory implements SPIView
+public abstract class DeploymentModelFactory
 {
    public abstract Deployment newDeployment(String simpleName, ClassLoader initialLoader);
 
