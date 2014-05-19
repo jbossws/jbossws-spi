@@ -21,14 +21,12 @@ package org.jboss.wsf.spi.deployer;
 import java.net.URL;
 import java.util.Map;
 
-import org.jboss.wsf.spi.SPIView;
-
 /**
  * Abstraction to provide AS agnostic remote deployer.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public interface Deployer extends SPIView
+public interface Deployer
 {
 	/**
 	 * Deploys specified archive remotely.

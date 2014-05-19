@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.spi.management;
 
-import org.jboss.wsf.spi.SPIView;
 
 /**
  * Factory to container independent config 
@@ -29,7 +28,7 @@ import org.jboss.wsf.spi.SPIView;
  * @author Thomas.Diesler@jboss.org 
  * @since 08-May-2006
  */
-public abstract class ServerConfigFactory implements SPIView
+public abstract class ServerConfigFactory
 {
    public abstract ServerConfig getServerConfig();
 }
