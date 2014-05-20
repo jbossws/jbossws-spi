@@ -39,7 +39,6 @@ import javax.xml.namespace.QName;
 
 import org.jboss.wsf.spi.Loggers;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.wsf.spi.serviceref.ServiceRefType;
 
 /**
  * The metadata from service-ref element in web.xml, ejb-jar.xml,
@@ -60,8 +59,6 @@ public final class UnifiedServiceRefMetaData implements Serializable
    
    // Standard properties
    
-   // Service reference type - either JAX-RPC or JAXWS
-   private volatile ServiceRefType type; //TODO REMOVE
    // The required <service-ref-name> element
    private final String serviceRefName;
    // The <service-interface> element
@@ -141,7 +138,7 @@ public final class UnifiedServiceRefMetaData implements Serializable
    
    
 
-   public UnifiedServiceRefMetaData(UnifiedVirtualFile vfsRoot, ServiceRefType type, String serviceRefName,
+   public UnifiedServiceRefMetaData(UnifiedVirtualFile vfsRoot, String serviceRefName,
          String serviceInterface, String serviceRefType, String wsdlFile, String mappingFile, QName serviceQName,
          List<UnifiedPortComponentRefMetaData> portComponentRefs, List<UnifiedHandlerMetaData> handlers,
          UnifiedHandlerChainsMetaData handlerChains, String serviceImplClass, String configName, String configFile,
@@ -149,7 +146,6 @@ public final class UnifiedServiceRefMetaData implements Serializable
          RespectBindingMetadata respectBindingMetadata)
    {
       this.vfsRoot = vfsRoot;
-      this.type = type;
       this.serviceRefName = serviceRefName;
       this.serviceInterface = serviceInterface;
       this.serviceRefType = serviceRefType;
@@ -235,16 +231,6 @@ public final class UnifiedServiceRefMetaData implements Serializable
       this.vfsRoot = vfsRoot;
    }
    
-   public ServiceRefType getType()
-   {
-      return type;
-   }
-
-   public void setType(ServiceRefType type)
-   {
-      this.type = type;
-   }
-
    public String getServiceRefName()
    {
       return serviceRefName;
@@ -468,7 +454,6 @@ public final class UnifiedServiceRefMetaData implements Serializable
       StringBuilder str = new StringBuilder();
       str.append("\nUnifiedServiceRef");
       str.append("\n serviceRefName=" + serviceRefName);
-      str.append("\n type=" + type);
       str.append("\n serviceInterface=" + serviceInterface);
       str.append("\n serviceImplClass=" + serviceImplClass);
       str.append("\n serviceRefType=" + serviceRefType);
