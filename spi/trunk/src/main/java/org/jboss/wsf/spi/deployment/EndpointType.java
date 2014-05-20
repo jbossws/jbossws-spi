@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat, Inc., and individual contributors
+ * Copyright 2014, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -29,5 +29,5 @@ package org.jboss.wsf.spi.deployment;
  */
 public enum EndpointType
 {
-    JAXRPC_JSE, JAXRPC_EJB21, JAXWS_JSE, JAXWS_EJB3
+    JAXWS_JSE, JAXWS_EJB3
 }

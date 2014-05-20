@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -47,12 +47,6 @@ public interface Deployment extends Extensible
    
    /** Set the runtime class loader for this deployment */
    void setRuntimeClassLoader(ClassLoader loader);
-   
-   /** Get the deployment type */
-   DeploymentType getType();
-   
-   /** Set the deployment type */
-   void setType(DeploymentType type);
    
    /** Get the current deployment state */
    DeploymentState getState();

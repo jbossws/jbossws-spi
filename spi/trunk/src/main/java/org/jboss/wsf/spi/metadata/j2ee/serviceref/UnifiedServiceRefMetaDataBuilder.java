@@ -29,7 +29,6 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.wsf.spi.serviceref.ServiceRefType;
 
 /**
  * Utility class for building UnifiedServiceRefMetaData instances
@@ -42,8 +41,6 @@ public final class UnifiedServiceRefMetaDataBuilder
    
    // Standard properties
    
-   // Service reference type - either JAX-RPC or JAXWS
-   private ServiceRefType type;
    // The required <service-ref-name> element
    private String serviceRefName;
    // The JAXRPC required <service-interface> element
@@ -92,7 +89,6 @@ public final class UnifiedServiceRefMetaDataBuilder
    
    public UnifiedServiceRefMetaData build() {
       return new UnifiedServiceRefMetaData(vfsRoot,
-                                           type,
                                            serviceRefName,
                                            serviceInterface,
                                            serviceRefType,
@@ -158,11 +154,6 @@ public final class UnifiedServiceRefMetaDataBuilder
       this.vfsRoot = vfsRoot;
    }
    
-   public void setType(ServiceRefType type)
-   {
-      this.type = type;
-   }
-
    public String getServiceRefName()
    {
       return serviceRefName;
