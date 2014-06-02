@@ -61,9 +61,9 @@ public interface ServerConfig
 
    void setWebServiceSecurePort(int port);
 
-   String getWebServicePath();
+   String getWebServicePathRewriteRule();
 
-   void setWebServicePath(String path);
+   void setWebServicePathRewriteRule(String path);
    
    boolean isModifySOAPAddress();
    
