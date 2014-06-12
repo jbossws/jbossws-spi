@@ -22,9 +22,7 @@
 package org.jboss.wsf.spi.deployment;
 
 /**
- * A general web service deployment dep.
- *
- * It has no notion of J2EE deployment packages.
+ * A general web service deployment.
  *
  * @author Thomas.Diesler@jboss.com
  */
@@ -33,30 +31,9 @@ public interface Deployment extends Extensible
    /** Get the identifier for this deployment */
    String getSimpleName();
 
-   /** Set the identifier for this deployment */
-   void setSimpleName(String name);
-
    /** Get the class loader for this deployment */
-   ClassLoader getInitialClassLoader();
+   ClassLoader getClassLoader();
    
-   /** Set the class loader for this deployment */
-   void setInitialClassLoader(ClassLoader loader);
-   
-   /** Get the runtime class loader for this deployment */
-   ClassLoader getRuntimeClassLoader();
-   
-   /** Set the runtime class loader for this deployment */
-   void setRuntimeClassLoader(ClassLoader loader);
-   
-   /** Get the current deployment state */
-   DeploymentState getState();
-   
-   /** Set the current deployment state */
-   void setState(DeploymentState type);
-
    /** Get the service associated with this deployment */
    Service getService();
-
-   /** Set the service associated with this deployment */
-   void setService(Service service);
 }

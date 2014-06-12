@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -28,9 +28,9 @@ package org.jboss.wsf.spi.deployment;
  */
 public abstract class DeploymentModelFactory
 {
-   public abstract Deployment newDeployment(String simpleName, ClassLoader initialLoader);
+   public abstract Deployment newDeployment(String simpleName, ClassLoader classLoader, UnifiedVirtualFile rootFile);
 
-   public abstract Service newService();
+   public abstract Deployment newDeployment(ArchiveDeployment parent, String simpleName, ClassLoader classLoader, UnifiedVirtualFile rootFile);
 
    public abstract Endpoint newHttpEndpoint(String targetBean);
    
