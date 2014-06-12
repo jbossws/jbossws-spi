@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,9 +24,7 @@ package org.jboss.wsf.spi.deployment;
 import java.util.List;
 
 /**
- * A general web service deployment dep. 
- * 
- * It has no notion of J2EE deployment packages. 
+ * A general web service deployment. 
  * 
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
@@ -36,14 +34,8 @@ public interface ArchiveDeployment extends Deployment
    /** Get the optional parent of this deployment */
    ArchiveDeployment getParent();
 
-   /** Set the optional parent for this deployment */
-   void setParent (ArchiveDeployment parent);
-   
    /** Get the root file for this deployment */
    UnifiedVirtualFile getRootFile();
-   
-   /** Set the root file for this deployment */
-   void setRootFile(UnifiedVirtualFile root);
    
    /** The concatenated names including all parents. */
    String getCanonicalName();
@@ -51,8 +43,8 @@ public interface ArchiveDeployment extends Deployment
    /** Get additional metadata files attached to the deployment **/
    List<UnifiedVirtualFile> getMetadataFiles();
    
-   /** Set additional metadata files for this deployment **/
-   void setMetadataFiles(List<UnifiedVirtualFile> metadataFiles);
+   /** Add additional metadata file to the deployment **/
+   void addMetadataFile(UnifiedVirtualFile file);
    
    /** Get the resource resolver to be used to access resources from this archive */
    ResourceResolver getResourceResolver();
