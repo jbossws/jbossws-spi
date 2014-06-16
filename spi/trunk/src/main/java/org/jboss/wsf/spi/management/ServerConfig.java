@@ -65,6 +65,10 @@ public interface ServerConfig
    
    void setModifySOAPAddress(boolean flag);
    
+   boolean isStatisticsEnabled();
+   
+   void setStatisticsEnabled(boolean flag);
+   
    /**
     * Register a client config in the server configuration; the new config will apply to runtime when the server config is started
     * or after a client config store reload.
