@@ -37,7 +37,7 @@ import org.jboss.wsf.spi.metadata.config.EndpointConfig;
 public interface ServerConfig
 {
    /** The host name that is returned if there is no other defined */
-   String UNDEFINED_HOSTNAME = "localhost";
+   String UNDEFINED_HOSTNAME = "jbossws.undefined.host";
    
    String getImplementationTitle();
 
