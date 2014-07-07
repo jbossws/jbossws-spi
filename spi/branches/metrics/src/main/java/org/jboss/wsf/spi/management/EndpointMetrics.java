@@ -24,16 +24,6 @@ package org.jboss.wsf.spi.management;
 
 public interface EndpointMetrics
 {
-   void start();
-
-   void stop();
-
-   long processRequestMessage();
-
-   void processResponseMessage(long beginTime);
-
-   void processFaultMessage(long beginTime);
-
    long getMinProcessingTime();
 
    long getMaxProcessingTime();

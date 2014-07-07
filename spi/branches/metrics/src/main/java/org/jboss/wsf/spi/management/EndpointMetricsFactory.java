@@ -21,7 +21,9 @@
  */
 package org.jboss.wsf.spi.management;
 
+import org.jboss.wsf.spi.deployment.Endpoint;
+
 public abstract class EndpointMetricsFactory
 {
-   public abstract EndpointMetrics newEndpointMetrics();
+   public abstract EndpointMetrics newEndpointMetrics(Endpoint endpoint);
 }
