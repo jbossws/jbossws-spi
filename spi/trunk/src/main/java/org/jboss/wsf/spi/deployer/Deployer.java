@@ -75,4 +75,14 @@ public interface Deployer
      * @throws Exception
      */
     public void removeHttpsConnector() throws Exception;
+    
+    /**
+     * Set a system property value on server
+     * 
+     * @param propName      The name of the property.
+     * @param propValue     The value of the property; a 'null' value is to be speficied for unsetting the system property. 
+     * @return              The former value of the property, if already set or null if it's being set for the first time.
+     * @throws Exception
+     */
+    public String setSystemProperty(String propName, String propValue) throws Exception;
 }
