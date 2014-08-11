@@ -64,6 +64,9 @@ public interface ServerConfig
    String getWebServicePathRewriteRule();
    void setWebServicePathRewriteRule(String path);
    
+   String getWebServiceUriScheme();
+   void setWebServiceUriScheme(String scheme);
+   
    boolean isModifySOAPAddress();
    
    void setModifySOAPAddress(boolean flag);
