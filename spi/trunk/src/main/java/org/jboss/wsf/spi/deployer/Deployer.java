@@ -85,4 +85,11 @@ public interface Deployer
      * @throws Exception
      */
     public String setSystemProperty(String propName, String propValue) throws Exception;
+    
+    /**
+     * Restart the server
+     * 
+     * @throws Exception
+     */
+    public void restart() throws Exception;
 }
