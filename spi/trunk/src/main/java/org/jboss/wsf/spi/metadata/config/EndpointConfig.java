@@ -35,6 +35,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 public class EndpointConfig extends AbstractCommonConfig
 {
    public static final String STANDARD_ENDPOINT_CONFIG = "Standard-Endpoint-Config";
+   public static final String DEFAULT_ENDPOINT_CONFIG_FILE = "jaxws-endpoint-config.xml";
    public static final String STATISTICS_ENABLED = "statistics-enabled";
 
    public EndpointConfig(String configName, List<UnifiedHandlerChainMetaData> preHandlerChains,
