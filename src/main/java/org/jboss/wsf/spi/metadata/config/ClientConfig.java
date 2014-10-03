@@ -35,6 +35,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 public class ClientConfig extends AbstractCommonConfig
 {
    public static final String STANDARD_CLIENT_CONFIG = "Standard-Client-Config";
+   public static final String DEFAULT_CLIENT_CONFIG_FILE = "jaxws-client-config.xml";
 
    public ClientConfig(String configName, List<UnifiedHandlerChainMetaData> preHandlerChains,
          List<UnifiedHandlerChainMetaData> postHandlerChains, Map<String, String> properties,
