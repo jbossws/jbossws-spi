@@ -77,9 +77,6 @@ public class ConfigRoot
          }
       }
       
-      if (config == null && clientConfigList.size() == 1)
-         config = clientConfigList.get(0);
-      
       return config;
    }
    
@@ -94,9 +91,6 @@ public class ConfigRoot
             break;
          }
       }
-      
-      if (config == null && endpointConfigList.size() == 1)
-         config = endpointConfigList.get(0);
       
       return config;
    }
