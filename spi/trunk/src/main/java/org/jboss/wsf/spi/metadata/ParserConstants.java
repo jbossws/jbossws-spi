@@ -38,6 +38,8 @@ public abstract class ParserConstants
    public static final String J2EE_NS = "http://java.sun.com/xml/ns/j2ee";
 
    public static final String AUTH_METHOD = "auth-method";
+   
+   public static final String REALM_NAME = "realm-name";
 
    public static final String CHAIN_PORT_PATTERN = "port-name-pattern";
 
