@@ -29,6 +29,7 @@ import static org.jboss.wsf.spi.metadata.ParserConstants.AUTH_METHOD;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CONFIG_FILE;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CONFIG_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.CONTEXT_ROOT;
+import static org.jboss.wsf.spi.metadata.ParserConstants.REALM_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.EJB_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.JBOSSEE_NS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.NAME;
@@ -211,6 +212,7 @@ public class JBossWebservicesFactory {
         String portComponentName = null;
         String portComponentURI = null;
         String authMethod = null;
+        String realmName = null;
         String transportGuarantee = null;
         Boolean secureWsdlAccess = null;
         while (reader.hasNext()) {
@@ -218,7 +220,7 @@ public class JBossWebservicesFactory {
                 case XMLStreamConstants.END_ELEMENT: {
                     if (match(reader, nsUri, PORT_COMPONENT)) {
                         return new JBossPortComponentMetaData(ejbName, portComponentName, portComponentURI,
-                              authMethod, transportGuarantee, secureWsdlAccess);
+                              authMethod, realmName, transportGuarantee, secureWsdlAccess);
                     } else {
                         throw MESSAGES.unexpectedEndTag(getDescriptorForLogs(), reader.getLocalName());
                     }
@@ -232,6 +234,8 @@ public class JBossWebservicesFactory {
                         portComponentURI = getElementText(reader);
                     } else if (match(reader, nsUri, AUTH_METHOD)) {
                         authMethod = getElementText(reader);
+                    } else if (match(reader, nsUri, REALM_NAME)) {
+                       realmName = getElementText(reader);
                     } else if (match(reader, nsUri, TRANSPORT_GUARANTEE)) {
                         transportGuarantee = getElementText(reader);
                     } else if (match(reader, nsUri, SECURE_WSDL_ACCESS)) {

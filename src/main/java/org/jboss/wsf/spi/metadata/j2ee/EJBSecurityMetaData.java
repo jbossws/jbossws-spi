@@ -30,12 +30,19 @@ package org.jboss.wsf.spi.metadata.j2ee;
 public class EJBSecurityMetaData
 {
    private final String authMethod;
+   private final String realmName;
    private final String transportGuarantee;
    private final boolean secureWSDLAccess;
 
    public EJBSecurityMetaData(String authMethod, String transportGuarantee, boolean secureWSDLAccess)
    {
+      this(authMethod, null, transportGuarantee, secureWSDLAccess);
+   }
+   
+   public EJBSecurityMetaData(String authMethod, String realmName, String transportGuarantee, boolean secureWSDLAccess)
+   {
       this.authMethod = authMethod;
+      this.realmName = realmName;
       this.transportGuarantee = transportGuarantee;
       this.secureWSDLAccess = secureWSDLAccess;
    }
@@ -53,5 +60,10 @@ public class EJBSecurityMetaData
    public boolean getSecureWSDLAccess()
    {
       return secureWSDLAccess;
+   }
+   
+   public String getRealmName() 
+   {
+      return realmName;
    }
 }
