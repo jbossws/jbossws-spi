@@ -57,13 +57,16 @@ public class UnifiedHandlerMetaData implements Serializable
    private final Set<String> soapRoles;
    // The optional <port-name> elements, these only apply to webservice clients
    private final Set<String> portNames;
+   // An optional id
+   private final String id;
 
    public UnifiedHandlerMetaData(String handlerClass,
                                  String handlerName,
                                  List<UnifiedInitParamMetaData> initParams,
                                  Set<QName> soapHeaders,
                                  Set<String> soapRoles,
-                                 Set<String> portNames) {
+                                 Set<String> portNames,
+                                 String id) {
       this.handlerClass = handlerClass;
       this.handlerName = handlerName;
       this.initParams = initParams != null ? Collections.unmodifiableList(initParams) : null;
@@ -82,8 +85,18 @@ public class UnifiedHandlerMetaData implements Serializable
       } else {
          this.portNames = Collections.emptySet();
       }
+      this.id = id;
    }
 
+   public UnifiedHandlerMetaData(String handlerClass,
+           String handlerName,
+           List<UnifiedInitParamMetaData> initParams,
+           Set<QName> soapHeaders,
+           Set<String> soapRoles,
+           Set<String> portNames) {
+	   this(handlerClass, handlerName, initParams, soapHeaders, soapRoles, portNames, handlerName);
+   }
+   
    public UnifiedHandlerChainMetaData getHandlerChain()
    {
       return handlerChain;
@@ -102,6 +115,11 @@ public class UnifiedHandlerMetaData implements Serializable
    public String getHandlerClass()
    {
       return handlerClass;
+   }
+
+   public String getId()
+   {
+      return id;
    }
 
    public List<UnifiedInitParamMetaData> getInitParams()
@@ -134,6 +152,7 @@ public class UnifiedHandlerMetaData implements Serializable
       str.append("\n soapRoles=" + soapRoles);
       str.append("\n portNames=" + portNames);
       str.append("\n initParams=" + initParams);
+      str.append("\n id=" + id);
       return str.toString();
    }
 }
