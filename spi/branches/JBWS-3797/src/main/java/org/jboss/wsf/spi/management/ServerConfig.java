@@ -136,5 +136,5 @@ public interface ServerConfig
     * @param virtualHost virtual host name
     * @return port value for virtual host
     */
-   Integer getVirutalHostPort(String virtualHost);
+   Integer getVirtualHostPort(String virtualHost);
 }
