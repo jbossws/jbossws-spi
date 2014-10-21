@@ -130,4 +130,11 @@ public interface ServerConfig
     * @return
     */
    EndpointConfig getEndpointConfig(String name);
+   
+   /**
+    * Get port for virtual host, if there are many ports found only return the first found
+    * @param virtualHost virtual host name
+    * @return port value for virtual host
+    */
+   Integer getVirutalHostPort(String virtualHost);
 }
