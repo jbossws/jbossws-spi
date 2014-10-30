@@ -19,15 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee;
+package org.jboss.wsf.spi.invocation.integration;
+
+import java.lang.reflect.Method;
 
 /**
- * The container independent metadata of a stateless session bean. 
- *
- * @author Thomas.Diesler@jboss.org
- * @since 05-May-2006
+ * Host's web service implementation and allows invocations on them.
+ *  
+ * @author Heiko.Braun <heiko.braun@jboss.com>
  */
-public class SLSBMetaData extends EJBMetaData
+public interface ServiceEndpointContainer
 {
+   /**
+    * Identifies a service endpoint container
+    * @return
+    */
+   String getContainerName();
 
+   /**
+    * The actual web service implementation hosted by this container.
+    * @return
+    */
+   Class<?> getServiceImplementationClass();
+
+   /**
+    * Invokes a particular endpoint opertation.
+    * 
+    * @param method  business method
+    * @param args  parameters
+    * @param callback gives access to invocation context properties. I.e. for injecting the WebServiceContext
+    * @return null for operations without return parameter
+    * @throws Exception
+    */
+   Object invokeEndpoint(Method method, Object[] args, InvocationContextCallback callback) throws Throwable;
 }

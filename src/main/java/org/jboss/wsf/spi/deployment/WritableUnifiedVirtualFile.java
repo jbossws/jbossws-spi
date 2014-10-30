@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,19 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.config;
+package org.jboss.wsf.spi.deployment;
 
-public final class Feature
+import java.io.IOException;
+import java.io.OutputStream;
+
+/**
+ * @author alessio.soldano@jboss.com
+ * @since 04-Mar-2010
+ */
+public interface WritableUnifiedVirtualFile extends UnifiedVirtualFile
 {
-   private String name;
-
-   public Feature(final String name)
+   public void writeContent(OutputStream os) throws IOException;
+   
+   public void writeContent(OutputStream os, NameFilter filter) throws IOException;
+   
+   public interface NameFilter
    {
-      this.name = name;
-   }
-
-   public String getName()
-   {
-      return name;
+      public boolean accept(String fileName);
    }
 }

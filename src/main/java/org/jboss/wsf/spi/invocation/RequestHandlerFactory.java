@@ -21,12 +21,16 @@
  */
 package org.jboss.wsf.spi.invocation;
 
+import org.jboss.wsf.spi.SPIView;
 
 /**
  * @author Heiko.Braun@jboss.com
  *         Created: Jul 23, 2007
  */
-public abstract class RequestHandlerFactory
+public abstract class RequestHandlerFactory implements SPIView
 {
+   @Deprecated
+   public abstract RequestHandler newRequestHandler();
+   
    public abstract RequestHandler getRequestHandler();
 }

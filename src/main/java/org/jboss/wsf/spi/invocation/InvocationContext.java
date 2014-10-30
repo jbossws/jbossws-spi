@@ -31,7 +31,7 @@ import org.jboss.wsf.spi.deployment.AbstractExtensible;
  */
 public class InvocationContext extends AbstractExtensible
 {
-   private volatile Object targetBean;
+   private Object targetBean;
    
    public InvocationContext() {
       super(4, 4);

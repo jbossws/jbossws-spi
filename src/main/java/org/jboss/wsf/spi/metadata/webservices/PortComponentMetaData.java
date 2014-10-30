@@ -32,6 +32,12 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 
 /**
+ * XML Binding and ws4ee meta-data element for
+ * <code>webservices/webservice-description/port-component</code>
+ * <p/>
+ * A port component is the equivalent of an ordinary Axis service (and
+ * as such it constitutes the building blocks for jaxrpc services).
+ * <p/>
  *
  * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com

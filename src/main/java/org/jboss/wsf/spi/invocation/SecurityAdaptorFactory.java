@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.invocation;
 
+import org.jboss.wsf.spi.SPIView;
 
 /**
  * A container idependent SecurityAdaptorFactory
@@ -30,7 +31,7 @@ package org.jboss.wsf.spi.invocation;
  * 
  * @since 10-May-2005
  */
-public abstract class SecurityAdaptorFactory
+public abstract class SecurityAdaptorFactory implements SPIView
 {
    public abstract SecurityAdaptor newSecurityAdapter();
 }

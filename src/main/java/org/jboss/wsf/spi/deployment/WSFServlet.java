@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -42,9 +42,8 @@ import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
  */
 public class WSFServlet extends HttpServlet
 {
-   private static final long serialVersionUID = -1958443536378468262L;
-
    public static final String STACK_SERVLET_DELEGATE_CLASS = "org.jboss.wsf.spi.deployment.stackServletDelegateClass";
+   public static final String INTEGRATION_CLASSLOADER = "org.jboss.wsf.spi.deployment.integrationClassLoader";
 
    private volatile ServletDelegate delegate = null;
 
@@ -75,7 +74,8 @@ public class WSFServlet extends HttpServlet
       ClassLoader cl = clProvider.getWebServiceSubsystemClassLoader();
       ServiceLoader<ServletDelegateFactory> sl = ServiceLoader.load(ServletDelegateFactory.class, cl);
       ServletDelegateFactory factory = sl.iterator().next();
-      return factory.newServletDelegate(servletConfig.getInitParameter(STACK_SERVLET_DELEGATE_CLASS));
+      boolean isJaxWs = DeploymentType.JAXWS.toString().equals(servletConfig.getInitParameter(INTEGRATION_CLASSLOADER));
+      return factory.newServletDelegate(servletConfig.getInitParameter(STACK_SERVLET_DELEGATE_CLASS), isJaxWs);
    }
    
    @Override

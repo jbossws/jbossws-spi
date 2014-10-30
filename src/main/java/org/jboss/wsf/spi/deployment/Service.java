@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,86 +24,44 @@ package org.jboss.wsf.spi.deployment;
 import java.util.List;
 
 /**
- * A service collecting endpoints belonging to the same deployment. 
+ * A general service deployment.
+ * 
+ * Maintains a named set of EndpointDeployments 
  * 
  * @author Thomas.Diesler@jboss.com
- * @author alessio.soldano@jboss.com
  * @since 20-Apr-2007 
  */
 public interface Service extends Extensible
 {
 
-   /**
-    * Get the deployment this service belongs to
-    * 
-    * @return the deployment this service belongs to
-    */
+   /** Get the deployment this service belongs to */
    Deployment getDeployment();
    
-   /**
-    * Add an endpoint to the service
-    * 
-    * @param endpoint   the endpoint to be added
-    */
+   /** Set the deployment this service belongs to */
+   void setDeployment(Deployment dep);
+   
+   /** Add an endpoint to the service */
    void addEndpoint(Endpoint endpoint);
    
-   /**
-    * Remove an endpoint from the service, returns true if successfull
-    * 
-    * @param endpoint   the endpoint to remove
-    * @return           true if the endpoint was actually removed, false otherwise
-    */
-   boolean removeEndpoint(Endpoint endpoint);
-   
-   /**
-    * Get the list of endpoints
-    * 
-    * @return   a copy of the list of endpoints
-    */
+   /** Get the list of endpoints */
    List<Endpoint> getEndpoints();
    
-   /**
-    * Get the list of endpoints
-    * 
-    * @param filter a filter for selecting endpoints
-    * @return       a list of selected endpoints
-    */
+   /** Get the list of endpoints */
    List<Endpoint> getEndpoints(EndpointTypeFilter filter);
    
-   /**
-    * Get an endpoint by name
-    * 
-    * @param simpleName the name of the endpoint to get
-    * @return           the selected endpoint
-    */
+   /** Get an endpoint by name */
    Endpoint getEndpointByName(String simpleName);
    
-   /**
-    * Get the context root for this service
-    * 
-    * @return   the context root for this service
-    */
+   /** Get the context root for this service */
    String getContextRoot();
    
-   /**
-    * Set the context root for this service
-    * 
-    * @param contextRoot    the context root for this service
-    */
+   /** Set the context root for this service */
    void setContextRoot(String contextRoot);
    
-   /**
-    * Get the virtual host for this service
-    * 
-    * @return   the virtual host for this service
-    */
+   /** Get the virtual host for this service */
    String getVirtualHost();
    
-   /**
-    * Set the virtual host for this service
-    * 
-    * @param virtualHost    the virtual host for this service
-    */
+   /** Set the virtual host for this service */
    void setVirtualHost(String virtualHost);
    
 }

@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.management;
 
+import org.jboss.wsf.spi.SPIView;
 
 /**
  * Factory to stack configuration 
@@ -28,7 +29,7 @@ package org.jboss.wsf.spi.management;
  * @author alessio.soldano@jboss.com
  * @since 25-May-2009
  */
-public abstract class StackConfigFactory
+public abstract class StackConfigFactory implements SPIView
 {
    public abstract StackConfig getStackConfig();
 }

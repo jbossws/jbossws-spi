@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -59,6 +59,16 @@ public interface DeploymentAspect
    public Set<String> getProvidesAsSet();
 
    public Set<String> getRequiresAsSet();
+   
+   public boolean canHandle(Deployment dep);
+   
+   public boolean isForJaxWs();
+
+   public void setForJaxWs(boolean isForJaxWs);
+
+   public boolean isForJaxRpc();
+
+   public void setForJaxRpc(boolean isForJaxRpc);
    
    public ClassLoader getLoader();
 }

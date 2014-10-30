@@ -21,11 +21,12 @@
  */
 package org.jboss.wsf.spi.serviceref;
 
+import org.jboss.wsf.spi.SPIView;
 
 /**
  * @author Thomas.Diesler@jboss.com
  */
-public interface ServiceRefFactoryFactory
+public interface ServiceRefFactoryFactory extends SPIView
 {
    ServiceRefFactory newServiceRefFactory();
 }

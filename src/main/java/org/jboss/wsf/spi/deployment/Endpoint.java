@@ -84,7 +84,7 @@ public interface Endpoint extends Extensible
    void setTargetBeanName(String epImpl);
    
    /** Use the deployment classloader to load the bean */
-   Class<?> getTargetBeanClass();
+   Class getTargetBeanClass();
       
    /** Set the request handler for this endpoint */
    void setRequestHandler(RequestHandler handler);

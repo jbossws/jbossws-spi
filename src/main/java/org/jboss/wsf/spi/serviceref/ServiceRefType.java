@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,26 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.spi.metadata.j2ee.serviceref;
+package org.jboss.wsf.spi.serviceref;
 
-public final class RespectBindingMetadata
+/**
+ * Creates a ServiceReferenceable and binds it to JNDI.
+ *
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ */
+public enum ServiceRefType
 {
-   private final boolean annotationSpecified;
-   private final boolean enabled;
-
-   public RespectBindingMetadata(boolean annotationSpecified, boolean enabled)
-   {
-      this.annotationSpecified = annotationSpecified;
-      this.enabled = enabled;
-   }
-
-   public boolean isAnnotationSpecified()
-   {
-      return annotationSpecified;
-   }
-
-   public boolean isEnabled()
-   {
-      return enabled;
-   }
+    JAXRPC, JAXWS
 }

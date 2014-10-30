@@ -34,22 +34,14 @@ public final class JBossPortComponentMetaData {
    private final String authMethod;
    private final String transportGuarantee;
    private final Boolean secureWSDLAccess;
-   private final String realmName;
 
    public JBossPortComponentMetaData(String ejbName, String portComponentName, String portComponentURI,
          String authMethod, String transportGuarantee, Boolean secureWSDLAccess)
-   {
-      this(ejbName, portComponentName, portComponentURI, authMethod, null, transportGuarantee, secureWSDLAccess);
-   }
-   
-   public JBossPortComponentMetaData(String ejbName, String portComponentName, String portComponentURI,
-         String authMethod, String realmName, String transportGuarantee, Boolean secureWSDLAccess)
    {
       this.ejbName = ejbName;
       this.portComponentName = portComponentName;
       this.portComponentURI = portComponentURI;
       this.authMethod = authMethod;
-      this.realmName = realmName;
       this.transportGuarantee = transportGuarantee;
       this.secureWSDLAccess = secureWSDLAccess;
    }
@@ -76,10 +68,6 @@ public final class JBossPortComponentMetaData {
 
     public Boolean getSecureWSDLAccess() {
         return secureWSDLAccess;
-    }
-    
-    public String getRealmName () {
-       return realmName;
     }
 
 }

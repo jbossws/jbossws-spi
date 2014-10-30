@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.spi.management;
 
+import org.jboss.wsf.spi.SPIView;
 
 /**
  * Get the endpoint registry from the kernel
@@ -28,7 +29,7 @@ package org.jboss.wsf.spi.management;
  * @author Thomas.Diesler@jboss.com
  * @since 20-Apr-2007 
  */
-public abstract class EndpointRegistryFactory
+public abstract class EndpointRegistryFactory implements SPIView
 {
    public abstract EndpointRegistry getEndpointRegistry();
 }

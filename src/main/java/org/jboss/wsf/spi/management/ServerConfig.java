@@ -60,20 +60,10 @@ public interface ServerConfig
    int getWebServiceSecurePort();
 
    void setWebServiceSecurePort(int port);
-
-   String getWebServicePathRewriteRule();
-   void setWebServicePathRewriteRule(String path);
-   
-   String getWebServiceUriScheme();
-   void setWebServiceUriScheme(String scheme);
    
    boolean isModifySOAPAddress();
    
    void setModifySOAPAddress(boolean flag);
-   
-   boolean isStatisticsEnabled();
-   
-   void setStatisticsEnabled(boolean flag);
    
    /**
     * Register a client config in the server configuration; the new config will apply to runtime when the server config is started

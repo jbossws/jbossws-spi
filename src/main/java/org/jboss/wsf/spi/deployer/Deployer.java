@@ -21,12 +21,14 @@ package org.jboss.wsf.spi.deployer;
 import java.net.URL;
 import java.util.Map;
 
+import org.jboss.wsf.spi.SPIView;
+
 /**
  * Abstraction to provide AS agnostic remote deployer.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public interface Deployer
+public interface Deployer extends SPIView
 {
 	/**
 	 * Deploys specified archive remotely.
@@ -75,21 +77,4 @@ public interface Deployer
      * @throws Exception
      */
     public void removeHttpsConnector() throws Exception;
-    
-    /**
-     * Set a system property value on server
-     * 
-     * @param propName      The name of the property.
-     * @param propValue     The value of the property; a 'null' value is to be speficied for unsetting the system property. 
-     * @return              The former value of the property, if already set or null if it's being set for the first time.
-     * @throws Exception
-     */
-    public String setSystemProperty(String propName, String propValue) throws Exception;
-    
-    /**
-     * Restart the server
-     * 
-     * @throws Exception
-     */
-    public void restart() throws Exception;
 }

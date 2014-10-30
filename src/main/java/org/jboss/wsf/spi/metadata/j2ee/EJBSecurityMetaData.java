@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -29,27 +29,18 @@ package org.jboss.wsf.spi.metadata.j2ee;
  */
 public class EJBSecurityMetaData
 {
-   private final String authMethod;
-   private final String realmName;
-   private final String transportGuarantee;
-   private final boolean secureWSDLAccess;
-
-   public EJBSecurityMetaData(String authMethod, String transportGuarantee, boolean secureWSDLAccess)
-   {
-      this(authMethod, null, transportGuarantee, secureWSDLAccess);
-   }
-   
-   public EJBSecurityMetaData(String authMethod, String realmName, String transportGuarantee, boolean secureWSDLAccess)
-   {
-      this.authMethod = authMethod;
-      this.realmName = realmName;
-      this.transportGuarantee = transportGuarantee;
-      this.secureWSDLAccess = secureWSDLAccess;
-   }
+   private String authMethod;
+   private String transportGuarantee;
+   private boolean secureWSDLAccess;
 
    public String getAuthMethod()
    {
       return authMethod;
+   }
+
+   public void setAuthMethod(String authMethod)
+   {
+      this.authMethod = authMethod;
    }
 
    public String getTransportGuarantee()
@@ -57,13 +48,19 @@ public class EJBSecurityMetaData
       return transportGuarantee;
    }
 
+   public void setTransportGuarantee(String transportGuarantee)
+   {
+      this.transportGuarantee = transportGuarantee;
+   }
+
    public boolean getSecureWSDLAccess()
    {
       return secureWSDLAccess;
    }
-   
-   public String getRealmName() 
+
+   public void setSecureWSDLAccess(Boolean access)
    {
-      return realmName;
+      if (access != null)
+         this.secureWSDLAccess = access;
    }
 }

@@ -52,7 +52,7 @@ public class WebserviceDescriptionMetaData
    // The required <jaxrpc-mapping-file> element
    private final String jaxrpcMappingFile;
    // The required <port-component> elements
-   private final List<PortComponentMetaData> portComponents;
+   private final List<PortComponentMetaData> portComponents; // = new ArrayList<PortComponentMetaData>();
    
    public WebserviceDescriptionMetaData(String webserviceDescriptionName,
          String wsdlFile, String jaxrpcMappingFile, PortComponentMetaData... portComponents)
