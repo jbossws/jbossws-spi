@@ -130,4 +130,18 @@ public interface ServerConfig
     * @return
     */
    EndpointConfig getEndpointConfig(String name);
+   /**
+    * Get port for virtual host, if there are many ports found only return the first found
+    * @param virtualHost virtual host name
+    * @param secure if get the secure port
+    * @return port value for virtual host
+   */
+   Integer getVirtualHostPort(String virtualHost, boolean secure);
+   
+   /**
+    * Get host alias which DNS can resolve
+    * @param virtualHost virtual host name
+    * @return host alias name
+   */
+   String getHostAlias(String virtualHost);
 }
