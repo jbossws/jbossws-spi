@@ -100,9 +100,11 @@ public class PortComponentMetaData
                                 UnifiedHandlerChainsMetaData handlerChains)
    {
       this.portComponentName = portComponentName;
-      if (wsdlPort.getNamespaceURI().length() == 0)
-         Loggers.METADATA_LOGGER.webservicesXmlElementNotNamespaceQualified(wsdlPort);
-      this.wsdlPort = wsdlPort;
+      if (wsdlPort != null) {
+         if (wsdlPort.getNamespaceURI().length() == 0)
+            Loggers.METADATA_LOGGER.webservicesXmlElementNotNamespaceQualified(wsdlPort);
+         this.wsdlPort = wsdlPort;
+      }
       this.serviceEndpointInterface = serviceEndpointInterface;
       this.ejbLink = ejbLink;
       this.servletLink = servletLink;
@@ -241,8 +243,10 @@ public class PortComponentMetaData
       final QName wsdlPort = getWsdlPort();
       StringBuilder builder = new StringBuilder("<port-component>");
       builder.append("<port-component-name>").append(portComponentName).append("</port-component-name>");
-      builder.append("<wsdl-port xmlns:").append(wsdlPort.getPrefix()).append("='").append(wsdlPort.getNamespaceURI()).append("'>");
-      builder.append(wsdlPort.getPrefix()).append(':').append(wsdlPort.getLocalPart()).append("</wsdl-port>");
+      if (wsdlPort != null) {
+         builder.append("<wsdl-port xmlns:").append(wsdlPort.getPrefix()).append("='").append(wsdlPort.getNamespaceURI()).append("'>");
+         builder.append(wsdlPort.getPrefix()).append(':').append(wsdlPort.getLocalPart()).append("</wsdl-port>");
+      }
       builder.append("<service-endpoint-interface>").append(serviceEndpointInterface).append("</service-endpoint-interface>");
       builder.append("<service-impl-bean>");
       if (ejbLink != null)
