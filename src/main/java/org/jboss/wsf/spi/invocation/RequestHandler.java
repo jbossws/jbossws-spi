@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,8 +22,6 @@
 package org.jboss.wsf.spi.invocation;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -43,10 +41,4 @@ public interface RequestHandler
    /** Handle a web service http request 
     */
    void handleHttpRequest(Endpoint endpoint, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException;
-   
-   /** Handle a web service request */
-   void handleRequest(Endpoint endpoint, InputStream inputStream, OutputStream outputStream, InvocationContext context) throws IOException;
-   
-   /** Handle a wsdl request */
-   void handleWSDLRequest(Endpoint endpoint, OutputStream output, InvocationContext context) throws IOException;
 }
