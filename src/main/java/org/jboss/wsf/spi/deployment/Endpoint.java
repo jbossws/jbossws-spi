@@ -30,6 +30,7 @@ import org.jboss.ws.api.monitoring.RecordProcessor;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
+import org.jboss.wsf.spi.metadata.config.EndpointConfig;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
 
 /**
@@ -137,4 +138,9 @@ public interface Endpoint extends Extensible
    /** Set instance provider */
    void setInstanceProvider(InstanceProvider provider);
 
+   /** Get endpoint config */
+   EndpointConfig getEndpointConfig();
+   
+   /** Set endpoint config */
+   void setEndpointConfig(EndpointConfig config);
 }
