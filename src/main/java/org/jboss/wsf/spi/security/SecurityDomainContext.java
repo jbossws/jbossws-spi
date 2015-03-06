@@ -62,7 +62,7 @@ public interface SecurityDomainContext
     * environment Principal belongs.
     * 
     * @param principal the caller principal as known in the operation environment.
-    * @param roles The Set<Principal> for the application domain roles that the
+    * @param roles The <code>Set&lt;java.security.Principal&gt;</code> for the application domain roles that the
     * principal is to be validated against.
     * @return true if the principal has at least one of the roles in the roles set,
     *        false otherwise.
@@ -73,7 +73,7 @@ public interface SecurityDomainContext
    /**
     * Return the set of domain roles the principal has been assigned.
     * 
-    * @return The Set<Principal> for the application domain roles that the principal has been assigned.
+    * @return The <code>Set&lt;java.security.Principal&gt;</code> for the application domain roles that the principal has been assigned.
     */
    public Set<Principal> getUserRoles(Principal principal);
    

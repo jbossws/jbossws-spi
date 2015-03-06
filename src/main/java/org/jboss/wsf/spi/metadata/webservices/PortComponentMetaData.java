@@ -158,8 +158,6 @@ public class PortComponentMetaData
    /**
     * set the wsdlPort for this PortComponentMetaData. This is deprecated, the proper wsdlPort
     * should be provided when creating a new instance.
-    * 
-    * @return
     */
    @Deprecated
    public void setWsdlPort(QName wsdlPort)
