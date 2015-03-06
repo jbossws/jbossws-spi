@@ -30,7 +30,7 @@ import java.util.List;
  * XML Binding root element for <code>webservices.xml</code>
  *
  * @author Thomas.Diesler@jboss.org
- * @autor alessio.soldano@jboss.com
+ * @author alessio.soldano@jboss.com
  * @since 15-April-2004
  */
 public class WebservicesMetaData
