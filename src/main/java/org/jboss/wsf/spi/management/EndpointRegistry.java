@@ -48,10 +48,4 @@ public interface EndpointRegistry
 
    /** True is an endpoint for that name is registered */
    boolean isRegistered(ObjectName epName);
-
-   /** Register an endpoint */
-   void register(Endpoint endpoint);
-
-   /** Unregister an endpoint */
-   void unregister(Endpoint endpoint);
 }
