@@ -53,7 +53,7 @@ public class PortComponentMetaData
     */
    private final String portComponentName;
    // The required <wsdl-port> element
-   private volatile QName wsdlPort;
+   private final QName wsdlPort;
    // The required <service-endpoint-interface> element
    private final String serviceEndpointInterface;
    // The required <ejb-link> or <servlet-link> in the <service-impl-bean> element
@@ -100,11 +100,9 @@ public class PortComponentMetaData
                                 UnifiedHandlerChainsMetaData handlerChains)
    {
       this.portComponentName = portComponentName;
-      if (wsdlPort != null) {
-         if (wsdlPort.getNamespaceURI().length() == 0)
-            Loggers.METADATA_LOGGER.webservicesXmlElementNotNamespaceQualified(wsdlPort);
-         this.wsdlPort = wsdlPort;
-      }
+      if (wsdlPort != null && wsdlPort.getNamespaceURI().length() == 0)
+         Loggers.METADATA_LOGGER.webservicesXmlElementNotNamespaceQualified(wsdlPort);
+      this.wsdlPort = wsdlPort;
       this.serviceEndpointInterface = serviceEndpointInterface;
       this.ejbLink = ejbLink;
       this.servletLink = servletLink;
@@ -153,16 +151,6 @@ public class PortComponentMetaData
    public QName getWsdlPort()
    {
       return wsdlPort;
-   }
-
-   /**
-    * set the wsdlPort for this PortComponentMetaData. This is deprecated, the proper wsdlPort
-    * should be provided when creating a new instance.
-    */
-   @Deprecated
-   public void setWsdlPort(QName wsdlPort)
-   {
-      this.wsdlPort = wsdlPort;
    }
 
    public String getEjbLink()
@@ -238,7 +226,6 @@ public class PortComponentMetaData
 
    public String serialize()
    {
-      final QName wsdlPort = getWsdlPort();
       StringBuilder builder = new StringBuilder("<port-component>");
       builder.append("<port-component-name>").append(portComponentName).append("</port-component-name>");
       if (wsdlPort != null) {
