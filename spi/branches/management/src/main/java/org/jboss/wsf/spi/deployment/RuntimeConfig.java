@@ -21,43 +21,24 @@
  */
 package org.jboss.wsf.spi.deployment;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
-
 /**
- * A general extendible artifact 
- * 
- * @author Thomas.Diesler@jboss.com
+ * Runtime config interface to allow change various property in runtime 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
- * @since 20-Apr-2007 
+ *
  */
-public interface Extensible extends RuntimeConfig
-{
-   /** Add arbitrary attachments */
-   <T> T addAttachment(Class<T> key, Object value);
-   
-   /** Get arbitrary attachments */
-   <T> Collection<T> getAttachments();
-   
-   /** Get an arbitrary attachment */
-   <T> T getAttachment(Class<T> key);
-   
-   /** Remove arbitrary attachments */
-   <T> T removeAttachment(Class<T> key);
+public interface RuntimeConfig {
+	static final String STATISTICS_ENABLED = "statistics-enabled";
+	/** Get runtime changeable property */
+	String getRuntimeProperty(String key);
 
-   /** Get an property */
-   Object getProperty(String key);
-   
-   /** Set a property */
-   void setProperty(String key, Object value);
-   
-   /** Remove a property */
-   void removeProperty(String key);
-   
-   /** Get the set of property names */
-   Set<String> getProperties();
-   
-   /** Set a map of properties */
-   void setProperties(Map<String, Object> props);   
+	/** Set runtime changeable property */
+	void setRuntimeProperty(String key, String value);
+
+	/** Remove a runtime changeable property */
+	void removeRuntimeProperty(String key);
+
+	/** Get the set of runtime changeable property names */
+	Map<String, String> getRuntimeProperties();
+
 }

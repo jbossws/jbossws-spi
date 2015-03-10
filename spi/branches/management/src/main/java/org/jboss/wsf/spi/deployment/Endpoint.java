@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,6 +22,7 @@
 package org.jboss.wsf.spi.deployment;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.management.ObjectName;
 
@@ -37,6 +38,7 @@ import org.jboss.wsf.spi.security.SecurityDomainContext;
  * A general JAXWS endpoint.
  * 
  * @author Thomas.Diesler@jboss.com
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  * @since 20-Apr-2007 
  */
 public interface Endpoint extends Extensible
@@ -45,6 +47,19 @@ public interface Endpoint extends Extensible
    static final String SEPID_DOMAIN = "jboss.ws";
    static final String SEPID_PROPERTY_CONTEXT = "context";
    static final String SEPID_PROPERTY_ENDPOINT = "endpoint";
+   static final String SERVICE = "servce";
+   static final String NAME = "name";
+   static final String SHORTNAME="shortname";
+   static final String STATE = "state";
+   static final String TYPE = "type";
+   static final String TARGETBEAN = "targetBean";
+   static final String REQUESTHANDLER = "requestHandler";
+   static final String INVOCATIONHANDLER = "invocationHandler";
+   static final String LIFECYCLEHANDLER = "lifecyleHandler";
+   static final String ADDRESS = "address";
+   static final String PRE_HANDLERCHAIN = "preHandlerChain";
+   static final String POST_HANDLERCHAIN = "postHandlerChain";
+   static final String SECURITY_DOMAIN = "securityDomain";
 
    static final String SEPID_DOMAIN_ENDPOINT = SEPID_DOMAIN + "." + SEPID_PROPERTY_ENDPOINT;
 
@@ -142,5 +157,8 @@ public interface Endpoint extends Extensible
    EndpointConfig getEndpointConfig();
    
    /** Set endpoint config */
-   void setEndpointConfig(EndpointConfig config);
+   void setEndpointConfig(EndpointConfig config); 
+   
+   Map<String, String> getAllConfigsMap();
+   
 }

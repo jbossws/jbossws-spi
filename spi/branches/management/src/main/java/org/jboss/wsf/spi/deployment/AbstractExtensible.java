@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -37,23 +37,27 @@ import java.util.Set;
  * 
  * @author Thomas.Diesler@jboss.com
  * @author alessio.soldano@jboss.com
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  * @since 20-Apr-2007 
  */
 public abstract class AbstractExtensible implements Extensible
 {
    private final Map<Class<?>, Object> attachments;
    private final Map<String, Object> properties;
+   private final Map<String, String> runtimeProperties;
    
    public AbstractExtensible()
    {
       this.attachments  = new HashMap<Class<?>, Object>();
       this.properties = new HashMap<String, Object>();
+      this.runtimeProperties = new HashMap<String, String>(10);
    }
    
    public AbstractExtensible(int initialAttachmentsSize, int initialPropertiesSize)
    {
       this.attachments  = new HashMap<Class<?>, Object>(initialAttachmentsSize);
       this.properties = new HashMap<String, Object>(initialPropertiesSize);
+      this.runtimeProperties = new HashMap<String, String>(10);
    }
    
    public Collection<Object> getAttachments()
@@ -103,5 +107,26 @@ public abstract class AbstractExtensible implements Extensible
    {
       properties.putAll(props);
    }
+   
+   /** Get runtime changeable property*/
+   public String getRuntimeProperty(String key) {
+	   return this.runtimeProperties.get(key);
+   }
+   
+   /** Set runtime changeable property*/
+   public void setRuntimeProperty(String key, String value) {
+	   this.runtimeProperties.put(key, value);
+   }
+   
+   /** Remove a runtime changeable property */
+   public void removeRuntimeProperty(String key) {
+	   this.runtimeProperties.remove(key);
+   }
+   
+   /** Get the set of runtime changeable property names */
+   public Map<String, String> getRuntimeProperties() {
+	   return this.runtimeProperties;
+   }
+   
 
 }
