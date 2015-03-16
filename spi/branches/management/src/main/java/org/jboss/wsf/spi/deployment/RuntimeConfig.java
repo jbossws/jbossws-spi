@@ -22,23 +22,29 @@
 package org.jboss.wsf.spi.deployment;
 
 import java.util.Map;
+import java.util.Set;
+
 /**
  * Runtime config interface to allow change various property in runtime 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-public interface RuntimeConfig {
-	static final String STATISTICS_ENABLED = "statistics-enabled";
-	/** Get runtime changeable property */
-	String getRuntimeProperty(String key);
+public interface RuntimeConfig
+{
+   static final String STATISTICS_ENABLED = "statistics-enabled";
 
-	/** Set runtime changeable property */
-	void setRuntimeProperty(String key, String value);
+   /** Get runtime changeable property */
+   String getRuntimeProperty(String key);
 
-	/** Remove a runtime changeable property */
-	void removeRuntimeProperty(String key);
+   /** Set runtime changeable property */
+   void setRuntimeProperty(String key, String value);
 
-	/** Get the set of runtime changeable property names */
-	Map<String, String> getRuntimeProperties();
+   /** Remove a runtime changeable property */
+   void removeRuntimeProperty(String key);
+
+   /** Get the set of runtime changeable property names */
+   Map<String, String> getRuntimeProperties();
+   /** Get the runtime config name set that can be get/set*/
+   Set<String> getRuntimeConfigFlags();
 
 }
