@@ -28,12 +28,33 @@ package org.jboss.wsf.spi.deployment;
  */
 public interface Deployment extends Extensible
 {
-   /** Get the identifier for this deployment */
+   /**
+    * Get the identifier for this deployment
+    * @return  deployment identifier
+    */
    String getSimpleName();
 
-   /** Get the class loader for this deployment */
+   /**
+    * Get the class loader for this deployment
+    * @return  class loader for the deployment
+    */
    ClassLoader getClassLoader();
-   
-   /** Get the service associated with this deployment */
+
+   /**
+    * Get the deployment type
+    * @return     deployment type
+    */
+   DeploymentType getType();
+
+   /**
+    * Set the deployment type
+    * @param type    deployment type
+    */
+   void setType(DeploymentType type);
+
+   /**
+    * Get the service associated with this deployment
+    * @return  service for the deployment
+    */
    Service getService();
 }

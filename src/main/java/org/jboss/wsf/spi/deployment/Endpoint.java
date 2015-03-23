@@ -48,99 +48,226 @@ public interface Endpoint extends Extensible
 
    static final String SEPID_DOMAIN_ENDPOINT = SEPID_DOMAIN + "." + SEPID_PROPERTY_ENDPOINT;
 
-   /** Get the service this endpoint belongs to */
+   /**
+    * Get the service this endpoint belongs to
+    *
+    * @return  endpoint service
+    */
    Service getService();
 
-   /** Set the service this endpoint belongs to */
+   /**
+    * Set the service this endpoint belongs to
+    *
+    * @param service   endpoint service
+    */
    void setService(Service service);
 
-   /** Get the unique identifier for this endpoint */
+   /**
+    * Get the unique identifier for this endpoint
+    *
+    * @return  endpoint identifier
+    */
    ObjectName getName();
 
-   /** Set the unique identifier for this endpoint */
+   /**
+    * Set the unique identifier for this endpoint
+    *
+    * @param epName  endpoint identifier
+    */
    void setName(ObjectName epName);
 
-   /** Get the short name for this endpoint */
+   /**
+    * Get the short name for this endpoint
+    *
+    * @return  endpoint short name
+    */
    String getShortName();
    
-   /** Set the short name for this endpoint */
+   /**
+    * Set the short name for this endpoint
+    *
+    * @param shortName   endpoint short name
+    */
    void setShortName(String shortName);
    
-   /** Get the current state for this endpoint */
+   /**
+    * Get the current state for this endpoint
+    *
+    * @return  endpoint state
+    */
    EndpointState getState();
 
-   /** Set the current state for this endpoint */
+   /**
+    * Set the current state for this endpoint
+    *
+    * @param state  endpoint state
+    */
    void setState(EndpointState state);
 
-   /** Get endpoint type */
+   /**
+    * Get endpoint type
+    *
+    * @return   endpoint type
+    */
    EndpointType getType();
 
-   /** Set endpoint type */
+   /**
+    * Set endpoint type
+    *
+    * @param type  endpoint type
+    */
    void setType(EndpointType type);
 
-   /** Get the endpoint implementation bean */
+   /**
+    * Get the endpoint implementation bean
+    *
+    * @return  name of endpoint bean
+    */
    String getTargetBeanName();
 
-   /** Set the endpoint implementation bean */
+   /**
+    * Set the endpoint implementation bean
+    *
+    * @param epImpl  name of endpoint bean
+    */
    void setTargetBeanName(String epImpl);
    
-   /** Use the deployment classloader to load the bean */
+   /**
+    * Use the deployment classloader to load the bean
+    *
+    * @return   bean loaded
+    */
    Class<?> getTargetBeanClass();
       
-   /** Set the request handler for this endpoint */
+   /**
+    * Set the request handler for this endpoint
+    *
+    * @param handler  endpoint request handler
+    */
    void setRequestHandler(RequestHandler handler);
 
-   /** Get the request handler for this endpoint */
+   /**
+    * Get the request handler for this endpoint
+    *
+    * @return  endpoint request handler
+    */
    RequestHandler getRequestHandler();
 
-   /** Get the lifecycle handler for this endpoint */
+   /**
+    * Get the lifecycle handler for this endpoint
+    *
+    * @return  endpoint lifecycle handler
+    */
    LifecycleHandler getLifecycleHandler();
 
-   /** Set the lifecycle handler for this endpoint */
+   /**
+    * Set the lifecycle handler for this endpoint
+    *
+    * @param handler  endpoint lifecycle handler
+    */
    void setLifecycleHandler(LifecycleHandler handler);
 
-   /** Get the endpoint bean invoker */
+   /**
+    * Get the endpoint bean invoker
+    *
+    * @return   endpoint invoker
+    */
    InvocationHandler getInvocationHandler();
 
-   /** Set the endpoint bean invoker */
+   /**
+    * Set the endpoint bean invoker
+    *
+    * @param invoker  endpoint invoker
+    */
    void setInvocationHandler(InvocationHandler invoker);
 
-   /** Get the endpoint metrics for this endpoint */
+   /**
+    * Get the endpoint metrics for this endpoint
+    *
+    * @return  endpoint metrics
+    */
    EndpointMetrics getEndpointMetrics();
 
-   /** Set the endpoint metrics for this endpoint */
+   /**
+    * Set the endpoint metrics for this endpoint
+    *
+    * @param metrics  endpoint metrics
+    */
    void setEndpointMetrics(EndpointMetrics metrics);
    
-   /** Get the record processors configured for this endpoint **/
+   /**
+    * Get the record processors configured for this endpoint
+    *
+    * @return   set of endpoint record processors
+    */
    List<RecordProcessor> getRecordProcessors();
    
-   /** Set the record processors for this endpoint **/
+   /**
+    * Set the record processors for this endpoint
+    *
+    * @param recordProcessors   set of endpoint record processors
+    */
    void setRecordProcessors(List<RecordProcessor> recordProcessors);
    
-   /** Ask configured processors for processing of the given record **/
+   /**
+    * Ask configured processors for processing of the given record
+    *
+    * @param record   record to process
+    */
    void processRecord(Record record);
    
-   /** Get endpoint address */
+   /**
+    * Get endpoint address
+    *
+    * @return   endpoint address
+    */
    String getAddress();
 
-   /** Set endpoint address */
+   /**
+    * Set endpoint address
+    *
+    * @param address   endpoint address
+    */
    void setAddress(String address);
    
-   /** Get security domain context */
+   /**
+    * Get security domain context
+    *
+    * @return   security domain context
+    */
    SecurityDomainContext getSecurityDomainContext();
    
-   /** Set security domain context */
+   /**
+    * Set security domain context
+    *
+    * @param context  security domain context
+    */
    void setSecurityDomainContext(SecurityDomainContext context);
 
-   /** Get instance provider */
+   /**
+    * Get instance provider
+    *
+    * @return  instance provider
+    */
    InstanceProvider getInstanceProvider();
 
-   /** Set instance provider */
+   /**
+    * Set instance provider
+    *
+    * @param provider  instance provider
+    */
    void setInstanceProvider(InstanceProvider provider);
 
-   /** Get endpoint config */
+   /**
+    * Get endpoint config
+    *
+    * @return  endpoint config
+    */
    EndpointConfig getEndpointConfig();
-   
-   /** Set endpoint config */
+
+   /**
+    * Set endpoint config
+    * @param config  endpoint config
+    */
    void setEndpointConfig(EndpointConfig config);
 }

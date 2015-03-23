@@ -36,13 +36,27 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  */
 public abstract class InvocationHandler
 {
-   /** Create a container specific invocation */
+   /**
+    * Create a container specific invocation
+    *
+    * @return  invocation
+    */
    public abstract Invocation createInvocation();
 
-   /** Invoke the the service endpoint */
+   /**
+    * Invoke the the service endpoint
+    *
+    * @param ep  endpoint
+    * @param inv  invocation
+    * @throws Exception  exception
+    */
    public abstract void invoke(Endpoint ep, Invocation inv) throws Exception;
 
-   /** Initilize the invocation handler */
+   /**
+    *  Initilize the invocation handler
+    *
+    * @param ep  endpoint
+    */
    public abstract void init(Endpoint ep);
    
    protected void handleInvocationException(Throwable th) throws Exception

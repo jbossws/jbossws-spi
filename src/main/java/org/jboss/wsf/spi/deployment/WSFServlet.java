@@ -66,7 +66,7 @@ public class WSFServlet extends HttpServlet
     *   is used to lookup the factory
     * - otherwise the current thread context classloader is used to lookup the factory. 
     * 
-    * @param servletConfig
+    * @param servletConfig   servlet config
     * @return the servlet delegate
     */
    protected ServletDelegate getDelegate(ServletConfig servletConfig)

@@ -64,8 +64,8 @@ public class StAXUtils
 
    /**
     * Return a new factory so that the caller can set sticky parameters.
-    * @param nsAware
-    * @return
+    * @param nsAware  true is nsAware
+    * @return  XMLInputFactory
     */
    public static XMLInputFactory createXMLInputFactory(boolean nsAware)
    {

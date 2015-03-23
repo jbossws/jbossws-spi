@@ -40,8 +40,8 @@ public interface UnifiedVirtualFile extends Serializable
     * Same as findChild(String child) but does not throw any exception
     * on child not found, simply returns null.
     * 
-    * @param child
-    * @return
+    * @param child   name of child to find
+    * @return   found child
     */
    UnifiedVirtualFile findChildFailSafe(String child);
    

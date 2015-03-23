@@ -33,11 +33,12 @@ import java.net.URL;
  */
 public interface ResourceResolver
 {
-   /** Get the URL for a given resource path
+   /**
+    * Get the URL for a given resource path
     * 
-    * @param resourcePath
-    * @return
-    * @throws IOException
+    * @param resourcePath   resource path
+    * @return  URL of resource
+    * @throws IOException  IO exception
     */
    public URL resolve(String resourcePath) throws IOException;
    
@@ -45,8 +46,8 @@ public interface ResourceResolver
     * Same as resolve(String resourcePath) except it does not throw exception
     * when resource is not found, simply returns null.
     * 
-    * @param resourcePath
-    * @return
+    * @param resourcePath   resource path
+    * @return     URL of resource
     */
    public URL resolveFailSafe(String resourcePath);
    

@@ -78,21 +78,21 @@ public abstract class ClassLoaderProvider
    /**
     * Return the ClassLoader instance having visibility over the application server ws subsystem only
     * 
-    * @return
+    * @return   classloader
     */
    public abstract ClassLoader getWebServiceSubsystemClassLoader();
 
    /**
     * Return the ClassLoader instance having visibility over the all server side ws libraries (for JAXWS usage)
     * 
-    * @return
+    * @return   classloader
     */
    public abstract ClassLoader getServerIntegrationClassLoader();
 
    /**
     * Return the ClassLoader instance having visibility over the all server side ws libraries (for JAXRPC usage)
     * 
-    * @return
+    * @return   classloader
     */
    public abstract ClassLoader getServerJAXRPCIntegrationClassLoader();
 

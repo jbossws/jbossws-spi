@@ -37,7 +37,7 @@ public abstract class SPIProvider
     * Gets the a singleton reference to the SPIProvider returned by the SPIProviderResolver
     * retrieved using the default server integration classloader.
     * 
-    * @return
+    * @return  this class instance
     */
    public static SPIProvider getInstance()
    {
@@ -52,9 +52,9 @@ public abstract class SPIProvider
    /**
     * Gets the specified SPI, using the current thread context classloader
     * 
-    * @param <T>
-    * @param spiType
-    * @return
+    * @param <T>   type of spi class
+    * @param spiType   spi class to retrieve
+    * @return   object
     */
    public <T> T getSPI(Class<T> spiType)
    {
@@ -64,10 +64,10 @@ public abstract class SPIProvider
    /**
     * Gets the specified SPI, using the provided classloader
     * 
-    * @param <T>
-    * @param spiType
-    * @param loader
-    * @return
+    * @param <T>   type of spi class
+    * @param spiType   spi class to retrieve
+    * @param loader    classloader to user
+    * @return   object
     */
    public abstract <T> T getSPI(Class<T> spiType, ClassLoader loader);
 }

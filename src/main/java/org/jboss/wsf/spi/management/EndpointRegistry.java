@@ -37,15 +37,30 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  */
 public interface EndpointRegistry
 {
-   /** Get the list of registered endpoints */
+   /**
+    * Get the list of registered endpoints
+    * @return  list of registered endpoints
+    */
    Set<ObjectName> getEndpoints();
 
-   /** Get the registered endpoint */
+   /**
+    *  Get the registered endpoint
+    * @param epName   endpoint to return
+    * @return     registered endpoint
+    */
    Endpoint getEndpoint(ObjectName epName);
 
-   /** Resolve endpoints thrrough a resolve instance **/
+   /**
+    * Resolve endpoints through a resolve instance
+    * @param resolver   resolver endpoint
+    * @return  found resolved endpoint
+    */
    Endpoint resolve(EndpointResolver resolver);
 
-   /** True is an endpoint for that name is registered */
+   /**
+    *  True is an endpoint for that name is registered
+    * @param epName   endpoint to lookup
+    * @return     True if endpoint for name is registered
+    */
    boolean isRegistered(ObjectName epName);
 }
