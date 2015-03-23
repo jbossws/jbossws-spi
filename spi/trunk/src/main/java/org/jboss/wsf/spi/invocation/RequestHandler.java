@@ -38,7 +38,15 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  */
 public interface RequestHandler
 {
-   /** Handle a web service http request 
+   /**
+    * Handle a web service http request
+    *
+    * @param endpoint  endpoint
+    * @param req       request
+    * @param res       response
+    * @param context   context
+    * @throws ServletException   exception
+    * @throws IOException        exception
     */
    void handleHttpRequest(Endpoint endpoint, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException;
 }

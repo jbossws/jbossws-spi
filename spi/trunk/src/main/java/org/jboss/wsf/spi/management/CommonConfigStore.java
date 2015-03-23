@@ -37,14 +37,14 @@ public interface CommonConfigStore<T extends AbstractCommonConfig>
    /**
     * Registers a config in the store; the new config will affect runtime the first time the store is reloaded.
     * 
-    * @param config
+    * @param config   Registers a config in the store
     */
    void register(T config);
    
    /**
     * Unregisters a config in the store; the runtime will be affected the first time the store is reloaded.
     * 
-    * @param config
+    * @param config  Unregisters a config in the store
     */
    void unregister(T config);
 
@@ -62,7 +62,7 @@ public interface CommonConfigStore<T extends AbstractCommonConfig>
    /**
     * Sets a wrapper config, to be merged with any registered config.
     * 
-    * @param config
+    * @param config     Sets a wrapper config
     * @param reload     Whether to reload the store after having set the wrapper or not
     */
    void setWrapperConfig(T config, boolean reload);
@@ -70,22 +70,22 @@ public interface CommonConfigStore<T extends AbstractCommonConfig>
    /**
     * Returns current wrapper config
     * 
-    * @return
+    * @return     Returns current wrapper config
     */
    T getWrapperConfig();
    
    /**
     * Retrieves a config by name from the loaded collection
     * 
-    * @param name
-    * @return
+    * @param name    Retrieves a config by name
+    * @return     The matching config
     */
    T getConfig(String name);
    
    /**
     * Returns the loaded config collection
     * 
-    * @return
+    * @return   the config collection
     */
    Collection<T> getConfigs();
 }

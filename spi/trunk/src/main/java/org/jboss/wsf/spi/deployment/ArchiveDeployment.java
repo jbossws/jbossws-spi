@@ -31,22 +31,40 @@ import java.util.List;
  */
 public interface ArchiveDeployment extends Deployment
 {
-   /** Get the optional parent of this deployment */
+   /**
+    * Get the optional parent of this deployment
+    * @return   parent of the deployment
+    */
    ArchiveDeployment getParent();
 
-   /** Get the root file for this deployment */
+   /**
+    * Get the root file for this deployment
+    * @return   root file of the deployment
+    */
    UnifiedVirtualFile getRootFile();
-   
-   /** The concatenated names including all parents. */
+
+   /**
+    * The concatenated names including all parents.
+    * @return     concatenated names
+    */
    String getCanonicalName();
-   
-   /** Get additional metadata files attached to the deployment **/
+
+   /**
+    * Get additional metadata files attached to the deployment
+    * @return    metadata files attached to the deployment
+    */
    List<UnifiedVirtualFile> getMetadataFiles();
-   
-   /** Add additional metadata file to the deployment **/
+
+   /**
+    * Add additional metadata file to the deployment
+    * @param file    metadata file to the deployment
+    */
    void addMetadataFile(UnifiedVirtualFile file);
-   
-   /** Get the resource resolver to be used to access resources from this archive */
+
+   /**
+    * Get the resource resolver to be used to access resources from this archive
+    * @return   resource resolver
+    */
    ResourceResolver getResourceResolver();
    
 }

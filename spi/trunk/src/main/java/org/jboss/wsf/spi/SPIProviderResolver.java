@@ -36,7 +36,7 @@ public abstract class SPIProviderResolver
    /**
     * Get the SPIProviderResolver instance using the thread context classloader for lookup
     * 
-    * @return
+    * @return  instance of this class
     */
    public static SPIProviderResolver getInstance()
    {
@@ -45,8 +45,9 @@ public abstract class SPIProviderResolver
    
    /**
     * Get the SPIProviderResolver instance using the provided classloader for lookup
-    * 
-    * @return
+    *
+    * @param cl  classloader to use for lookup
+    * @return   instance of this class
     */
    public static SPIProviderResolver getInstance(ClassLoader cl)
    {

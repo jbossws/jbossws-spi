@@ -32,18 +32,33 @@ import java.util.List;
  */
 public interface DeploymentAspectManager
 {
-   /** Get the name for this aspect manager */
+   /**
+    * Get the name for this aspect manager
+    * @return  name of aspect manager
+    */
    String getName();
-   
-   /** Get the list of registered deployment aspects */
+
+   /**
+    * Get the list of registered deployment aspects
+    * @return  list of registered deployment aspects
+    */
    List<DeploymentAspect> getDeploymentAspects();
-   
-   /** Set the list of registered deployment aspects */
+
+   /**
+    * Set the list of registered deployment aspects
+    * @param aspects   set of registered deployment aspects
+    */
    void setDeploymentAspects(List<DeploymentAspect> aspects);
 
-   /** Deploy a web service */
+   /**
+    * Deploy a web service
+    * @param dep  web service to deploy
+    */
    void deploy(Deployment dep);
 
-   /** Undeploy a web service */
+   /**
+    * Undeploy a web service
+    * @param dep  web service deployment
+    */
    void undeploy(Deployment dep);
 }

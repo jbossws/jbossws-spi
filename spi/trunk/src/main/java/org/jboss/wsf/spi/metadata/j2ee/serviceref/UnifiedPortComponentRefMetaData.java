@@ -148,6 +148,9 @@ public class UnifiedPortComponentRefMetaData implements Serializable
     * or another module in the same application unit. The syntax
     * for specification follows the syntax defined for ejb-link
     * in the EJB 2.0 specification.
+
+    *
+    * @return  string
     */
    public String getPortComponentLink()
    {

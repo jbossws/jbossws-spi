@@ -79,7 +79,7 @@ public interface ServerConfig
     * Register a client config in the server configuration; the new config will apply to runtime when the server config is started
     * or after a client config store reload.
     * 
-    * @param config
+    * @param config  client config to register
     */
    void registerClientConfig(ClientConfig config);
    
@@ -87,7 +87,7 @@ public interface ServerConfig
     * Unregister a client config from the server configuration; the new config will be removed from
     * the collection returned to callers after next endpoint store reload.
     * 
-    * @param config
+    * @param config  client config to unregister
     */
    void unregisterClientConfig(ClientConfig config);
    
@@ -98,8 +98,9 @@ public interface ServerConfig
    
    /**
     * Get a client config by name
-    * 
-    * @return
+    *
+    * @param name    name of client config
+    * @return   named client config
     */
    ClientConfig getClientConfig(String name);
    
@@ -107,7 +108,7 @@ public interface ServerConfig
     * Register an endpoint config in the server configuration; the new config will apply to runtime when the server config is started
     * or after an endpoint config store reload.
     * 
-    * @param config
+    * @param config   endpoint config to register
     */
    void registerEndpointConfig(EndpointConfig config);
    
@@ -115,7 +116,7 @@ public interface ServerConfig
     * Unregister an endpoint config from the server configuration; the new config will be removed from
     * the collection returned to callers after next endpoint store reload.
     * 
-    * @param config
+    * @param config    endpoint config to unregister
     */
    void unregisterEndpointConfig(EndpointConfig config);
    
@@ -126,8 +127,9 @@ public interface ServerConfig
    
    /**
     * Get an endpoint config by name
-    * 
-    * @return
+    *
+    * @param name  name of endpoint
+    * @return    found named endpoint config
     */
    EndpointConfig getEndpointConfig(String name);
    /**

@@ -98,7 +98,7 @@ public class WebserviceDescriptionMetaData
     * Get the QNames of the port components to be declared
     * in the namespaces
     * 
-    * @return
+    * @return  collection of QNames
     */
    public Collection<QName> getPortComponentQNames()
    {
@@ -164,7 +164,7 @@ public class WebserviceDescriptionMetaData
    /**
     * Serialize as a String
     * 
-    * @return
+    * @return  string
     */
    public String serialize()
    {

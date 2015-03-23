@@ -72,7 +72,8 @@ public interface SecurityDomainContext
    
    /**
     * Return the set of domain roles the principal has been assigned.
-    * 
+    *
+    * @param principal principal
     * @return The <code>Set&lt;java.security.Principal&gt;</code> for the application domain roles that the principal has been assigned.
     */
    public Set<Principal> getUserRoles(Principal principal);
@@ -81,9 +82,9 @@ public interface SecurityDomainContext
     * Push the provided subject into the current security context; if that's not set yet,
     * also creates a new security context and associates it with the current thread.
     * 
-    * @param subject
-    * @param principal
-    * @param credential
+    * @param subject       subject
+    * @param principal     principal
+    * @param credential    credential
     */
    public void pushSubjectContext(final Subject subject, final Principal principal, final Object credential);
 }

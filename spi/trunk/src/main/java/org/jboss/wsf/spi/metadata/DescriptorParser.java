@@ -41,8 +41,8 @@ public interface DescriptorParser<T>
     * Parses the descriptor at the provided URL and returns
     * the corresponding object (metadata)
     * 
-    * @param url
-    * @return
+    * @param url  url
+    * @return   metadata
     */
    T parse(final URL url);
 }
