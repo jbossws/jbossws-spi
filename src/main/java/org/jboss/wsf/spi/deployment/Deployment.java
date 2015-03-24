@@ -41,18 +41,6 @@ public interface Deployment extends Extensible
    ClassLoader getClassLoader();
 
    /**
-    * Get the deployment type
-    * @return     deployment type
-    */
-   DeploymentType getType();
-
-   /**
-    * Set the deployment type
-    * @param type    deployment type
-    */
-   void setType(DeploymentType type);
-
-   /**
     * Get the service associated with this deployment
     * @return  service for the deployment
     */
