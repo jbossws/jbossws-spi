@@ -32,6 +32,8 @@ import java.util.Set;
 public interface RuntimeConfig
 {
    static final String STATISTICS_ENABLED = "statistics-enabled";
+   static final String RECORD_ENABLED= "record-enabled";
+   static final String PROCESSOR = "record-processor";
 
    /** Get runtime changeable property */
    String getRuntimeProperty(String key);
