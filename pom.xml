@@ -72,6 +72,7 @@
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging-annotations</artifactId>
       <version>${jboss-logging-annotations.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- test dependencies -->
