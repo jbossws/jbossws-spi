@@ -33,4 +33,6 @@ public interface StackConfig
    String getImplementationTitle();
 
    String getImplementationVersion();
+   
+   void validatePathRewriteRule(String rule);
 }
