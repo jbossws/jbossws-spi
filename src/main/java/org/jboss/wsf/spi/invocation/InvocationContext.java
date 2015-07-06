@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.invocation;
 
+import java.util.Set;
+
 import org.jboss.wsf.spi.deployment.AbstractExtensible;
 
 /**
@@ -45,6 +47,13 @@ public class InvocationContext extends AbstractExtensible
    public void setTargetBean(Object targetBean)
    {
       this.targetBean = targetBean;
+   }
+
+
+   public Set<String> getRuntimeConfigFlags()
+   {
+      // TODO Auto-generated method stub
+      return null;
    }
 
 }
