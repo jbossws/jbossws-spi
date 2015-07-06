@@ -21,6 +21,9 @@
  */
 package org.jboss.wsf.spi.management;
 
+import java.util.Set;
+
+
 
 public interface EndpointMetrics
 {
@@ -47,5 +50,13 @@ public interface EndpointMetrics
    long getFaultCount();
 
    long getResponseCount();
+   
+   long getConcurrentCount();
+   
+   void processInvocation(String method);
+   
+   long getInvocationCountByMethod(String method);
+   
+   Set<String> getRequestMethods();
 
 }
