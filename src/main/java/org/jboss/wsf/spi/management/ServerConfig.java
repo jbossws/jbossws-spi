@@ -24,6 +24,7 @@ package org.jboss.wsf.spi.management;
 import java.io.File;
 import java.net.UnknownHostException;
 
+import org.jboss.wsf.spi.deployment.Extensible;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.metadata.config.EndpointConfig;
 
@@ -32,9 +33,10 @@ import org.jboss.wsf.spi.metadata.config.EndpointConfig;
  *
  * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  * @since 08-May-2006
  */
-public interface ServerConfig
+public interface ServerConfig extends Extensible
 {
    /** The host name that is returned if there is no other defined */
    String UNDEFINED_HOSTNAME = "jbossws.undefined.host";

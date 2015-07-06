@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -29,9 +29,10 @@ import java.util.Set;
  * A general extendible artifact 
  * 
  * @author Thomas.Diesler@jboss.com
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  * @since 20-Apr-2007 
  */
-public interface Extensible
+public interface Extensible extends RuntimeConfig
 {
 
    /**
@@ -101,4 +102,5 @@ public interface Extensible
     * @param props   map to retain
     */
    void setProperties(Map<String, Object> props);
+
 }
