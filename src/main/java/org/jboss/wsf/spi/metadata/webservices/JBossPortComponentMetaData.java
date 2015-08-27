@@ -82,4 +82,19 @@ public final class JBossPortComponentMetaData {
        return realmName;
     }
 
+    public static JBossPortComponentMetaData merge(JBossPortComponentMetaData base, JBossPortComponentMetaData override) {
+       if (base == null) {
+          return override;
+       }
+       if (override == null) {
+          return base;
+       }
+       return new JBossPortComponentMetaData(override.ejbName != null ? override.ejbName : base.ejbName,
+             override.portComponentName != null ? override.portComponentName : base.portComponentName,
+             override.portComponentURI != null ? override.portComponentURI : base.portComponentURI,
+             override.authMethod != null ? override.authMethod : base.authMethod,
+             override.realmName != null ? override.realmName : base.realmName,
+             override.transportGuarantee != null ? override.transportGuarantee : base.transportGuarantee,
+             override.secureWSDLAccess != null ? override.secureWSDLAccess : base.secureWSDLAccess);
+    }
 }

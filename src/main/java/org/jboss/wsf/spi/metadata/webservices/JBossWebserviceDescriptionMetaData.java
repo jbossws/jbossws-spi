@@ -47,4 +47,14 @@ public final class JBossWebserviceDescriptionMetaData
       return webserviceDescriptionName;
    }
 
+   public static JBossWebserviceDescriptionMetaData merge(JBossWebserviceDescriptionMetaData base, JBossWebserviceDescriptionMetaData override) {
+      if (base == null) {
+         return override;
+      }
+      if (override == null) {
+         return base;
+      }
+      return new JBossWebserviceDescriptionMetaData(override.webserviceDescriptionName != null ? override.webserviceDescriptionName : base.webserviceDescriptionName,
+            override.wsdlPublishLocation != null ? override.wsdlPublishLocation : base.wsdlPublishLocation);
+   }
 }
