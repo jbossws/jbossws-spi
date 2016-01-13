@@ -63,7 +63,6 @@ public class WebserviceDescriptionMetaData
    public WebserviceDescriptionMetaData(String webserviceDescriptionName,
          String wsdlFile, String jaxrpcMappingFile, List<PortComponentMetaData> portComponents)
    {
-      this.webservices = webservices;
       this.webserviceDescriptionName = webserviceDescriptionName;
       this.wsdlFile = wsdlFile;
       this.jaxrpcMappingFile = jaxrpcMappingFile;
