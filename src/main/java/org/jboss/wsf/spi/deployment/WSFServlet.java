@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.wsf.spi.classloading.JAXRSClassLoaderProvider;
 
 /**
  * 
@@ -45,6 +46,7 @@ public class WSFServlet extends HttpServlet
    private static final long serialVersionUID = -1958443536378468262L;
 
    public static final String STACK_SERVLET_DELEGATE_CLASS = "org.jboss.wsf.spi.deployment.stackServletDelegateClass";
+   public static final String JAXRS_SERVLET_MODE = "org.jboss.wsf.spi.deployment.jaxrsServletMode";
 
    private volatile ServletDelegate delegate = null;
 
@@ -71,8 +73,14 @@ public class WSFServlet extends HttpServlet
     */
    protected ServletDelegate getDelegate(ServletConfig servletConfig)
    {
-      ClassLoaderProvider clProvider = ClassLoaderProvider.getDefaultProvider();
-      ClassLoader cl = clProvider.getWebServiceSubsystemClassLoader();
+      final ClassLoader cl;
+      if (Boolean.parseBoolean(servletConfig.getInitParameter(JAXRS_SERVLET_MODE))) {
+         JAXRSClassLoaderProvider clProvider = JAXRSClassLoaderProvider.getDefaultProvider();
+         cl = clProvider.getJAXRSSubsystemClassLoader();
+      } else {
+         ClassLoaderProvider clProvider = ClassLoaderProvider.getDefaultProvider();
+         cl = clProvider.getWebServiceSubsystemClassLoader();
+      }
       ServiceLoader<ServletDelegateFactory> sl = ServiceLoader.load(ServletDelegateFactory.class, cl);
       ServletDelegateFactory factory = sl.iterator().next();
       return factory.newServletDelegate(servletConfig.getInitParameter(STACK_SERVLET_DELEGATE_CLASS));
