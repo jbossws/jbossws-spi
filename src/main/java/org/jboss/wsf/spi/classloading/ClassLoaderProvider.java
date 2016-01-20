@@ -119,7 +119,7 @@ public abstract class ClassLoaderProvider
       SecurityManager securityManager = System.getSecurityManager();
       if (securityManager != null)
       {
-         AccessController.checkPermission(permission);
+         securityManager.checkPermission(permission);
       }
    }
 }
