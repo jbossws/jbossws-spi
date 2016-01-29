@@ -45,6 +45,7 @@ public final class JAXRSDeploymentMetadata
    private boolean bootClasses;
    private boolean unwrappedExceptionsParameterSet;
    private final Set<String> scannedJndiComponentResources = new LinkedHashSet<String>();
+   private boolean ignoreApplicationPath;
 
    /**
     * Merges a list of additional JAX-RS deployment data with this lot of deployment data.
@@ -156,5 +157,15 @@ public final class JAXRSDeploymentMetadata
    public void setUnwrappedExceptionsParameterSet(boolean unwrappedExceptionsParameterSet)
    {
       this.unwrappedExceptionsParameterSet = unwrappedExceptionsParameterSet;
+   }
+   
+   public boolean isIgnoreApplicationPath()
+   {
+      return ignoreApplicationPath;
+   }
+
+   public void setIgnoreApplicationPath(boolean ignoreApplicationPath)
+   {
+      this.ignoreApplicationPath = ignoreApplicationPath;
    }
 }
