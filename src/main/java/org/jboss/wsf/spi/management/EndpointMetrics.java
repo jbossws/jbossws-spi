@@ -47,5 +47,7 @@ public interface EndpointMetrics
    long getFaultCount();
 
    long getResponseCount();
+   
+   long getUpdateTime();
 
 }
