@@ -23,6 +23,7 @@ package org.jboss.wsf.spi.security;
 
 import java.security.Principal;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 import javax.security.auth.Subject;
 
@@ -87,4 +88,12 @@ public interface SecurityDomainContext
     * @param credential    credential
     */
    public void pushSubjectContext(final Subject subject, final Principal principal, final Object credential);
+   
+   
+   /**
+    * Run action under this security context
+    * @param action the action to run
+    * @throws Exception if input action fails
+    */
+   public void runAs(Callable<Void> action) throws Exception;
 }
