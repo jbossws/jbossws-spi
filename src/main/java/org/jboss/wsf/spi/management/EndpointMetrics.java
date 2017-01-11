@@ -50,4 +50,5 @@ public interface EndpointMetrics
    
    long getUpdateTime();
 
+   void resetMetrics();
 }
