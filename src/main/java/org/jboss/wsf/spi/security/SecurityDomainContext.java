@@ -89,6 +89,14 @@ public interface SecurityDomainContext
     */
    public void pushSubjectContext(final Subject subject, final Principal principal, final Object credential);
    
+   /**
+    * Cleans up the current association between thread and security context
+    * 
+    */
+   public default void cleanupSubjectContext() {
+       //NOOP
+   }
+   
    
    /**
     * Run action under this security context
