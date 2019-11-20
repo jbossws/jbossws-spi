@@ -44,6 +44,7 @@ public abstract class AbstractCommonConfig implements CommonConfig
    private final Map<String, String> properties;
    private final List<UnifiedHandlerChainMetaData> preHandlerChains;
    private final List<UnifiedHandlerChainMetaData> postHandlerChains;
+   private final Map<String, Object> attachments;
    
    protected AbstractCommonConfig(String configName,
                                   List<UnifiedHandlerChainMetaData> preHandlerChains,
@@ -73,6 +74,7 @@ public abstract class AbstractCommonConfig implements CommonConfig
       } else {
          this.postHandlerChains = Collections.emptyList();
       }
+      this.attachments = new HashMap<String, Object>();
    }
    
    protected AbstractCommonConfig(AbstractCommonConfig base, AbstractCommonConfig addon)
@@ -151,6 +153,24 @@ public abstract class AbstractCommonConfig implements CommonConfig
       {
          this.postHandlerChains = Collections.emptyList();
       }
+      if (addon.attachments != null && !addon.attachments.isEmpty())
+      {
+         Map<String, Object> map;
+         if (base.attachments.isEmpty())
+         {
+            map = addon.attachments;
+         }
+         else
+         {
+            map = new HashMap<String, Object>(base.attachments);
+            map.putAll(addon.attachments);
+         }
+         this.attachments = new HashMap<String, Object>(map);
+      }
+      else
+      {
+         this.attachments = new HashMap<String, Object>();
+      }
    }
 
    public List<UnifiedHandlerChainMetaData> getPostHandlerChains()
@@ -191,5 +211,9 @@ public abstract class AbstractCommonConfig implements CommonConfig
 
    public Map<String, String> getProperties() {
       return properties;
+   }
+
+   public Map<String, Object> getAttachments() {
+      return attachments;
    }
 }
