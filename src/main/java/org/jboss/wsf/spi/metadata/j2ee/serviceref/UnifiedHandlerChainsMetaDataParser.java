@@ -25,6 +25,7 @@ import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import static org.jboss.wsf.spi.metadata.ParserConstants.HANDLER_CHAINS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.J2EE_NS;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JAKARTAEE_NS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.JAVAEE_NS;
 import static org.jboss.wsf.spi.util.StAXUtils.match;
 
@@ -86,7 +87,7 @@ public class UnifiedHandlerChainsMetaDataParser extends AbstractHandlerChainsMet
          }
          case START_ELEMENT : {
 
-            if (match(reader, JAVAEE_NS, HANDLER_CHAINS) || match(reader, J2EE_NS, HANDLER_CHAINS))
+            if (match(reader, JAKARTAEE_NS, HANDLER_CHAINS) || match(reader, JAVAEE_NS, HANDLER_CHAINS) || match(reader, J2EE_NS, HANDLER_CHAINS))
             {
                UnifiedHandlerChainsMetaDataParser parser = new UnifiedHandlerChainsMetaDataParser();
                handlerChains = parser.parseHandlerChains(reader, reader.getNamespaceURI());

@@ -30,6 +30,8 @@ package org.jboss.wsf.spi.metadata;
  */
 public abstract class ParserConstants
 {
+
+   public static final String JAKARTAEE_NS = "https://jakarta.ee/xml/ns/jakartaee";
    
    public static final String JAVAEE_NS = "http://java.sun.com/xml/ns/javaee";
    
