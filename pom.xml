@@ -5,9 +5,9 @@
   <groupId>org.jboss.ws</groupId>
   <artifactId>jbossws-spi</artifactId>
   <packaging>jar</packaging>
-  <description>JBossWS SPI</description>
+  <description>JBossWS SPI jakarta</description>
 
-  <version>3.3.2-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
 
   <!-- Parent -->
   <parent>
