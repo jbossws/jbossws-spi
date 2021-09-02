@@ -27,15 +27,12 @@
   <!-- Properties -->
   <properties>
     <maven.javadoc.skip>false</maven.javadoc.skip>
-    <annotation.api.version>1.0.0.Final</annotation.api.version>
-    <jaxws.api.version>2.0.4.Final</jaxws.api.version>
-    <jbossws.api.version>1.1.2.Final</jbossws.api.version>
+    <jbossws.api.version>2.0.0-SNAPSHOT</jbossws.api.version>
     <jboss-logging.version>3.3.1.Final</jboss-logging.version>
     <jboss-logging-processor.version>2.1.0.Final</jboss-logging-processor.version>
-    <jboss-logging-annotations.version>2.1.0.Final</jboss-logging-annotations.version>
-    <jms.api.version>1.0.1.Final</jms.api.version>
-    <servlet.api.version>1.0.2.Final</servlet.api.version>
     <junit.version>3.8.2</junit.version>
+    <jakarta.xml.ws.api.version>3.0.1</jakarta.xml.ws.api.version>
+    <jakarta.jakartaee-api.version>9.1.0</jakarta.jakartaee-api.version>
   </properties>
 
   <!-- licenses -->
@@ -55,15 +52,9 @@
     </dependency>
     <!-- provided apis -->
     <dependency>
-      <groupId>org.jboss.spec.javax.servlet</groupId>
-      <artifactId>jboss-servlet-api_3.0_spec</artifactId>
-      <version>${servlet.api.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.spec.javax.jms</groupId>
-      <artifactId>jboss-jms-api_1.1_spec</artifactId>
-      <version>${jms.api.version}</version>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-api</artifactId>
+      <version>${jakarta.jakartaee-api.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -79,21 +70,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.jboss.logging</groupId>
-      <artifactId>jboss-logging-annotations</artifactId>
-      <version>${jboss-logging-annotations.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.spec.javax.annotation</groupId>
-      <artifactId>jboss-annotations-api_1.2_spec</artifactId>
-      <version>${annotation.api.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.spec.javax.xml.ws</groupId>
-      <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
-      <version>${jaxws.api.version}</version>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
+      <version>${jakarta.xml.ws.api.version}</version>
       <scope>provided</scope>
     </dependency>
     <!-- test dependencies -->

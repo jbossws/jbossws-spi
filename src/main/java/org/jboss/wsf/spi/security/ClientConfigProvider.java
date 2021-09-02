@@ -23,7 +23,7 @@ package org.jboss.wsf.spi.security;
 
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 
-import javax.xml.ws.BindingProvider;
+import jakarta.xml.ws.BindingProvider;
 
 /**
  * Interface to enable configuration of authentication properties on the client side.
