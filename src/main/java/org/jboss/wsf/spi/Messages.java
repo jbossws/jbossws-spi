@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.xml.stream.XMLStreamException;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 
 import org.jboss.logging.annotations.Cause;
 import org.jboss.logging.annotations.Message;

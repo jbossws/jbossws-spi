@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.spi.management;
 
-import javax.jms.Destination;
+import jakarta.jms.Destination;
 
 /**
  * An endpoint resolver for JMS endpoints
