@@ -27,12 +27,13 @@
   <!-- Properties -->
   <properties>
     <maven.javadoc.skip>false</maven.javadoc.skip>
-    <jbossws.api.version>2.0.0-SNAPSHOT</jbossws.api.version>
+    <jbossws.api.version>2.0.0.Final</jbossws.api.version>
     <jboss-logging.version>3.3.1.Final</jboss-logging.version>
     <jboss-logging-processor.version>2.1.0.Final</jboss-logging-processor.version>
     <junit.version>3.8.2</junit.version>
-    <jakarta.xml.ws.api.version>3.0.1</jakarta.xml.ws.api.version>
-    <jakarta.jakartaee-api.version>9.1.0</jakarta.jakartaee-api.version>
+    <jboss-jakarta-xml-ws-api.version>1.0.0.Final</jboss-jakarta-xml-ws-api.version>
+    <jakarta.jms.jakarta-jms-api.version>3.0.0</jakarta.jms.jakarta-jms-api.version>
+    <jakarta.servlet.jakarta-servlet-api.version>5.0.0</jakarta.servlet.jakarta-servlet-api.version>
   </properties>
 
   <!-- licenses -->
@@ -52,9 +53,15 @@
     </dependency>
     <!-- provided apis -->
     <dependency>
-      <groupId>jakarta.platform</groupId>
-      <artifactId>jakarta.jakartaee-api</artifactId>
-      <version>${jakarta.jakartaee-api.version}</version>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>${jakarta.servlet.jakarta-servlet-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.jms</groupId>
+      <artifactId>jakarta.jms-api</artifactId>
+      <version>${jakarta.jms.jakarta-jms-api.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -70,9 +77,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>jakarta.xml.ws</groupId>
-      <artifactId>jakarta.xml.ws-api</artifactId>
-      <version>${jakarta.xml.ws.api.version}</version>
+      <groupId>org.jboss.spec.jakarta.xml.ws</groupId>
+      <artifactId>jboss-jakarta-xml-ws-api_3.0_spec</artifactId>
+      <version>${jboss-jakarta-xml-ws-api.version}</version>
       <scope>provided</scope>
     </dependency>
     <!-- test dependencies -->
