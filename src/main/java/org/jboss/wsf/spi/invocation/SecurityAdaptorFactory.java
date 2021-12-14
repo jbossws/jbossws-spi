@@ -30,6 +30,7 @@ package org.jboss.wsf.spi.invocation;
  * 
  * @since 10-May-2005
  */
+@Deprecated
 public abstract class SecurityAdaptorFactory
 {
    public abstract SecurityAdaptor newSecurityAdapter();
