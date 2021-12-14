@@ -29,6 +29,7 @@ import java.security.Principal;
  * @author Thomas.Diesler@jboss.org
  * @since 10-May-2005
  */
+@Deprecated
 public interface SecurityAdaptor 
 {
    Principal getPrincipal();
