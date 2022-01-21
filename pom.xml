@@ -36,6 +36,7 @@
     <jms.api.version>1.0.1.Final</jms.api.version>
     <servlet.api.version>1.0.2.Final</servlet.api.version>
     <junit.version>3.8.2</junit.version>
+    <wildfly.elytron.version>1.18.1.Final</wildfly.elytron.version>
   </properties>
 
   <!-- licenses -->
@@ -102,6 +103,12 @@
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.wildfly.security</groupId>
+      <artifactId>wildfly-elytron-auth-server</artifactId>
+      <version>${wildfly.elytron.version}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <!--TODO: look at if we can remove this in the future: https://issues.apache.org/jira/browse/MJAVADOC-562-->
