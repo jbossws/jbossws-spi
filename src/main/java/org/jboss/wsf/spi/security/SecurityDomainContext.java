@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.spi.security;
 
+import org.wildfly.security.auth.server.SecurityDomain;
+
 import java.security.Principal;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -36,6 +38,7 @@ import javax.security.auth.Subject;
 public interface SecurityDomainContext
 {
    public String getSecurityDomain();
+   public SecurityDomain getElytronSecurityDomain();
    
    // Authentication methods
    
