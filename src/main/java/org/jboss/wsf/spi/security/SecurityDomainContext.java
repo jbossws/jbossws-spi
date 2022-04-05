@@ -38,7 +38,9 @@ import javax.security.auth.Subject;
 public interface SecurityDomainContext
 {
    public String getSecurityDomain();
-   public SecurityDomain getElytronSecurityDomain();
+   public default SecurityDomain getElytronSecurityDomain() {
+      return null;
+   }
    
    // Authentication methods
    
