@@ -34,6 +34,7 @@
     <jboss-jakarta-xml-ws-api.version>1.0.0.Final</jboss-jakarta-xml-ws-api.version>
     <jakarta.jms.jakarta-jms-api.version>3.0.0</jakarta.jms.jakarta-jms-api.version>
     <jakarta.servlet.jakarta-servlet-api.version>5.0.0</jakarta.servlet.jakarta-servlet-api.version>
+    <wildfly.elytron.version>1.18.1.Final</wildfly.elytron.version>
   </properties>
 
   <!-- licenses -->
@@ -89,6 +90,12 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.wildfly.security</groupId>
+      <artifactId>wildfly-elytron-auth-server</artifactId>
+      <version>${wildfly.elytron.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <!--TODO: look at if we can remove this in the future: https://issues.apache.org/jira/browse/MJAVADOC-562-->
   <build>
@@ -96,7 +103,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.3.1</version>
         <configuration>
           <source>8</source>
         </configuration>
