@@ -87,9 +87,12 @@ public abstract class AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, nsUri, HANDLER_CHAIN)) {
+               if (match(reader, ParserConstants.JAVAEE_NS, HANDLER_CHAIN)) {
                   handlerChains.add(parseHandlerChain(reader, nsUri));
+               } else if (match(reader, ParserConstants.JAKARTAEE_NS, HANDLER_CHAIN)) {
+                  handlerChains.add(parseHandlerChain(reader, ParserConstants.JAKARTAEE_NS));
                }
+
                else
                {
                   throw MESSAGES.unexpectedElement(getDescriptorForLogs(), reader.getLocalName());
