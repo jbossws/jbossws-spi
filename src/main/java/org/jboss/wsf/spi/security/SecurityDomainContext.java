@@ -38,10 +38,9 @@ import javax.security.auth.Subject;
 public interface SecurityDomainContext
 {
    public String getSecurityDomain();
-   public SecurityDomain getElytronSecurityDomain();
-   
+   public String getPassword(Principal principal);
+
    // Authentication methods
-   
    /**
     * The isValid method is invoked to see if a user identity and associated
     * credentials as known in the operational environment are valid proof of the
