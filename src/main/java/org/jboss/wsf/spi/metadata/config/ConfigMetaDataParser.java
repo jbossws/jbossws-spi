@@ -32,6 +32,7 @@ import static org.jboss.wsf.spi.metadata.ParserConstants.FEATURE_NAME;
 import static org.jboss.wsf.spi.metadata.ParserConstants.JAVAEE_NS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.JAXWS_CONFIG;
 import static org.jboss.wsf.spi.metadata.ParserConstants.JBOSSWS_JAXWS_CONFIG_NS_4_0;
+import static org.jboss.wsf.spi.metadata.ParserConstants.JBOSSWS_JAXWS_CONFIG_NS_5_0;
 import static org.jboss.wsf.spi.metadata.ParserConstants.POST_HANDLER_CHAINS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PRE_HANDLER_CHAINS;
 import static org.jboss.wsf.spi.metadata.ParserConstants.PROPERTY;
@@ -56,6 +57,7 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.jboss.wsf.spi.Loggers;
 import org.jboss.wsf.spi.metadata.AbstractHandlerChainsMetaDataParser;
+import org.jboss.wsf.spi.metadata.ParserConstants;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.util.StAXUtils;
@@ -125,7 +127,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
          }
          case START_ELEMENT : {
 
-            if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, JAXWS_CONFIG))
+            if (match(reader, JAXWS_CONFIG) && matchNamespace(reader))
             {
                ConfigMetaDataParser parser = new ConfigMetaDataParser();
                configRoot = parser.parseConfigRoot(reader);
@@ -147,7 +149,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, JAXWS_CONFIG))
+               if (match(reader, JAXWS_CONFIG) && matchNamespace(reader))
                {
                   return configRoot;
                }
@@ -157,10 +159,10 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, ENDPOINT_CONFIG)) {
+               if (match(reader, ENDPOINT_CONFIG) && matchNamespace(reader)) {
                   configRoot.addEndpointConfig(parseEndpointConfig(reader));
                }
-               else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, CLIENT_CONFIG)) {
+               else if (match(reader, CLIENT_CONFIG) && matchNamespace(reader)) {
                   configRoot.addClientConfig(parseClientConfig(reader));
                }
                else
@@ -195,7 +197,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, configElement))
+               if (match(reader, configElement) && matchNamespace(reader))
                {
                   Map<String, String> props = null;
                   if (!properties.isEmpty()) {
@@ -222,21 +224,31 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, CONFIG_NAME)) {
+               if (match(reader, CONFIG_NAME) && matchNamespace(reader)) {
                   configName = elementAsString(reader);
                }
-               else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, PRE_HANDLER_CHAINS)) {
-                  UnifiedHandlerChainsMetaData uhcmd = parseHandlerChains(reader, JAVAEE_NS, JBOSSWS_JAXWS_CONFIG_NS_4_0, PRE_HANDLER_CHAINS);
+               else if (match(reader, PRE_HANDLER_CHAINS) && matchNamespace(reader)) {
+                  UnifiedHandlerChainsMetaData uhcmd = null;
+                  if (reader.getNamespaceURI().equals(JBOSSWS_JAXWS_CONFIG_NS_4_0)) {
+                     uhcmd = parseHandlerChains(reader, JAVAEE_NS, JBOSSWS_JAXWS_CONFIG_NS_4_0, PRE_HANDLER_CHAINS);
+                  } else {
+                      uhcmd = parseHandlerChains(reader, ParserConstants.JAKARTAEE_NS, JBOSSWS_JAXWS_CONFIG_NS_5_0, PRE_HANDLER_CHAINS);
+                  }
                   pre = uhcmd.getHandlerChains();
                }
-               else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, POST_HANDLER_CHAINS)) {
-                  UnifiedHandlerChainsMetaData uhcmd = parseHandlerChains(reader, JAVAEE_NS, JBOSSWS_JAXWS_CONFIG_NS_4_0, POST_HANDLER_CHAINS);
+               else if (match(reader, POST_HANDLER_CHAINS) && matchNamespace(reader)) {
+                  UnifiedHandlerChainsMetaData uhcmd = null;
+                  if (reader.getNamespaceURI().equals(JBOSSWS_JAXWS_CONFIG_NS_4_0)) {
+                     uhcmd = parseHandlerChains(reader, JAVAEE_NS, JBOSSWS_JAXWS_CONFIG_NS_4_0, POST_HANDLER_CHAINS);
+                  } else {
+                     uhcmd = parseHandlerChains(reader, ParserConstants.JAKARTAEE_NS, JBOSSWS_JAXWS_CONFIG_NS_5_0, POST_HANDLER_CHAINS);
+                  }
                   post = uhcmd.getHandlerChains();
                }
-               else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, FEATURE)) {
+               else if (match(reader, FEATURE) && matchNamespace(reader)) {
                   features.add(parseFeature(reader));
                }
-               else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, PROPERTY)) {
+               else if (match(reader, PROPERTY) && matchNamespace(reader)) {
                   properties.add(parseProperty(reader));
                }
                else
@@ -258,7 +270,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, PROPERTY))
+               if (match(reader, PROPERTY) && matchNamespace(reader))
                {
                   if (name == null)
                   {
@@ -272,10 +284,10 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, PROPERTY_NAME)) {
+               if (match(reader, PROPERTY_NAME) && matchNamespace(reader)) {
                   name = elementAsString(reader);
                }
-               else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, PROPERTY_VALUE)) {
+               else if (match(reader, PROPERTY_VALUE) && matchNamespace(reader)) {
                   value = elementAsString(reader);
                }
                else
@@ -318,7 +330,7 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
          switch (reader.nextTag())
          {
             case XMLStreamConstants.END_ELEMENT : {
-               if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, FEATURE))
+               if (match(reader, FEATURE) && matchNamespace(reader))
                {
                   if (feature == null)
                   {
@@ -332,15 +344,15 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
                }
             }
             case XMLStreamConstants.START_ELEMENT : {
-               if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, FEATURE_NAME)) {
+               if (match(reader, FEATURE_NAME) && matchNamespace(reader)) {
                   feature = new Feature(elementAsString(reader));
                }
-               else if (match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, FEATURE_DATA)) {
+               else if (match(reader, FEATURE_DATA) && matchNamespace(reader)) {
                   //not implemented yet
-                  Loggers.METADATA_LOGGER.elementNotSupported(new QName(JBOSSWS_JAXWS_CONFIG_NS_4_0, FEATURE_DATA).toString());
+                  Loggers.METADATA_LOGGER.elementNotSupported(new QName(reader.getNamespaceURI(), FEATURE_DATA).toString());
                   while (reader.hasNext()) {
                      reader.next();
-                     if (reader.isEndElement() && match(reader, JBOSSWS_JAXWS_CONFIG_NS_4_0, FEATURE_DATA))
+                     if (reader.isEndElement() && match(reader, FEATURE_DATA))
                      {
                         break;
                      }
@@ -360,5 +372,13 @@ public class ConfigMetaDataParser extends AbstractHandlerChainsMetaDataParser
    protected String getDescriptorForLogs()
    {
       return org.jboss.wsf.spi.metadata.ParserConstants.JBOSSWS_JAXWS_CONFIG_NS;
+   }
+
+   private static boolean matchNamespace(XMLStreamReader reader) {
+      if (reader.getNamespaceURI().equals(JBOSSWS_JAXWS_CONFIG_NS_4_0)
+              || reader.getNamespaceURI().equals(JBOSSWS_JAXWS_CONFIG_NS_5_0)) {
+         return true;
+      }
+      return false;
    }
 }

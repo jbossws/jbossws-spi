@@ -29,7 +29,8 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
@@ -46,15 +47,28 @@ import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
  * @author alessio.soldano@jboss.com
  * @since 29-Nov-2010
  */
-public class WebServiceFactoryTestCase extends TestCase
+public class WebServiceFactoryTestCase
 {
+   @Test
    public void testParse() throws Exception
    {
-      File file = new File("src/test/resources/metadata/webservices/test-webservices.xml");
+      parseFile("src/test/resources/metadata/webservices/test-webservices.xml");
+   }
+
+   @Test
+   public void testParseJakarta() throws Exception
+   {
+      parseFile("src/test/resources/metadata/webservices/test-webservices-jakarta.xml");
+   }
+
+   public void parseFile(String filename) throws Exception
+   {
+      File file = new File(filename);
       InputStream is = new FileInputStream(file);
       URL url = file.toURI().toURL();
       WebservicesMetaData metadata = new WebservicesFactory(url).parse(is, url);
       assertEquals(url, metadata.getDescriptorURL());
+
       assertEquals(2, metadata.getWebserviceDescriptions().length);
       testDescription1(metadata.getWebserviceDescriptions()[0], metadata);
       testDescription2(metadata.getWebserviceDescriptions()[1], metadata);

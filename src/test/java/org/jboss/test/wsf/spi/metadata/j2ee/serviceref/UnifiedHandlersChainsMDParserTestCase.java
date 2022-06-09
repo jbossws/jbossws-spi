@@ -28,7 +28,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
@@ -42,11 +44,21 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedInitParamMetaData;
  * @author alessio.soldano@jboss.com
  * @since 27-Nov-2010
  */
-public class UnifiedHandlersChainsMDParserTestCase extends TestCase
+public class UnifiedHandlersChainsMDParserTestCase
 {
-   public void testParse() throws Exception
+   @Test
+   public void testParseJavaEE() throws Exception {
+      parseFile("src/test/resources/metadata/j2ee/serviceref/test-handlers.xml");
+   }
+
+   @Test
+   public void testParseJakartaEE() throws Exception {
+      parseFile("src/test/resources/metadata/j2ee/serviceref/test-handlers-jakarta.xml");
+   }
+
+   public void parseFile(String filename) throws Exception
    {
-      InputStream is = new FileInputStream(new File("src/test/resources/metadata/j2ee/serviceref/test-handlers.xml"));
+      InputStream is = new FileInputStream(new File(filename));
       UnifiedHandlerChainsMetaData metadata = UnifiedHandlerChainsMetaDataParser.parse(is);
       List<UnifiedHandlerChainMetaData> chains = metadata.getHandlerChains();
       assertEquals(2, chains.size());
@@ -75,7 +87,8 @@ public class UnifiedHandlersChainsMDParserTestCase extends TestCase
       assertEquals(0, handler.getPortNames().size());
       assertEquals(2, handler.getSoapHeaders().size());
       assertTrue(handler.getSoapHeaders().contains(new QName("http://org.jboss.ws/jaxws/samples/logicalhandler", "firstHeader")));
-      assertTrue(handler.getSoapHeaders().contains(new QName("https://jakarta.ee/xml/ns/jakartaee", "secondHeader")));
+      assertTrue(handler.getSoapHeaders().contains(new QName("https://jakarta.ee/xml/ns/jakartaee", "secondHeader")) ||
+              handler.getSoapHeaders().contains(new QName("http://java.sun.com/xml/ns/javaee", "secondHeader")));
       assertEquals(1, handler.getSoapRoles().size());
       assertEquals("MyRole", handler.getSoapRoles().iterator().next());
    }

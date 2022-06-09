@@ -120,6 +120,8 @@ public abstract class ParserConstants
    public static final String JBOSSWS_JAXWS_CONFIG_NS = "urn:jboss:jbossws-jaxws-config";
    
    public static final String JBOSSWS_JAXWS_CONFIG_NS_4_0 = JBOSSWS_JAXWS_CONFIG_NS + ":4.0";
+
+   public static final String JBOSSWS_JAXWS_CONFIG_NS_5_0 = JBOSSWS_JAXWS_CONFIG_NS + ":5.0";
    
    public static final String JAXWS_CONFIG = "jaxws-config";
    

@@ -25,8 +25,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
-
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
@@ -39,11 +40,20 @@ import org.jboss.wsf.spi.metadata.config.EndpointConfig;
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public class ConfigMDParserTestCase extends TestCase
+public class ConfigMDParserTestCase
 {
-   public void testParse() throws Exception
+   @Test
+   public void testParseJavaEE() throws Exception {
+      parseFile("src/test/resources/metadata/config/test-jaxws-config.xml");
+   }
+
+   @Test
+   public void testParseJakarta() throws Exception {
+      parseFile("src/test/resources/metadata/config/test-jaxws-config-jakarta.xml");
+   }
+   public void parseFile(String filename) throws Exception
    {
-      InputStream is = new FileInputStream(new File("src/test/resources/metadata/config/test-jaxws-config.xml"));
+      InputStream is = new FileInputStream(new File(filename));
       ConfigRoot metadata = ConfigMetaDataParser.parse(is);
 
       List<ClientConfig> clientConfigs = metadata.getClientConfig();

@@ -30,7 +30,7 @@
     <jbossws.api.version>2.0.0.Final</jbossws.api.version>
     <jboss-logging.version>3.3.1.Final</jboss-logging.version>
     <jboss-logging-processor.version>2.1.0.Final</jboss-logging-processor.version>
-    <junit.version>3.8.2</junit.version>
+    <junit.version>4.13.1</junit.version>
     <jboss-jakarta-xml-ws-api.version>1.0.0.Final</jboss-jakarta-xml-ws-api.version>
     <jakarta.jms.jakarta-jms-api.version>3.0.0</jakarta.jms.jakarta-jms-api.version>
     <jakarta.servlet.jakarta-servlet-api.version>5.0.0</jakarta.servlet.jakarta-servlet-api.version>
