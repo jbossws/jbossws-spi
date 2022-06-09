@@ -104,12 +104,6 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.wildfly.security</groupId>
-      <artifactId>wildfly-elytron-auth-server</artifactId>
-      <version>${wildfly.elytron.version}</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
   <!--TODO: look at if we can remove this in the future: https://issues.apache.org/jira/browse/MJAVADOC-562-->
   <build>
