@@ -35,7 +35,7 @@
     <jakarta.jms.jakarta-jms-api.version>3.1.0</jakarta.jms.jakarta-jms-api.version>
     <jakarta.servlet.jakarta-servlet-api.version>5.0.0</jakarta.servlet.jakarta-servlet-api.version>
     <wildfly.elytron.version>2.2.1.Final</wildfly.elytron.version>
-    <version.maven-javadoc-plugin>3.3.2</version.maven-javadoc-plugin>
+    <version.maven-javadoc-plugin>3.6.3</version.maven-javadoc-plugin>
   </properties>
 
   <!-- licenses -->
