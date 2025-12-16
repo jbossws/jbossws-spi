@@ -1,11 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>JBoss Web Services - SPI</name>
-  <groupId>org.jboss.ws</groupId>
   <artifactId>jbossws-spi</artifactId>
   <packaging>jar</packaging>
-  <description>JBossWS SPI jakarta</description>
+
+  <name>JBoss Web Services - SPI</name>
+  <description>JBoss Web Services - JBossWS SPI Jakarta Version</description>
+  <url>https://github.com/jbossws/jbossws-spi</url>
 
   <version>5.1.0-SNAPSHOT</version>
 
@@ -13,7 +14,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>2.0.0.Final</version>
+    <version>2.1.1.Final</version>
   </parent>
 
   <!-- Source Control Management -->
@@ -21,11 +22,14 @@
     <connection>scm:git:https://github.com/jbossws/jbossws-spi.git</connection>
     <developerConnection>scm:git:https://github.com/jbossws/jbossws-spi.git</developerConnection>
     <url>https://github.com/jbossws/jbossws-spi</url>
-    <tag>HEAD</tag>
+    <tag>${nexus.staging.tag}</tag>
   </scm>
 
   <!-- Properties -->
   <properties>
+    <!-- Repository Deployment Settings -->
+    <nexus.staging.tag>jbossws-spi-${project.version}</nexus.staging.tag>
+    <!-- Dependency versions -->
     <maven.javadoc.skip>false</maven.javadoc.skip>
     <jbossws.api.version>3.0.0.Final</jbossws.api.version>
     <jboss-logging.version>3.5.1.Final</jboss-logging.version>
