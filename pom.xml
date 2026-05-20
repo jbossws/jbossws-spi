@@ -31,7 +31,7 @@
     <nexus.staging.tag>jbossws-spi-${project.version}</nexus.staging.tag>
     <!-- Dependency versions -->
     <maven.javadoc.skip>false</maven.javadoc.skip>
-    <jbossws.api.version>3.0.0.Final</jbossws.api.version>
+    <jbossws.api.version>3.1.0.Beta1</jbossws.api.version>
     <jboss-logging.version>3.6.3.Final</jboss-logging.version>
     <jboss-logging-processor.version>3.0.4.Final</jboss-logging-processor.version>
     <junit.version>4.13.2</junit.version>
